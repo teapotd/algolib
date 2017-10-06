@@ -1,14 +1,14 @@
 #include "../../lib/trees/centroid_decomp.h"
 #include "../testing.h"
 
-vector<node> graph;
+vector<Vert> graph;
 
 void edge(int i, int j) {
-	graph[i-1].E.push_back(&graph[j-1]);
-	graph[j-1].E.push_back(&graph[i-1]);
+	graph[i-1].edges.push_back(&graph[j-1]);
+	graph[j-1].edges.push_back(&graph[i-1]);
 }
 
-void dfs(node* vert, node* parent = nullptr, int indent = 0) {
+void dfs(Vert* vert, Vert* parent = nullptr, int indent = 0) {
 	for (int i = 0; i < indent; i++) {
 		printf(" ");
 	}
@@ -19,7 +19,7 @@ void dfs(node* vert, node* parent = nullptr, int indent = 0) {
 	}
 	printf("\n");
 
-	for (node* edge : vert->cE) {
+	for (Vert* edge : vert->cEdges) {
 		if (edge != parent) {
 			dfs(edge, vert, indent+4);
 		}

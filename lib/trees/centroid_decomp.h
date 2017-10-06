@@ -1,52 +1,52 @@
 #include "../template.h"
 
-struct node {
-	vector<node*> E, cE;
+struct Vert {
+	vector<Vert*> edges, cEdges;
 	Vi dists;
 	int cDepth{-1}, cSize{0}, cState{0};
 };
 
-void dfsSize(node* v, int dep) {
-	v->cDepth = dep;
+void dfsSize(Vert* v, int depth) {
+	v->cDepth = depth;
 	v->cSize = 1;
 	v->cState = 0;
 
-	each(e, v->E) if (e->cState <= 1 && e->cDepth < dep) {
-		dfsSize(e, dep);
+	each(e, v->edges) if (e->cState <= 1 && e->cDepth < depth) {
+		dfsSize(e, depth);
 		v->cSize += e->cSize;
 	}
 }
 
-void dfsDist(node* v, int d) {
+void dfsDist(Vert* v, int dist) {
 	v->cState = 1;
-	each(e, v->E) if (!e->cState) {
-		e->dists.pushb(d+1);
-		dfsDist(e, d+1);
+	each(e, v->edges) if (!e->cState) {
+		e->dists.push_back(dist+1);
+		dfsDist(e, dist+1);
 	}
 }
 
-node* centroidDecomp(node* v, int dep) {
-	dfsSize(v, dep);
+Vert* centroidDecomp(Vert* v, int depth) {
+	dfsSize(v, depth);
 
 	int size = v->cSize;
-	node *par = 0, *heavy = 0;
+	Vert *parent = 0, *heavy = 0;
 
 	while (true) {
 		int hSize = 0;
 
-		each(e, v->E) if (e != par && e->cDepth == dep) {
+		each(e, v->edges) if (e != parent && e->cDepth == depth) {
 			hSize = e->cSize;
 			heavy = e;
 		}
 
 		if (hSize <= size/2) break;
-		par = v; v = heavy;
+		parent = v; v = heavy;
 	}
 
 	dfsDist(v, 0);
 	v->cSize = size;
 	v->cState = 2;
 
-	each(e, v->E) if (e->cDepth == dep) v->cE.pushb(centroidDecomp(e, dep+1));
+	each(e, v->edges) if (e->cDepth == depth) v->cEdges.push_back(centroidDecomp(e, depth+1));
 	return v;
 }
