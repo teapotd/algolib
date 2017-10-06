@@ -13,7 +13,8 @@ using Vd    = vector<double>;
 using Vld   = vector<ld>;
 using Vcmpl = vector<cmpl>;
 
-#define IT iterator
+#define IT    iterator
+#define pushb push_back
 
 #define rep(i, b, e)  for (int i = b; i < (e); i++)
 #define repd(i, b, e) for (int i = int(b)-1; i >= (e); i++)
