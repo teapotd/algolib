@@ -3,6 +3,7 @@
 struct Vert {
 	vector<Vert*> edges, cEdges;
 	vector<int> dists;
+	Vert* cParent{nullptr};
 	int cDepth{-1}, cSize{0}, cState{0};
 };
 
@@ -18,14 +19,12 @@ void dfsSize(Vert* v, int depth) {
 }
 
 void dfsDist(Vert* v, int dist) {
+	v->dists.push_back(dist);
 	v->cState = 1;
-	each(e, v->edges) if (!e->cState) {
-		e->dists.push_back(dist+1);
-		dfsDist(e, dist+1);
-	}
+	each(e, v->edges) if (!e->cState) dfsDist(e, dist+1);
 }
 
-Vert* centroidDecomp(Vert* v, int depth) {
+Vert* centroidDecomp(Vert* v, int depth, Vert* root = 0) {
 	dfsSize(v, depth);
 
 	int size = v->cSize;
@@ -34,7 +33,7 @@ Vert* centroidDecomp(Vert* v, int depth) {
 	while (true) {
 		int hSize = 0;
 
-		each(e, v->edges) if (e != parent && e->cDepth == depth) {
+		each(e, v->edges) if (e != parent && e->cDepth == depth && hSize < e->cSize) {
 			hSize = e->cSize;
 			heavy = e;
 		}
@@ -43,10 +42,11 @@ Vert* centroidDecomp(Vert* v, int depth) {
 		parent = v; v = heavy;
 	}
 
+	v->cParent = root;
 	dfsDist(v, 0);
 	v->cSize = size;
 	v->cState = 2;
 
-	each(e, v->edges) if (e->cDepth == depth) v->cEdges.push_back(centroidDecomp(e, depth+1));
+	each(e, v->edges) if (e->cDepth == depth) v->cEdges.push_back(centroidDecomp(e, depth+1, v));
 	return v;
 }
