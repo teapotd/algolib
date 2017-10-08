@@ -2,7 +2,7 @@
 
 struct Vert {
 	vector<Vert*> edges, cEdges;
-	Vi dists;
+	vector<int> dists;
 	int cDepth{-1}, cSize{0}, cState{0};
 };
 

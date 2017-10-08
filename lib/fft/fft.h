@@ -1,6 +1,6 @@
 #include "../template.h"
 
-Vcmpl bases;
+vector<cmpl> bases;
 
 void initFft(int size) {
 	bases.resize(size+1);
@@ -8,7 +8,7 @@ void initFft(int size) {
 }
 
 template<bool inv>
-void fft(Vcmpl::IT in, Vcmpl::IT out, int size, int step = 1) {
+void fft(vector<cmpl>::IT in, vector<cmpl>::IT out, int size, int step = 1) {
 	if (size == 1) { *out = *in; return; }
 
 	fft<inv>(in,      out,        size*2, step*2);
