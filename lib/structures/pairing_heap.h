@@ -1,9 +1,11 @@
+#pragma once
+
 #include "../template.h"
 
 template<class T, class Cmp = less<T>>
 struct PHeap {
 	struct Node;
-	using NodeP = unique_ptr<Node>; // To disable deallocation: change to Node*
+	using NodeP = unique_ptr<Node>; // To disable deallocation: change to Node* (and use bump allocator)
 
 	struct Node {
 		T top;

@@ -1,3 +1,4 @@
+#include "../../lib/alloc.h"
 #include "../../lib/structures/pairing_heap.h"
 #include "../testing.h"
 
