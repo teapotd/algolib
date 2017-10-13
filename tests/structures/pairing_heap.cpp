@@ -1,4 +1,4 @@
-#include "../../lib/trees/interval_tree.h"
+#include "../../lib/structures/pairing_heap.h"
 #include "../testing.h"
 
 int main() {
