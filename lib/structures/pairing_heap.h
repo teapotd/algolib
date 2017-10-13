@@ -15,9 +15,9 @@ struct PHeap {
 	ElemP elem;
 
 	ElemP merge(ElemP l, ElemP r) {
-		assert(l != r);
 		if (!l) return move(r);
 		if (!r) return move(l);
+		assert(l != r);
 
 		if (Cmp()(l->top, r->top)) {
 			l->sub.push_back(move(r));
@@ -31,6 +31,7 @@ struct PHeap {
 	bool     empty()          { return !elem; }
 	const T& top()            { assert(elem); return elem->top; }
 	void     push(const T& x) { elem = merge(move(elem), ElemP(new Elem(x))); }
+	void     merge(PHeap&& l) { elem = merge(move(elem), move(l.elem)); }
 
 	void pop() {
 		assert(elem);
