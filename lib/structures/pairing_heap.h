@@ -19,7 +19,6 @@ struct PHeap {
 	NodeP merge(NodeP l, NodeP r) {
 		if (!l) return move(r);
 		if (!r) return move(l);
-		assert(l != r);
 
 		if (Cmp()(l->top, r->top)) swap(l, r);
 
@@ -36,7 +35,7 @@ struct PHeap {
 	}
 
 	bool     empty()          { return !root; }
-	const T& top()            { assert(root); return root->top; }
+	const T& top()            { return root->top; }
 	void     push(const T& x) { root = merge(move(root), NodeP(new Node(x))); }
 	void     merge(PHeap&& r) { root = merge(move(root), move(r.root)); r.root = nullptr; }
 	void     pop()            { root = mergePairs(move(root->child)); }
