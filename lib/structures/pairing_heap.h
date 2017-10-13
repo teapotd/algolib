@@ -2,44 +2,39 @@
 
 template<class T, class Cmp = less<T>>
 struct PHeap {
-	struct Elem;
-	using ElemP = unique_ptr<Elem>;
+	struct Node;
+	using NodeP = unique_ptr<Node>;
 
-	struct Elem {
+	struct Node {
 		T top;
-		vector<ElemP> sub;
+		NodeP child, next;
 
-		Elem(T x = T()) { top = x; }
+		Node(T x = T()) { top = x; }
 	};
 
-	ElemP elem;
+	NodeP root;
 
-	ElemP merge(ElemP l, ElemP r) {
+	NodeP merge(NodeP l, NodeP r) {
 		if (!l) return move(r);
 		if (!r) return move(l);
 		assert(l != r);
 
-		if (Cmp()(l->top, r->top)) {
-			l->sub.push_back(move(r));
-			return move(l);
-		}
+		if (Cmp()(l->top, r->top)) swap(l, r);
 
-		r->sub.push_back(move(l));
+		l->next = move(r->child);
+		r->child = move(l);
 		return move(r);
 	}
 
-	bool     empty()          { return !elem; }
-	const T& top()            { assert(elem); return elem->top; }
-	void     push(const T& x) { elem = merge(move(elem), ElemP(new Elem(x))); }
-	void     merge(PHeap&& l) { elem = merge(move(elem), move(l.elem)); }
-
-	void pop() {
-		assert(elem);
-		auto& sub = elem->sub;
-
-		for (int i = 0; i+1 < sz(sub); i += 2)          sub[i] = merge(move(sub[i]), move(sub[i+1]));
-		for (int i = (sz(sub)-1)/2*2-2; i >= 0; i -= 2) sub[i] = merge(move(sub[i]), move(sub[i+2]));
-
-		elem = (elem->sub.empty() ? nullptr : move(elem->sub[0]));
+	NodeP mergePairs(NodeP v) {
+		if (!v || !v->next) return v;
+		NodeP v2 = move(v->next), v3 = move(v2->next);
+		return merge(merge(move(v), move(v2)), mergePairs(move(v3)));
 	}
+
+	bool     empty()          { return !root; }
+	const T& top()            { assert(root); return root->top; }
+	void     push(const T& x) { root = merge(move(root), NodeP(new Node(x))); }
+	void     merge(PHeap&& r) { root = merge(move(root), move(r.root)); }
+	void     pop()            { root = mergePairs(move(root->child)); }
 };
