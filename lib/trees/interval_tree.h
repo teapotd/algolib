@@ -55,6 +55,6 @@ struct IntervalTree {
 		else         tree[i].val = tree[i].extra;
 	}
 
-	int  query(int begin, int end)           { return query(begin, end, 1, 0, len); }
+	T    query(int begin, int end)         { return query(begin, end, 1, 0, len); }
 	void modify(int begin, int end, T val) { modify(begin, end, val, 1, 0, len); }
 };
