@@ -5,7 +5,8 @@ set -e
 g++ -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
 
 # > Debug build
-g++-6 -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
+g++ -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG \
+    -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
 
 # Mac:         -fvisibility=hidden
 # Stack limit: -Wl,-stack_size -Wl,16000000 -Wl,-no_pie

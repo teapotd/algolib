@@ -38,7 +38,9 @@ struct IntervalTree {
 		if (vStart <= begin && end <= vFinish) return tree[i].val;
 
 		int mid = (begin + end) / 2;
-		T tmp = opQuery(query(vStart, vFinish, i*2, begin, mid), query(vStart, vFinish, i*2+1, mid, end));
+		T tmp = opQuery(query(vStart, vFinish, i*2, begin, mid),
+			            query(vStart, vFinish, i*2+1, mid, end));
+
 		return opModify(tmp, opTimes(tree[i].extra, min(end, vFinish)-max(begin, vStart)));
 	}
 
@@ -53,7 +55,8 @@ struct IntervalTree {
 			tree[i].extra = opModify(tree[i].extra, val);
 		}
 
-		if (i < len) tree[i].val = opModify(opQuery(tree[i*2].val, tree[i*2+1].val), opTimes(tree[i].extra, end-begin));
+		if (i < len) tree[i].val = opModify(opQuery(tree[i*2].val, tree[i*2+1].val),
+			                                opTimes(tree[i].extra, end-begin));
 		else         tree[i].val = tree[i].extra;
 	}
 

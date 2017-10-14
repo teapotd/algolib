@@ -5,7 +5,7 @@
 template<class T, class Cmp = less<T>>
 struct PHeap {
 	struct Node;
-	using NodeP = unique_ptr<Node>; // To disable deallocation: change to single_ptr (and use bump allocator)
+	using NodeP = unique_ptr<Node>; // Or use single_ptr + bump allocator
 
 	struct Node {
 		T val;

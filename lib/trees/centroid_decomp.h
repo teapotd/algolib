@@ -49,6 +49,8 @@ Vert* centroidDecomp(Vert* v, int depth, Vert* root = 0) {
 	v->cSize = size;
 	v->cState = 2;
 
-	each(e, v->edges) if (e->cDepth == depth) v->cEdges.push_back(centroidDecomp(e, depth+1, v));
+	each(e, v->edges) if (e->cDepth == depth) {
+		v->cEdges.push_back(centroidDecomp(e, depth+1, v));
+	}
 	return v;
 }
