@@ -101,7 +101,12 @@ func processFile(path string, info os.FileInfo) {
 	line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
 
 	line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
-	line(&pages, `\begin{lstlisting}`)
+
+	if strings.HasSuffix(path, ".sh") {
+		line(&pages, `\begin{lstlisting}[language=Bash]`)
+	} else {
+		line(&pages, `\begin{lstlisting}`)
+	}
 	line(&pages, str)
 	line(&pages, `\end{lstlisting}`)
 }
