@@ -25,7 +25,7 @@ struct IntervalTree {
 
 	struct Node {
 		T   val{0}, extra{0};
-		int nEqual{0}; // EXTENSION: min/max element count
+		int nEqual{1}; // EXTENSION: min/max element count
 	};
 
 	vector<Node> tree;
@@ -36,7 +36,6 @@ struct IntervalTree {
 		tree.resize(len*2);
 
 		// EXTENSION: min/max element count
-		rep(i, 0, len)    tree[len+i].nEqual = 1;
 		repd(i, len-1, 0) tree[i].nEqual = tree[i*2].nEqual + tree[i*2+1].nEqual;
 	}
 
