@@ -1,4 +1,4 @@
-#include "../../lib/fft/fft.h"
+#include "../../lib/math/fft.h"
 #include "../testing.h"
 
 int main() {
