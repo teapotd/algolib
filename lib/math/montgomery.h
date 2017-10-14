@@ -16,6 +16,6 @@ ll redc(ll n, ll mod, ll mgInv) {
 	return (n >= mod ? n-mod : n);
 }
 
-// gcd(MG_MULT, MOD) must be 1
+// MOD < MG_MULT, gcd(MG_MULT, MOD) must be 1
 // mgRedc(mgForm1 * mgForm2)    = Montgomery-form product
 // mgRedc(notMgForm1 * mgForm2) = normal number
