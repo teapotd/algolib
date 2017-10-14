@@ -1,21 +1,16 @@
 #!/bin/bash
 set -e
 
-
-# Normal build:
+# > Normal build
 g++ -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
 
-
-# Debug build:
+# > Debug build
 g++-6 -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
-# -fvisibility=hidden (chyba tylko mac)
 
+# Mac:         -fvisibility=hidden
+# Stack limit: -Wl,-stack_size -Wl,16000000 -Wl,-no_pie
 
-# Stack limit:
--Wl,-stack_size -Wl,16000000 -Wl,-no_pie
-
-
-# Compare:
+# > Compare
 ./build.sh $1; ./build.sh $2; ./build.sh $3
 
 while :; do
