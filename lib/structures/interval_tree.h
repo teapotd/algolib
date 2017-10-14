@@ -4,19 +4,21 @@
 
 struct IntervalTree {
 	using T = int;
-	static constexpr T T_IDENT = INT_MIN;
 
 	// (+, max)
+	static constexpr T T_IDENT = INT_MIN;
 	#define opModify(x, y) ((x)+(y))
 	#define opQuery(x, y)  max(x, y)
 	#define opTimes(x, t)  (x)
 
 	// (max, max)
+	// static constexpr T T_IDENT = INT_MIN;
 	// #define opModify(x, y) max(x, y)
 	// #define opQuery(x, y)  max(x, y)
 	// #define opTimes(x, t)  (x)
 
 	// (+, +)
+	// static constexpr T T_IDENT = 0;
 	// #define opModify(x, y) ((x)+(y))
 	// #define opQuery(x, y)  ((x)+(y))
 	// #define opTimes(x, t)  ((x)*(t))
@@ -60,6 +62,12 @@ struct IntervalTree {
 		else         tree[i].val = tree[i].extra;
 	}
 
-	T    query(int begin, int end)         { return query(begin, end, 1, 0, len); }
-	void modify(int begin, int end, T val) { modify(begin, end, val, 1, 0, len); }
+	T query(int begin, int end) {
+		if (begin >= end) return T_IDENT;
+		return query(begin, end, 1, 0, len);
+	}
+
+	void modify(int begin, int end, T val) {
+		if (begin < end) modify(begin, end, val, 1, 0, len);
+	}
 };
