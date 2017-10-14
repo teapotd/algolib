@@ -1,10 +1,8 @@
-#include "../../lib/alloc.h"
+// #include "../../lib/alloc.h"
 #include "../../lib/structures/pairing_heap.h"
 #include "../testing.h"
 
 int main() {
-	srand(123);
-
 	// PHeap<int, greater<int>> heap;
 	// priority_queue<int> que;
 
@@ -34,20 +32,24 @@ int main() {
 	// }
 
 	PHeap<int> heap;
+	PHeap<int>::Node* some;
 
-	for (int j = 0; j < 100; j++) {
+	for (int j = 0; j < 1; j++) {
 		PHeap<int> heap2;
 
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 15; i++) {
 			int tmp = r(-10000, 10000);
-			heap.push(tmp);
+			some = heap.push(tmp);
 		}
 
 		heap.merge(move(heap2));
 	}
 
-	while (!heap.empty()) {
-		// printf("%d\n", heap.top());
+	printf("# %d\n", some->val);
+	heap.decrease(some, some->val - 1000);
+
+	for (int i = 0; !heap.empty() && i < 20; i++) {
+		printf("%d\n", heap.top());
 		heap.pop();
 	}
 	return 0;

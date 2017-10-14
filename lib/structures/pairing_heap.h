@@ -5,7 +5,7 @@
 template<class T, class Cmp = less<T>>
 struct PHeap {
 	struct Node;
-	using NodeP = unique_ptr<Node>; // To disable deallocation: change to Node* (and use bump allocator)
+	using NodeP = unique_ptr<Node>; // To disable deallocation: change to single_ptr (and use bump allocator)
 
 	struct Node {
 		T val;
@@ -14,14 +14,24 @@ struct PHeap {
 
 		Node(T x = T()) { val = x; }
 
+		NodeP moveChild() {
+			if (child) child->prev = nullptr;
+			return move(child);
+		}
+
+		NodeP moveNext() {
+			if (next) next->prev = nullptr;
+			return move(next);
+		}
+
 		void setChild(NodeP v) {
-			if (child && child->prev == this) child->prev = nullptr;
+			if (child) child->prev = nullptr;
 			child = move(v);
 			if (child) child->prev = this;
 		}
 
 		void setNext(NodeP v) {
-			if (next && next->prev == this) next->prev = nullptr;
+			if (next) next->prev = nullptr;
 			next = move(v);
 			if (next) next->prev = this;
 		}
@@ -35,50 +45,45 @@ struct PHeap {
 
 		if (Cmp()(l->val, r->val)) swap(l, r);
 
-		l->setNext(move(r->child));
+		l->setNext(r->moveChild());
 		r->setChild(move(l));
 		return move(r);
 	}
 
 	NodeP mergePairs(NodeP v) {
 		if (!v || !v->next) return v;
-		NodeP v2 = move(v->next), v3 = move(v2->next);
-
-		v->next = nullptr; v2->next = nullptr;
-		v->prev = nullptr; v2->prev = nullptr;
-		if (v3) v3->prev = nullptr;
-
+		NodeP v2 = v->moveNext(), v3 = v2->moveNext();
 		return merge(merge(move(v), move(v2)), mergePairs(move(v3)));
 	}
 
 	Node* push(const T& x) {
 		NodeP tmp(new Node(x));
-		auto ptr = &*tmp;
+		auto ret = &*tmp;
 		root = merge(move(root), move(tmp));
-		return ptr;
+		return ret;
 	}
 
 	void decrease(Node* v, T val) {
 		assert(!Cmp()(v->val, val));
 		v->val = val;
 
-		if (!v->prev) return;
+		auto prev = v->prev;
+		if (!prev) return;
 		NodeP uniq;
 
 		if (&*v->prev->child == v) {
-			uniq = move(v->prev->child);
-			v->prev->setChild(move(v->next));
+			uniq = prev->moveChild();
+			prev->setChild(v->moveNext());
 		} else {
-			uniq = move(v->prev->next);
-			v->prev->setNext(move(v->next));
+			uniq = prev->moveNext();
+			prev->setNext(v->moveNext());
 		}
 
-		uniq->prev = nullptr; uniq->next = nullptr;
 		root = merge(move(root), move(uniq));
 	}
 
 	bool     empty()          { return !root; }
 	const T& top()            { return root->val; }
 	void     merge(PHeap&& r) { root = merge(move(root), move(r.root)); r.root = nullptr; }
-	void     pop()            { root = mergePairs(move(root->child)); }
+	void     pop()            { root = mergePairs(root->moveChild()); }
 };
