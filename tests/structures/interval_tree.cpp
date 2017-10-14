@@ -7,7 +7,7 @@ int main() {
 	vector<int> elems(LEN);
 	IntervalTree tree(LEN);
 
-	for (int i = 0; i < 1000; i++) {
+	for (int i = 0; i < 1000000; i++) {
 		int k = r(-1000, 1000);
 		int a = r(0, LEN), b = r(0, LEN);
 		if (a > b) swap(a, b);
@@ -25,8 +25,9 @@ int main() {
 		for (int i = a; i < b; i++) if (elems[i] == elem) count++;
 		
 		int tmp = 0;
+		// printf("%d %d\n", tree.query(a, b), elem);
 		assert(tree.queryCount(a, b, tmp) == elem);
-		printf("%d %d\n", tmp, count);
+		// printf("%d %d\n", tmp, count);
 		assert(tmp == count);
 	}
 
