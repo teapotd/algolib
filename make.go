@@ -9,15 +9,19 @@ import (
 	"strings"
 )
 
-var out bytes.Buffer
+// 96 characters column width
 
-func line(str string) {
-	out.WriteString(str)
-	out.WriteString("\n")
+var out bytes.Buffer
+var pages bytes.Buffer
+var captions []string
+
+func line(buf *bytes.Buffer, str string) {
+	buf.WriteString(str)
+	buf.WriteString("\n")
 }
 
 func main() {
-	line(`\documentclass[10pt]{article}
+	line(&out, `\documentclass[10pt]{article}
 
 \usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={0.4cm,0.4cm}]{geometry}
 \usepackage{listings}
@@ -29,7 +33,7 @@ func main() {
 \setlength{\columnsep}{10pt}
 
 \lstset{language=C++}
-\lstset{morekeywords={alignas,alignof,constexpr}}
+\lstset{morekeywords={alignas,alignof,constexpr,ll,ull,ld,cmpl,rep,repd,each,all,sz}}
 \lstset{frame=t}
 \lstset{tabsize=4}
 \lstset{showstringspaces=false}
@@ -41,12 +45,16 @@ func main() {
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
 
 \begin{document}
-\begin{multicols*}{2}`)
+\begin{multicols*}{4}`)
 
 	processDir("lib")
+	line(&out, `\end{multicols*}\pagebreak`)
 
-	line(`\end{multicols*}`)
-	line(`\end{document}`)
+	line(&out, `\begin{multicols*}{2}`)
+	out.Write(pages.Bytes())
+
+	line(&out, `\end{multicols*}`)
+	line(&out, `\end{document}`)
 
 	if err := ioutil.WriteFile("build/algolib.tex", out.Bytes(), 0777); err != nil {
 		panic(err)
@@ -87,8 +95,13 @@ func processFile(path string, info os.FileInfo) {
 	str = strings.Replace(str, `#include "../template.h"`, "", -1)
 	str = strings.Trim(str, " \n")
 
-	line(fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}`, path[4:]))
-	line(`\begin{lstlisting}`)
-	line(str)
-	line(`\end{lstlisting}`)
+	caption := path[4:]
+	captions = append(captions, caption)
+
+	line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
+
+	line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
+	line(&pages, `\begin{lstlisting}`)
+	line(&pages, str)
+	line(&pages, `\end{lstlisting}`)
 }
