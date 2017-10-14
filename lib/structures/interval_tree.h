@@ -39,7 +39,7 @@ struct IntervalTree {
 
 		int mid = (begin + end) / 2;
 		T tmp = opQuery(query(vStart, vFinish, i*2, begin, mid), query(vStart, vFinish, i*2+1, mid, end));
-		return opModify(tmp, opTimes(tree[i].extra, end-begin));
+		return opModify(tmp, opTimes(tree[i].extra, min(end, vFinish)-max(begin, vStart)));
 	}
 
 	void modify(int vStart, int vFinish, T val, int i, int begin, int end) {
