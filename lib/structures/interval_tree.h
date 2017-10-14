@@ -24,7 +24,8 @@ struct IntervalTree {
 	// #define opTimes(x, t)  ((x)*(t))
 
 	struct Node {
-		T val{0}, extra{0};
+		T   val{0}, extra{0};
+		int nEqual{0}; // EXTENSION: min/max element count
 	};
 
 	vector<Node> tree;
@@ -33,11 +34,16 @@ struct IntervalTree {
 	IntervalTree(int size) {
 		for (len = 1; len < size; len *= 2);
 		tree.resize(len*2);
+
+		// EXTENSION: min/max element count
+		rep(i, 0, len)    tree[len+i].nEqual = 1;
+		repd(i, len-1, 0) tree[i].nEqual = tree[i*2].nEqual + tree[i*2+1].nEqual;
 	}
 
-	T query(int vStart, int vFinish, int i, int begin, int end) {
-		if (vFinish <= begin || end <= vStart) return T_IDENT;
-		if (vStart <= begin && end <= vFinish) return tree[i].val;
+	T query(int vStart, int vFinish, int i = 1, int begin = 0, int end = -1) {
+		if (end < 0) end = len;
+		if (vStart >= vFinish || vFinish <= begin || end <= vStart) return T_IDENT;
+		if (vStart <= begin && end <= vFinish)                      return tree[i].val;
 
 		int mid = (begin + end) / 2;
 		T tmp = opQuery(query(vStart, vFinish, i*2, begin, mid),
@@ -46,7 +52,27 @@ struct IntervalTree {
 		return opModify(tmp, opTimes(tree[i].extra, min(end, vFinish)-max(begin, vStart)));
 	}
 
-	void modify(int vStart, int vFinish, T val, int i, int begin, int end) {
+	// EXTENSION: min/max element count
+	T queryCount(int vStart, int vFinish, int& count, int i = 1, int begin = 0, int end = -1) {
+		if (end < 0) end = len;
+		if (vStart >= vFinish || vFinish <= begin || end <= vStart) return T_IDENT;
+
+		if (vStart <= begin && end <= vFinish) {
+			count = tree[i].nEqual;
+			return tree[i].val;
+		}
+
+		int eq1 = 0, eq2 = 0, mid = (begin + end) / 2;
+		T v1  = queryCount(vStart, vFinish, eq1, i*2, begin, mid);
+		T v2  = queryCount(vStart, vFinish, eq2, i*2+1, mid, end);
+		T tmp = opQuery(v1, v2);
+
+		count = (v1 == tmp ? eq1 : 0) + (v2 == tmp ? eq2 : 0);
+		return opModify(tmp, opTimes(tree[i].extra, min(end, vFinish)-max(begin, vStart)));
+	}
+
+	void modify(int vStart, int vFinish, T val, int i = 1, int begin = 0, int end = -1) {
+		if (end < 0) end = len;
 		if (vFinish <= begin || end <= vStart) return;
 
 		if (vStart > begin || end > vFinish) {
@@ -60,14 +86,13 @@ struct IntervalTree {
 		if (i < len) tree[i].val = opModify(opQuery(tree[i*2].val, tree[i*2+1].val),
 			                                opTimes(tree[i].extra, end-begin));
 		else         tree[i].val = tree[i].extra;
-	}
 
-	T query(int begin, int end) {
-		if (begin >= end) return T_IDENT;
-		return query(begin, end, 1, 0, len);
-	}
-
-	void modify(int begin, int end, T val) {
-		if (begin < end) modify(begin, end, val, 1, 0, len);
+		// EXTENSION: min/max element count
+		tree[i].nEqual = (i >= len);
+		if (i < len) {
+			T tmp = opQuery(tree[i*2].val, tree[i*2+1].val);
+			if (tmp == tree[i*2].val)   tree[i].nEqual += tree[i*2].nEqual;
+			if (tmp == tree[i*2+1].val) tree[i].nEqual += tree[i*2+1].nEqual;
+		}
 	}
 };
