@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-# > Normal build
-g++ -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
+# > Build
+g++ -Wall -Wextra -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -pedantic \
+    -Wlogical-op -O2 -std=c++11 -o $1.e $1.cpp
 
-# > Debug build
-g++ -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG \
-    -O2 -Wall -Wextra -std=c++11 -o $1.e $1.cpp
+# Debug flags: -fsanitize=address -fsanitize=undefined -D_FORTIFY_SOURCE=2
+#              -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
 
-# Mac:         -fvisibility=hidden
+# Mac fix:     -fvisibility=hidden
 # Stack limit: -Wl,-stack_size -Wl,16000000 -Wl,-no_pie
 
 # > Compare
