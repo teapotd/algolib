@@ -5,7 +5,7 @@ set -e
 g++ -Wall -Wextra -Wshadow -Wformat=2 -Wfloat-equal -Wconversion -pedantic \
     -Wlogical-op -O2 -std=c++11 -o $1.e $1.cpp
 
-# Debug flags: -fsanitize=address -fsanitize=undefined -D_FORTIFY_SOURCE=2
+# Debug flags: -fsanitize=address -fsanitize=undefined -D_FORTIFY_SOURCE=2 \
 #              -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
 
 # Mac fix:     -fvisibility=hidden
