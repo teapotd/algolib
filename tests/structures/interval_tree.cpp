@@ -26,7 +26,7 @@ int main() {
 		
 		int tmp = 0;
 		// printf("%d %d\n", tree.query(a, b), elem);
-		assert(tree.queryCount(a, b, tmp) == elem);
+		assert(tree.query2(a, b, tmp) == elem);
 		// printf("%d %d\n", tmp, count);
 		assert(tmp == count);
 	}
