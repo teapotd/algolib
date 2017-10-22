@@ -1,6 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// Customizable 1D interval tree
+// Time complexity: query O(lg n), modify O(lg n)
+
 struct IntervalTree {
 	using T = int;
 

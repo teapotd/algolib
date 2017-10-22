@@ -1,6 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// Compute modular inverse of a mod b
+// Time complexity: O(log b)
+
 template<class T>
 T modInv(T a, T b) {
 	T u = 1, v = 0, x = 0, y = 1, m = b;

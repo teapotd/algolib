@@ -1,6 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// Centroid decomposition of tree
+// Time complexity: O(n lg n)
+
 struct Vert {
 	vector<Vert*> edges, cEdges;
 	vector<int> dists;

@@ -1,6 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// Recursive Cooley-Tukey FFT over complex numbers
+// Time complexity: O(n lg n)
+
 vector<cmpl> bases;
 
 void initFft(int size) {

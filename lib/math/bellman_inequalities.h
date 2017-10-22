@@ -1,6 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// Solve system of N difference constraints with M variables
+// Time complexity: O(N*M)
+
 struct Constraint {
 	ll a, b, limit; // a - b >= limit
 };

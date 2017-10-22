@@ -1,6 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// Calculate smallest prime factors for all numbers in [0;MAX_P]
+// Time complexity: O(n lg lg n)
+
 constexpr int MAX_P = 1000000;
 
 vector<int> primes(MAX_P+1);
