@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../template.h"
 
 constexpr int MAX_P = 1000000;

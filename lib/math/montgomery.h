@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../template.h"
 #include "mod_inv.h"
 
