@@ -8,9 +8,13 @@
 using Clock = std::chrono::high_resolution_clock;
 using Time = std::chrono::time_point<Clock>;
 
-std::mt19937 rnd;
+std::mt19937 rnd(uint32_t(time(0)));
 
-int64_t r(int64_t l, int64_t r) {
+int r(int l, int r) {
+	return (l + (rnd() % (r-l+1)));
+}
+
+int64_t rl(int64_t l, int64_t r) {
 	return (l + (rnd() % (r-l+1)));
 }
 

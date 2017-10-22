@@ -1,88 +1,72 @@
 #pragma once
 #include "../template.h"
 
-template<class T, class Cmp = less<T>>
-struct PHeap {
-	struct Node;
-	using NodeP = unique_ptr<Node>; // Or use single_ptr + bump allocator
-
+template<class T, class Cmp = less<T>> struct PHeap {
 	struct Node {
 		T val;
-		NodeP child{nullptr}, next{nullptr};
-		Node* prev{nullptr};
+		int child{-1}, next{-1}, prev{-1};
 
-		Node(T x = T()) { val = x; }
-
-		NodeP moveChild() {
-			if (child) child->prev = nullptr;
-			return move(child);
-		}
-
-		NodeP moveNext() {
-			if (next) next->prev = nullptr;
-			return move(next);
-		}
-
-		void setChild(NodeP v) {
-			if (child) child->prev = nullptr;
-			child = move(v);
-			if (child) child->prev = this;
-		}
-
-		void setNext(NodeP v) {
-			if (next) next->prev = nullptr;
-			next = move(v);
-			if (next) next->prev = this;
-		}
+		Node(T x = T()) : val(x) {}
 	};
 
-	NodeP root{nullptr};
+	using Vnode = vector<Node>;
+	Vnode& M;
+	int root{-1};
 
-	NodeP merge(NodeP l, NodeP r) {
-		if (!l) return move(r);
-		if (!r) return move(l);
-
-		if (Cmp()(l->val, r->val)) swap(l, r);
-
-		l->setNext(r->moveChild());
-		r->setChild(move(l));
-		return move(r);
+	int unlink(int& i) {
+		if (i >= 0) M[i].prev = -1;
+		int x = i; i = -1;
+		return x;
 	}
 
-	NodeP mergePairs(NodeP v) {
-		if (!v || !v->next) return v;
-		NodeP v2 = v->moveNext(), v3 = v2->moveNext();
-		return merge(merge(move(v), move(v2)), mergePairs(move(v3)));
+	void link(int host, int& i, int val) {
+		if (i >= 0) M[i].prev = -1;
+		i = val;
+		if (i >= 0) M[i].prev = host;
 	}
 
-	Node* push(const T& x) {
-		NodeP tmp(new Node(x));
-		auto ret = &*tmp;
-		root = merge(move(root), move(tmp));
-		return ret;
+	int merge(int l, int r) {
+		if (l < 0) return r;
+		if (r < 0) return l;
+		if (Cmp()(M[l].val, M[r].val)) swap(l, r);
+
+		link(l, M[l].next, unlink(M[r].child));
+		link(r, M[r].child, l);
+		return r;
 	}
 
-	void decrease(Node* v, T val) {
-		assert(!Cmp()(v->val, val));
-		v->val = val;
-
-		auto prev = v->prev;
-		if (!prev) return;
-		NodeP uniq;
-
-		if (&*v->prev->child == v) {
-			uniq = prev->moveChild();
-			prev->setChild(v->moveNext());
-		} else {
-			uniq = prev->moveNext();
-			prev->setNext(v->moveNext());
-		}
-
-		root = merge(move(root), move(uniq));
+	int mergePairs(int v) {
+		if (v < 0 || M[v].next < 0) return v;
+		int v2 = unlink(M[v].next), v3 = unlink(M[v2].next);
+		return merge(merge(v, v2), mergePairs(v3));
 	}
 
-	bool     empty()          { return !root; }
-	const T& top()            { return root->val; }
-	void     merge(PHeap&& r) { root = merge(move(root), move(r.root)); r.root = nullptr; }
-	void     pop()            { root = mergePairs(root->moveChild()); }
+	// ---
+
+	PHeap(Vnode& mem) : M(mem) {}
+
+	int push(const T& x) {
+		int index = sz(M);
+		M.emplace_back(x);
+		root = merge(root, index);
+		return index;
+	}
+
+	void decrease(int i, T val) {
+		assert(!Cmp()(M[i].val, val));
+		M[i].val = val;
+
+		int prev = M[i].prev;
+		if (prev < 0) return;
+
+		auto& p = M[prev];
+		link(prev, (p.child == i ? p.child : p.next), unlink(M[i].next));
+
+		root = merge(root, i);
+	}
+
+	bool     empty()         { return root < 0; }
+	const T& top()           { return M[root].val; }
+	void     merge(PHeap& r) { root = merge(root, r.root); r.root = -1; }
+	void     pop()           { root = mergePairs(unlink(M[root].child)); }
 };
