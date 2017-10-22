@@ -3,6 +3,19 @@
 
 PHeap<int>::Vnode heapMem;
 
+template<class T>
+int countChildren(T& que) {
+	int n = 0;
+	if (que.root < 0) return -1;
+	int cur = que.M[que.root].child;
+
+	while (cur >= 0) {
+		cur = que.M[cur].next;
+		n++;
+	}
+	return n;
+}
+
 int main() {
 	// PHeap<int> heap(heapMem);
 	// priority_queue<int, vector<int>, greater<int>> que;
@@ -53,25 +66,17 @@ int main() {
 	// 	heap.pop();
 	// }
 
-	PHeap<int> even(heapMem), odd(heapMem);
+	PHeap<int> que(heapMem);
+	// priority_queue<int, vector<int>, greater<int>> que;
 
 	for (int i = 0; i < 1000000; i++) {
-		even.push(i*2);
-		odd.push(i*2+1);
+		que.push(rnd());
 	}
 
-	even.merge(odd);
-
-	while (!odd.empty()) {
-		printf("%d ", odd.top());
-		odd.pop();
+	while (!que.empty()) {
+		// printf("%d ", countChildren(que));
+		que.pop();
+		// printf("%d\n", countChildren(que));
 	}
-	printf("\n");
-
-	while (!even.empty()) {
-		printf("%d ", even.top());
-		even.pop();
-	}
-	printf("\n");
 	return 0;
 }
