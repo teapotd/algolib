@@ -1,10 +1,11 @@
 #pragma once
 #include "../template.h"
 
-// Recursive Cooley-Tukey FFT over complex numbers
+// Recursive Cooley-Tukey FFT
 // Time complexity: O(n lg n)
 
-vector<cmpl> bases;
+using Vfft = vector<cmpl>;
+Vfft bases;
 
 void initFft(int size) {
 	bases.resize(size+1);
@@ -12,7 +13,7 @@ void initFft(int size) {
 }
 
 template<bool inv>
-void fft(vector<cmpl>::IT in, vector<cmpl>::IT out, int size, int step = 1) {
+void fft(Vfft::IT in, Vfft::IT out, int size, int step = 1) {
 	if (size == 1) { *out = *in; return; }
 
 	fft<inv>(in,      out,        size/2, step*2);
@@ -26,8 +27,8 @@ void fft(vector<cmpl>::IT in, vector<cmpl>::IT out, int size, int step = 1) {
 }
 
 template<bool inv>
-vector<cmpl> fft(vector<cmpl>& in) {
-	vector<cmpl> out(sz(in));
+Vfft fft(Vfft& in) {
+	Vfft out(sz(in));
 	fft<inv>(in.begin(), out.begin(), sz(in));
 	if (inv) each(x, out) x /= sz(in);
 	return out;
