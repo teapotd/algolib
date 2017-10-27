@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Priority queue implementation using pairing heap
+// Priority queue implementation using pairing heap [UNTESTED]
 // Time complexity:
 // - top:           O(1)
 // - push:          O(1)

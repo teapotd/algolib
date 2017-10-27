@@ -3,10 +3,10 @@
 
 constexpr ll MOD = 234567899;
 
-// Compute modular inverse of a mod b
+// Compute modular inverse of a mod b [UNTESTED]
 ll modInv(ll a, ll m) { return (a == 1 ? 1 : ((a - modInv(m%a, a))*m + 1) / a); }
 
-// Integer mod p container
+// Integer mod p container [UNTESTED]
 struct Zp {
 	ll x;
 	Zp(ll y) : x(y % MOD) {}

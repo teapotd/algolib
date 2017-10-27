@@ -1,3 +1,4 @@
+# UNTESTED
 #!/bin/bash
 set -e
 ./dbuild.sh $1; ./build.sh $2; ./build.sh $3

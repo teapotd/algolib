@@ -1,3 +1,4 @@
+# UNTESTED
 #!/bin/bash
 set -e
 ./build.sh $1; ./build.sh $2

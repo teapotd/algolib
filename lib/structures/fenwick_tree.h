@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Binary Indexed Tree (Fenwick tree)
+// Binary Indexed Tree (Fenwick tree) [UNTESTED]
 // Time complexity: query O(lg n), add O(lg n)
 
 template<class T> struct Fenwick {
