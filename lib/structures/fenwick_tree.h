@@ -16,7 +16,7 @@ template<class T> struct Fenwick {
 
 	T query(int i) {
 		T v = 0;
-		for (; i > 0; i &= i-1) v += s[i]; // Change here operation
+		for (; i > 0; i &= i-1) v += s[i-1]; // Change here operation
 		return v;
 	}
 };
