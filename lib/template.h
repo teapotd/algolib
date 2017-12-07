@@ -23,4 +23,4 @@ using Pii  = pair<int, int>;
 #define gcd      __gcd
 #define popcount __builtin_popcount
 
-// cin.sync_with_stdio(false); cin.tie(0);
+// cin.sync_with_stdio(false); cin.tie(0); cin.exceptions(cin.failbit);
