@@ -81,7 +81,7 @@ func processDir(dir string) {
 }
 
 func processFile(path string, info os.FileInfo) {
-	if info.Name() == ".DS_Store" {
+	if info.Name() == ".DS_Store" || info.Name() == "template.h" {
 		return
 	}
 
