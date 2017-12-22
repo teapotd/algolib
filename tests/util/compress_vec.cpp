@@ -1,21 +1,34 @@
 #include "../../lib/util/compress_vec.h"
 #include "../testing.h"
 
+int cmp(int a, int b) {
+	return (a < b ? -1 : (a > b ? 1 : 0));
+}
+
 int main() {
-	vector<int> tmp(20);
-	vector<int*> toSort;
+	rep(k, 0, 100) {
+		vector<int> compressed(r(1, 20));
+		vector<int*> toSort;
 
-	each(v, tmp) {
-		v = int(r(1, 10));
-		toSort.push_back(&v);
+		each(v, compressed) {
+			v = r(-100, 100);
+			toSort.push_back(&v);
+		}
+
+		auto original = compressed;
+		compressVec(toSort);
+
+		each(v, compressed) assert(v >= 0 && v < sz(compressed));
+
+		rep(i, 0, sz(compressed)) {
+			rep(j, 0, sz(compressed)) {
+				assert(cmp(compressed[i], compressed[j]) == cmp(original[i], original[j]));
+			}
+		}
+
+		dbg(original);
+		dbg(compressed);
+		cerr << endl;
 	}
-
-	each(v, tmp) cout << v << " ";
-	cout << endl;
-
-	compressVec(toSort);
-
-	each(v, tmp) cout << v << " ";
-	cout << endl;
 	return 0;
 }
