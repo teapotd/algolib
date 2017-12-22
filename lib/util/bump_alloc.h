@@ -1,10 +1,10 @@
 #pragma once
 #include "../template.h"
 
-// Special fast allocator without freeing memory - use with care
+// Special fast allocator - not releasing memory - use with care
 
-char mem[512*1024*1024];
-int nMem;
+char mem[512<<20];
+size_t nMem;
 
-void* operator new(size_t n) { nMem += n; return &mem[nMem-n]; }
+void* operator new(size_t n) { n = (n/8+1)*8; nMem += n; return &mem[nMem-n]; }
 void  operator delete(void*) {}
