@@ -15,6 +15,9 @@ using ld  = long double;
 #define all(x)        (x).begin(), (x).end()
 #define sz(x)         int((x).size())
 
+#define STR2(x) #x
+#define STR(x)  STR2(x)
+
 string to_string(string s) { return '"'+s+'"'; }
 
 template<class T, class U> string to_string(pair<T, U> p) {
@@ -35,9 +38,10 @@ template<class T, class ...U> void xdbg(const char* s, T a, U... b) {
 }
 
 #ifdef LOC
-#define dbg(...) xdbg("# "#__VA_ARGS__, __VA_ARGS__)
+#define dbg(...) xdbg("<" STR(__LINE__) "> " #__VA_ARGS__, __VA_ARGS__)
 #else
 #define dbg(...)
+#define cerr if(0)cerr
 #endif
 
 // ---
