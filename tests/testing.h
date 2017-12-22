@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <cstdint>
+#include <algorithm>
 #include <random>
 #include <chrono>
 
