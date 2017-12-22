@@ -23,7 +23,7 @@ func line(buf *bytes.Buffer, str string) {
 func main() {
 	line(&out, `\documentclass[10pt]{article}
 
-\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={0.4cm,0.4cm}]{geometry}
+\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={0.5cm,0.5cm}]{geometry}
 \usepackage{listings}
 \usepackage{multicol}
 \usepackage{titletoc}
@@ -81,7 +81,7 @@ func processDir(dir string) {
 }
 
 func processFile(path string, info os.FileInfo) {
-	if info.Name()[0] == '.' {
+	if info.Name() == ".DS_Store" {
 		return
 	}
 
@@ -102,7 +102,7 @@ func processFile(path string, info os.FileInfo) {
 
 	line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
 
-	if strings.HasSuffix(path, ".sh") {
+	if strings.HasSuffix(path, ".sh") || strings.HasSuffix(path, ".bashrc") {
 		line(&pages, `\begin{lstlisting}[language=Bash]`)
 	} else {
 		line(&pages, `\begin{lstlisting}`)
