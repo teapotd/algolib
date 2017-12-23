@@ -2,7 +2,7 @@
 using namespace std;
 using namespace rel_ops;
 
-using ll  = int64_t;
+using ll  = long long;
 using ull = uint64_t;
 using ld  = long double;
 
@@ -15,34 +15,42 @@ using ld  = long double;
 #define all(x)        (x).begin(), (x).end()
 #define sz(x)         int((x).size())
 
-string to_string(string s) { return '"'+s+'"'; }
+// ---
 
-template<class T, class U> string to_string(pair<T, U> p) {
-	return "(" + to_string(p.first) + ", " + to_string(p.second) + ")";
+ostream& _dbg(ostream& o, const char*) { return o; }
+
+template<class T, class ...U> ostream& _dbg(ostream& o, const char* s, T a, U... b) {
+	while (*s && *s != ',') o << *s++;
+	o << ": " << a << *s; return _dbg(o, s+1, b...);
 }
-
-template<class T> string to_string(T v) {
-	string s = "[";
-	each(x, v) s += to_string(x) + ", ";
-	return s + "]";
-}
-
-void xdbg(const char*) { cerr << '\n'; }
-
-template<class T, class ...U> void xdbg(const char* s, T a, U... b) {
-	while (*s && *s != ',') cerr << *s++;
-	cerr << ": " << to_string(a) << *s; xdbg(s+1, b...);
-}
-
-#define STR2(x) #x
-#define STR(x)  STR2(x)
 
 #ifdef LOC
-#define dbg(...) xdbg("<" STR(__LINE__) "> " #__VA_ARGS__, __VA_ARGS__)
+#define dbg(...) (_dbg(cerr << "<" << __LINE__, "> " #__VA_ARGS__, __VA_ARGS__) << "\n")
 #else
 #define dbg(...)
 #define cerr if(0)cerr
 #endif
+
+// ---
+
+template<class T, class U> ostream& operator<<(ostream& o, pair<T, U> x) {
+	return o << "(" << x.first << ", " << x.second << ")";
+}
+
+template<class T> ostream& operator<<(ostream& o, vector<T> x) {
+	int f = 1; o << "[";
+	each(e, x) o << (f ? f=0, "" : ", ") << e;
+	return o << "]";
+}
+
+template<class T> auto operator<<(ostream& o, T x) -> decltype(&T::print,*(ostream*)0) {
+	return x.print(o);
+}
+
+#define DD(...) ostream& print(ostream& o) \
+	{ return _dbg(o << '{', #__VA_ARGS__, __VA_ARGS__) << '}'; }
+
+#define IND(t, v) ostream& operator<<(ostream& o, t x) { return o << int(x - v.data()); }
 
 // ---
 
