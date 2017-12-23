@@ -10,7 +10,7 @@ run() ( $1 $2 && time ./$2.e        )  # Run:              run b|d PROGRAM
 
 loo() (                                # Run in loop:      tim b|d PROGRAM GENERATOR
 	set -e; $1 $2; $1 $3
-	for ((;;)) { ./$3.e > gen.in; time ./$1.e < gen.in > p1.out; }
+	for ((;;)) { ./$3.e > gen.in; time ./$2.e < gen.in > p1.out; }
 )
 
 cmp() (                                # Compare outputs:  cmp b|d PROGRAM1 PROGRAM2 GENERATOR
