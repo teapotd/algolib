@@ -7,13 +7,11 @@ using ll  = int64_t;
 using Vi  = vector<int>;
 using Pii = pair<int, int>;
 
-#define ref auto&
-#define IT  iterator
-#define mp  make_pair
+#define mp make_pair
 
 #define rep(i, b, e)  for (int i = (b); i <  (e); i++)
 #define repd(i, b, e) for (int i = (b); i >= (e); i--)
-#define each(a, x)    for (ref a : (x))
+#define each(a, x)    for (auto& a : (x))
 #define all(x)        (x).begin(), (x).end()
 #define sz(x)         int((x).size())
 
