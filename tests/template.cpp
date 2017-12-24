@@ -28,7 +28,12 @@ int main() {
 
 	dbg(kek, vec);
 
-	vector<pair<char, int>> test{mp('a', 1), mp('b', 2), mp('c', 3), mp('d', 4)};
+	map<char, int> test;
+	test['d'] = 4;
+	test['b'] = 2;
+	test['a'] = 1;
+	test['c'] = 3;
+
 	dbg(test);
 	return 0;
 }
