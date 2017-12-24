@@ -18,39 +18,35 @@ using ld  = long double;
 #define all(x)        (x).begin(), (x).end()
 #define sz(x)         int((x).size())
 
-// ---
+// Debugging
 
-void dbgx(ostream&, ...) {}
+#define TM template<class T, class U=int, class ...V>
 
-template<class T, class ...V> void dbgx(ostream& o, const char* s, T a, V... b) {
-	while (*s && *s != ',') o << *s++;
-	o << ": " << a << *s++; dbgx(o, s, b...);
+void dbgx(...) {}
+
+TM void dbgx(T s, U a, V... b) {
+	while (*s && *s != ',') cerr << *s++;
+	cerr << ": " << a << *s++; dbgx(s, b...);
 }
 
 #ifdef LOC
-#define dbg(...) (dbgx(cerr << "<" << __LINE__, "> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
+#define dbg(...) (cerr << "<" << __LINE__, dbgx("> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
 #else
 #define dbg(...)
 #endif
 
-// ---
+#define DF(t, ...) TM auto operator<<(ostream& o, __VA_ARGS__ x)->decltype(t,cout)
 
-template<class T, class U> ostream& operator<<(ostream& o, pair<T, U> x) {
-	return o << "(" << x.first << ", " << x.second << ")";
-}
+DF(&T::print, T)  { x.print(); return o; }
+DF(0, pair<T, U>) { return o << "(" << x.first << ", " << x.second << ")"; }
 
-template<class T> auto operator<<(ostream& o, T x) -> decltype(T().begin(),cout) {
-	int f = 1; o << "[";
-	each(e, x) o << (f ? f=0, "" : ", ") << e;
+DF(T().begin(), T) {
+	o << "[";
+	each(e, x) o << e << ", ";
 	return o << "]";
 }
 
-template<class T> auto operator<<(ostream& o, T x) -> decltype(&T::print,cout) {
-	return x.print(o);
-}
-
-#define DPR(...) ostream& print(ostream& o) \
-	{ dbgx(o << '{', #__VA_ARGS__, __VA_ARGS__); return o << '}'; }
+#define DD(...) void print() { cerr << '{'; dbgx(#__VA_ARGS__, __VA_ARGS__); cerr << '}'; }
 
 // ---
 

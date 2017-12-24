@@ -5,7 +5,7 @@ struct Vert {
 	int weight;
 	vector<int> edges;
 
-	DPR(weight, edges);
+	DD(weight, edges);
 };
 
 vector<Vert> graph;
