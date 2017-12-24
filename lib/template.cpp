@@ -16,7 +16,7 @@ using Pii = pair<int, int>;
 #define all(x)        (x).begin(), (x).end()
 #define sz(x)         int((x).size())
 
-// Debugging
+// > Debugging
 
 #define TM template<class T, class U=int, class ...V>
 void dbgx(...) {}
@@ -45,7 +45,7 @@ DF(T().begin(), T) {
 
 #define DD(...) void print() { cerr << '{'; dbgx(#__VA_ARGS__, __VA_ARGS__); cerr << '}'; }
 
-// ---
+// ------------------------------------------------------------------------------------------ //
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
