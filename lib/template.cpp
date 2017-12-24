@@ -1,5 +1,4 @@
 #pragma GCC optimize("Ofast,no-stack-protector")
-
 #include <bits/stdc++.h>
 using namespace std;
 using namespace rel_ops;
@@ -21,7 +20,6 @@ using Pii = pair<int, int>;
 // Debugging
 
 #define TM template<class T, class U=int, class ...V>
-
 void dbgx(...) {}
 
 TM void dbgx(T s, U a, V... b) {
