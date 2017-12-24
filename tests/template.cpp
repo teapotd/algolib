@@ -3,7 +3,7 @@
 
 struct Vert {
 	int weight;
-	vector<int> edges;
+	Vi edges;
 
 	DD(weight, edges);
 };
@@ -20,6 +20,7 @@ int main() {
 	}
 
 	rep(i, 0, sz(graph)) dbg(i, graph[i]);
+	cerr << endl;
 
 	auto kek = mp(mp(12, 34), "abcde");
 	vector<int> vec{1,2,3,4};

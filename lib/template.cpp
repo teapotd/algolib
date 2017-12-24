@@ -5,8 +5,8 @@ using namespace std;
 using namespace rel_ops;
 
 using ll  = int64_t;
-using ull = uint64_t;
-using ld  = long double;
+using Vi  = vector<int>;
+using Pii = pair<int, int>;
 
 #define ref auto&
 #define IT  iterator
