@@ -1,3 +1,5 @@
+#pragma GCC optimize("Ofast,no-stack-protector")
+
 #include <bits/stdc++.h>
 using namespace std;
 using namespace rel_ops;
@@ -37,13 +39,13 @@ template<class T, class U> ostream& operator<<(ostream& o, pair<T, U> x) {
 	return o << "(" << x.first << ", " << x.second << ")";
 }
 
-template<class T> ostream& operator<<(ostream& o, vector<T> x) {
+template<class T> auto operator<<(ostream& o, T x) -> decltype(T().begin(),cout) {
 	int f = 1; o << "[";
 	each(e, x) o << (f ? f=0, "" : ", ") << e;
 	return o << "]";
 }
 
-template<class T> auto operator<<(ostream& o, T x) -> decltype(&T::print,*(ostream*)0) {
+template<class T> auto operator<<(ostream& o, T x) -> decltype(&T::print,cout) {
 	return x.print(o);
 }
 
