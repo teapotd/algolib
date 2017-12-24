@@ -1,4 +1,5 @@
 #pragma GCC optimize("Ofast,no-stack-protector")
+
 #include <bits/stdc++.h>
 using namespace std;
 using namespace rel_ops;
