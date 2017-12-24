@@ -3,14 +3,12 @@
 
 struct Vert {
 	int weight;
-	vector<Vert*> edges;
+	vector<int> edges;
 
-	DD(weight, edges);
+	DPR(weight, edges);
 };
 
 vector<Vert> graph;
-
-IND(Vert*, graph);
 
 int main() {
 	graph.resize(10);
@@ -18,10 +16,10 @@ int main() {
 	each(v, graph) {
 		v.weight = r(1, 5);
 		v.edges.resize(r(0, 9));
-		each(x, v.edges) x = &graph[r(0, 9)];
+		each(x, v.edges) x = r(0, 9);
 	}
 
-	each(v, graph) dbg(&v, v);
+	rep(i, 0, sz(graph)) dbg(i, graph[i]);
 
 	auto kek = mp(mp(12, 34), "abcde");
 	vector<int> vec{1,2,3,4};

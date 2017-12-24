@@ -4,33 +4,33 @@
 using namespace std;
 using namespace rel_ops;
 
-using ll  = long long;
+using ll  = int64_t;
 using ull = uint64_t;
 using ld  = long double;
 
-#define IT iterator
-#define mp make_pair
+#define ref auto&
+#define IT  iterator
+#define mp  make_pair
 
-#define rep(i, b, e)  for (int i = (b); i < (e); i++)
+#define rep(i, b, e)  for (int i = (b); i <  (e); i++)
 #define repd(i, b, e) for (int i = (b); i >= (e); i--)
-#define each(a, x)    for (auto& a : (x))
+#define each(a, x)    for (ref a : (x))
 #define all(x)        (x).begin(), (x).end()
 #define sz(x)         int((x).size())
 
 // ---
 
-ostream& _dbg(ostream& o, const char*) { return o; }
+void dbgx(ostream&, ...) {}
 
-template<class T, class ...U> ostream& _dbg(ostream& o, const char* s, T a, U... b) {
+template<class T, class ...V> void dbgx(ostream& o, const char* s, T a, V... b) {
 	while (*s && *s != ',') o << *s++;
-	o << ": " << a << *s; return _dbg(o, s+1, b...);
+	o << ": " << a << *s++; dbgx(o, s, b...);
 }
 
 #ifdef LOC
-#define dbg(...) (_dbg(cerr << "<" << __LINE__, "> " #__VA_ARGS__, __VA_ARGS__) << "\n")
+#define dbg(...) (dbgx(cerr << "<" << __LINE__, "> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
 #else
 #define dbg(...)
-#define cerr if(0)cerr
 #endif
 
 // ---
@@ -49,14 +49,13 @@ template<class T> auto operator<<(ostream& o, T x) -> decltype(&T::print,cout) {
 	return x.print(o);
 }
 
-#define DD(...) ostream& print(ostream& o) \
-	{ return _dbg(o << '{', #__VA_ARGS__, __VA_ARGS__) << '}'; }
-
-#define IND(t, v) ostream& operator<<(ostream& o, t x) { return o << int(x - v.data()); }
+#define DPR(...) ostream& print(ostream& o) \
+	{ dbgx(o << '{', #__VA_ARGS__, __VA_ARGS__); return o << '}'; }
 
 // ---
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
+	cout << fixed << setprecision(10);
 	return 0;
 }
