@@ -9,6 +9,7 @@ using Vi  = vector<int>;
 using Pii = pair<int, int>;
 
 #define mp make_pair
+#define mt make_tuple
 #define pb push_back
 
 #define rep(i, b, e)  for (int i = (b); i <  (e); i++)
