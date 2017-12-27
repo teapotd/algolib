@@ -19,13 +19,13 @@ int main() {
 		each(x, v.edges) x = r(0, 9);
 	}
 
-	rep(i, 0, sz(graph)) dbg(i, graph[i]);
+	rep(i, 0, sz(graph)) deb(i, graph[i]);
 	cerr << endl;
 
 	auto kek = mp(mp(12, 34), "abcde");
 	vector<int> vec{1,2,3,4};
 
-	dbg(kek, vec);
+	deb(kek, vec);
 
 	map<char, int> test;
 	test['d'] = 4;
@@ -33,6 +33,6 @@ int main() {
 	test['a'] = 1;
 	test['c'] = 3;
 
-	dbg(test);
+	deb(test);
 	return 0;
 }

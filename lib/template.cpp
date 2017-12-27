@@ -20,17 +20,17 @@ using Pii = pair<int, int>;
 // > Debugging
 
 #define TM template<class T, class U=int, class ...V>
-void dbgx(...) {}
+void debx(...) {}
 
-TM void dbgx(T s, U a, V... b) {
+TM void debx(T s, U a, V... b) {
 	while (*s && *s != ',') cerr << *s++;
-	cerr << ": " << a << *s++; dbgx(s, b...);
+	cerr << ": " << a << *s++; debx(s, b...);
 }
 
 #ifdef LOC
-#define dbg(...) (cerr << "<" << __LINE__, dbgx("> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
+#define deb(...) (cerr << "<" << __LINE__, debx("> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
 #else
-#define dbg(...)
+#define deb(...)
 #endif
 
 #define DF(t, ...) TM auto operator<<(ostream& o, __VA_ARGS__ x)->decltype(t,cout)
@@ -44,7 +44,7 @@ DF(T().begin(), T) {
 	return o << "]";
 }
 
-#define DD(...) void print() { cerr << '{'; dbgx(#__VA_ARGS__, __VA_ARGS__); cerr << '}'; }
+#define DD(...) void print() { cerr << '{'; debx(#__VA_ARGS__, __VA_ARGS__); cerr << '}'; }
 
 // ------------------------------------------------------------------------------------------ //
 
