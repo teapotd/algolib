@@ -1,11 +1,11 @@
 export FL="-O2 -DLOC -g -std=c++11 -Wall -Wextra -Wfatal-errors -Wshadow
            -Wconversion -Wfloat-equal -Wlogical-op"
 
-export DFL="-D_GLIBCXX_DEBUG -fsanitize=address,undefined -fvisibility=hidden"
+export DFL="-D_GLIBCXX_DEBUG -fsanitize=address,undefined"
 
-b()   ( g++ $FL      -o $1.e $1.cpp )  # Build:            b PROGRAM
-d()   ( g++ $FL $DFL -o $1.e $1.cpp )  # Build with debug: d PROGRAM
-run() ( $1 $2 && time ./$2.e        )  # Run:              run b|d PROGRAM
+b()   ( g++ $FL      -o $1.e $1 )      # Build:            b PROGRAM
+d()   ( g++ $FL $DFL -o $1.e $1 )      # Build with debug: d PROGRAM
+run() ( $1 $2 && time ./$2.e    )      # Run:              run b|d PROGRAM
 
 loo() (                                # Run in loop:      tim b|d PROGRAM GENERATOR
 	set -e; $1 $2; $1 $3
