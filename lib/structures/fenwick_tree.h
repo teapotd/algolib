@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Binary Indexed Tree (Fenwick tree) [UNTESTED]
+// Binary Indexed Tree (Fenwick tree)
 // Time complexity:
 // - modify point:         O(lg n)
 // - query interval [0;i): O(lg n)
