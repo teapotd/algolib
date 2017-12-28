@@ -7,7 +7,7 @@ b()   ( g++ $FL      -o $1.e $1 )      # Build:            b PROGRAM
 d()   ( g++ $FL $DFL -o $1.e $1 )      # Build with debug: d PROGRAM
 run() ( $1 $2 && time ./$2.e    )      # Run:              run b|d PROGRAM
 
-loo() (                                # Run in loop:      tim b|d PROGRAM GENERATOR
+loo() (                                # Run in loop:      loo b|d PROGRAM GENERATOR
 	set -e; $1 $2; $1 $3
 	for ((;;)) { ./$3.e > gen.in; time ./$2.e < gen.in > p1.out; }
 )
