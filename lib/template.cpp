@@ -19,40 +19,40 @@ using Pii = pair<int, int>;
 
 // > Debugging
 
-#define tem template<class t, class...v>
+#define tem template<class t, class...g>
 #define D DD()
 
-#define pri(c) tem auto p(t x, ll)->decltype(x.c, z()) { D
+#define pri(k) tem auto p(t a, ll)->decltype(a.k, z()) { D
 
 struct DD {
 	using z = void;
-	z d(...) {}
+	z x(...) {}
 
-	tem DD& operator,(t x) { p(x, 0); return *this; }
-	tem z p(t x, ...) { cerr << x; }
+	tem DD& operator,(t a) { p(a, 0); return *this; }
+	tem z p(t a, ...) { cerr << a; }
 
-	pri(print()); x.print(); }
+	pri(print()); a.print(); }
 
-	pri(first), "(", x.first, ", ", x.second, ")"; }
+	pri(first), "(", a.first, ", ", a.second, ")"; }
 
 	pri(begin()), "[";
-		each(e, x) D, e, ", ";
+		each(k, a) D, k, ", ";
 		D, "]";
 	}
 
-	tem z d(const char* s, t a, v... b) {
+	tem z x(const char* s, t a, g... k) {
 		while (*s && *s != ',') D, *s++;
-		D, ": ", a, *s++; d(s, b...);
+		D, ": ", a, *s++; x(s, k...);
 	}
 };
 
 #ifdef LOC
-#define deb(...) ((D, "<", __LINE__, "> ").d(#__VA_ARGS__, __VA_ARGS__), D, "\n")
+#define deb(...) ((D, "<", __LINE__, "> ").x(#__VA_ARGS__, __VA_ARGS__), D, "\n")
 #else
 #define deb(...)
 #endif
 
-#define DBP(...) void print() { D.d("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
+#define DBP(...) void print() { D.x("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
 
 // ------------------------------------------------------------------------------------------ //
 
