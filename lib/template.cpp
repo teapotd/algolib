@@ -20,24 +20,24 @@ using Pii = pair<int, int>;
 // > Debugging
 
 #define tem template<class t, class...v>
-#define pri(c) tem auto p(t x, int)->decltype(c,z()) { DD()
+
+#define pri(c) tem auto p(t x, int)->decltype(x.c, z()) { DD()
 
 struct DD {
 	using z = void;
-
+	z d(...) {}
+	
 	tem DD& operator,(t x) { p(x, 0); return *this; }
 
 	tem z p(t x, ...) { cerr << x; }
-	pri(&t::print); x.print(); }
+	pri(print()); x.print(); }
 
-	pri(t().first), "(", x.first, ", ", x.second, ")"; }
+	pri(first), "(", x.first, ", ", x.second, ")"; }
 
-	pri(t().begin()), "[";
+	pri(begin()), "[";
 		each(e, x) DD(), e, ", ";
 		DD(), "]";
 	}
-
-	z d(...) {}
 
 	tem z d(const char* s, t a, v... b) {
 		while (*s && *s != ',') DD(), *s++;
@@ -51,7 +51,7 @@ struct DD {
 #define deb(...)
 #endif
 
-#define DBP(...) void print() { (DD(), '{').d(#__VA_ARGS__, __VA_ARGS__); DD(), '}'; }
+#define DBP(...) void print() { DD().d("{" #__VA_ARGS__, __VA_ARGS__); DD(), "}"; }
 
 // ------------------------------------------------------------------------------------------ //
 
