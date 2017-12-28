@@ -26,8 +26,8 @@ int main() {
 			}
 		}
 
-		dbg(original);
-		dbg(compressed);
+		deb(original);
+		deb(compressed);
 		cerr << endl;
 	}
 	return 0;

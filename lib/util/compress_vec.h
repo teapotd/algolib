@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Compress values of vector to [0;n) while preserving order
+// Compress values of vector to [0;n) while preserving order relation
 // Time complexity: O(n lg n)
 
 int compressVec(vector<int*>& vec) {
