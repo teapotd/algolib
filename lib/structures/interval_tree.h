@@ -1,8 +1,10 @@
 #pragma once
 #include "../template.h"
 
-// Customizable 1D interval tree [UNTESTED]
-// Time complexity: query O(lg n), modify O(lg n)
+// Customizable 1D interval tree [UNTESTED] [TODO: refactor]
+// Time complexity:
+// - query interval:  O(lg n)
+// - modify interval: O(lg n)
 
 struct IntervalTree {
 	using T = int;
