@@ -1,11 +1,11 @@
 #pragma once
 #include "../template.h"
 
-// Priority queue implementation using pairing heap [UNTESTED]
+// Pairing heap priority queue implementation
 // Time complexity:
 // - top:           O(1)
 // - push:          O(1)
-// - pop: amortized amortized O(lg n) - seems to be slower than priority_queue!
+// - pop:           amortized O(lg n) - seems to be slower than priority_queue!
 // - decrease-key:  amortized O(lg n)?
 // - merge:         O(1)
 
