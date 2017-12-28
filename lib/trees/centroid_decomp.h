@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Centroid decomposition of tree
+// Centroid decomposition of tree [TODO: refactor]
 // Time complexity: O(n lg n)
 
 struct Vert {
