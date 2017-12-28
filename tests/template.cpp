@@ -5,7 +5,7 @@ struct Vert {
 	int weight;
 	Vi edges;
 
-	DD(weight, edges);
+	DBP(weight, edges);
 };
 
 vector<Vert> graph;
@@ -33,6 +33,6 @@ int main() {
 	test['a'] = 1;
 	test['c'] = 3;
 
-	deb(test);
+	deb(test, string("xd"));	
 	return 0;
 }

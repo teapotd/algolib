@@ -1,10 +1,9 @@
 #pragma GCC optimize("Ofast,no-stack-protector")
-
 #include <bits/stdc++.h>
 using namespace std;
 using namespace rel_ops;
 
-using ll  = int64_t;
+using ll  = long long;
 using Vi  = vector<int>;
 using Pii = pair<int, int>;
 
@@ -20,32 +19,39 @@ using Pii = pair<int, int>;
 
 // > Debugging
 
-#define TM template<class T, class U=int, class ...V>
-void debx(...) {}
+#define tem template<class t, class...v>
+#define pri(c) tem auto p(t x, int)->decltype(c,z()) { DD()
 
-TM void debx(T s, U a, V... b) {
-	while (*s && *s != ',') cerr << *s++;
-	cerr << ": " << a << *s++; debx(s, b...);
-}
+struct DD {
+	using z = void;
+
+	tem DD& operator,(t x) { p(x, 0); return *this; }
+
+	tem z p(t x, ...) { cerr << x; }
+	pri(&t::print); x.print(); }
+
+	pri(t().first), "(", x.first, ", ", x.second, ")"; }
+
+	pri(t().begin()), "[";
+		each(e, x) DD(), e, ", ";
+		DD(), "]";
+	}
+
+	z d(...) {}
+
+	tem z d(const char* s, t a, v... b) {
+		while (*s && *s != ',') DD(), *s++;
+		DD(), ": ", a, *s++; d(s, b...);
+	}
+};
 
 #ifdef LOC
-#define deb(...) (cerr << "<" << __LINE__, debx("> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
+#define deb(...) ((DD(), "<", __LINE__, "> ").d(#__VA_ARGS__, __VA_ARGS__), DD(), "\n")
 #else
 #define deb(...)
 #endif
 
-#define DF(t, ...) TM auto operator<<(ostream& o, __VA_ARGS__ x)->decltype(t,cout)
-
-DF(&T::print, T)  { x.print(); return o; }
-DF(0, pair<T, U>) { return o << "(" << x.first << ", " << x.second << ")"; }
-
-DF(T().begin(), T) {
-	o << "[";
-	each(e, x) o << e << ", ";
-	return o << "]";
-}
-
-#define DD(...) void print() { cerr << '{'; debx(#__VA_ARGS__, __VA_ARGS__); cerr << '}'; }
+#define DBP(...) void print() { (DD(), '{').d(#__VA_ARGS__, __VA_ARGS__); DD(), '}'; }
 
 // ------------------------------------------------------------------------------------------ //
 
