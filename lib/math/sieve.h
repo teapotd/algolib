@@ -6,7 +6,7 @@
 
 constexpr int MAX_P = 1000000;
 
-vector<int> primes(MAX_P+1);
+Vi primes(MAX_P+1);
 
 void sieve() {
 	primes[0] = 0;

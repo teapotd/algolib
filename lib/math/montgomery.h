@@ -1,8 +1,8 @@
 #pragma once
 #include "../template.h"
-#include "mod_inv.h"
+#include "modular.h"
 
-// Fast modular multiplication using Montgomery reduction [UNTESTED]
+// Fast modular multiplication using Montgomery reduction [UNTESTED] [TODO: refactor]
 
 // MOD < MG_MULT, gcd(MG_MULT, MOD) must be 1
 // mgRedc(mgForm1 * mgForm2)    = Montgomery-form product

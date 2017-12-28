@@ -1,9 +1,11 @@
 #pragma once
 #include "../template.h"
 
-// Recursive Cooley-Tukey FFT
+// Recursive Cooley-Tukey FFT [TODO: refactor]
 // Time complexity: O(n lg n)
 
+#define IT iterator
+using cmpl = complex<double>;
 using Vfft = vector<cmpl>;
 Vfft bases;
 
