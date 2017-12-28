@@ -34,7 +34,7 @@ std::vector<int64_t> perm(int64_t l, int64_t r) {
 	return ret;
 }
 
-Time   now() { return Clock::now(); }
+Time now() { return Clock::now(); }
 
 int since(Time begin) {
 	return int(std::chrono::duration_cast<std::chrono::milliseconds>(now() - begin).count());
