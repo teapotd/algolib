@@ -61,3 +61,5 @@ int main() {
 	cout << fixed << setprecision(10);
 	return 0;
 }
+
+// while (clock() < time*CLOCKS_PER_SEC)
