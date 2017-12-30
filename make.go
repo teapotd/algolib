@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// 96 characters column width
+// 47 characters column width
 
 var out bytes.Buffer
 var pages bytes.Buffer
@@ -30,12 +30,12 @@ func main() {
 \usepackage{courier}
 
 \setlength{\columnseprule}{0.5pt}
-\setlength{\columnsep}{10pt}
+\setlength{\columnsep}{8pt}
 
 \lstset{language=C++}
-\lstset{morekeywords={alignas,alignof,constexpr,ll,ull,ld,cmpl,rep,repd,each,all,sz}}
+\lstset{morekeywords={alignas,alignof,constexpr,ll,ull,ld,cmpl,rep,repd,each,all,sz,Vi,Pii,mp,mt,pb}}
 \lstset{frame=t}
-\lstset{tabsize=4}
+\lstset{tabsize=2}
 \lstset{showstringspaces=false}
 \lstset{breaklines=true}
 \lstset{emptylines=*1}
@@ -44,13 +44,13 @@ func main() {
 \lstset{belowskip=2pt}
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
 
-\begin{document}
-\begin{multicols*}{4}`)
+\begin{document}`)
 
+	// line(&out, `\begin{multicols*}{4}`)
 	processDir("lib")
-	line(&out, `\end{multicols*}\pagebreak`)
+	// line(&out, `\end{multicols*}\pagebreak`)
 
-	line(&out, `\begin{multicols*}{2}`)
+	line(&out, `\begin{multicols*}{4}`)
 	out.Write(pages.Bytes())
 
 	line(&out, `\end{multicols*}`)
@@ -81,7 +81,7 @@ func processDir(dir string) {
 }
 
 func processFile(path string, info os.FileInfo) {
-	if info.Name() == ".DS_Store" || info.Name() == "template.h" {
+	if info.Name() == ".DS_Store" {
 		return
 	}
 
@@ -90,7 +90,12 @@ func processFile(path string, info os.FileInfo) {
 		panic(err)
 	}
 
-	str := strings.Replace(string(data), "#pragma once", "", -1)
+	str := string(data)
+	if strings.Contains(str, "!!IGNORE") {
+		return
+	}
+
+	str = strings.Replace(str, "#pragma once", "", -1)
 	str = strings.Replace(str, `#include "template.h"`, "", -1)
 	str = strings.Replace(str, `#include "../template.h"`, "", -1)
 	str = strings.Trim(str, " \n")
@@ -98,9 +103,10 @@ func processFile(path string, info os.FileInfo) {
 	caption := path[4:]
 	captions = append(captions, caption)
 
-	line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
+	// line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
+	// line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
 
-	line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
+	line(&pages, fmt.Sprintf(`\noindent{\textbf{\lstinline|%s|}}`, caption))
 
 	if strings.HasSuffix(path, ".sh") || strings.HasSuffix(path, ".bashrc") {
 		line(&pages, `\begin{lstlisting}[language=Bash]`)
