@@ -23,11 +23,12 @@ func line(buf *bytes.Buffer, str string) {
 func main() {
 	line(&out, `\documentclass[10pt]{article}
 
-\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={0.5cm,0.5cm}]{geometry}
+\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1cm,0.5cm},headsep=0.1cm]{geometry}
 \usepackage{listings}
 \usepackage{multicol}
 \usepackage{titletoc}
 \usepackage{courier}
+\usepackage{fancyhdr}
 
 \setlength{\columnseprule}{0.5pt}
 \setlength{\columnsep}{8pt}
@@ -40,9 +41,15 @@ func main() {
 \lstset{breaklines=true}
 \lstset{emptylines=*1}
 \lstset{inputencoding=utf8}
-\lstset{aboveskip=3pt}
-\lstset{belowskip=2pt}
+\lstset{aboveskip=2pt}
+\lstset{belowskip=0pt}
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\footrulewidth}{0pt}
+\lhead{Jagiellonian University}
+\rhead{\thepage}
 
 \begin{document}`)
 

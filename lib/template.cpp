@@ -54,12 +54,10 @@ struct DD {
 
 #define DBP(...) void print() { D.x("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
 
-// ------------------------------------------------------------------------------------------ //
+// while (clock() < time*CLOCKS_PER_SEC)
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
 	cout << fixed << setprecision(10);
 	return 0;
 }
-
-// while (clock() < time*CLOCKS_PER_SEC)
