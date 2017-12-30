@@ -36,7 +36,7 @@ struct DD {
 	pri(first), "(", a.first, ", ", a.second, ")"; }
 
 	pri(begin()), "[";
-		each(k, a) D, k, ", ";
+		for (auto k : a) D, k, ", ";
 		D, "]";
 	}
 
