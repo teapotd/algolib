@@ -1,5 +1,5 @@
 b()(
-	g++ $@ -o $1.e -DLOC -O2 -g -std=c++11 \
+	g++ $@ -o $1.e -DLOC -O2 -g -std=c++11    \
 	    -Wall -Wextra -Wfatal-errors -Wshadow \
 	    -Wlogical-op -Wconversion -Wfloat-equal
 )
