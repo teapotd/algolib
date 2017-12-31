@@ -1,20 +1,51 @@
 #include "../../lib/math/fft.h"
 #include "../testing.h"
 
+Vfft naiveConvolve(Vfft& A, Vfft& B) {
+	int n = sz(A);
+	assert(n == sz(B));
+
+	Vfft ret(sz(A));
+	rep(i, 0, n) rep(j, 0, n) ret[(i+j)&(n-1)] += A[i] * B[j];
+	return ret;
+}
+
+Vfft fftConvolve(Vfft A, Vfft B) {
+	int n = sz(A);
+	assert(n == sz(B));
+
+	fft<1>(A);
+	fft<1>(B);
+	rep(i, 0, n) A[i] *= B[i];
+	fft<-1>(A);
+	return A;
+}
+
+void randCmpl(Vfft& data) {
+	each(d, data) d = complex<double>(r(-1000, 1000), r(-1000, 1000));
+}
+
 int main() {
-	Vfft data(1 << 3);
-	initFFT(sz(data));
+	cerr << fixed << setprecision(10);
 
-	each(d, data) d = complex<double>(rf(-1000.0, 1000.0), rf(-1000.0, 1000.0));
+	for (int i = 0; i < 15; i++) {
+		int n = 1 << i;
+		initFFT(n);
 
-	Vfft transform = data;
-	fft<1>(transform);
+		Vfft d1(n), d2(n);
+		randCmpl(d1);
+		randCmpl(d2);
 
-	Vfft inve = transform;
-	fft<-1>(inve);
+		Vfft x1 = fftConvolve(d1, d2);
+		Vfft x2 = naiveConvolve(d1, d2);
 
-	deb(data);
-	deb(inve);
-	deb(transform);
+		double diff = 0;
+		rep(i, 0, n) {
+			auto d = abs(x1[i]-x2[i]);
+			diff = max(max(diff, real(d)), imag(d));
+		}
+
+		deb(i, n, diff);
+	}
 	return 0;
 }

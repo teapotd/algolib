@@ -22,13 +22,13 @@ void fft(Vfft& buf) {
 			int a = (j << (bits-i)) | k;
 			int b = a | shift;
 			auto v1 = buf[a], v2 = buf[b];
-			auto base = bases[(dir*(1<<i)) & (n-1)];
+			auto base = bases[(dir*(k<<i)) & (n-1)];
 
 			if (dir > 0) {
 				buf[b] = (v1 - v2) * base;
 			} else {
 				v2 *= base;
-				buf[b] = (v1 - v2);
+				buf[b] = v1 - v2;
 			}
 			buf[a] = v1 + v2;
 		}
