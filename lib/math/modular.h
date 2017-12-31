@@ -3,18 +3,21 @@
 
 constexpr ll MOD = 234567899;
 
-// Compute modular inverse of a mod b [UNTESTED]
-ll modInv(ll a, ll m) { return (a == 1 ? 1 : ((a - modInv(m%a, a))*m + 1) / a); }
+ll modInv(ll a, ll m) { // [UNTESTED]
+	return (a == 1 ? 1 :
+		((a - modInv(m%a, a))*m + 1) / a);
+}
 
-// Integer mod p container [UNTESTED]
-struct Zp {
+struct Zp { // [UNTESTED]
 	ll x;
 	Zp(ll y) : x(y % MOD) {}
 
 	Zp operator+(Zp r) const { return x+r.x; }
 	Zp operator-(Zp r) const { return x-r.x; }
 	Zp operator*(Zp r) const { return x*r.x; }
-	Zp operator/(Zp r) const { return x*modInv(r.x, MOD); }
+	Zp operator/(Zp r) const {
+		return x*modInv(r.x, MOD);
+	}
 
 	Zp inv() { return modInv(x, MOD); }
 

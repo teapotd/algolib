@@ -1,15 +1,8 @@
 #pragma once
 #include "../template.h"
 
-// Pairing heap priority queue implementation
-// Time complexity:
-// - top:           O(1)
-// - push:          O(1)
-// - pop:           amortized O(lg n) - seems to be slower than priority_queue!
-// - decrease-key:  amortized O(lg n)?
-// - merge:         O(1)
-
-template<class T, class Cmp = less<T>> struct PHeap {
+template<class T, class Cmp = less<T>>
+struct PHeap {
 	struct Node {
 		T val;
 		int child{-1}, next{-1}, prev{-1};
@@ -45,7 +38,8 @@ template<class T, class Cmp = less<T>> struct PHeap {
 
 	int mergePairs(int v) {
 		if (v < 0 || M[v].next < 0) return v;
-		int v2 = unlink(M[v].next), v3 = unlink(M[v2].next);
+		int v2 = unlink(M[v].next);
+		int v3 = unlink(M[v2].next);
 		return merge(merge(v, v2), mergePairs(v3));
 	}
 
@@ -68,13 +62,18 @@ template<class T, class Cmp = less<T>> struct PHeap {
 		if (prev < 0) return;
 
 		auto& p = M[prev];
-		link(prev, (p.child == i ? p.child : p.next), unlink(M[i].next));
+		link(prev, (p.child == i ? p.child
+			   : p.next), unlink(M[i].next));
 
 		root = merge(root, i);
 	}
 
-	bool     empty()         { return root < 0; }
-	const T& top()           { return M[root].val; }
-	void     merge(PHeap& r) { root = merge(root, r.root); r.root = -1; }
-	void     pop()           { root = mergePairs(unlink(M[root].child)); }
+	bool empty() { return root < 0; }
+	const T& top() { return M[root].val; }
+	void merge(PHeap& r) {
+		root = merge(root, r.root); r.root = -1;
+	}
+	void pop() {
+		root = mergePairs(unlink(M[root].child));
+	}
 };

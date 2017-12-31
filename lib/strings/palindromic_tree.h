@@ -1,10 +1,6 @@
 #pragma once
 #include "../template.h"
 
-// Palindromic tree (EERTREE)
-// Time complexity:
-// - append letter: amortized O(1)
-
 constexpr int ALPHA = 26;
 
 struct PalTree {
@@ -13,7 +9,8 @@ struct PalTree {
 	int last{0};
 
 	int ext(int i) {
-		while (str.rbegin()[len[i]+1] != *str.rbegin()) i = suf[i];
+		while (str.rbegin()[len[i]+1]
+			     != *str.rbegin()) i = suf[i];
 		return i;
 	}
 

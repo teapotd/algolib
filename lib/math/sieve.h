@@ -1,5 +1,6 @@
 #pragma once
 #include "../template.h"
+// !!IGNORE
 
 // Calculate smallest prime factors for all numbers in [0;MAX_P] [UNTESTED]
 // Time complexity: O(n lg lg n)
