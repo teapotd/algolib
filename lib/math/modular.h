@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-constexpr ll MOD = 2345678917;
+constexpr ll MOD = 1e9+7;
 
 ll modInv(ll a, ll m) {
 	return (a == 1 ? 1 :

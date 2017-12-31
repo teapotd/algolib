@@ -1,23 +1,20 @@
 #pragma once
 #include "../template.h"
 #include "modular.h"
-// !!IGNORE
-
-// Fast modular multiplication using Montgomery reduction [UNTESTED] [TODO: refactor]
 
 // MOD < MG_MULT, gcd(MG_MULT, MOD) must be 1
-// mgRedc(mgForm1 * mgForm2)    = Montgomery-form product
-// mgRedc(notMgForm1 * mgForm2) = normal number
+// redc(mg * mg) = Montgomery-form product
+// redc(notMg * mg) = not montgomery
 
 constexpr ll MG_SHIFT = 32;
 constexpr ll MG_MULT  = 1LL << MG_SHIFT;
 constexpr ll MG_MASK  = MG_MULT - 1;
+const ll MG_INV = MG_MULT-modInv(MOD, MG_MULT);
 
-ll getMgInv(ll mod)      { return MG_MULT - modInv(mod, MG_MULT); }
-ll mgShift(ll n, ll mod) { return (n * MG_MULT) % mod; } // Precompute multipliers
+ll MG(ll x) { return (x*MG_MULT) % MOD; }
 
-ll redc(ll n, ll mod, ll mgInv) {
-	ll quot = (n * mgInv) & MG_MASK;
-	n = (n + quot*mod) >> MG_SHIFT;
-	return (n >= mod ? n-mod : n);
+ll redc(ll x) {
+	ll q = (x * MG_INV) & MG_MASK;
+	x = (x + q*MOD) >> MG_SHIFT;
+	return (x >= MOD ? x-MOD : x);
 }
