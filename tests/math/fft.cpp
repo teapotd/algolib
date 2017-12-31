@@ -8,15 +8,13 @@ int main() {
 	each(d, data) d = complex<double>(rf(-1000.0, 1000.0), rf(-1000.0, 1000.0));
 
 	Vfft transform = data;
-	fft(transform, false);
+	fft<1>(transform);
 
-	Vfft inverse = transform;
-	fft(inverse, true);
-
-	each(x, inverse) x /= sz(data);
+	Vfft inve = transform;
+	fft<-1>(inve);
 
 	deb(data);
+	deb(inve);
 	deb(transform);
-	deb(inverse);
 	return 0;
 }

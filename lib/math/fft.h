@@ -10,25 +10,29 @@ void initFFT(int n) {
 	rep(i,2,n+1) bases[i] = bases[i-1]*bases[1];
 }
 
-void fft(Vfft& buf, bool inv) {
-	int n = sz(buf), k = 0;
-	while ((1 << k) < n) k++;
+template<int dir>
+void fft(Vfft& buf) {
+	int n = sz(buf), bits = 31-__builtin_clz(n);
+	int i = (dir > 0 ? 0 : bits-1);
 
-	rep(i, 0, n) { // Bit reversal
-		int j = 0;
-		for (int a = 1; a < n; a <<= 1, j <<= 1)
-			if (a & i) j |= 1;
-		j >>= 1;
-		if (i < j) swap(buf[i], buf[j]);
-	}
+	for (; i >= 0 && i < bits; i += dir) {
+		int shift = 1 << (bits-i-1);
 
-	for (int s = 1; s < n; s <<= 1) {
-		k--;
-		for (int i=0; i<n; i += 2*s) rep(j, 0, s) {
-			auto u = buf[i+j], v = buf[i+j+s];
-			if (inv) v *= bases[n - (j<<k)];
-			else     v *= bases[(j<<k)];
-			buf[i+j] = u+v; buf[i+j+s] = u-v;
+		rep(j, 0, 1 << i) rep(k, 0, shift) {
+			int a = (j << (bits-i)) | k;
+			int b = a | shift;
+			auto v1 = buf[a], v2 = buf[b];
+			auto base = bases[(dir*(1<<i)) & (n-1)];
+
+			if (dir > 0) {
+				buf[b] = (v1 - v2) * base;
+			} else {
+				v2 *= base;
+				buf[b] = (v1 - v2);
+			}
+			buf[a] = v1 + v2;
 		}
 	}
+
+	if (dir < 0) each(x, buf) x /= n;
 }
