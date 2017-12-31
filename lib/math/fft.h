@@ -1,38 +1,34 @@
 #pragma once
 #include "../template.h"
-// !!IGNORE
 
-// Recursive Cooley-Tukey FFT [TODO: refactor]
-// Time complexity: O(n lg n)
-
-#define IT iterator
-using cmpl = complex<double>;
-using Vfft = vector<cmpl>;
+using Vfft = vector<complex<double>>;
 Vfft bases;
 
-void initFft(int size) {
-	bases.resize(size+1);
-	rep(i, 0, size+1) bases[i] = exp(cmpl(0, 2*M_PI*i/size));
+void initFFT(int n) {
+	bases.resize(n+1, 1);
+	bases[1] = exp(complex<double>(0, 2*M_PI/n));
+	rep(i,2,n+1) bases[i] = bases[i-1]*bases[1];
 }
 
-template<bool inv>
-void fft(Vfft::IT in, Vfft::IT out, int size, int step = 1) {
-	if (size == 1) { *out = *in; return; }
+void fft(Vfft& buf, bool inv) {
+	int n = sz(buf), k = 0;
+	while ((1 << k) < n) k++;
 
-	fft<inv>(in,      out,        size/2, step*2);
-	fft<inv>(in+step, out+size/2, size/2, step*2);
-
-	rep(i, 0, size/2) {
-		auto t = out[i], m = bases[(inv ? i : size-i)*step];
-		out[i]        = t + out[i+size/2]*m;
-		out[i+size/2] = t - out[i+size/2]*m;
+	rep(i, 0, n) { // Bit reversal
+		int j = 0;
+		for (int a = 1; a < n; a <<= 1, j <<= 1)
+			if (a & i) j |= 1;
+		j >>= 1;
+		if (i < j) swap(buf[i], buf[j]);
 	}
-}
 
-template<bool inv>
-Vfft fft(Vfft& in) {
-	Vfft out(sz(in));
-	fft<inv>(in.begin(), out.begin(), sz(in));
-	if (inv) each(x, out) x /= sz(in);
-	return out;
+	for (int s = 1; s < n; s <<= 1) {
+		k--;
+		for (int i=0; i<n; i += 2*s) rep(j, 0, s) {
+			auto u = buf[i+j], v = buf[i+j+s];
+			if (inv) v *= bases[n - (j<<k)];
+			else     v *= bases[(j<<k)];
+			buf[i+j] = u+v; buf[i+j+s] = u-v;
+		}
+	}
 }
