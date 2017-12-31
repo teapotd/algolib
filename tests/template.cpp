@@ -33,6 +33,6 @@ int main() {
 	test['a'] = 1;
 	test['c'] = 3;
 
-	deb(test, string("xd"));	
+	deb(test, string("xd"));
 	return 0;
 }
