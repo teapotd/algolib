@@ -1,4 +1,5 @@
-#pragma GCC optimize("Ofast,no-stack-protector")
+#pragma GCC \
+	optimize("Ofast,no-stack-protector")
 #include <bits/stdc++.h>
 using namespace std;
 using namespace rel_ops;
@@ -11,29 +12,32 @@ using Pii = pair<int, int>;
 #define mt make_tuple
 #define pb push_back
 
-#define rep(i, b, e)  for (int i = (b); i <  (e); i++)
-#define repd(i, b, e) for (int i = (b); i >= (e); i--)
-#define each(a, x)    for (auto& a : (x))
-#define all(x)        (x).begin(), (x).end()
-#define sz(x)         int((x).size())
+#define rep(i,b,e)  for(int i=(b); i<(e); i++)
+#define repd(i,b,e) for(int i=(b); i>=(e); i--)
+#define each(a,x)   for (auto& a : (x))
+#define all(x)      (x).begin(), (x).end()
+#define sz(x)       int((x).size())
 
 // > Debugging
 
 #define tem template<class t, class...g>
 #define D DD()
 
-#define pri(k) tem auto p(t a, ll)->decltype(a.k, z()) { D
+#define pri(k) \
+	tem auto p(t a, ll)->decltype(a.k, z()) { D
 
 struct DD {
 	using z = void;
 	z x(...) {}
 
-	tem DD& operator,(t a) { p(a, 0); return *this; }
+	tem DD& operator,(t a) {
+		p(a, 0); return *this;
+	}
 	tem z p(t a, ...) { cerr << a; }
 
 	pri(print()); a.print(); }
 
-	pri(first), "(", a.first, ", ", a.second, ")"; }
+	pri(first),"(",a.first,", ",a.second,")"; }
 
 	pri(begin()), "[";
 		for (auto k : a) D, k, ", ";
@@ -47,12 +51,14 @@ struct DD {
 };
 
 #ifdef LOC
-#define deb(...) ((D, "<", __LINE__, "> ").x(#__VA_ARGS__, __VA_ARGS__), D, "\n")
+#define deb(...) ((D, "<", __LINE__, "> ") \
+	.x(#__VA_ARGS__, __VA_ARGS__), D, "\n")
 #else
 #define deb(...)
 #endif
 
-#define DBP(...) void print() { D.x("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
+#define DBP(...) void print() { \
+	D.x("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
 
 // while (clock() < time*CLOCKS_PER_SEC)
 

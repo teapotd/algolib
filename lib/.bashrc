@@ -1,18 +1,23 @@
-export FL="-O2 -DLOC -g -std=c++11 -Wall -Wextra -Wfatal-errors -Wshadow
-           -Wconversion -Wfloat-equal -Wlogical-op"
+export FL="-O2 -DLOC -std=c++11 -Wall -Wextra
+           -Wfatal-errors -Wshadow -Wlogical-op
+           -Wconversion -Wfloat-equal -g"
 
-export DFL="-D_GLIBCXX_DEBUG -fsanitize=address,undefined"
+export DFL="-fsanitize=address,undefined
+            -D_GLIBCXX_DEBUG"
 
-b()   ( g++ $FL      -o $1.e $1 )      # Build:            b PROGRAM
-d()   ( g++ $FL $DFL -o $1.e $1 )      # Build with debug: d PROGRAM
-run() ( $1 $2 && time ./$2.e    )      # Run:              run b|d PROGRAM
+b()   ( g++ $FL      -o $1.e $1 )
+d()   ( g++ $FL $DFL -o $1.e $1 )
+run() ( $1 $2 && time ./$2.e    )
 
-loo() (                                # Run in loop:      loo b|d PROGRAM GENERATOR
+loo() (
 	set -e; $1 $2; $1 $3
-	for ((;;)) { ./$3.e > gen.in; time ./$2.e < gen.in > p1.out; }
+	for ((;;)) {
+		./$3.e > gen.in
+		time ./$2.e < gen.in > p1.out
+	}
 )
 
-cmp() (                                # Compare outputs:  cmp b|d PROGRAM1 PROGRAM2 GENERATOR
+cmp() (
 	set -e; $1 $2; $1 $3; $1 $4
 	for ((;;)) {
 		./$4.e > gen.in;          echo -n 0
@@ -23,5 +28,7 @@ cmp() (                                # Compare outputs:  cmp b|d PROGRAM1 PROG
 )
 
 # Other flags:
-# -Wformat=2 -Wshift-overflow=2 -Wduplicated-cond -Wcast-qual -Wcast-align
-# -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fno-sanitize-recover -fstack-protector
+# -Wformat=2 -Wshift-overflow=2 -Wcast-qual
+# -Wcast-align -Wduplicated-cond
+# -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2
+# -fno-sanitize-recover -fstack-protector
