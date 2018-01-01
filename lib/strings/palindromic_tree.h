@@ -9,8 +9,8 @@ struct PalTree {
 	int last{0};
 
 	int ext(int i) {
-		while (str.rbegin()[len[i]+1]
-			     != *str.rbegin()) i = suf[i];
+		while(str.rbegin()[len[i]+1] != str.back())
+			i = suf[i];
 		return i;
 	}
 
