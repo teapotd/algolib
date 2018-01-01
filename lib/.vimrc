@@ -1,3 +1,4 @@
-set cin aw ai is ts=4 sw=4 tm=50
-set nu noeb bg=dark ru cul
-sy on | im jk <esc> | im kj <esc> | no ; :
+se ai aw cin cul ic is nocp noeb nu ru sc scs
+se wmnu so=7 sw=4 tm=50 ts=4
+sy on | no ; : | im jk <esc> | im kj <esc>
+no <C-s> :w<CR>:!b %<CR>
