@@ -40,7 +40,7 @@ int main() {
 		Vfft x2 = naiveConvolve(d1, d2);
 
 		double diff = 0;
-		rep(i, 0, n) {
+		rep(j, 0, n) {
 			auto d = abs(x1[i]-x2[i]);
 			diff = max(max(diff, real(d)), imag(d));
 		}

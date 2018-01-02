@@ -4,13 +4,17 @@ using namespace std;
 using ll  = long long;
 using Vi  = vector<int>;
 using Pii = pair<int, int>;
-#define mp make_pair
+
 #define pb push_back
+#define mp make_pair
+#define x first
+#define y second
+
 #define rep(i,b,e)  for(int i=(b); i<(e); i++)
-#define repd(i,b,e) for(int i=(b); i>=(e); i--)
 #define each(a,x)   for (auto& a : (x))
 #define all(x)      (x).begin(), (x).end()
 #define sz(x)       int((x).size())
+
 
 #define tem template<class t, class...g>
 #define D DD()
@@ -29,7 +33,7 @@ struct DD {
 	tem z p(t a, ...) { cerr << a; }
 
 	pri(print()); a.print(); }
-	pri(first),"(",a.first,", ",a.second,")"; }
+	pri(x),"(",a.x,", ",a.y,")"; }
 
 	pri(begin()), "[";
 		for (auto k : a) D, k, ", "; D, "]";
@@ -45,6 +49,7 @@ struct DD {
 
 #define DBP(...) void print() { \
 	D.x("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
+
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
