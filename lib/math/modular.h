@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-constexpr ll MOD = 1e9+7;
+constexpr ll MOD = 15*(1<<27)+1;
 
 ll modInv(ll a, ll m) {
 	return (a == 1 ? 1 :
@@ -14,7 +14,7 @@ ll umod(ll a, ll m) {
 
 struct Zp {
 	ll x;
-	Zp(ll y) : x(umod(y, MOD)) {}
+	Zp(ll y = 0) : x(umod(y, MOD)) {}
 
 	Zp operator+(Zp r) const { return x+r.x; }
 	Zp operator-(Zp r) const { return x-r.x; }
@@ -23,9 +23,9 @@ struct Zp {
 		return x*r.inv().x;
 	}
 
-	Zp inv() { return modInv(x, MOD); }
+	Zp inv() const { return modInv(x, MOD); }
 
-	Zp pow(ll e) {
+	Zp pow(ll e) const {
 		if (!e) return 1;
 		Zp t = pow(e/2);
 		return t*t * (e & 1 ? x : 1);
