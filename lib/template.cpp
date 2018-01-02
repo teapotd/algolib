@@ -7,13 +7,13 @@ using Pii = pair<int, int>;
 
 #define pb push_back
 #define mp make_pair
-#define x first
-#define y second
+#define x  first
+#define y  second
 
-#define rep(i,b,e)  for(int i=(b); i<(e); i++)
-#define each(a,x)   for (auto& a : (x))
-#define all(x)      (x).begin(), (x).end()
-#define sz(x)       int((x).size())
+#define rep(i, b, e) for(int i=(b); i<(e); i++)
+#define each(a, x)   for (auto& a : (x))
+#define all(x)       (x).begin(), (x).end()
+#define sz(x)        int((x).size())
 
 
 #define tem template<class t, class...g>
