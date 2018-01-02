@@ -15,29 +15,33 @@ using Pii = pair<int, int>;
 #define all(x)       (x).begin(), (x).end()
 #define sz(x)        int((x).size())
 
-#define tem template<class t, class u, class...w>
-#define pri(y) tem auto operator<<(t& o, u a)->decltype(y(a),o) { return
+
+#define tem template<class t,class u,class...w>
+#define pri(y) tem auto operator<<(t& o, u a) \
+	->decltype(y(a),o) { return
 
 pri(a.print) a.print(), o; }
-pri(get<1>) o << "(" << a.x << ", " << a.y << ")"; }
+pri(get<1>)  o<<"("<<a.x<<", "<<a.y<<")"; }
 
-pri(all) o << "[", [&]() { for (auto i : a) o << i << ", "; }(), o << "]"; }
+pri(all) o << "[", [&](){ for (auto i : a)
+	o << i << ", "; }(), o << "]"; }
 
-void D(...) {}
+void DD(...) {}
 
-tem void D(t s, u a, w... k) {
+tem void DD(t s, u a, w... k) {
 	while (*s && *s != ',') cerr << *s++;
-	cerr << ": " << a << *s++; D(s, k...);
+	cerr << ": " << a << *s++; DD(s, k...);
 }
 
-
 #ifdef LOC
-#define deb(...) (cerr << "<" << __LINE__, D("> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
+#define deb(...) (cerr << "<" << __LINE__, \
+	DD("> "#__VA_ARGS__,__VA_ARGS__), cerr<<"\n")
 #else
 #define deb(...)
 #endif
 
-#define DBP(...) void print(...) { D("{" #__VA_ARGS__, __VA_ARGS__); cerr << "}"; }
+#define DBP(...) void print(...) { \
+	DD("{"#__VA_ARGS__,__VA_ARGS__); cerr<<"}"; }
 
 
 int main() {
