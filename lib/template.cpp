@@ -15,28 +15,17 @@ using Pii = pair<int, int>;
 #define all(x)       (x).begin(), (x).end()
 #define sz(x)        int((x).size())
 
+#define tem template<class t, class u, class...w>
+#define pri(y) tem auto operator<<(t& o, u a)->decltype(y(a),o) { return
 
-template<class t, class u>
-auto operator<<(t& o, u& a)->decltype(a.print(),cerr) {
-	a.print(); return o;
-}
+pri(a.print) a.print(), o; }
+pri(get<1>) o << "(" << a.x << ", " << a.y << ")"; }
 
-template<class t, class u>
-auto operator<<(t& o, u& a)->decltype(get<1>(a),cerr) {
-	return o << "(" << a.x << ", " << a.y << ")";
-}
-
-template<class t, class u>
-auto operator<<(t& o, u& a)->decltype(all(a),cerr) {
-	o << "[";
-	for (auto i : a) o << i << ", ";
-	return o << "]";
-}
+pri(all) o << "[", [&]() { for (auto i : a) o << i << ", "; }(), o << "]"; }
 
 void D(...) {}
 
-template<class t, class u, class...v>
-void D(t s, u a, v... k) {
+tem void D(t s, u a, w... k) {
 	while (*s && *s != ',') cerr << *s++;
 	cerr << ": " << a << *s++; D(s, k...);
 }
@@ -48,7 +37,7 @@ void D(t s, u a, v... k) {
 #define deb(...)
 #endif
 
-#define DBP(...) void print() { D("{" #__VA_ARGS__, __VA_ARGS__); cerr << "}"; }
+#define DBP(...) void print(...) { D("{" #__VA_ARGS__, __VA_ARGS__); cerr << "}"; }
 
 
 int main() {

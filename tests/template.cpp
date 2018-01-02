@@ -34,5 +34,10 @@ int main() {
 	test['c'] = 3;
 
 	deb(test, string("xd"));
+
+	vector<bool> boolVec(5);
+	deb(boolVec);
+
+	cout << string("abcdef") << endl;
 	return 0;
 }
