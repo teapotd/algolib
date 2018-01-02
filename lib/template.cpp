@@ -16,39 +16,39 @@ using Pii = pair<int, int>;
 #define sz(x)        int((x).size())
 
 
-#define tem template<class t, class...g>
-#define D DD()
-#define pri(k) \
-	tem auto p(t a, ll)->decltype(a.k, z()) { D
+template<class t, class u>
+auto operator<<(t& o, u& a)->decltype(a.print(),cerr) {
+	a.print(); return o;
+}
 
-struct DD {
-	using z = void;
-	z x(...) {}
-	tem z x(const char* s, t a, g... k) {
-		while (*s && *s != ',') D, *s++;
-		D, ": ", a, *s++; x(s, k...);
-	}
+template<class t, class u>
+auto operator<<(t& o, u& a)->decltype(get<1>(a),cerr) {
+	return o << "(" << a.x << ", " << a.y << ")";
+}
 
-	tem DD& operator,(t a){p(a,0); return *this;}
-	tem z p(t a, ...) { cerr << a; }
+template<class t, class u>
+auto operator<<(t& o, u& a)->decltype(all(a),cerr) {
+	o << "[";
+	for (auto i : a) o << i << ", ";
+	return o << "]";
+}
 
-	pri(print()); a.print(); }
-	pri(x),"(",a.x,", ",a.y,")"; }
+void D(...) {}
 
-	pri(begin()), "[";
-		for (auto k : a) D, k, ", "; D, "]";
-	}
-};
+template<class t, class u, class...v>
+void D(t s, u a, v... k) {
+	while (*s && *s != ',') cerr << *s++;
+	cerr << ": " << a << *s++; D(s, k...);
+}
+
 
 #ifdef LOC
-#define deb(...) ((D, "<", __LINE__, "> ") \
-	.x(#__VA_ARGS__, __VA_ARGS__), D, "\n")
+#define deb(...) (cerr << "<" << __LINE__, D("> " #__VA_ARGS__, __VA_ARGS__), cerr << "\n")
 #else
 #define deb(...)
 #endif
 
-#define DBP(...) void print() { \
-	D.x("{" #__VA_ARGS__, __VA_ARGS__); D, "}"; }
+#define DBP(...) void print() { D("{" #__VA_ARGS__, __VA_ARGS__); cerr << "}"; }
 
 
 int main() {
