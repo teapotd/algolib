@@ -18,30 +18,29 @@ using Pii = pair<int, int>;
 
 #define tem template<class t,class u,class...w>
 #define pri(y) tem auto operator<<(t& o, u a) \
-	->decltype(y(a),o) { return
+	->decltype(y(a),o) { return o <<
 
-pri(a.print) a.print(), o; }
-pri(get<1>)  o<<"("<<a.x<<", "<<a.y<<")"; }
+pri(a.print) "{", a.print(), o << "}"; }
+pri(get<1>) "(" << a.x << ", " << a.y << ")"; }
 
-pri(all) o << "[", [&](){ for (auto i : a)
+pri(all) "[", [&](){ for (auto i : a)
 	o << i << ", "; }(), o << "]"; }
 
 void DD(...) {}
-
 tem void DD(t s, u a, w... k) {
 	while (*s && *s != ',') cerr << *s++;
 	cerr << ": " << a << *s++; DD(s, k...);
 }
 
 #ifdef LOC
-#define deb(...) (cerr << "<" << __LINE__, \
-	DD("> "#__VA_ARGS__,__VA_ARGS__), cerr<<"\n")
+#define deb(...) (DD("#, "#__VA_ARGS__, \
+	__LINE__, __VA_ARGS__), cerr << '\n')
 #else
 #define deb(...)
 #endif
 
 #define DBP(...) void print(...) { \
-	DD("{"#__VA_ARGS__,__VA_ARGS__); cerr<<"}"; }
+	DD(#__VA_ARGS__,__VA_ARGS__); }
 
 
 int main() {
