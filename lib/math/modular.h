@@ -31,5 +31,5 @@ struct Zp {
 		return t*t * (e & 1 ? x : 1);
 	}
 
-	void print() { cerr << x; }
+	void print(...) { cerr << x; }
 };
