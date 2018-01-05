@@ -34,7 +34,7 @@ tem void DD(t s, u a, w... k) {
 
 #ifdef LOC
 #define deb(...) (DD("#, "#__VA_ARGS__, \
-	__LINE__, __VA_ARGS__), cerr << '\n')
+	__LINE__, __VA_ARGS__), cerr << endl)
 #else
 #define deb(...)
 #endif
