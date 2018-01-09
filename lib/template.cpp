@@ -52,4 +52,6 @@ int main() {
 // while (clock() < time*CLOCKS_PER_SEC)
 // using namespace rel_ops;
 
-// GCC optimize("Ofast,no-stack-protector")
+// #pragma GCC optimize("Ofast,unroll-loops,
+//                       no-stack-protector")
+// #pragma GCC target("avx")
