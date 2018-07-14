@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-// UNTESTED
 
 struct IntervalTree {
 	using T = int;
