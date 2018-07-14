@@ -11,6 +11,7 @@ struct IntervalTree {
 	struct Node {
 		T extra{ID};
 		T sum{0}, great{INT_MIN}, nGreat{0};
+		DBP(extra, sum, great, nGreat);
 
 		void merge(const Node& R) {
 			if (great < R.great)    nGreat =R.nGreat;
@@ -76,7 +77,7 @@ struct IntervalTree {
 	}
 
 	void modify(int vBegin, int vEnd, T x,
-		          int i = 0,
+		          int i = 1,
 		          int begin = 0, int end = -1) {
 		if (end < 0) end = len;
 		if (vEnd <= begin || end <= vBegin) return;
@@ -93,7 +94,7 @@ struct IntervalTree {
 		update(i);
 	}
 
-	Node query(int vBegin, int vEnd, int i = 0,
+	Node query(int vBegin, int vEnd, int i = 1,
 		         int begin = 0, int end = -1) {
 		if (end < 0) end = len;
 		if (vEnd <= begin || end <= vBegin)

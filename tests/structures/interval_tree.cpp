@@ -1,35 +1,60 @@
 #include "../../lib/structures/interval_tree.h"
 #include "../testing.h"
 
-constexpr int LEN = 300;
+constexpr int LEN = 100;
 
-int main() {
-	vector<int> elems(LEN);
-	IntervalTree tree(LEN);
+vector<int> elems(LEN);
+IntervalTree tree(LEN);
 
-	for (int j = 0; j < 1000000; j++) {
-		int k = r(-1000, 1000);
-		int a = r(0, LEN), b = r(0, LEN);
-		if (a > b) swap(a, b);
+void debugPrint() {
+	deb(elems);
+	rep(i, 1, sz(tree.V)) {
+		cerr << i << ": " << tree.V[i] << endl;
+	}
+	cerr << endl;
+}
 
-		for (int i = a; i < b; i++) elems[i] += k;
-		tree.modify(a, b, k);
+bool checkQuery(int begin, int end) {
+	auto node = tree.query(begin, end);
+	int sum = 0, great = INT_MIN, nGreat = 0;
 
-		a = r(0, LEN), b = r(0, LEN);
-		if (a > b) swap(a, b);
-
-		int elem = INT_MIN;
-		for (int i = a; i < b; i++) elem = max(elem, elems[i]);
-
-		int count = 0;
-		for (int i = a; i < b; i++) if (elems[i] == elem) count++;
-		
-		int tmp = 0;
-		// printf("%d %d\n", tree.query(a, b), elem);
-		assert(tree.query(a, b, tmp).nGreat == elem);
-		// printf("%d %d\n", tmp, count);
-		assert(tmp == count);
+	rep(i, begin, end) {
+		sum += elems[i];
+		great = max(great, elems[i]);
 	}
 
+	rep(i, begin, end) nGreat += (elems[i] == great);
+
+	if (node.sum != sum || node.great != great || node.nGreat != nGreat) {
+		deb(node.sum, sum);
+		deb(node.great, great);
+		deb(node.nGreat, nGreat);
+		debugPrint();
+		return false;
+	}
+
+	return true;
+}
+
+int main() {
+	rep(i, 0, 1000) {
+		int begin = r(0, LEN-1);
+		int end = r(0, LEN-1);
+		int val = r(-10, 10);
+
+		if (begin > end) swap(begin, end);
+		if (begin == end) end++;
+
+		rep(j, begin, end) elems[j] += val;               // +
+		// rep(j, begin, end) elems[j] = max(elems[j], val); // max
+		// rep(j, begin, end) elems[j] = val;                // =
+
+		tree.modify(begin, end, val);
+
+		rep(b, 0, LEN) rep(e, 0, LEN+1) {
+			if (!checkQuery(b, e)) return 1;
+		}
+	}
+	
 	return 0;
 }
