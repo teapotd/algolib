@@ -3,7 +3,6 @@
 
 struct IntervalTree {
 	using T = int;
-
 	static constexpr T ID = 0;          // +
 	// static constexpr T ID = INT_MIN; // max/=
 
@@ -48,8 +47,6 @@ struct IntervalTree {
 		// 	nGreat = size;
 		// }
 	};
-
-	// ---
 
 	vector<Node> V;
 	int len;
