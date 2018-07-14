@@ -13,17 +13,6 @@ Vfft naiveConvolve(Vfft& A, Vfft& B) {
 	return ret;
 }
 
-Vfft fftConvolve(Vfft A, Vfft B) {
-	int n = sz(A);
-	assert(n == sz(B));
-
-	fft<1>(A);
-	fft<1>(B);
-	rep(i, 0, n) A[i] = A[i]*B[i];
-	fft<-1>(A);
-	return A;
-}
-
 void randData(Vfft& data) {
 	// each(d, data) d = complex<double>(r(-1000, 1000), r(-1000, 1000));
 	each(d, data) d = r(0, 1000);
@@ -38,7 +27,7 @@ int main() {
 	// randData(d2);
 
 	// initFFT(n);
-	// Vfft x1 = fftConvolve(d1, d2);
+	// Vfft x1 = convolve(d1, d2);
 
 	for (int i = 0; i < 15; i++) {
 		int n = 1 << i;
@@ -48,7 +37,7 @@ int main() {
 		randData(d1);
 		randData(d2);
 
-		Vfft x1 = fftConvolve(d1, d2);
+		Vfft x1 = convolve(d1, d2);
 		Vfft x2 = naiveConvolve(d1, d2);
 
 		ll diff = 0;

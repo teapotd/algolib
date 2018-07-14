@@ -4,8 +4,8 @@
 constexpr ll MOD = 15*(1<<27)+1;
 
 ll modInv(ll a, ll m) {
-	return (a == 1 ? 1 :
-		((a - modInv(m%a, a))*m + 1) / a);
+	if (a == 1) return 1;
+	return ((a - modInv(m%a, a))*m + 1) / a;
 }
 
 ll umod(ll a, ll m) {

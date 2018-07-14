@@ -2,20 +2,20 @@
 #include "../template.h"
 #include "modular.h"
 
-// constexpr ll MOD = 15*(1<<27)+1;
+// MOD = 15*(1<<27)+1
 constexpr ll ROOT = 440564289; // order = 1<<27
 
 // using Vfft = vector<complex<double>>;
 using Vfft = vector<Zp>;
 Vfft bases;
 
-void initFFT(int n) {
+void initFFT(int n) { // n must be power of 2
 	bases.resize(n+1, 1);
 
-	//bases[1]=exp(complex<double>(0, 2*M_PI/n));
-	bases[1] = Zp(ROOT).pow((1<<27) / n);
+//auto b = exp(complex<double>(0, 2*M_PI/n));
+	auto b = Zp(ROOT).pow((1<<27) / n);
 
-	rep(i,2,n+1) bases[i] = bases[i-1]*bases[1];
+	rep(i, 1, n+1) bases[i] = b * bases[i-1];
 }
 
 template<int dir>
@@ -43,4 +43,11 @@ void fft(Vfft& buf) {
 	}
 
 	if (dir < 0) each(x, buf) x = x/n;
+}
+
+Vfft convolve(Vfft a, Vfft b) {
+	fft<1>(a); fft<1>(b);
+	rep(i, 0, sz(a)) a[i] = a[i]*b[i];
+	fft<-1>(a);
+	return a;
 }
