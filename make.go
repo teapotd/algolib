@@ -50,12 +50,13 @@ func main() {
 \renewcommand{\footrulewidth}{0pt}
 \lhead{Jagiellonian University}
 \rhead{\thepage}
+\setcounter{page}{0}
 
 \begin{document}`)
 
-	// line(&out, `\begin{multicols*}{4}`)
+	line(&out, `\begin{multicols*}{4}`)
 	processDir("lib")
-	// line(&out, `\end{multicols*}\pagebreak`)
+	line(&out, `\end{multicols*}\pagebreak`)
 
 	line(&out, `\begin{multicols*}{4}`)
 	out.Write(pages.Bytes())
@@ -110,10 +111,10 @@ func processFile(path string, info os.FileInfo) {
 	caption := path[4:]
 	captions = append(captions, caption)
 
-	// line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
-	// line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
+	line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
+	line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
 
-	line(&pages, fmt.Sprintf(`\noindent{\textbf{\lstinline|%s|}}`, caption))
+	// line(&pages, fmt.Sprintf(`\noindent{\textbf{\lstinline|%s|}}`, caption))
 
 	if strings.HasSuffix(path, ".sh") || strings.HasSuffix(path, ".bashrc") {
 		line(&pages, `\begin{lstlisting}[language=Bash]`)
