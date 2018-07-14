@@ -4,20 +4,20 @@
 constexpr int ALPHA = 26;
 
 struct PalTree {
-	Vi str{-1}, len{0, -1}, link{1, 0};
+	Vi txt{-1}, len{0, -1}, link{1, 0};
 	vector<array<int, ALPHA>> to{ {}, {} };
 	int last{0};
 
 	Vi diff, slink, series, ans; //ext: min split
 
 	int ext(int i) {
-		while(str.rbegin()[len[i]+1] != str.back())
+		while(txt.rbegin()[len[i]+1] != txt.back())
 			i = link[i];
 		return i;
 	}
 
 	void add(int x) {
-		str.pb(x);
+		txt.pb(x);
 		last = ext(last);
 
 		if (!to[last][x]) {
