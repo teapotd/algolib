@@ -5,8 +5,8 @@
 struct IntervalTree {
 	using T = int;
 
-	static constexpr T ID = 0;       // +
-//static constexpr T ID = INT_MIN; // max/=
+	static constexpr T ID = 0;          // +
+	// static constexpr T ID = INT_MIN; // max/=
 
 	struct Node {
 		T extra{ID};
@@ -77,8 +77,8 @@ struct IntervalTree {
 	}
 
 	void modify(int vBegin, int vEnd, T x,
-		          int i = 1,
-		          int begin = 0, int end = -1) {
+	            int i = 1,
+	            int begin = 0, int end = -1) {
 		if (end < 0) end = len;
 		if (vEnd <= begin || end <= vBegin) return;
 
@@ -95,7 +95,7 @@ struct IntervalTree {
 	}
 
 	Node query(int vBegin, int vEnd, int i = 1,
-		         int begin = 0, int end = -1) {
+	           int begin = 0, int end = -1) {
 		if (end < 0) end = len;
 		if (vEnd <= begin || end <= vBegin)
 			return {};
