@@ -14,7 +14,9 @@ ll umod(ll a, ll m) {
 
 struct Zp {
 	ll x;
-	Zp(ll y = 0) : x(umod(y, MOD)) {}
+	Zp(ll y = 0) {
+		x = (y < 0 || y >= MOD ? umod(y, MOD) : y);
+	}
 
 	Zp operator+(Zp r) const { return x+r.x; }
 	Zp operator-(Zp r) const { return x-r.x; }
