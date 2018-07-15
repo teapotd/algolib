@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 #include "modular.h"
+//!!IGNORE
+// Something's wrong
 
 // MOD < MG_MULT, gcd(MG_MULT, MOD) must be 1
 // redc(mg * mg) = Montgomery-form product
