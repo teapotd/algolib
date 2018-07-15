@@ -1,10 +1,10 @@
-#include "../../lib/structures/interval_tree.h"
+#include "../../lib/structures/segment_tree.h"
 #include "../testing.h"
 
 constexpr int LEN = 100;
 
 vector<int> elems(LEN);
-IntervalTree tree(LEN, 0);
+SegmentTree tree(LEN, 0);
 
 void debugPrint() {
 	deb(elems);

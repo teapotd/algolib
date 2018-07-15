@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-struct IntervalTree {
+struct SegmentTree {
 	using T = int;
 	static constexpr T ID = 0;          // +
 	// static constexpr T ID = INT_MIN; // max/=
@@ -51,7 +51,7 @@ struct IntervalTree {
 	vector<Node> V;
 	int len;
 
-	IntervalTree(int n, T def) {
+	SegmentTree(int n, T def) {
 		for (len = 1; len < n; len *= 2);
 		V.resize(len*2);
 		rep(i, len, len*2) V[i].leaf(def);
