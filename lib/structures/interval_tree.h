@@ -51,7 +51,7 @@ struct IntervalTree {
 	vector<Node> V;
 	int len;
 
-	IntervalTree(int n, T def = 0) {
+	IntervalTree(int n, T def) {
 		for (len = 1; len < n; len *= 2);
 		V.resize(len*2);
 		rep(i, len, len*2) V[i].leaf(def);

@@ -4,7 +4,7 @@
 constexpr int LEN = 100;
 
 vector<int> elems(LEN);
-IntervalTree tree(LEN);
+IntervalTree tree(LEN, 0);
 
 void debugPrint() {
 	deb(elems);
