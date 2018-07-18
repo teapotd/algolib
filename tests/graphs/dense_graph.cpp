@@ -17,8 +17,7 @@ uint64_t randMask() {
 }
 
 int main() {
-	mt19937_64 twister;
-	each(x, masks) x = twister();
+	each(x, masks) x = rnd64();
 
 	each(m, G.M) m = randMask();
 

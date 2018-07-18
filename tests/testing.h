@@ -10,15 +10,15 @@
 using Clock = std::chrono::high_resolution_clock;
 using Time = std::chrono::time_point<Clock>;
 
-std::mt19937 rnd(uint32_t(time(0)));
-// std::mt19937 rnd(0);
+std::mt19937 rnd(1337);
+std::mt19937_64 rnd64(1337);
 
 int r(int l, int r) {
 	return (l + (rnd() % (r-l+1)));
 }
 
 int64_t rl(int64_t l, int64_t r) {
-	return (l + (rnd() % (r-l+1)));
+	return (l + (rnd64() % (r-l+1)));
 }
 
 double rf(double l, double r) {
