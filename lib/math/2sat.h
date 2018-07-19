@@ -40,7 +40,7 @@ struct SAT2 {
 		i = max(i*2-1, -i*2-2);
 		j = max(j*2-1, -j*2-2);
 		G[i].pb(j);
-		G[i^1].pb(j^1);
+		G[j^1].pb(i^1);
 	}
 
 	void or_(int i, int j) { imply(-i, j); }
@@ -55,7 +55,7 @@ struct SAT2 {
 			int y = addVar();
 			imply(x, y);
 			imply(i, -x);
-			imply(i, x);
+			imply(i, y);
 			x = y;
 		}
 	}
