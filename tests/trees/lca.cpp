@@ -1,11 +1,10 @@
 #include "../../lib/trees/lca.h"
 #include "../testing.h"
 
-vector<Vert> graph;
 Vi parents, levels;
 
 void dfsParents(int i, int parent, int d) {
-	each(e, graph[i].edges) if (e != parent) dfsParents(e, i, d+1);
+	each(e, V[i].edges) if (e != parent) dfsParents(e, i, d+1);
 	parents[i] = parent;
 	levels[i] = d;
 }
@@ -25,23 +24,23 @@ int naiveLCA(int i, int j) {
 
 int main() {
 	rep(times, 0, 100) {
-		graph.clear();
+		V.clear();
 		parents.clear();
 		levels.clear();
 
 		int n = 300;
-		graph.resize(n);
-		generateTree(graph);
+		V.resize(n);
+		generateTree(V);
 
 		parents.resize(n);
 		levels.resize(n);
 		dfsParents(0, -1, 0);
 
-		initLCA(graph, 0);
+		initLCA(0);
 
 		rep(i, 0, n) rep(j, 0, n) {
-			assert(laq(graph, i, j) == naiveLAQ(i, j));
-			assert(lca(graph, i, j) == naiveLCA(i, j));
+			assert(laq(i, j) == naiveLAQ(i, j));
+			assert(lca(i, j) == naiveLCA(i, j));
 		}
 	}
 	return 0;
