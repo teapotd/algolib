@@ -22,7 +22,7 @@ struct Zp {
 	Zp operator-(Zp r) const { return x-r.x; }
 	Zp operator*(Zp r) const { return x*r.x; }
 	Zp operator/(Zp r) const {
-		return x*r.inv().x;
+		return x * modInv(r.x, MOD);
 	}
 
 	Zp inv() const { return modInv(x, MOD); }
@@ -34,4 +34,10 @@ struct Zp {
 	}
 
 	void print(...) { cerr << x; }
+
+	Zp& operator+=(Zp r){ return *this=*this+r; }
+	Zp& operator-=(Zp r){ return *this=*this-r; }
+	Zp& operator*=(Zp r){ return *this=*this*r; }
+	Zp& operator/=(Zp r){ return *this=*this/r; }
+	Zp  operator-() const { return -x; }
 };
