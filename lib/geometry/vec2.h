@@ -11,10 +11,10 @@ struct vec2 {
 	vec2(T a, T b) : x(a), y(b) {}
 
 	vec2 operator+(vec2 r) const {
-		return {x+r.x, y+r.x};
+		return {x+r.x, y+r.y};
 	}
 	vec2 operator-(vec2 r) const {
-		return {x-r.x, y-r.x};
+		return {x-r.x, y-r.y};
 	}
 	vec2 operator*(T r) const {
 		return {x*r, y*r};
