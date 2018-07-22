@@ -52,10 +52,13 @@ struct vec2 {
 		int t = cmp(angle(), r.angle());
 		return t < 0 || (!t && dist2()<r.dist2());
 		// For integers:
-		// if (y*r.y < 0) return y > r.y;
-		// if (x*r.x < 0) return (x>r.x) ^ (y<0);
+		// if (upper()!=r.upper()) return upper();
 		// auto t = cross(r);
 		// return t>0 || (!t && dist2()<r.dist2());
+	}
+
+	bool upper() const {
+		return y > 0 || (y == 0 && x > 0);
 	}
 
 	void print(...) { cerr << x << ',' << y; }
