@@ -43,6 +43,7 @@ struct Zp {
 	Zp& operator*=(Zp r){ return *this=*this*r; }
 	Zp& operator/=(Zp r){ return *this=*this/r; }
 	Zp operator-() const { return wrap(MOD-x); }
+	void print(...) { cerr << x; }
 };
 
 ll modInv(ll a, ll m) {
