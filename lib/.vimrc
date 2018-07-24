@@ -1,5 +1,5 @@
-se ai aw cin cul is nocp noeb nu ru sc wmnu
-se bg=dark so=7 sw=4 tm=50 ts=4 mp=b\ %
+se aw cin cul ic is nocp noeb nu ru sc scs wmnu
+se ai bg=dark ch=2 so=7 sw=4 tm=50 ts=4 mp=b\ %
 sy on
 im jk <esc>
 im kj <esc>
