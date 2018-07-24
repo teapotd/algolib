@@ -4,5 +4,6 @@ sy on
 im jk <esc>
 im kj <esc>
 im <tab> <c-n>
+no + :s.^.//.e<cr>
+no _ :s.^//..e<cr>
 no <c-s> :mak<cr>
-no _ :s.^.//.\|s.^////..e<cr>
