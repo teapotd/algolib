@@ -1,4 +1,4 @@
-#include "../../lib/math/bellman_inequalities.h"
+#include "../../lib/graphs/bellman_inequalities.h"
 #include "../testing.h"
 
 int main() {
