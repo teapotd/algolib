@@ -13,3 +13,16 @@ void sieve() {
 
 	rep(i,0,MAX_P+1) if (!factor[i]) factor[i]=i;
 }
+
+vector<Pii> factorize(ll n) {
+  vector<Pii> ret;
+  while (n > 1) {
+    int f = factor[n];
+    if (ret.empty() || ret.back().x != f)
+      ret.pb({ f, 1 });
+    else
+      ret.back().y++;
+    n /= f;
+  }
+  return ret;
+}

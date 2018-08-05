@@ -3,6 +3,7 @@
 
 constexpr int MAX_P = 1e6;
 bitset<MAX_P+1> primes;
+Vi primesList;
 
 void sieve() {
   primes.set();
@@ -13,4 +14,7 @@ void sieve() {
     if (primes[i])
       for (int j = i*i; j <= MAX_P; j += i)
         primes.reset(j);
+
+  rep(i, 0, MAX_P+1) if (primes[i])
+    primesList.pb(i);
 }
