@@ -4,7 +4,7 @@
 Vi parents, levels;
 
 void dfsParents(int i, int parent, int d) {
-	each(e, V[i].edges) if (e != parent) dfsParents(e, i, d+1);
+	each(e, G[i].edges) if (e != parent) dfsParents(e, i, d+1);
 	parents[i] = parent;
 	levels[i] = d;
 }
@@ -24,13 +24,13 @@ int naiveLCA(int i, int j) {
 
 int main() {
 	rep(times, 0, 100) {
-		V.clear();
+		G.clear();
 		parents.clear();
 		levels.clear();
 
 		int n = 300;
-		V.resize(n);
-		generateTree(V);
+		G.resize(n);
+		generateTree(G);
 
 		parents.resize(n);
 		levels.resize(n);

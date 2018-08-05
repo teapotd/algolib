@@ -12,36 +12,36 @@ struct Comp {
 	Vi verts;
 };
 
-vector<Vert> V;
+vector<Vert> G;
 vector<Comp> comps;
 stack<int> partial;
 int counter;
 
 void tarjan(int i) {
-	V[i].pre = V[i].low = ++counter;
+	G[i].pre = G[i].low = ++counter;
 	partial.push(i);
 
-	each(e, V[i].edges) {
-		if (V[e].pre < 0) {
+	each(e, G[i].edges) {
+		if (G[e].pre < 0) {
 			tarjan(e);
-			V[i].low = min(V[i].low, V[e].low);
-		} else if (V[e].comp < 0) {
-			V[i].low = min(V[i].low, V[e].pre);
+			G[i].low = min(G[i].low, G[e].low);
+		} else if (G[e].comp < 0) {
+			G[i].low = min(G[i].low, G[e].pre);
 		}
 	}
 
-	if (V[i].pre == V[i].low) {
+	if (G[i].pre == G[i].low) {
 		int j, x = sz(comps);
 		comps.emplace_back();
 		do {
 			j = partial.top();
 			partial.pop();
 			comps[x].verts.pb(j);
-			V[j].comp = j;
+			G[j].comp = j;
 		} while (i != j);
 	}
 }
 
 void scc() {
-	rep(i, 0, sz(V)) if (V[i].pre < 0) tarjan(i);
+	rep(i, 0, sz(G)) if (G[i].pre < 0) tarjan(i);
 }
