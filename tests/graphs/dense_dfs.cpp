@@ -1,13 +1,13 @@
-#include "../../lib/graphs/dense_graph.h"
+#include "../../lib/graphs/dense_dfs.h"
 #include "../testing.h"
 
 int n = 100000/64*64;
 uint64_t masks[128];
-DenseGraph G(n);
+DenseDFS G(n);
 
 void dfs(int i) {
-	G.visit(i);
-	G.dfsStep(i, dfs);
+	G.setVisited(i);
+	G.step(i, dfs);
 }
 
 uint64_t randMask() {
@@ -18,8 +18,7 @@ uint64_t randMask() {
 
 int main() {
 	each(x, masks) x = rnd64();
-
-	each(m, G.M) m = randMask();
+	each(m, G.G.M) m = randMask();
 
 	auto before = now();
 	rep(i, 0, n) if (!G.isVisited(i)) dfs(i);
