@@ -103,11 +103,22 @@ func processFile(path string, info os.FileInfo) {
 		return
 	}
 
-	str = strings.Replace(str, "#pragma once", "", -1)
-	str = strings.Replace(str, `#include "template.h"`, "", -1)
-	str = strings.Replace(str, `#include "../template.h"`, "", -1)
-	str = strings.Replace(str, `#include "../../template.h"`, "", -1)
-	str = strings.Trim(str, " \n")
+	filtered := ""
+
+	for _, cur := range strings.Split(str, "\n") {
+		if cur == "#pragma once" {
+			continue
+		}
+		if strings.HasPrefix(cur, "#include ") && strings.HasSuffix(cur, "template.h\"") {
+			continue
+		}
+		// if strings.Trim(cur, " \t") == "" {
+		// 	continue
+		// }
+		filtered += cur + "\n"
+	}
+
+	filtered = strings.Trim(filtered, " \t\n")
 
 	caption := path[4:]
 	captions = append(captions, caption)
@@ -122,6 +133,5 @@ func processFile(path string, info os.FileInfo) {
 	} else {
 		line(&pages, `\begin{lstlisting}`)
 	}
-	line(&pages, str)
-	line(&pages, `\end{lstlisting}`)
+	line(&pages, filtered+`\end{lstlisting}`)
 }
