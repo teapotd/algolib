@@ -23,12 +23,12 @@ int naiveLCA(int i, int j) {
 }
 
 int main() {
-	rep(times, 0, 100) {
-		G.clear();
-		parents.clear();
-		levels.clear();
+  rep(times, 0, 100) {
+    G.clear();
+    parents.clear();
+    levels.clear();
 
-		int n = 300;
+    int n = r(1, 1000);
 		G.resize(n);
 		generateTree(G);
 
@@ -39,7 +39,9 @@ int main() {
 		initLCA(0);
 
 		rep(i, 0, n) rep(j, 0, n) {
-			assert(laq(i, j) == naiveLAQ(i, j));
+      if (G[i].level >= j) {
+				assert(laq(i, j) == naiveLAQ(i, j));
+			}
 			assert(lca(i, j) == naiveLCA(i, j));
 		}
 	}
