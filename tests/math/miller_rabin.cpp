@@ -5,14 +5,16 @@
 // Assumes that sieve work
 
 int main() {
+  auto before = now();
   sieve();
+  cout << "sieve: " << since(before) << "ms\n";
 
   assert(!isPrime(0));
   assert(!isPrime(1));
 
   rep(p, 2, MAX_P+1) {
-    // deb(p, isPrime(p), factor[p]);
-    assert(isPrime(p) == (factor[p] == p));
+    // deb(p, isPrime(p), primes[p]);
+    assert(isPrime(p) == primes[p]);
   }
 
   return 0;

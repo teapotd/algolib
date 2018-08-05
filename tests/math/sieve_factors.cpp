@@ -1,4 +1,4 @@
-#include "../../lib/math/sieve.h"
+#include "../../lib/math/sieve_factors.h"
 #include "../testing.h"
 
 int main() {
