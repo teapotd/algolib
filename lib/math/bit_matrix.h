@@ -7,7 +7,8 @@ struct BitMatrix {
   vector<ull> M;
   int rows, cols, stride;
 
-  BitMatrix(int n, int m) {
+  BitMatrix(int n=0, int m=0) { init(n, m); }
+  void init(int n, int m) {
     rows = n; cols = m;
     stride = (m+63)/64;
     M.resize(n*stride);

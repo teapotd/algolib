@@ -3,7 +3,8 @@
 
 template<class T> struct Fenwick {
 	vector<T> s;
-	Fenwick(int n) : s(n, 0) {}
+	Fenwick(int n = 0) { init(0); }
+	void init(int n)   { s.assign(n, 0); }
 
 	void modify(int i, T v) {
 		for (; i < sz(s); i |= i+1) s[i] += v;

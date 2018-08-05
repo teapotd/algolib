@@ -51,7 +51,8 @@ struct SegmentTree {
 	vector<Node> V;
 	int len;
 
-	SegmentTree(int n, T def) {
+	SegmentTree(int n=0, T def=ID){init(n,def);}
+	void init(int n, T def) {
 		for (len = 1; len < n; len *= 2);
 		V.resize(len*2);
 		rep(i, len, len*2) V[i].leaf(def);

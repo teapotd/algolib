@@ -7,7 +7,8 @@ struct SAT2 {
 	Vi values, order;
 	vector<bool> flags;
 
-	SAT2(int n) { G.resize(n*2); }
+	SAT2(int n = 0) { init(n); }
+	void init(int n) { G.resize(n*2); }
 
 	bool solve() {
 		values.assign(sz(G)/2+1, -1);

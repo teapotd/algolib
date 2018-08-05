@@ -5,9 +5,12 @@
 struct DenseDFS {
 	BitMatrix G, V;
 
-	DenseDFS(int n) : G(n,n), V(1,n) { reset(); }
-	void reset() { each(x, V.M) x = -1; }
+	DenseDFS(int n = 0) { init(n); }
+	void init(int n) {
+		G.init(n, n); V.init(1, n); reset();
+	}
 
+	void reset() { each(x, V.M) x = -1; }
 	void setVisited(int i) { V.set(0, i, 0); }
 	bool isVisited(int i)  { return V(0, i); }
 

@@ -3,7 +3,8 @@
 
 struct FAU {
 	Vi G;
-	FAU(int n = 0) : G(n, -1) {}
+	FAU(int n = 0) { init(n); }
+	void init(int n) { G.assign(n, -1); }
 	int size(int i) { return -G[find(i)]; }
 
 	int find(int i) {

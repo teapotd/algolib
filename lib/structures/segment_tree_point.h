@@ -9,6 +9,7 @@ struct SegmentTree {
 	vector<T> V;
 	int len;
 
+	SegmentTree(int n=0, T def=ID){init(n,def);}
 	void init(int n, T def) {
 		for (len = 1; len < n; len *= 2);
 		V.assign(len+n, def);
