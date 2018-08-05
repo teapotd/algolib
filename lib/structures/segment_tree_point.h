@@ -3,13 +3,13 @@
 
 struct SegmentTree {
 	using T = int;
-	const T ID = INT_MIN;
-	T merge(T a, T b) { return max(a, b); }
+	static constexpr T ID = INT_MIN;
+	static T merge(T a, T b) { return max(a,b); }
 
 	vector<T> V;
 	int len;
 
-	SegmentTree(int n, T def) {
+	void init(int n, T def) {
 		for (len = 1; len < n; len *= 2);
 		V.assign(len+n, def);
 		V.resize(len*2, ID);
@@ -39,3 +39,5 @@ struct SegmentTree {
 		return x;
 	}
 };
+
+constexpr SegmentTree::T SegmentTree::ID;

@@ -4,7 +4,7 @@
 constexpr int LEN = 100;
 
 vector<int> elems(LEN);
-SegmentTree tree(LEN, 0);
+SegmentTree tree;
 
 void debugPrint() {
 	deb(elems);
@@ -25,6 +25,8 @@ bool checkQuery(int begin, int end) {
 }
 
 int main() {
+	tree.init(LEN, 0);
+
 	rep(i, 0, 10000) {
 		int pos = r(0, LEN-1);
 		int val = r(-10, 10);
