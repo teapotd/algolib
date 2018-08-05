@@ -1,5 +1,5 @@
 #pragma once
-#include "../template.h"
+#include "../../template.h"
 
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/trie_policy.hpp>

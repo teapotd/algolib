@@ -106,6 +106,7 @@ func processFile(path string, info os.FileInfo) {
 	str = strings.Replace(str, "#pragma once", "", -1)
 	str = strings.Replace(str, `#include "template.h"`, "", -1)
 	str = strings.Replace(str, `#include "../template.h"`, "", -1)
+	str = strings.Replace(str, `#include "../../template.h"`, "", -1)
 	str = strings.Trim(str, " \n")
 
 	caption := path[4:]
