@@ -6,6 +6,8 @@ struct Ineq {
 	DBP(a, b, c);
 };
 
+// Solve system of inequalities of form a-b>=c
+// using Bellman-Ford; time: O(n*m)
 bool solveIneq(vector<Ineq>& edges,
 	             vector<ll>& vars) {
 	rep(i, 0, sz(vars)) each(e, edges)
