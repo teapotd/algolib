@@ -2,8 +2,10 @@
 #include "../template.h"
 #include "../math/bit_matrix.h"
 
+// DFS over adjacency matrix; time: O(n^2/64)
+// G = graph, V = not visited vertices masks
 struct DenseDFS {
-	BitMatrix G, V;
+	BitMatrix G, V; // space: O(n^2/64)
 
 	DenseDFS(int n = 0) { init(n); }
 	void init(int n) {
@@ -14,7 +16,10 @@ struct DenseDFS {
 	void setVisited(int i) { V.set(0, i, 0); }
 	bool isVisited(int i)  { return V(0, i); }
 
-	template<class T>
+	// DFS step: func is called on each unvisited
+	// neighbour of i. You need to manually call
+	// setVisited(child) to mark it visited.
+	template<class T> // Single step: O(n/64)
 	void step(int i, T func) {
 		ull* E = G.row(i);
 		for (int w = 0; w < G.stride;) {
