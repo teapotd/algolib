@@ -1,6 +1,6 @@
 #pragma once
 #include "../template.h"
-#include "modular.h"
+#include "modular.h" // Only for Z_p version
 
 // In-place Fast Fourier Transform
 // over Z_p or complex; time: O(n lg n)

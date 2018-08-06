@@ -2,6 +2,9 @@
 #include "../template.h"
 #include "modular64.h"
 
+// Miller-Rabin primality test;
+// time O(k*lg^2 n), where k = number of bases
+
 // Deterministic for p <= 10^9
 // constexpr ll BASES[] = {
 //   336781006125, 9639812373923155
