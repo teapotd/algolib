@@ -1,43 +1,48 @@
 #pragma once
 #include "../template.h"
 
-// Variables are indexed from 1
+// 2-SAT solver; time: O(n+m), space: O(n+m)
+// Variables are indexed from 1!
+// Pass negative indices to represent negations
+// (internally: positive = i*2-1, neg. = i*2-2)
 struct SAT2 {
 	vector<Vi> G;
-	Vi values, order;
+	Vi order, values; // Also indexed from 1!
 	vector<bool> flags;
 
-	SAT2(int n = 0) { init(n); }
+	// Init n variables, you can add more later
+	SAT2(int n = 0)  { init(n); }
 	void init(int n) { G.resize(n*2); }
 
-	bool solve() {
+	// Solve and save assignments in `values`
+	bool solve() { // O(n+m), Kosaraju is used
 		values.assign(sz(G)/2+1, -1);
 		flags.assign(sz(G), 0);
-		rep(i, 0, sz(G)) dfs1(i);
+		rep(i, 0, sz(G)) dfs(i);
 		while (!order.empty()) {
-			if (!dfs2(order.back()^1, 1)) return 0;
+			if (!propag(order.back()^1, 1)) return 0;
 			order.pop_back();
 		}
 		return 1;
 	}
 
-	void dfs1(int i) {
+	void dfs(int i) {
 		if (flags[i]) return;
 		flags[i] = 1;
-		each(e, G[i]) dfs1(e);
+		each(e, G[i]) dfs(e);
 		order.pb(i);
 	}
 
-	bool dfs2(int i, bool first) {
+	bool propag(int i, bool first) {
 		if (!flags[i]) return 1;
 		flags[i] = 0;
 		if (values[i/2+1] >= 0) return first;
 		values[i/2+1] = i&1;
-		each(e, G[i]) if (!dfs2(e, 0)) return 0;
+		each(e, G[i]) if (!propag(e, 0)) return 0;
 		return 1;
 	}
 
-	void imply(int i, int j) {
+	void imply(int i, int j) { // i => j
 		i = max(i*2-1, -i*2-2);
 		j = max(j*2-1, -j*2-2);
 		G[i].pb(j);
@@ -46,7 +51,7 @@ struct SAT2 {
 
 	void or_(int i, int j) { imply(-i, j); }
 
-	int addVar() {
+	int addVar() { //Add new var and return index
 		G.resize(sz(G)+2); return sz(G)/2;
 	}
 
