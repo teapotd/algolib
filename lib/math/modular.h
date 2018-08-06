@@ -6,38 +6,27 @@ constexpr ll MOD = 15*(1<<27)+1;
 // Wrapper for modular arithmetic
 struct Zp {
 	ll x;
-	Zp(ll a = 0) { x=a%MOD; if (x<0) x+=MOD; }
-	static Zp wrap(ll a){Zp t; t.x=a; return t;}
-
-	Zp operator+(Zp r) const {
-		ll a = x+r.x;
-		return wrap(a >= MOD ? a-MOD : a);
+	Zp(ll a = 0) {
+		if (a < 0) a = a%MOD + MOD;
+		else if (a >= MOD*2) a %= MOD;
+		else if (a >= MOD) a -= MOD;
+		x = a;
 	}
 
-	Zp operator-(Zp r) const {
-		ll a = x-r.x;
-		return wrap(a < 0 ? a+MOD : a);
-	}
-
-	Zp operator*(Zp r) const {
-		return wrap(x*r.x % MOD);
-	}
-
-	Zp operator/(Zp r) const {
-		return wrap(x*r.inv().x % MOD);
-	}
-
-	Zp operator-() const { return wrap(MOD-x); }
+	Zp operator+(Zp r) const{ return x+r.x; }
+	Zp operator-(Zp r) const{ return x-r.x+MOD; }
+	Zp operator*(Zp r) const{ return x*r.x; }
+	Zp operator/(Zp r) const{return x*r.inv().x;}
+	Zp operator-()     const{ return MOD-x; }
 
 	// Use modInv below for composite modulus
 	Zp inv() const { return pow(MOD-2); }
 
 	Zp pow(ll e) const {
-		Zp t = wrap(1), m = *this;
+		Zp t = 1, m = *this;
 		while (e) {
 			if (e & 1) t *= m;
-			e >>= 1;
-			m *= m;
+			e >>= 1; m *= m;
 		}
 		return t;
 	}

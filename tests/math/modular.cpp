@@ -12,7 +12,7 @@ ll naivePow(ll a, ll p) {
 int main() {
 	assert(Zp(-3243245).x >= 0);
 
-	for (Zp a = 1; a.x <= 1000000; a.x++) {
+	for (Zp a = 1; a.x <= 3000000; a.x++) {
 		Zp inv = a.inv();
 		assert(inv.x == (Zp(1)/a).x);
 		assert((a*inv).x == 1);
