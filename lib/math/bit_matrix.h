@@ -3,6 +3,8 @@
 
 using ull = uint64_t;
 
+// Matrix over Z_2 (bits and xor)
+// UNTESTED and UNFINISHED
 struct BitMatrix {
   vector<ull> M;
   int rows, cols, stride;
