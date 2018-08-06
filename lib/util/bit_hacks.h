@@ -12,6 +12,7 @@ using ull = uint64_t;
 			M[j+s] = (M[j+s] & down) | a;  \
 		}
 
+// Transpose 64x64 bit matrix
 void transpose64(array<ull, 64>& M) {
 	T64(1,0x5555555555555555,0xAAAAAAAAAAAAAAAA);
 	T64(2,0x3333333333333333,0xCCCCCCCCCCCCCCCC);

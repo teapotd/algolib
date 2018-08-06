@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Pairing heap implementation
+// Pairing heap implementation; space O(n)
 // Elements are stored in vector for faster
 // allocation. It's MINIMUM queue.
 // Allows to merge heaps in O(1)

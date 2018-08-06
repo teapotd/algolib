@@ -2,6 +2,9 @@
 #include "../template.h"
 #include "../structures/segment_tree_point.h"
 
+// Heavy-Light Decomposition of tree
+// with example simple segment tree; space O(n)
+
 struct Vert {
   Vi edges;
   int parent, size, depth, chain, chainPos;
@@ -15,6 +18,7 @@ struct Chain {
 vector<Vert> G;
 vector<Chain> chains;
 
+// Decompose tree rooted at i into chains; O(n)
 void hld(int i, int parent = -1, int d = 0) {
   int h = -1;
   G[i].parent = parent;
@@ -46,6 +50,7 @@ void hld(int i, int parent = -1, int d = 0) {
   }
 }
 
+// Level Ancestor Query; time: O(lg n)
 int laq(int i, int level) {
   while (true) {
     int k = G[i].chainPos - (G[i].depth-level);
@@ -55,6 +60,7 @@ int laq(int i, int level) {
   }
 }
 
+// Lowest Common Ancestor; time: O(lg n)
 int lca(int a, int b) {
   while (G[a].chain != G[b].chain) {
     auto& ha = G[chains[G[a].chain].verts[0]];
@@ -67,6 +73,7 @@ int lca(int a, int b) {
   return G[a].depth < G[b].depth ? a : b;
 }
 
+// Query path between a and b; O(lg^2 n)
 SegmentTree::T queryPath(int a, int b) {
   auto ret = SegmentTree::ID;
 
