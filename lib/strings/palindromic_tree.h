@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 
+//!!IGNORE TODO: fix extension and make docs
+
 constexpr int ALPHA = 26;
 
 struct PalTree {
