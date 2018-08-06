@@ -1,8 +1,8 @@
-// 2D point / vector structure; UNTESTED
 #pragma once
 #include "../template.h"
 #include "../util/float.h" // Float comparison
 
+// 2D point / vector structure; UNTESTED
 struct vec2 {
 	using T = double;
 	T x{0}, y{0};
