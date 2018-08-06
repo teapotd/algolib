@@ -4,6 +4,7 @@
 constexpr int MAX_PHI = 10e6;
 Vi phi(MAX_PHI+1);
 
+// Precompute Euler's totients; time O(n lg n)
 void calcPhi() {
   rep(i, 0, MAX_PHI+1) phi[i] = i;
 

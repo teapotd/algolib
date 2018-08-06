@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 
+// Modular arithmetic for modulus < 2^62
+
 ll modAdd(ll x, ll y, ll m) {
   x += y;
   return (x < m ? x : x-m);

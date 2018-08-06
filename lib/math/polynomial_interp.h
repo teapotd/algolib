@@ -1,7 +1,9 @@
 #pragma once
 #include "../template.h"
 
-// Returns W(x), where W is interpolated vec
+// Interpolates set of points (i, vec[i])
+// and returns it evaluated at x; time: O(n^2)
+// TODO: Improve to linear time
 template<typename T>
 T polyExtend(vector<T>& vec, T x) {
 	T ret = 0;

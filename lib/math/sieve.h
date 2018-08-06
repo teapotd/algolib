@@ -5,6 +5,7 @@ constexpr int MAX_P = 1e6;
 bitset<MAX_P+1> primes;
 Vi primesList;
 
+// Erathostenes sieve; time: O(n lg lg n)
 void sieve() {
   primes.set();
   primes.reset(0);

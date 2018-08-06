@@ -4,11 +4,13 @@
 #include "miller_rabin.h"
 #include "modular64.h"
 
-// First, initialize sieve by calling sieve()!
-// Set MAX_P >= (max input number)^(1/3)
-
 using Factor = pair<ll, int>;
 
+// Pollard's rho factorization algorithm
+// Las Vegas version; time: n^(1/3)
+// Before using, initialize sieve.
+// Set MAX_P >= (max input number)^(1/3)
+// Returns pairs (prime, power), sorted
 vector<Factor> factorize(ll n) {
   vector<Factor> ret;
   each(p, primesList) if (n%p == 0) {
@@ -25,6 +27,7 @@ vector<Factor> factorize(ll n) {
     return ret;
   }
 
+  // Now n = p*q for some prime p and q
   for (ll a = 1;; a++) {
     ll x = 2, y = 2, d = 1;
 
