@@ -1,10 +1,11 @@
 #pragma once
 #include "../template.h"
 
+// Tarjan's algorithm for SCC; time: O(n+m)
 // UNTESTED
 
 struct Vert {
-	Vi edges;
+	Vi edges; // comp is SCC index
 	int pre{-1}, low{-1}, comp{-1};
 };
 
@@ -13,7 +14,7 @@ struct Comp {
 };
 
 vector<Vert> G;
-vector<Comp> comps;
+vector<Comp> scc; // Components
 stack<int> partial;
 int counter;
 
@@ -31,17 +32,17 @@ void tarjan(int i) {
 	}
 
 	if (G[i].pre == G[i].low) {
-		int j, x = sz(comps);
-		comps.emplace_back();
+		int j, x = sz(scc);
+		scc.emplace_back();
 		do {
 			j = partial.top();
 			partial.pop();
-			comps[x].verts.pb(j);
+			scc[x].verts.pb(j);
 			G[j].comp = j;
 		} while (i != j);
 	}
 }
 
-void scc() {
+void findSCC() { // Call me
 	rep(i, 0, sz(G)) if (G[i].pre < 0) tarjan(i);
 }
