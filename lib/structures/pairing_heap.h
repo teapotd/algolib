@@ -1,6 +1,10 @@
 #pragma once
 #include "../template.h"
 
+// Pairing heap implementation
+// Elements are stored in vector for faster
+// allocation. It's MINIMUM queue.
+// Allows to merge heaps in O(1)
 template<class T, class Cmp = less<T>>
 struct PHeap {
 	struct Node {
@@ -45,8 +49,11 @@ struct PHeap {
 
 	// ---
 
+	// Initialize heap with given node storage
+	// Just declare 1 Vnode and pass it to heaps
 	PHeap(Vnode& mem) : M(mem) {}
 
+	// Add given key to heap, returns index; O(1)
 	int push(const T& x) {
 		int index = sz(M);
 		M.emplace_back(x);
@@ -54,6 +61,7 @@ struct PHeap {
 		return index;
 	}
 
+	// Change key of i to smaller value; O(1)
 	void decrease(int i, T val) {
 		assert(!Cmp()(M[i].val, val));
 		M[i].val = val;
@@ -70,9 +78,14 @@ struct PHeap {
 
 	bool empty() { return root < 0; }
 	const T& top() { return M[root].val; }
-	void merge(PHeap& r) {
+
+	// Merge with other heap. Must use same vec.
+	void merge(PHeap& r) { // time: O(1)
+		assert(&M == &r.M);
 		root = merge(root, r.root); r.root = -1;
 	}
+
+	// Remove min element; time: O(lg n)
 	void pop() {
 		root = mergePairs(unlink(M[root].child));
 	}

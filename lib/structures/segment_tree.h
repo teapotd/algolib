@@ -1,16 +1,22 @@
 #pragma once
 #include "../template.h"
 
+// Customizable segment tree with lazy
+// propagation. Configure by modifying:
+// - T - data type for updates (stored type)
+// - ID - neutral element for extra
+// - Node - details in comments
 struct SegmentTree {
 	using T = int;
 	static constexpr T ID = 0;          // +
 	// static constexpr T ID = INT_MIN; // max/=
 
 	struct Node {
-		T extra{ID};
+		T extra{ID}; // Value to lazy propagate
 		T sum{0}, great{INT_MIN}, nGreat{0};
 		DBP(extra, sum, great, nGreat);
 
+		// Merge with node R on the right
 		void merge(const Node& R) {
 			if (great < R.great)    nGreat =R.nGreat;
 			else if(great==R.great) nGreat+=R.nGreat;
@@ -19,12 +25,13 @@ struct SegmentTree {
 			great = max(great, R.great);
 		}
 
+		// Initialize as leaf node with value x
 		void leaf(T x) {
 			sum = great = x;
 			nGreat = 1;
 		}
 
-		// +
+		// + (apply update to node)
 		void apply(T x, int size) {
 			extra += x;
 			sum += x*size;
@@ -51,11 +58,12 @@ struct SegmentTree {
 	vector<Node> V;
 	int len;
 
-	SegmentTree(int n=0, T def=ID){init(n,def);}
+	SegmentTree(int n=0, T def=ID) {init(n,def);}
+
 	void init(int n, T def) {
 		for (len = 1; len < n; len *= 2);
-		V.resize(len*2);
-		rep(i, len, len*2) V[i].leaf(def);
+		V.assign(len*2, {});
+		rep(i, len, len+n) V[i].leaf(def);
 		for (int i = len-1; i > 0; i--) update(i);
 	}
 
@@ -73,6 +81,7 @@ struct SegmentTree {
 		}
 	}
 
+	// Modify [vBegin;end) with x; time: O(lg n)
 	void modify(int vBegin, int vEnd, T x,
 	            int i = 1,
 	            int begin = 0, int end = -1) {
@@ -91,6 +100,8 @@ struct SegmentTree {
 		update(i);
 	}
 
+	// Query [vBegin;vEnd); time: O(lg n)
+	// Returns base nodes merged together
 	Node query(int vBegin, int vEnd, int i = 1,
 	           int begin = 0, int end = -1) {
 		if (end < 0) end = len;

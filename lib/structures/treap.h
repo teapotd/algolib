@@ -1,7 +1,9 @@
 #pragma once
 #include "../template.h"
-// UNTESTED
 
+// Treap BST; UNTESTED
+// Treap structure serves as node,
+// allocate them dynamically and use split/join
 struct Treap {
 	using T = int;
 	Treap *left{0}, *right{0};

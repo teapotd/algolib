@@ -1,6 +1,11 @@
 #pragma once
 #include "../template.h"
 
+// Simple segment tree (point-interval)
+// Configure by modifying:
+// - T - stored data type
+// - ID - neutral element for QUERY operation
+// - merge(a, b) - merge operation
 struct SegmentTree {
 	using T = int;
 	static constexpr T ID = INT_MIN;
@@ -10,6 +15,7 @@ struct SegmentTree {
 	int len;
 
 	SegmentTree(int n=0, T def=ID){init(n,def);}
+
 	void init(int n, T def) {
 		for (len = 1; len < n; len *= 2);
 		V.assign(len+n, def);
