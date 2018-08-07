@@ -70,7 +70,43 @@ void check() {
 	}
 }
 
+void benchmark() {
+	constexpr int nVerts = 1000000;
+	constexpr int TIMES = 2;
+
+	vector<Pii> edges;
+	tree.init(nVerts);
+
+	rep(times, 0, TIMES) {
+		edges.clear();
+		rep(i, 1, nVerts) {
+			edges.pb({ r(0, i-1), i });
+		}
+
+		random_shuffle(all(edges));
+
+		each(e, edges) {
+			tree.link(e.x, e.y);
+			tree.find(r(0, nVerts-1));
+		}
+
+		random_shuffle(all(edges));
+
+		each(e, edges) {
+			tree.cut(e.x, e.y);
+			tree.find(r(0, nVerts-1));
+		}
+	}
+
+	int nLink = nVerts*TIMES;
+	int nCut = nVerts*TIMES*2;
+	int nFind = nVerts*TIMES;
+	deb(nLink, nCut, nFind);
+}
+
 int main() {
+	benchmark();
+
 	G.resize(N);
 	tree.init(N);
 	check();
