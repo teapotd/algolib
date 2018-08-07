@@ -2,7 +2,7 @@
 #include "../template.h"
 
 // Link/cut tree; space: O(n)
-// Represents forest of (un)rooted trees
+// Represents forest of (un)rooted trees.
 struct LinkCutTree {
 	struct Node {
 		int E[2] = {-1, -1}, par{-1}, prev{-1};
@@ -12,6 +12,7 @@ struct LinkCutTree {
 	vector<Node> G;
 
 	// Initialize structure for n vertices; O(n)
+	// Each vertex is separated.
 	LinkCutTree(int n = 0) { init(n); }
 	void init(int n) { G.assign(n, {}); }
 
