@@ -19,14 +19,14 @@ void sieve() {
 // Factorize n <= MAX_P; time: O(lg n)
 // Returns pairs (prime, power), sorted
 vector<Pii> factorize(ll n) {
-  vector<Pii> ret;
-  while (n > 1) {
-    int f = factor[n];
-    if (ret.empty() || ret.back().x != f)
-      ret.pb({ f, 1 });
-    else
-      ret.back().y++;
-    n /= f;
-  }
-  return ret;
+	vector<Pii> ret;
+	while (n > 1) {
+		int f = factor[n];
+		if (ret.empty() || ret.back().x != f)
+			ret.pb({ f, 1 });
+		else
+			ret.back().y++;
+		n /= f;
+	}
+	return ret;
 }

@@ -6,10 +6,10 @@ Vi phi(MAX_PHI+1);
 
 // Precompute Euler's totients; time O(n lg n)
 void calcPhi() {
-  rep(i, 0, MAX_PHI+1) phi[i] = i;
+	rep(i, 0, MAX_PHI+1) phi[i] = i;
 
-  for (int i = 2; i <= MAX_PHI; i++)
-    if (phi[i] == i)
-      for (int j = i; j <= MAX_PHI; j += i)
-        phi[j] = phi[j] / i * (i-1);
+	for (int i = 2; i <= MAX_PHI; i++)
+		if (phi[i] == i)
+			for (int j = i; j <= MAX_PHI; j += i)
+				phi[j] = phi[j] / i * (i-1);
 }

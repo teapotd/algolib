@@ -5,7 +5,7 @@ b()(
 )
 
 d()( b $@ -fsanitize=address,undefined \
-	        -D_GLIBCXX_DEBUG )
+          -D_GLIBCXX_DEBUG )
 
 # cmp()(
 # 	set -e; $1 $2; $1 $3; $1 $4
