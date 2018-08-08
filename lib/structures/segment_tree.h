@@ -82,22 +82,22 @@ struct SegmentTree {
 
 	// [DYNAMIC] version
 	// int getChild(int i, int j) {
-	// 	int& e = V[i].E[j];
-	// 	if (e < 0) {
-	// 		e = sz(V);
+	// 	if (V[i].E[j] < 0) {
+	// 		V[i].E[j] = sz(V);
 	// 		V.emplace_back();
 	// 		V.back().init(defVal, V[i].len/2);
 	// 	}
-	// 	return e;
+	// 	return V[i].E[j];
 	// }
 
 	int L(int i) { return getChild(i, 0); }
 	int R(int i) { return getChild(i, 1); }
 
 	void update(int i) {
+		int a = L(i), b = R(i);
 		V[i] = {};
-		V[i].merge(V[L(i)]);
-		V[i].merge(V[R(i)]);
+		V[i].merge(V[a]);
+		V[i].merge(V[b]);
 	}
 
 	void push(int i, int size) {

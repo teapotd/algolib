@@ -26,6 +26,7 @@ bool checkQuery(int begin, int end) {
 	rep(i, begin, end) nGreat += (elems[i] == great);
 
 	if (node.sum != sum || node.great != great || node.nGreat != nGreat) {
+		deb(begin, end);
 		deb(node.sum, sum);
 		deb(node.great, great);
 		deb(node.nGreat, nGreat);
