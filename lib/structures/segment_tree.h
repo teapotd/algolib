@@ -16,12 +16,9 @@ struct SegmentTree {
 		// Aggregates: sum, max, count of max
 		T sum{0}, great{INT_MIN}, nGreat{0};
 
-		// int len, E[2] = {-1, -1}; // [DYNAMIC]
-
 		// Initialize node with default value x
 		void init(T x, int size) {
-			sum = x*size; great = x; nGreat = 1;
-			// len = size; // [DYNAMIC]
+			sum = x*size; great = x; nGreat = size;
 		}
 
 		// Merge with node R on the right
@@ -59,7 +56,8 @@ struct SegmentTree {
 
 	vector<Node> V;
 	int len;
-	// T defVal; // [DYNAMIC]
+	// vector<array<int, 3>> links; // [DYNAMIC]
+	// T defVal;                    // [DYNAMIC]
 
 	SegmentTree(int n=0, T def=ID) {init(n,def);}
 
@@ -73,6 +71,7 @@ struct SegmentTree {
 
 		// [DYNAMIC] version
 		// defVal = def;
+		// links.assign(2, {-1, -1, len});
 		// V.assign(2, {});
 		// V[1].init(def, len);
 	}
@@ -82,12 +81,14 @@ struct SegmentTree {
 
 	// [DYNAMIC] version
 	// int getChild(int i, int j) {
-	// 	if (V[i].E[j] < 0) {
-	// 		V[i].E[j] = sz(V);
+	// 	if (links[i][j] < 0) {
+	// 		int size = links[i][2] / 2;
+	// 		links[i][j] = sz(V);
+	// 		links.push_back({ -1, -1, size });
 	// 		V.emplace_back();
-	// 		V.back().init(defVal, V[i].len/2);
+	// 		V.back().init(defVal, size);
 	// 	}
-	// 	return V[i].E[j];
+	// 	return links[i][j];
 	// }
 
 	int L(int i) { return getChild(i, 0); }
