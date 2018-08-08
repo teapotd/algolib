@@ -8,10 +8,10 @@ SegmentTree tree(LEN, 0);
 
 void debugPrint() {
 	deb(elems);
-	rep(i, 1, sz(tree.V)) {
-		cerr << i << ": " << tree.V[i] << endl;
-	}
-	cerr << endl;
+	// rep(i, 1, sz(tree.V)) {
+	// 	cerr << i << ": " << tree.V[i] << endl;
+	// }
+	// cerr << endl;
 }
 
 bool checkQuery(int begin, int end) {
