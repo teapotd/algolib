@@ -1,34 +1,34 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll  = long long;
+using ll  = int64_t;
 using Vi  = vector<int>;
-using Pii = pair<int, int>;
+using Pii = pair<int,int>;
 
 #define pb push_back
 #define mp make_pair
 #define x  first
 #define y  second
 
-#define rep(i, b, e) for(int i=(b); i<(e); i++)
-#define each(a, x)   for (auto& a : (x))
-#define all(x)       (x).begin(), (x).end()
-#define sz(x)        int((x).size())
+#define rep(i,b,e) for(int i=(b); i<(e); i++)
+#define each(a,x)  for(auto& a : (x))
+#define all(x)     (x).begin(),(x).end()
+#define sz(x)      int((x).size())
 
 
 #define tem template<class t,class u,class...w>
-#define pri(y) tem auto operator<<(t& o, u a) \
-	->decltype(y,o) { return o <<
+#define pri(x,y)tem auto operator<<(t& o,u a) \
+	->decltype(x,o) { o << y; return o; }
 
-pri(a.print()) "", a.print(), o; }
-pri(a.y) "(" << a.x << ", " << a.y << ")"; }
+pri(a.print(), "{"; a.print(); o << "}")
+pri(a.y, "(" << a.x << ", " << a.y << ")")
 
-pri(all(a)) "[", [&](){ for (auto i : a)
-	o << i << ", "; }(), o << "]"; }
+pri(all(a), "["; for (auto i : a)
+	o << i << ", "; o << "]")
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
-	while (*s && *s != ',') cerr << *s++;
+	while (*s && *s != 44) cerr << *s++;
 	cerr << ": " << a << *s++; DD(s, k...);
 }
 
@@ -40,7 +40,7 @@ tem void DD(t s, u a, w... k) {
 #endif
 
 #define DBP(...) void print() { \
-	DD("{"#__VA_ARGS__"}", __VA_ARGS__); }
+	DD(#__VA_ARGS__, __VA_ARGS__); }
 
 
 int main() {
