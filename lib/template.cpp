@@ -28,8 +28,16 @@ pri(all(a), "["; for (auto i : a)
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
-	while (*s && *s != 44) cerr << *s++;
+	int b = 44;
+	while (*s && *s != b) {
+		b += (*s == 40 ? 50 : *s == 41 ? -50 : 0);
+		cerr << *s++;
+	}
 	cerr << ": " << a << *s++; DD(s, k...);
+}
+
+tem vector<t> span(const t* a, u n) {
+	return {a, a+n};
 }
 
 #ifdef LOC

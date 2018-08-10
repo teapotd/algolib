@@ -10,6 +10,8 @@ struct Vert {
 
 vector<Vert> graph;
 
+int arr[10];
+
 int main() {
 	graph.resize(10);
 
@@ -39,5 +41,12 @@ int main() {
 	deb(boolVec);
 
 	cout << string("abcdef") << endl;
+
+	int i = 5;
+	each(x, arr) x = i++;
+	const int* constArr = arr;
+	deb(span(constArr, 5));
+
+	deb(mp(mp(0, 1), 2), 3, 4);
 	return 0;
 }
