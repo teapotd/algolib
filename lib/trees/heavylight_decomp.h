@@ -43,9 +43,10 @@ void hld(int i, int parent = -1, int d = 0) {
 	if (parent < 0) {
 		each(p, chains) {
 			reverse(all(p.verts));
-			p.tree.init(sz(p.verts), 0);
 			rep(j, 0, sz(p.verts))
 				G[p.verts[j]].chainPos = j;
+
+			p.tree.init(sz(p.verts), 0);
 		}
 	}
 }
