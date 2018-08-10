@@ -30,27 +30,32 @@ struct SegmentTree {
 			great = max(great, R.great);
 		}
 
-		// + (apply update to node)
-		void apply(T x, int size) {
+		// + version
+		// Apply modification to node, return
+		// value to be applied to node on right
+		T apply(T x, int size) {
 			extra += x;
 			sum += x*size;
 			great += x;
+			return x;
 		}
 
 		// MAX
-		// void apply(T x, int size) {
+		// T apply(T x, int size) {
 		// 	if (great <= x) nGreat = size;
 		// 	extra = max(extra, x);
 		// 	great = max(great, x);
 		// 	// sum doesn't work here
+		//  return x;
 		// }
 
 		// =
-		// void apply(T x, int size) {
+		// T apply(T x, int size) {
 		// 	extra = x;
 		// 	sum = x*size;
 		// 	great = x;
 		// 	nGreat = size;
+		//  return x;
 		// }
 	};
 
@@ -102,30 +107,32 @@ struct SegmentTree {
 	}
 
 	void push(int i, int size) {
-		if (V[i].extra != ID) {
-			V[L(i)].apply(V[i].extra, size/2);
-			V[R(i)].apply(V[i].extra, size/2);
+		int e = V[i].extra;
+		if (e != ID) {
+			e = V[L(i)].apply(e, size/2);
+			V[R(i)].apply(e, size/2);
 			V[i].extra = ID;
 		}
 	}
 
 	// Modify [vBegin;end) with x; time: O(lg n)
-	void modify(int vBegin, int vEnd, T x,
-	            int i = 1,
-	            int begin = 0, int end = -1) {
+	T modify(int vBegin, int vEnd, T x,
+	         int i = 1,
+	         int begin = 0, int end = -1) {
 		if (end < 0) end = len;
-		if (vEnd <= begin || end <= vBegin) return;
+		if (vEnd <= begin || end <= vBegin)
+			return x;
 
 		if (vBegin <= begin && end <= vEnd) {
-			V[i].apply(x, end-begin);
-			return;
+			return V[i].apply(x, end-begin);
 		}
 
 		int mid = (begin + end) / 2;
 		push(i, end-begin);
-		modify(vBegin, vEnd, x, L(i), begin, mid);
-		modify(vBegin, vEnd, x, R(i), mid, end);
+		x = modify(vBegin,vEnd,x,L(i),begin,mid);
+		x = modify(vBegin,vEnd,x,R(i),mid,end);
 		update(i);
+		return x;
 	}
 
 	// Query [vBegin;vEnd); time: O(lg n)
