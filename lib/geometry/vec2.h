@@ -60,6 +60,6 @@ struct vec2 {
 	}
 
 	// bool upper() const { // For ints
-	// 	return y > 0 || (y == 0 && x > 0);
+	// 	return y > 0 || (y == 0 && x >= 0);
 	// }
 };
