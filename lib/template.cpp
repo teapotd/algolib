@@ -18,12 +18,12 @@ using Pii = pair<int, int>;
 
 #define tem template<class t,class u,class...w>
 #define pri(y) tem auto operator<<(t& o, u a) \
-	->decltype(y(a),o) { return o <<
+	->decltype(y,o) { return o <<
 
-pri(a.print) "{", a.print(), o << "}"; }
-pri(get<1>) "(" << a.x << ", " << a.y << ")"; }
+pri(a.print()) "", a.print(), o; }
+pri(a.y) "(" << a.x << ", " << a.y << ")"; }
 
-pri(all) "[", [&](){ for (auto i : a)
+pri(all(a)) "[", [&](){ for (auto i : a)
 	o << i << ", "; }(), o << "]"; }
 
 void DD(...) {}
@@ -39,8 +39,8 @@ tem void DD(t s, u a, w... k) {
 #define deb(...)
 #endif
 
-#define DBP(...) void print(...) { \
-	DD(#__VA_ARGS__,__VA_ARGS__); }
+#define DBP(...) void print() { \
+	DD("{"#__VA_ARGS__"}", __VA_ARGS__); }
 
 
 int main() {
