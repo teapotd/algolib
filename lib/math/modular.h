@@ -34,6 +34,7 @@ struct Zp {
 	#define OP(c) Zp& operator c##=(Zp r){ \
 		return *this=*this c r; }
 	OP(+)OP(-)OP(*)OP(/)
+	void print() { cerr << x; }
 };
 
 ll modInv(ll a, ll m) {

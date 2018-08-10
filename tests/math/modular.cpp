@@ -27,6 +27,6 @@ int main() {
 	}
 
 	Zp test = -5;
-	deb(test.x);
+	deb(test);
 	return 0;
 }
