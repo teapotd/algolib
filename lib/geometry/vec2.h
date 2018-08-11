@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-#include "../util/float.h" // Float comparison
 
 // 2D point / vector structure; UNTESTED
 
@@ -46,6 +45,7 @@ struct vec2i : bvec2<ll, vec2i> {
 };
 
 // Version for double coordinates
+#include "../util/float.h" // Float comparison
 struct vec2d : bvec2<double, vec2d> {
 	vec2d() : bvec2{0, 0} {}
 	vec2d(double a, double b) : bvec2{a, b} {}
