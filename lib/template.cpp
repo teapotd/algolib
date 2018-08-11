@@ -21,7 +21,7 @@ using Pii = pair<int,int>;
 	->decltype(x,o) { o << y; return o; }
 
 pri(a.print(), "{"; a.print(); o << "}")
-pri(a.y, "(" << a.x << ", " << a.y << ")")
+pri(a.x,a.y, "(" << a.x << ", " << a.y << ")")
 
 pri(all(a), "["; for (auto i : a)
 	o << i << ", "; o << "]")
