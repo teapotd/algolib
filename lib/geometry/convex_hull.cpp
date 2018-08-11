@@ -4,7 +4,6 @@
 
 // Find convex hull of points; time: O(n)
 // Points are returned counter-clockwise.
-// UNTESTED
 vector<vec2> convexHull(vector<vec2> points) {
 	auto pivot = mp(points[0].y, points[0].x);
 	each(p,points) pivot=min(pivot, mp(p.y,p.x));
