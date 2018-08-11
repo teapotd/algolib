@@ -1,4 +1,4 @@
-#include "../../lib/strings/palindromic_tree.h"
+#include "../../lib/text/palindromic_tree.h"
 #include "../testing.h"
 
 int main() {
