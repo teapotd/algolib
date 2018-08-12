@@ -37,5 +37,9 @@ int main() {
 	edge(13, 16);
 
 	dfs(centroidDecomp(0));
+
+	rep(i, 0, sz(G)) {
+		deb(i, G[i].cLinks, G[i].cSubtree, G[i].cDists);
+	}
 	return 0;
 }
