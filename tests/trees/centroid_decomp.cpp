@@ -1,33 +1,24 @@
 #include "../../lib/trees/centroid_decomp.h"
 #include "../testing.h"
 
-vector<Vert> graph;
-
 void edge(int i, int j) {
-	graph[i-1].edges.push_back(&graph[j-1]);
-	graph[j-1].edges.push_back(&graph[i-1]);
+	G[i-1].E.pb(j-1);
+	G[j-1].E.pb(i-1);
 }
 
-void dfs(Vert* vert, Vert* parent = nullptr, int indent = 0) {
+void dfs(int v, int indent = 0) {
 	for (int i = 0; i < indent; i++) {
 		printf(" ");
 	}
-	printf("%d (%d/%d): ", int(vert - graph.data()) + 1, vert->cDepth, vert->cSize);
 
-	for (int x : vert->dists) {
-		printf("%d ", x);
-	}
+	printf("%d (%d/%d): ", v+1, G[v].cDepth, G[v].cSize);
 	printf("\n");
 
-	for (Vert* edge : vert->cEdges) {
-		if (edge != parent) {
-			dfs(edge, vert, indent+4);
-		}
-	}
+	each(e, G[v].cE) dfs(e, indent+4);
 }
 
 int main() {
-	graph.resize(16);
+	G.resize(16);
 
 	edge(1, 4);
 	edge(2, 4);
@@ -45,6 +36,6 @@ int main() {
 	edge(13, 15);
 	edge(13, 16);
 
-	dfs(centroidDecomp(&graph[0], 0));
+	dfs(centroidDecomp(0));
 	return 0;
 }

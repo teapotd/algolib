@@ -1,59 +1,49 @@
 #pragma once
 #include "../template.h"
-// !!IGNORE
-
-// Centroid decomposition of tree [TODO: refactor]
-// Time complexity: O(n lg n)
 
 struct Vert {
-	vector<Vert*> edges, cEdges;
-	vector<int> dists;
-	Vert* cParent{nullptr};
-	int cDepth{-1}, cSize{0}, cState{0};
+	Vi E, cE;
+	int cParent{-2}, cDepth{-1}, cSize{-1};
 };
 
-void dfsSize(Vert* v, int depth) {
-	v->cDepth = depth;
-	v->cSize = 1;
-	v->cState = 0;
+vector<Vert> G;
 
-	each(e, v->edges) if (e->cState <= 1 && e->cDepth < depth) {
-		dfsSize(e, depth);
-		v->cSize += e->cSize;
-	}
+bool can(int e, int p) {
+	return e != p && G[e].cParent == -2;
 }
 
-void dfsDist(Vert* v, int dist) {
-	v->dists.push_back(dist);
-	v->cState = 1;
-	each(e, v->edges) if (!e->cState) dfsDist(e, dist+1);
+int computeSize(int i, int p) {
+	int& s = G[i].cSize = 1;
+	each(e, G[i].E) if (can(e, p))
+		s += computeSize(e, i);
+	return s;
 }
 
-Vert* centroidDecomp(Vert* v, int depth, Vert* root = 0) {
-	dfsSize(v, depth);
-
-	int size = v->cSize;
-	Vert *parent = 0, *heavy = 0;
-
-	while (true) {
-		int hSize = 0;
-
-		each(e, v->edges) if (e != parent && e->cDepth == depth && hSize < e->cSize) {
-			hSize = e->cSize;
-			heavy = e;
+int getCentroid(int i) {
+	int p = -1, size = computeSize(i, -1);
+	bool ok = true;
+	while (ok) {
+		ok = false;
+		each(e, G[i].E) if (can(e, p)) {
+			if (G[e].cSize > size/2) {
+				p = i; i = e; ok = true;
+				break;
+			}
 		}
-
-		if (hSize <= size/2) break;
-		parent = v; v = heavy;
 	}
-
-	v->cParent = root;
-	dfsDist(v, 0);
-	v->cSize = size;
-	v->cState = 2;
-
-	each(e, v->edges) if (e->cDepth == depth) {
-		v->cEdges.push_back(centroidDecomp(e, depth+1, v));
-	}
-	return v;
+	G[i].cSize = size;
+	return i;
 }
+
+int centroidDecomp(int i, int depth = 0) {
+	i = getCentroid(i);
+	G[i].cParent = -1;
+	G[i].cDepth = depth;
+
+	each(e, G[i].E) if (can(e, -1)) {
+		G[i].cE.pb(centroidDecomp(e, depth+1));
+		G[G[i].cE.back()].cParent = i;
+	}
+	return i;
+}
+
