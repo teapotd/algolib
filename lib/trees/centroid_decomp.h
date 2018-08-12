@@ -46,4 +46,3 @@ int centroidDecomp(int i, int depth = 0) {
 	}
 	return i;
 }
-
