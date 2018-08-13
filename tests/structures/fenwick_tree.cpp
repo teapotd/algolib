@@ -4,7 +4,7 @@
 int main() {
 	int N = r(10, 100);
 
-	Fenwick<int> tree(N);
+	Fenwick tree(N);
 	vector<int> naive(N);
 
 	rep(i, 0, N) {
