@@ -11,15 +11,14 @@ ll naiveQuery(ll x) {
 }
 
 void check() {
-	rep(i, -100, 100) {
+	rep(i, -1000, 1000) {
 		ll fast = hull.query(i), naive = naiveQuery(i);
-//		deb(i, fast, naive);
 		assert(fast == naive);
 	}
 }
 
 int main() {
-	rep(i, 0, 100000) {
+	rep(i, 0, 1000) {
 		int a = r(-20, 20);
 		int b = r(-20, 20);
 		
