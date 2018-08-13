@@ -8,7 +8,7 @@ int main() {
 	vector<int> naive(N);
 
 	rep(i, 0, N) {
-		naive[i] = r(-1e4, 1e4);
+		naive[i] = r(0, 1);
 		tree.modify(i, naive[i]);
 	}
 
@@ -19,7 +19,7 @@ int main() {
 	}
 	assert(tree.query(N) == sum);
 
-	rep(i, 0, 100000000) {
+	rep(t, 0, 100000000) {
 		int pos = r(0, N);
 
 		if (r(0, 1)) {
@@ -28,7 +28,7 @@ int main() {
 			}
 
 			int old = naive[pos];
-			naive[pos] = r(-1e4, 1e4);
+			naive[pos] = r(0, 1);
 			tree.modify(pos, naive[pos]-old);
 		} else {
 			sum = tree.query(pos);
@@ -36,6 +36,18 @@ int main() {
 				sum -= naive[j];
 			}
 			assert(sum == 0);
+		}
+
+		int last = 0;
+		sum = 0;
+		assert(tree.lowerBound(0) == 0);
+
+		rep(i, 0, N) {
+			sum += naive[i];
+			if (last != sum) {
+				last = sum;
+				assert(tree.lowerBound(sum) == i+1);
+			}
 		}
 	}
 	return 0;

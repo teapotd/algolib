@@ -5,8 +5,8 @@
 // Default version: prefix sums
 struct Fenwick {
 	using T = int;
-	static constexpr T ID = 0;
-	T f(T a, T b) { return a+b; }
+	const T ID = 0;
+	T f(T a, T b)  { return a+b; }
 
 	vector<T> s;
 	Fenwick(int n = 0) { init(n); }
@@ -22,5 +22,21 @@ struct Fenwick {
 		T v = ID;
 		for (; i > 0; i &= i-1) v = f(v, s[i-1]);
 		return v;
+	}
+
+	// Find smallest i such that
+	// f(A[0],...,A[i-1]) >= val; time: O(lg n)
+	// Prefixes must have non-descreasing values.
+	int lowerBound(T val) {
+		if (val <= ID) return 0;
+		int i = -1, mask = 1;
+		while (mask < sz(s)) mask *= 2;
+		T off = ID;
+
+		while (mask /= 2) {
+			int k = mask+i; T x = f(off, s[k]);
+			if (k < sz(s) && val > x) i=k, off=x;
+		}
+		return i+2;
 	}
 };
