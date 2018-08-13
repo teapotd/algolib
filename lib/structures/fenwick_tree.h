@@ -10,7 +10,7 @@ struct Fenwick {
 
 	vector<T> s;
 	Fenwick(int n = 0) { init(n); }
-	void init(int n)   { s.assign(n, 0); }
+	void init(int n)   { s.assign(n, ID); }
 
 	// A[i] = f(A[i], v); time: O(lg n)
 	void modify(int i, T v) {
@@ -19,7 +19,7 @@ struct Fenwick {
 
 	// Get f(A[0], .., A[i-1]); time: O(lg n)
 	T query(int i) {
-		T v = 0;
+		T v = ID;
 		for (; i > 0; i &= i-1) v = f(v, s[i-1]);
 		return v;
 	}
