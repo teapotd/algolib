@@ -17,10 +17,11 @@ struct FAU {
 	}
 
 	// Union sets containing i and j
-	void join(int i, int j) {
+	bool join(int i, int j) {
 		i = find(i); j = find(j);
-		if (i == j) return;
+		if (i == j) return false;
 		if (G[i] > G[j]) swap(i, j);
 		G[i] += G[j]; G[j] = i;
+		return true;
 	}
 };
