@@ -1,7 +1,11 @@
 #include "../template.h"
 #include "../structures/find_union.h"
 
-// RMST, UNTESTED
+// Rectilinear Minimum Spanning Tree
+// (MST in Manhattan metric); time: O(n lg n)
+// Set `point` for each vertex and run rmst().
+// Algorithm will compute RMST edges and save
+// them in E for each vertex.
 
 struct Edge {
 	int dst, len;
