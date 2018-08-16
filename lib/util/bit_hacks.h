@@ -1,6 +1,17 @@
 #pragma once
 #include "../template.h"
 
+// __builtin_popcount - count number of 1 bits
+// __builtin_clz - count most significant 0s
+// __builtin_ctz - count least significant 0s
+// __builtin_ffs - like ctz, but indexed from 1
+// For ll version add ll to name
+
+// Return smallest k such that 2^k > n
+// Undefined for n = 0!
+int uplg(int n) { return 32-__builtin_clz(n); }
+int uplg(ll n){ return 64-__builtin_clzll(n); }
+
 using ull = uint64_t;
 
 #define T64(s,up,down)               \
