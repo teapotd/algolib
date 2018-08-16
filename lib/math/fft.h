@@ -45,7 +45,10 @@ void fft(Vfft& buf) {
 		}
 	}
 
-	if (dir < 0) each(x, buf) x = x/n;
+	if (dir < 0) {
+		Zp y = Zp(1) / n; // Or change to complex
+		each(x, buf) x = x*y;
+	}
 }
 
 // Compute convolution of a and b; O(n lg n)
