@@ -48,7 +48,7 @@ func main() {
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\footrulewidth}{0pt}
-\lhead{Jagiellonian University}
+\lhead{algolib}
 \rhead{\thepage}
 \setcounter{page}{0}
 
