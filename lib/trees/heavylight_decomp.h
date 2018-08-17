@@ -3,7 +3,7 @@
 #include "../structures/segment_tree_point.h"
 
 // Heavy-Light Decomposition of tree
-// with example simple segment tree; space O(n)
+// with example segment tree; space O(n)
 
 struct Vert {
 	Vi edges;
@@ -74,30 +74,33 @@ int lca(int a, int b) {
 	return G[a].depth < G[b].depth ? a : b;
 }
 
-// Query path between a and b; O(lg^2 n)
-SegmentTree::T queryPath(int a, int b) {
-	auto ret = SegmentTree::ID;
-
+// Call func(chain, begin, end) on each path
+// segment; time: O(lg n * time of func)
+template<class T>
+void iterPath(int a, int b, T func) {
 	while (G[a].chain != G[b].chain) {
-		auto& ca = chains[G[a].chain];
-		auto& cb = chains[G[b].chain];
-		auto& ha = G[ca.verts[0]];
-		auto& hb = G[cb.verts[0]];
-		SegmentTree::T q;
+		auto& ha = G[chains[G[a].chain].verts[0]];
+		auto& hb = G[chains[G[b].chain].verts[0]];
 
 		if (ha.depth > hb.depth) {
-			q = ca.tree.query(0, G[a].chainPos+1);
+			func(ha.chain, 0, G[a].chainPos+1);
 			a = ha.parent;
 		} else {
-			q = cb.tree.query(0, G[b].chainPos+1);
+			func(hb.chain, 0, G[b].chainPos+1);
 			b = hb.parent;
 		}
-
-		ret = SegmentTree::merge(ret, q);
 	}
 
-	if (G[a].depth > G[b].depth) swap(a, b);
 	int x = G[a].chainPos+1, y = G[b].chainPos+1;
-	return SegmentTree::merge(ret,
-		chains[G[a].chain].tree.query(x, y));
+	func(G[a].chain, min(x, y), max(x, y));
+}
+
+// Query path between a and b; O(lg^2 n)
+SegmentTree::T queryPath(int i, int j) {
+	auto ret = SegmentTree::ID;
+	iterPath(i, j, [&](int chain, int b, int e) {
+			ret = SegmentTree::merge(ret,
+					chains[chain].tree.query(b, e));
+	});
+	return ret;
 }
