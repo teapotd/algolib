@@ -151,4 +151,29 @@ struct SegmentTree {
 		x.merge(query(vBegin,vEnd,R(i),mid,end));
 		return x;
 	}
+
+	// TODO: generalize?
+	// Find longest suffix of given interval
+	// such that max value is smaller than val.
+	// Returns suffix begin index; time: O(lg n)
+	T search(int vBegin, int vEnd, int val,
+	         int i=1, int begin=0, int end=-1) {
+		if (end < 0) end = len;
+		if (vEnd <= begin || end <= vBegin)
+			return begin;
+
+		if (vBegin <= begin && end <= vEnd) {
+			if (V[i].great < val) return begin;
+			if (begin+1 == end) return end;
+		}
+
+		int mid = (begin+end) / 2;
+		push(i, end-begin);
+
+		int ind = search(vBegin, vEnd, val,
+		                 R(i), mid, end);
+		if (ind > mid) return ind;
+		return search(vBegin, vEnd, val,
+		              L(i), begin, mid);
+	}
 };
