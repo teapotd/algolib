@@ -3,7 +3,7 @@
 
 // Modified MO's queries sorting algorithm,
 // slightly better results than standard.
-// ALlows to process q queries in O(n*sqrt(q))
+// Allows to process q queries in O(n*sqrt(q))
 
 struct Query {
 	int begin, end;
