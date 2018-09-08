@@ -15,6 +15,13 @@ using Pii = pair<int,int>;
 #define all(x)     (x).begin(),(x).end()
 #define sz(x)      int((x).size())
 
+int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
+	cout << fixed << setprecision(10);
+	return 0;
+}
+
+// > Debug printer
 
 #define tem template<class t,class u,class...w>
 #define pri(x,y)tem auto operator<<(t& o,u a) \
@@ -50,16 +57,11 @@ tem vector<t> span(const t* a, u n) {
 #define DBP(...) void print() { \
 	DD(#__VA_ARGS__, __VA_ARGS__); }
 
-
-int main() {
-	cin.sync_with_stdio(0); cin.tie(0);
-	cout << fixed << setprecision(10);
-	return 0;
-}
-
-// while (clock() < time*CLOCKS_PER_SEC)
-// using namespace rel_ops;
+// > Utils
 
 // #pragma GCC optimize("Ofast,unroll-loops,
 //                       no-stack-protector")
 // #pragma GCC target("avx")
+
+// while (clock() < time*CLOCKS_PER_SEC)
+// using namespace rel_ops;
