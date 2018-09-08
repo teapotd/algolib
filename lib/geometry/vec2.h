@@ -45,7 +45,7 @@ struct vec2i : bvec2<ll, vec2i> {
 };
 
 // Version for double coordinates
-#include "../util/float.h" // Float comparison
+// Requires cmp() from template
 struct vec2d : bvec2<double, vec2d> {
 	vec2d() : bvec2{0, 0} {}
 	vec2d(double a, double b) : bvec2{a, b} {}
