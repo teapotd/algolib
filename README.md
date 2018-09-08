@@ -15,4 +15,4 @@ Due to 4-column PDF layout, limit of characters per line is 47 with tabs set to 
 
 ## Legal
 
-Code is released under the MIT license unless stated otherwise in comment in file. Some implementations are inspired by external sources or adapted, I'll try to keep references in files.
+Code is released under the MIT license unless stated otherwise by comment in file. Some implementations are inspired by external sources or adapted.
