@@ -52,10 +52,11 @@ struct line2d : bline2<double, vec2d, line2d> {
 		return cmp(norm.dot(a), off);
 	}
 
-	vec2d intersect(line2d a) {
+	bool intersect(line2d a, vec2d& out) {
 		double d = norm.cross(a.norm);
-		assert(cmp(d, 0) != 0); // Not parallel
-		return (norm*a.off-a.norm*off).perp() / d;
+		if (cmp(d, 0) == 0) return false;
+		out = (norm*a.off-a.norm*off).perp() / d;
+		return true;
 	}
 };
 
