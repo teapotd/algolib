@@ -36,9 +36,6 @@ struct KMR {
 		}
 	}
 
-	// Get suffix index in sorted order; O(1)
-	int suffix(int i) { return ids.back()[i]; }
-
 	// Get representative of [begin;end); O(1)
 	Pii get(int begin, int end) {
 		if (begin >= end) return {0, 0};
