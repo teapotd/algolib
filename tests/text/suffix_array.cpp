@@ -7,10 +7,24 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi sufs = sufArray(str);
+	Vi sufs = sufArray(KMR(str));
 
 	rep(i, 1, sz(sufs)) {
 		assert(strcmp(&str[sufs[i-1]], &str[sufs[i]]) < 0);
+	}
+
+	Vi lcp = lcpArray(str, sufs);
+
+	rep(i, 0, sz(lcp)) {
+		int a = sufs[i], b = sufs[i+1], c = lcp[i];
+
+		rep(j, 0, c) {
+			assert(str[a+j] == str[b+j]);
+		}
+
+		if (a+c < n && b+c < n) {
+			assert(str[a+c] != str[b+c]);
+		}
 	}
 }
 
