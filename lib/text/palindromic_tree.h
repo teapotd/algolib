@@ -1,10 +1,11 @@
 #pragma once
 #include "../template.h"
 
-//!!IGNORE TODO: fix extension and make docs
-
 constexpr int ALPHA = 26;
 
+// Tree of all palindromes in given string.
+// Allows to append letters online.
+// space: O(n*|A|)
 struct PalTree {
 	Vi txt{-1}, len{0, -1}, link{1, 0};
 	vector<array<int, ALPHA>> to{ {}, {} };
@@ -18,6 +19,7 @@ struct PalTree {
 		return i;
 	}
 
+	// Append letter; time: O(1)
 	void add(int x) {
 		txt.pb(x);
 		last = ext(last);
@@ -28,14 +30,14 @@ struct PalTree {
 			to[last][x] = sz(to);
 			to.emplace_back();
 
-			// Extension: min split
+			// Extension: min split - DOESN'T WORK
 			diff.pb(len.back() - len[link.back()]);
 			slink.pb(diff.back() == diff[link.back()]
 				? slink[link.back()] : link.back());
 		}
 		last = to[last][x];
 
-		// Extension: min split
+		// Extension: min split - DOESN'T WORK
 		ans.pb(INT_MAX);
 		series.pb(0);
 
