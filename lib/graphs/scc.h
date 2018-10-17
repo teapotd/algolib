@@ -1,8 +1,9 @@
 #pragma once
 #include "../template.h"
 
+// !!IGNORE
 // Tarjan's algorithm for SCC; time: O(n+m)
-// UNTESTED
+// NOT WORKING
 
 struct Vert {
 	Vi edges; // comp is SCC index

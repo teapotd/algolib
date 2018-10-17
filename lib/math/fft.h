@@ -7,7 +7,7 @@
 // DFT is in bit-reversed order!
 // Default uncommented version is Z_p
 
-// MOD = 15*(1<<27)+1          // Set this MOD!
+// MOD = 15*(1<<27)+1 (~2e9)   // Set this MOD!
 constexpr ll ROOT = 440564289; // order = 1<<27
 
 // using Vfft = vector<complex<double>>;

@@ -2,7 +2,7 @@
 #include "../template.h"
 #include "vec2.h"
 
-// 2D segment structure; UNTESTED
+// 2D segment structure; NOT HEAVILY TESTED
 
 // Base class of versions for ints and doubles
 template<class P, class S> struct bseg2 {

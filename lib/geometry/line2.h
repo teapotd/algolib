@@ -2,7 +2,7 @@
 #include "../template.h"
 #include "vec2.h"
 
-// 2D line structure; UNTESTED
+// 2D line structure; PARTIALLY TESTED
 
 // Base class of versions for ints and doubles
 template<class T, class P, class S>

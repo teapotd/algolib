@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// 2D point / vector structure; UNTESTED
+// 2D point/vector structure; PARTIALLY TESTED
 
 // Base class of versions for ints and doubles
 template<class T, class S> struct bvec2 {

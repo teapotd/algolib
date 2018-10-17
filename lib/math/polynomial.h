@@ -8,6 +8,8 @@ struct Poly {
 	using T = Zp; // Set appropriate type
 	vector<T> C;
 
+	Poly(int n = 0) { C.resize(n); }
+
 	// Cut off trailing zeroes
 	void reduce() {
 		// Change here `.x` if not using Zp
@@ -55,7 +57,7 @@ struct Poly {
 			Vfft a(n), b(n);
 
 			rep(i, 0, sz(C)) a[i] = C[i];
-			rep(i, 0, sz(r.C)) b[i] = C[i];
+			rep(i, 0, sz(r.C)) b[i] = r.C[i];
 
 			initFFT(n);
 			fft<1>(a); fft<1>(b);

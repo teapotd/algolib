@@ -5,7 +5,7 @@ constexpr int INF = 1e9+10;
 
 // Edmonds-Karp algorithm for finding
 // maximum flow in graph; time: O(V*E^2)
-// TEST IT MORE
+// NOT HEAVILY TESTED
 struct MaxFlow {
 	using T = int;
 

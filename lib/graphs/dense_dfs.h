@@ -4,6 +4,7 @@
 
 // DFS over adjacency matrix; time: O(n^2/64)
 // G = graph, V = not visited vertices masks
+// UNTESTED
 struct DenseDFS {
 	BitMatrix G, V; // space: O(n^2/64)
 
