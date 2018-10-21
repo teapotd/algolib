@@ -1,6 +1,7 @@
 #pragma once
 #include "../template.h"
 
+//!!IGNORE
 // Allocator, which doesn't free memory.
 
 char mem[512<<20]; // Set memory limit

@@ -2,7 +2,7 @@
 #include "../template.h"
 #include "vec2.h"
 
-// Find convex hull of points; time: O(n)
+// Find convex hull of points; time: O(n lg n)
 // Points are returned counter-clockwise.
 vector<vec2> convexHull(vector<vec2> points) {
 	auto pivot = mp(points[0].y, points[0].x);

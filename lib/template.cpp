@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-using ll  = int64_t;
+using ll  = long long;
 using Vi  = vector<int>;
 using Pii = pair<int,int>;
 
