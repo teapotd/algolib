@@ -25,8 +25,8 @@ struct Zp {
 	Zp pow(ll e) const {
 		Zp t = 1, m = *this;
 		while (e) {
-			if (e & 1) t *= m;
-			e >>= 1; m *= m;
+			if (e & 1) t = t*m;
+			e >>= 1; m = m*m;
 		}
 		return t;
 	}
