@@ -23,8 +23,8 @@ Vi encodeInversions(Vi perm) {
 
 // Count inversions in sequence of numbers
 // in [0;n); time: O(n lg n)
-int countInversions(Vi perm) {
-	int ret = 0, cont = 1;
+ll countInversions(Vi perm) {
+	ll ret = 0, cont = 1;
 	Vi odd;
 
 	while (cont) {
