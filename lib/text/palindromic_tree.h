@@ -1,25 +1,40 @@
 #pragma once
 #include "../template.h"
 
-constexpr int ALPHA = 26;
+constexpr int ALPHA = 26; // Set alphabet size
 
-// Tree of all palindromes in given string.
-// Allows to append letters online.
-// space: O(n*|A|)
+// Tree of all palindromes in string,
+// constructed online by appending letters.
+// space: O(n*ALPHA); time: O(n)
+// Code marked with [EXT] is extension for
+// calculating minimal palindrome partition
+// in O(n lg n). Can also be modified for
+// similar dynamic programmings.
 struct PalTree {
-	Vi txt{-1}, len{0, -1}, link{1, 0};
-	vector<array<int, ALPHA>> to{ {}, {} };
-	int last{0};
+	Vi txt; // Text for which tree is built
 
-	Vi diff, slink, series, ans; //ext: min split
+	// Node 0 = empty palindrome (root of even)
+	// Node 1 = "-1" palindrome (root of odd)
+	Vi len{0, -1}; // Lengths of palindromes
+	Vi link{1, 0}; // Suffix palindrome links
+	// Edges to next palindromes
+	vector<array<int, ALPHA>> to{ {}, {} };
+	int last{0}; // Current node (max suffix pal)
+
+	Vi diff{0, 0};   // len[i]-len[link[i]] [EXT]
+	Vi slink{0, 0};  // Serial links        [EXT]
+	Vi series{0, 0}; // Series DP answer    [EXT]
+	Vi ans{0};       // DP answer for prefix[EXT]
 
 	int ext(int i) {
-		while(txt.rbegin()[len[i]+1] != txt.back())
+		while (len[i]+2 > sz(txt) ||
+		       txt[sz(txt)-len[i]-2] != txt.back())
 			i = link[i];
 		return i;
 	}
 
-	// Append letter; time: O(1)
+	// Append letter from [0;ALPHA); time: O(1)
+	// (or O(lg n) if [EXT] is enabled)
 	void add(int x) {
 		txt.pb(x);
 		last = ext(last);
@@ -30,23 +45,25 @@ struct PalTree {
 			to[last][x] = sz(to);
 			to.emplace_back();
 
-			// Extension: min split - DOESN'T WORK
+			// [EXT]
 			diff.pb(len.back() - len[link.back()]);
 			slink.pb(diff.back() == diff[link.back()]
 				? slink[link.back()] : link.back());
+			series.pb(0);
+			// [/EXT]
 		}
 		last = to[last][x];
 
-		// Extension: min split - DOESN'T WORK
+		// [EXT]
 		ans.pb(INT_MAX);
-		series.pb(0);
-
-		for (int i=last; len[i]>0; i=slink[i]) {
-			series[i] = ans[i-len[slink[i]]+diff[i]];
+		for (int i=last; len[i] > 0; i=slink[i]) {
+			series[i] = ans[sz(ans) - len[slink[i]]
+			               - diff[i] - 1];
 			if (diff[i] == diff[link[i]])
-				series[i] =
-					min(series[i], series[link[i]]);
+				series[i] = min(series[i],
+				                series[link[i]]);
 			ans.back() = min(ans.back(),series[i]+1);
 		}
+		// [/EXT]
 	}
 };
