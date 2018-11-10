@@ -22,7 +22,7 @@ Vi match(const T& str, T pat) {
 	pat.insert(pat.end(), all(str));
 	Vi ret, ps = kmp(pat);
 	rep(i, 0, sz(ps)) {
-		if (ps[i] == n) ret.pb(i-2*sz(pat)-2);
+		if (ps[i] == n) ret.pb(i-2*n-1);
 	}
 	return ret;
 }
