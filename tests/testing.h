@@ -48,7 +48,7 @@ void generateTree(std::vector<T>& verts) {
 
 	for (int i = 1; i < int(verts.size()); i++) {
 		int e = r(0, i-1);
-		verts[shuf[i]].edges.push_back(int(shuf[e]));
-		verts[shuf[e]].edges.push_back(int(shuf[i]));
+		verts[shuf[i]].E.push_back(int(shuf[e]));
+		verts[shuf[e]].E.push_back(int(shuf[i]));
 	}
 }
