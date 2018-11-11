@@ -17,6 +17,8 @@ template<class T, class S> struct bvec2 {
 	double len() const { return sqrt(len2()); }
 	S perp()     const { return {-y,x}; } //90deg
 
+	pair<T, T> yxPair() const { return mp(y,x); }
+
 	double angle() const { //[0;2*PI] CCW from OX
 		double a = atan2(y, x);
 		return (a < 0 ? a+2*M_PI : a);
