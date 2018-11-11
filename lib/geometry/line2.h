@@ -26,7 +26,7 @@ struct bline2 { // norm*point == off
 	}
 
 	// Distance from point to line
-	double distFrom(P a) {
+	double distTo(P a) {
 		return fabs(norm.dot(a)-off) / norm.len();
 	}
 };

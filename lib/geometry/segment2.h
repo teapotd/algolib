@@ -7,6 +7,14 @@
 // Base class of versions for ints and doubles
 template<class P, class S> struct bseg2 {
 	P a, b; // Endpoints
+
+	// Distance from segment to point
+	double distTo(P p) const {
+		if ((p-a).dot(b-a) < 0) return (p-a).len();
+		if ((p-b).dot(a-b) < 0) return (p-b).len();
+		return double(abs((p-a).cross(b-a)))
+		              / (b-a).len();
+	}
 };
 
 // Version for integer coordinates (long long)
@@ -31,3 +39,5 @@ struct seg2d : bseg2<vec2d, seg2d> {
 		       cmp((a-p).cross(b-p), 0) == 0;
 	}
 };
+
+using seg2 = seg2d;
