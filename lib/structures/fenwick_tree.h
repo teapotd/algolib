@@ -30,12 +30,15 @@ struct Fenwick {
 	int lowerBound(T val) {
 		if (val <= ID) return 0;
 		int i = -1, mask = 1;
-		while (mask < sz(s)) mask *= 2;
+		while (mask <= sz(s)) mask *= 2;
 		T off = ID;
 
 		while (mask /= 2) {
-			int k = mask+i; T x = f(off, s[k]);
-			if (k < sz(s) && val > x) i=k, off=x;
+			int k = mask+i;
+			if (k < sz(s)) {
+				T x = f(off, s[k]);
+				if (val > x) i=k, off=x;
+			}
 		}
 		return i+2;
 	}
