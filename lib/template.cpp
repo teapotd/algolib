@@ -17,7 +17,7 @@ using Pii = pair<int,int>;
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
-	cout << fixed << setprecision(10);
+	cout << fixed << setprecision(20);
 	return 0;
 }
 

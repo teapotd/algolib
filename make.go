@@ -23,7 +23,7 @@ func line(buf *bytes.Buffer, str string) {
 func main() {
 	line(&out, `\documentclass[10pt]{article}
 
-\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1cm,0.5cm},headsep=0.1cm]{geometry}
+\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1.2cm,0.9cm},headsep=0.1cm]{geometry}
 \usepackage{listings}
 \usepackage{multicol}
 \usepackage{titletoc}
