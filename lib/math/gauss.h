@@ -10,7 +10,6 @@
 // - m - variable count
 // Returns 0 if no solutions found, 1 if one,
 // 2 if more than 1 solution exist.
-// UNTESTED
 int gauss(vector<vector<double>>& A,
           vector<double>& ans, int m) {
 	Vi col;
