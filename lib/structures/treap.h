@@ -7,7 +7,7 @@
 struct Treap {
 	struct Node {
 		int E[2] = {-1, -1}, weight{rand()};
-		int size{1};
+		int size{1}, par{-1};
 		bool flip{false}; // Is interval reversed?
 	};
 
@@ -34,7 +34,11 @@ struct Treap {
 	void update(int x) { // Updates aggregates
 		if (x >= 0) {
 			int& s = G[x].size = 1;
-			each(e, G[x].E) if (e >= 0) s += size(e);
+			G[x].par = -1;
+			each(e, G[x].E) if (e >= 0) {
+				s += G[e].size;
+				G[e].par = x;
+			}
 		} // + any other aggregates
 	}
 
@@ -89,5 +93,11 @@ struct Treap {
 		split(b, a, b, l);
 		if (b >= 0) G[b].flip ^= 1;
 		return join(join(a, b), c);
+	}
+
+	// Find root of treap containing x; O(lg n)
+	int root(int x) {
+		while (G[x].par >= 0) x = G[x].par;
+		return x;
 	}
 };

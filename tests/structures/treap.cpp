@@ -24,7 +24,7 @@ void check() {
 }
 
 int main() {
-	rep(i, 0, 1000) {
+	rep(i, 0, 200) {
 		n = r(1, 20);
 		naive.resize(n);
 		iota(all(naive), 0);
