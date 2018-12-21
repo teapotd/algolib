@@ -24,7 +24,7 @@ int main() {
 	rep(i, 0, sz(graph)) deb(i, graph[i]);
 	cerr << endl;
 
-	auto kek = mp(mp(12, 34), "abcde");
+	auto kek = make_pair(make_pair(12, 34), "abcde");
 	vector<int> vec{1,2,3,4};
 
 	deb(kek, vec);
@@ -47,6 +47,6 @@ int main() {
 	const int* constArr = arr;
 	deb(span(constArr, 5));
 
-	deb(mp(mp(0, 1), 2), 3, 4);
+	deb(make_pair(make_pair(0, 1), 2), 3, 4);
 	return 0;
 }
