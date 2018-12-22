@@ -22,7 +22,6 @@ int main() {
 	}
 
 	rep(i, 0, sz(graph)) deb(i, graph[i]);
-	cerr << endl;
 
 	auto kek = make_pair(make_pair(12, 34), "abcde");
 	vector<int> vec{1,2,3,4};
@@ -38,9 +37,8 @@ int main() {
 	deb(test, string("xd"));
 
 	vector<bool> boolVec(5);
+	boolVec[1] = 1;
 	deb(boolVec);
-
-	cout << string("abcdef") << endl;
 
 	int i = 5;
 	each(x, arr) x = i++;
@@ -48,5 +46,14 @@ int main() {
 	deb(span(constArr, 5));
 
 	deb(make_pair(make_pair(0, 1), 2), 3, 4);
+
+	bitset<16> bitSet;
+	bitSet.set(5);
+	deb(bitSet);
+
+	Vi emptyVec;
+	deb(emptyVec);
+
+	cout << string("abcdef") << endl;
 	return 0;
 }

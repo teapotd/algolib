@@ -29,8 +29,8 @@ int main() {
 pri(a.print(), "{"; a.print(); o << "}")
 pri(a.y, "(" << a.x << ", " << a.y << ")")
 
-pri(all(a), "["; for (auto i : a)
-	o << i << ", "; o << "]")
+pri(all(a), "["; auto d=""; for (auto i : a)
+	(o << d << i, d = ", "); o << "]")
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
