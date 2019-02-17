@@ -107,7 +107,7 @@ struct SegmentTree {
 	}
 
 	void push(int i, int size) {
-		int e = V[i].extra;
+		T e = V[i].extra;
 		if (e != ID) {
 			e = V[L(i)].apply(e, size/2);
 			V[R(i)].apply(e, size/2);
