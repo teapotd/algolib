@@ -34,7 +34,7 @@ struct MaxFlow {
 
 	// Add edge between u and v with capacity cap
 	// and reverse capacity rcap
-	void addEdge(int u,int v,int cap,int rcap=0){
+	void addEdge(int u,int v,T cap,T rcap=0){
 		G[u].E.pb({ v, sz(G[v].E), 0, cap });
 		G[v].E.pb({ u, sz(G[u].E)-1, 0, rcap });
 	}
