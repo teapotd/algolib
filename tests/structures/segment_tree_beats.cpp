@@ -35,7 +35,36 @@ struct Checker {
 	}
 };
 
+void timeTest() {
+	constexpr int N = 1e6;
+	constexpr int Q = 1e6;
+	SegmentTree tree(N);
+
+	rep(j, 0, Q) {
+		int b = r(0, N), e = r(0, N);
+		if (b > e) swap(b, e);
+
+		switch (r(1, 4)) {
+			case 1:
+				tree.add(b, e, r(-1e5, 1e5));
+				break;
+			case 2:
+				tree.setMin(b, e, r(-1e9, 1e9));
+				break;
+			case 3:
+				tree.getMax(b, e);
+				break;
+			case 4:
+				tree.sum(b, e);
+				break;
+		}
+	}
+}
+
 int main() {
+	//timeTest();
+	//return 0;
+
 	rep(i, 0, 100) {
 		int n = r(1, 5);
 		Checker check(n);
@@ -44,7 +73,7 @@ int main() {
 			int b = r(0, n), e = r(0, n);
 			if (b > e) swap(b, e);
 
-			switch (r(1, 5)) {
+			switch (r(1, 4)) {
 				case 1:
 					check.setMin(b, e, r(-1e9, 1e9));
 					break;
