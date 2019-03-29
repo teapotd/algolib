@@ -25,13 +25,10 @@ int main() {
 	// Vfft d1(n), d2(n);
 	// randData(d1);
 	// randData(d2);
-
-	// initFFT(n);
 	// Vfft x1 = convolve(d1, d2);
 
 	for (int i = 0; i < 15; i++) {
 		int n = 1 << i;
-		initFFT(n);
 
 		Vfft d1(n), d2(n);
 		randData(d1);

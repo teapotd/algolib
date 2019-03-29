@@ -14,17 +14,17 @@ constexpr ll ROOT = 440564289; // order = 1<<27
 using Vfft = vector<Zp>;
 Vfft bases;
 
-void initFFT(int n) { // n must be power of 2
-	bases.resize(n+1, 1);
-//auto b = exp(complex<double>(0, 2*M_PI/n));
-	auto b = Zp(ROOT).pow((1<<27) / n);
-	rep(i, 1, n+1) bases[i] = b * bases[i-1];
-}
-
+// buf size must be power of 2!
 template<int dir> // 1 for DFT, -1 for inverse
 void fft(Vfft& buf) {
+	assert(__builtin_popcount(sz(buf)) == 1);
 	int n = sz(buf), bits = 31-__builtin_clz(n);
 	int i = (dir > 0 ? 0 : bits-1);
+
+	bases.resize(n+1, 1);
+//auto c = exp(complex<double>(0, 2*M_PI/n));
+	auto c = Zp(ROOT).pow((1<<27) / n);
+	rep(k, 1, n+1) bases[k] = c * bases[k-1];
 
 	for (; i >= 0 && i < bits; i += dir) {
 		int shift = 1 << (bits-i-1);
