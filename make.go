@@ -29,6 +29,7 @@ func main() {
 \usepackage{titletoc}
 \usepackage{courier}
 \usepackage{fancyhdr}
+\usepackage{needspace}
 
 \setlength{\columnseprule}{0.5pt}
 \setlength{\columnsep}{8pt}
@@ -124,7 +125,7 @@ func processFile(path string, info os.FileInfo) {
 	captions = append(captions, caption)
 
 	line(&out, fmt.Sprintf(`\noindent{\lstinline[language={}]|%s|}\hfill %d\break`, caption, len(captions)))
-	line(&pages, fmt.Sprintf(`\vspace{3pt}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
+	line(&pages, fmt.Sprintf(`\vspace{3pt}\needspace{0.3cm}\noindent{\textbf{\lstinline|%s|}}\hfill %d`, caption, len(captions)))
 
 	// line(&pages, fmt.Sprintf(`\noindent{\textbf{\lstinline|%s|}}`, caption))
 
