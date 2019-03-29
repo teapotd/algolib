@@ -49,10 +49,10 @@ int main() {
 					check.setMin(b, e, r(-1e9, 1e9));
 					break;
 				case 2:
-					//check.add(b, e, r(-1e5, 1e5));
+					check.add(b, e, r(-1e5, 1e5));
 					break;
 				case 3:
-					//check.getMax(b, e);
+					check.getMax(b, e);
 					break;
 				case 4:
 					check.sum(b, e);

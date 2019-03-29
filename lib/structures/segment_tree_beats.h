@@ -3,9 +3,6 @@
 
 constexpr ll INF = 1e18;
 
-//!!IGNORE
-// NOT WORKING YET
-
 // Segment tree with min/+ update and
 // sum/max query; time: amortized O(n lg^2 n)
 // or O(n lg n) if not using + operation
@@ -31,10 +28,12 @@ struct SegmentTree {
 	void init(int n) {
 		for (len = 1; len < n; len *= 2);
 		V.assign(len*2, {});
+		for (int i = len-1; i > 0; i--) update(i);
 	}
 
 	void update(int i) {
 		auto &v = V[i] = V[i*2], &r = V[i*2+1];
+		v.add = 0;
 		v.sum += r.sum;
 		if (r.max1 > v.max1) {
 			v.max2 = v.max1;
@@ -69,8 +68,8 @@ struct SegmentTree {
 
 		int mid = (begin+end) / 2;
 		push(i, end-begin);
-		setMin(vBegin, vEnd, x, begin, mid, i*2);
-		setMin(vBegin, vEnd, x, mid, end, i*2+1);
+		setMin(vBegin, vEnd, x, i*2, begin, mid);
+		setMin(vBegin, vEnd, x, i*2+1, mid, end);
 		update(i);
 	}
 
@@ -87,8 +86,8 @@ struct SegmentTree {
 
 		int mid = (begin+end) / 2;
 		push(i, end-begin);
-		add(vBegin, vEnd, x, begin, mid, i*2);
-		add(vBegin, vEnd, x, mid, end, i*2+1);
+		add(vBegin, vEnd, x, i*2, begin, mid);
+		add(vBegin, vEnd, x, i*2+1, mid, end);
 		update(i);
 	}
 
