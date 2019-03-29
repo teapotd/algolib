@@ -53,6 +53,8 @@ struct SegmentTree {
 		V[i].add = 0;
 	}
 
+	// Apply min with x on [vBegin;vEnd)
+	// time: amortized O(lg n) or O(lg^2 n)
 	void setMin(int vBegin, int vEnd, T x,
 	            int i = 1,
 	            int begin = 0, int end = -1) {
@@ -73,6 +75,7 @@ struct SegmentTree {
 		update(i);
 	}
 
+	// Add x on [vBegin;vEnd); time: O(lg n)
 	void add(int vBegin, int vEnd, T x,
 	         int i = 1,
 	         int begin = 0, int end = -1) {
@@ -91,6 +94,7 @@ struct SegmentTree {
 		update(i);
 	}
 
+	// Query sum of [vBegin;vEnd); time: O(lg n)
 	T sum(int vBegin, int vEnd, int i = 1,
 	      int begin = 0, int end = -1) {
 		if (end < 0) end = len;
@@ -103,6 +107,7 @@ struct SegmentTree {
 		       sum(vBegin, vEnd, i*2+1, mid, end);
 	}
 
+	// Query max of [vBegin;vEnd); time: O(lg n)
 	T getMax(int vBegin, int vEnd, int i = 1,
 	         int begin = 0, int end = -1) {
 		if (end < 0) end = len;
