@@ -1,49 +1,36 @@
 #pragma once
 #include "../template.h"
 
-// !!IGNORE
-// Tarjan's algorithm for SCC; time: O(n+m)
-// NOT WORKING
+// Tarjan's SCC algorithm; time: O(n+m)
+// Usage: SCC scc(graph);
+// scc[v] = index of SCC for vertex v
+// scc.comps[i] = vertices of i-th SCC
+struct SCC : Vi {
+	vector<Vi> comps;
+	Vi S;
+	int cnt{0};
 
-struct Vert {
-	Vi edges; // comp is SCC index
-	int pre{-1}, low{-1}, comp{-1};
-};
+	SCC() {}
 
-struct Comp {
-	Vi verts;
-};
+	SCC(vector<Vi>& G) : Vi(sz(G),-1), S(sz(G)) {
+		rep(i, 0, sz(G)) if (!S[i]) dfs(G, i);
+	}
 
-vector<Vert> G;
-vector<Comp> scc; // Components
-stack<int> partial;
-int counter;
+	int dfs(vector<Vi>& G, int v) {
+		int low = S[v] = ++cnt, t = -1;
+		S.pb(v);
 
-void tarjan(int i) {
-	G[i].pre = G[i].low = ++counter;
-	partial.push(i);
+		each(e, G[v]) if (at(e) < 0)
+			low = min(low, S[e] ?: dfs(G, e));
 
-	each(e, G[i].edges) {
-		if (G[e].pre < 0) {
-			tarjan(e);
-			G[i].low = min(G[i].low, G[e].low);
-		} else if (G[e].comp < 0) {
-			G[i].low = min(G[i].low, G[e].pre);
+		if (low == S[v]) {
+			comps.emplace_back();
+			for (; t != v; S.pop_back()) {
+				at(t = S.back()) = sz(comps) - 1;
+				comps.back().pb(t);
+			}
 		}
-	}
 
-	if (G[i].pre == G[i].low) {
-		int j, x = sz(scc);
-		scc.emplace_back();
-		do {
-			j = partial.top();
-			partial.pop();
-			scc[x].verts.pb(j);
-			G[j].comp = j;
-		} while (i != j);
+		return low;
 	}
-}
-
-void findSCC() { // Call me
-	rep(i, 0, sz(G)) if (G[i].pre < 0) tarjan(i);
-}
+};
