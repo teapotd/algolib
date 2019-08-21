@@ -82,6 +82,14 @@ void runTest() {
 	}
 }
 
+void perfTest(int n, int m) {
+	Bridges fast(n);
+	for (int i = 0; i < m; i++) {
+		int a = r(0, n-1), b = r(0, n-1);
+		fast.addEdge(a, b);
+	}
+}
+
 void bad() {
 	Bridges fast(6);
 	BridgesNaive naive(6);
@@ -102,6 +110,11 @@ void bad() {
 }
 
 int main() {
+	/*rep(i, 0, 10) {
+		perfTest(100000, 1000000);
+	}
+	return 0;*/
+
 	rep(i, 0, 200000) {
 		runTest();
 	}
