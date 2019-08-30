@@ -14,29 +14,23 @@ struct MaxFlow {
 		T flow, cap;
 	};
 
-	struct Vert {
-		vector<Edge> E;
-		int prev;
-		T add;
-	};
-
-	vector<Vert> G;
+	vector<vector<Edge>> G;
+	vector<T> add;
+	Vi prev;
 
 	// Initialize for n vertices
-	MaxFlow(int n = 0) { init(n); }
-	void init(int n) { G.assign(n, {}); }
+	MaxFlow(int n = 0) : G(n) {}
 
 	// Add new vertex
 	int addVert() {
-		G.emplace_back();
-		return sz(G)-1;
+		G.emplace_back(); return sz(G)-1;
 	}
 
 	// Add edge between u and v with capacity cap
 	// and reverse capacity rcap
-	void addEdge(int u,int v,T cap,T rcap=0){
-		G[u].E.pb({ v, sz(G[v].E), 0, cap });
-		G[v].E.pb({ u, sz(G[u].E)-1, 0, rcap });
+	void addEdge(int u, int v, T cap, T rcap=0) {
+		G[u].pb({ v, sz(G[v]), 0, cap });
+		G[v].pb({ u, sz(G[u])-1, 0, rcap });
 	}
 
 	// Compute maximum flow from src to dst.
@@ -47,36 +41,37 @@ struct MaxFlow {
 		T f = 0;
 
 		do {
-			each(v, G) v.prev = v.add = -1;
 			queue<int> Q;
 			Q.push(src);
-			G[src].add = INF;
+			prev.assign(sz(G), -1);
+			add.assign(sz(G), -1);
+			add[src] = INF;
 
 			while (!Q.empty()) {
 				int i = Q.front();
-				T m = G[i].add;
+				T m = add[i];
 				Q.pop();
 
 				if (i == dst) {
 					while (i != src) {
-						auto& e = G[i].E[G[i].prev];
+						auto& e = G[i][prev[i]];
 						e.flow -= m;
-						G[e.dst].E[e.inv].flow += m;
+						G[e.dst][e.inv].flow += m;
 						i = e.dst;
 					}
 					f += m;
 					break;
 				}
 
-				each(e, G[i].E) if (G[e.dst].add < 0) {
+				each(e, G[i]) if (add[e.dst] < 0) {
 					if (e.flow < e.cap) {
 						Q.push(e.dst);
-						G[e.dst].prev = e.inv;
-						G[e.dst].add = min(m,e.cap-e.flow);
+						prev[e.dst] = e.inv;
+						add[e.dst] = min(m, e.cap-e.flow);
 					}
 				}
 			}
-		} while (G[dst].prev != -1);
+		} while (prev[dst] != -1);
 
 		return f;
 	}
