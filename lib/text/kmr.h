@@ -7,11 +7,10 @@ struct KMR {
 	vector<Vi> ids;
 
 	KMR() {}
-	explicit KMR(const string& str){ init(str); }
 
 	// Initialize structure; time: O(n lg^2 n)
 	// You can change str type to Vi freely.
-	void init(const string& str) {
+	explicit KMR(const string& str) {
 		ids.clear();
 		ids.pb(Vi(all(str)));
 
