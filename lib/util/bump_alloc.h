@@ -3,7 +3,7 @@
 
 // Allocator, which doesn't free memory.
 
-char mem[512<<20]; // Set memory limit
+char mem[400<<20]; // Set memory limit
 size_t nMem;
 
 void* operator new(size_t n) {
