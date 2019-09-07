@@ -1,7 +1,7 @@
 #include "../../lib/math/pollard_rho.h"
 #include "../testing.h"
 
-constexpr ll MAX_N = ll(MAX_P)*MAX_P*MAX_P;
+constexpr ll MAX_N = 1e18;
 
 void check(ll n) {
     auto factors = factorize(n);
@@ -20,8 +20,6 @@ void check(ll n) {
 }
 
 int main() {
-  sieve();
-
   rep(n, 1, 100) check(n);
   rep(k, 0, 1000) check(rl(1, MAX_N));
   return 0;
