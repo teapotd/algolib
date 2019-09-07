@@ -5,22 +5,18 @@
 
 ll modAdd(ll x, ll y, ll m) {
 	x += y;
-	return (x < m ? x : x-m);
+	return x < m ? x : x-m;
 }
 
 ll modSub(ll x, ll y, ll m) {
 	x -= y;
-	return (x >= 0 ? x : x+m);
+	return x >= 0 ? x : x+m;
 }
 
-ll modMul(ll x, ll y, ll m) {
-	ll t = 0;
-	while (y) {
-		if (y & 1) t = modAdd(t, x, m);
-		y >>= 1;
-		x = modAdd(x, x, m);
-	}
-	return t;
+ll modMul(ll a, ll b, ll m) {
+	ll c = ll((long double)a * b / m);
+	ll r = (a*b - c*m) % m;
+	return r < 0 ? r+m : r;
 }
 
 ll modPow(ll x, ll e, ll m) {
