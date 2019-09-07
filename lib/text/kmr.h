@@ -13,7 +13,7 @@ struct KMR {
 	// You can change str type to Vi freely.
 	void init(const string& str) {
 		ids.clear();
-		ids.push_back(Vi(all(str)));
+		ids.pb(Vi(all(str)));
 
 		for (int h = 1; h <= sz(str); h *= 2) {
 			vector<pair<Pii, int>> pairs;
