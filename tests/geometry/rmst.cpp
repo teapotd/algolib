@@ -3,23 +3,25 @@
 
 void bench() {
 	int n = 100000;
-	G.resize(n);
+	vector<Pii> points(n);
+	vector<vector<Pii>> G;
 
-	each(v, G) {
-		v.point.x = r(-1e8, 1e8);
-		v.point.y = r(-1e8, 1e8);
+	each(p, points) {
+		p.x = r(-1e8, 1e8);
+		p.y = r(-1e8, 1e8);
 	}
 
 	auto before = now();
-	rmst();
+	rmst(points, G);
 	cout << since(before) << "ms" << endl;
 }
 
 int main() {
 	int n; cin >> n;
-	G.resize(n);
-	each(v, G) cin >> v.point.x >> v.point.y;
+	vector<Pii> points(n);
+	each(p, points) cin >> p.x >> p.y;
 
-	cout << rmst() << endl;
+	vector<vector<Pii>> G;
+	cout << rmst(points, G) << endl;
 	return 0;
 }
