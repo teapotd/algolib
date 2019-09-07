@@ -8,14 +8,13 @@
 struct DenseDFS {
 	BitMatrix G, V; // space: O(n^2/64)
 
-	DenseDFS(int n = 0) { init(n); }
-	void init(int n) {
-		G.init(n, n); V.init(1, n); reset();
+	DenseDFS(int n = 0) : G(n, n), V(1, n) {
+		reset();
 	}
 
 	void reset() { each(x, V.M) x = -1; }
 	void setVisited(int i) { V.set(0, i, 0); }
-	bool isVisited(int i)  { return V(0, i); }
+	bool isVisited(int i)  { return !V(0, i); }
 
 	// DFS step: func is called on each unvisited
 	// neighbour of i. You need to manually call
