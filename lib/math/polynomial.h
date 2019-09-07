@@ -1,8 +1,9 @@
 #pragma once
 #include "../template.h"
 #include "modular.h"
-#include "fft.h"
+#include "fft_mod.h"
 
+//!!IGNORE
 // Polynomial wrapper class; UNTESTED
 struct Poly {
 	using T = Zp; // Set appropriate type
