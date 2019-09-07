@@ -5,6 +5,7 @@
 // __builtin_clz - count most significant 0s
 // __builtin_ctz - count least significant 0s
 // __builtin_ffs - like ctz, but indexed from 1
+//                 returns 0 for 0
 // For ll version add ll to name
 
 using ull = uint64_t;
@@ -26,4 +27,12 @@ void transpose64(array<ull, 64>& M) {
 	T64(8,  0xFF00FF00FF00FF);
 	T64(16, 0xFFFF0000FFFF);
 	T64(32, 0xFFFFFFFFLL);
+}
+
+// Lexicographically next mask with same
+// amount of ones.
+int nextSubset(int v) {
+	int t = v | (v - 1);
+	return (t + 1) | (((~t & -~t) - 1) >>
+			(__builtin_ctz(v) + 1));  
 }
