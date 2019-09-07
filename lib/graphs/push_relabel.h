@@ -25,8 +25,7 @@ struct MaxFlow {
 	queue<int> que, bfs;
 
 	// Initialize for n vertices
-	MaxFlow(int n = 0) { init(n); }
-	void init(int n) {
+	MaxFlow(int n = 0) {
 		V.assign(n, {});
 		E.resize(2);
 	}
