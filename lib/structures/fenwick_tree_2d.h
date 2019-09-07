@@ -12,17 +12,14 @@ struct Fenwick2D {
 	vector<T> s;
 	int w, h;
 
-	Fenwick2D(int n=0, int m=0) { init(n, m); }
-	void init(int n, int m) {
-		s.assign(n*m, ID); w = n; h = m;
-	}
+	Fenwick2D(int n = 0, int m = 0)
+		: s(n*m, ID), w(n), h(m) {}
 
 	// A[i,j] = f(A[i,j], v); time: O(lg^2 n)
 	void modify(int i, int j, T v) {
 		for (; i < w; i |= i+1)
-			for (int k = j; k < h; k |= k+1) {
-				T& x = s[i*h+k]; x = f(x, v);
-			}
+			for (int k = j; k < h; k |= k+1)
+				s[i*h+k] = f(s[i*h+k], v);
 	}
 
 	// Query prefix; time: O(lg^2 n)

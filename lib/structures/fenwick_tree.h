@@ -9,8 +9,7 @@ struct Fenwick {
 	T f(T a, T b)  { return a+b; }
 
 	vector<T> s;
-	Fenwick(int n = 0) { init(n); }
-	void init(int n)   { s.assign(n, ID); }
+	Fenwick(int n = 0) : s(n, ID) {}
 
 	// A[i] = f(A[i], v); time: O(lg n)
 	void modify(int i, T v) {
