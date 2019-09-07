@@ -8,50 +8,47 @@ constexpr int ALPHA = 26;  // Alphabet size
 // multiple pattern matching.
 // Add patterns using add(), then call build().
 struct Aho {
-	struct Node {
-		int nxt[ALPHA], suf{-1}, accLink{-1};
-		Vi accept;
-	};
-
-	vector<Node> V;
-	Aho() { init(); }
-	void init() { V.assign(1, {}); }
+	vector<array<int, ALPHA>> nxt{1};
+	Vi suf = {-1}, accLink = {-1};
+	vector<Vi> accept{1};
 
 	// Add string with given ID to structure
-	void add(const string& str, int id) {
+	// Returns index of accepting node
+	int add(const string& str, int id) {
 		int i = 0;
 		each(c, str) {
-			if (!V[i].nxt[c-AMIN]) {
-				V[i].nxt[c-AMIN] = sz(V);
-				V.emplace_back();
+			if (!nxt[i][c-AMIN]) {
+				nxt[i][c-AMIN] = sz(nxt);
+				nxt.pb({}); suf.pb(-1);
+				accLink.pb(1); accept.pb({});
 			}
-			i = V[i].nxt[c-AMIN];
+			i = nxt[i][c-AMIN];
 		}
-		V[i].accept.pb(id);
+		accept[i].pb(id);
+		return i;
 	}
 
-	// Build automata
+	// Build automata; time: O(V*ALPHA)
 	void build() {
 		queue<int> que;
-		each(e, V[0].nxt) if (e) {
-			V[e].suf = 0;
-			que.push(e);
+		each(e, nxt[0]) if (e) {
+			suf[e] = 0; que.push(e);
 		}
 		while (!que.empty()) {
-			int i = que.front(), s = V[i].suf, j = 0;
+			int i = que.front(), s = suf[i], j = 0;
 			que.pop();
-			each(e, V[i].nxt) {
+			each(e, nxt[i]) {
 				if (e) que.push(e);
-				(e ? V[e].suf : e) = V[s].nxt[j++];
+				(e ? suf[e] : e) = nxt[s][j++];
 			}
-			V[i].accLink = (V[s].accept.empty() ?
-					V[s].accLink : s);
+			accLink[i] = (accept[s].empty() ?
+					accLink[s] : s);
 		}
 	}
 
 	// Append `c` to state `i`
-	int nxt(int i, char c) {
-		return V[i].nxt[c-AMIN];
+	int next(int i, char c) {
+		return nxt[i][c-AMIN];
 	}
 
 	// Call `f` for each pattern accepted
@@ -60,8 +57,8 @@ struct Aho {
 	// Calls are in descreasing length order.
 	template<class F> void accepted(int i, F f) {
 		while (i != -1) {
-			each(a, V[i].accept) if (f(a)) return;
-			i = V[i].accLink;
+			each(a, accept[i]) if (f(a)) return;
+			i = accLink[i];
 		}
 	}
 };
