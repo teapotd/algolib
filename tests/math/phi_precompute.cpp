@@ -3,6 +3,6 @@
 
 int main() {
   calcPhi();
-  // rep(i, 1, 20) deb(i, phi[i]);
+  rep(i, 1, 20) deb(i, phi[i]);
   return 0;
 }
