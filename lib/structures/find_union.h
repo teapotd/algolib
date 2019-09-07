@@ -5,8 +5,7 @@
 // Operations work in amortized O(alfa(n))
 struct FAU {
 	Vi G;
-	FAU(int n = 0) { init(n); }
-	void init(int n) { G.assign(n, -1); }
+	FAU(int n = 0) : G(n, -1) {}
 
 	// Get size of set containing i
 	int size(int i) { return -G[find(i)]; }
@@ -19,9 +18,9 @@ struct FAU {
 	// Union sets containing i and j
 	bool join(int i, int j) {
 		i = find(i); j = find(j);
-		if (i == j) return false;
+		if (i == j) return 0;
 		if (G[i] > G[j]) swap(i, j);
 		G[i] += G[j]; G[j] = i;
-		return true;
+		return 1;
 	}
 };
