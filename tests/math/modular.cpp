@@ -18,7 +18,9 @@ int main() {
 		assert((a*inv).x == 1);
 
 		for (ll p = 0; p < 10; p++) {
-			assert(naivePow(a.x, p) == a.pow(p).x);
+			ll naive = naivePow(a.x, p);
+			assert(naive == a.pow(p).x);
+			assert(naive == modPow(a.x, p, MOD));
 		}
 
 		assert((a * -50).x >= 0);
