@@ -9,11 +9,8 @@ struct RMQ {
 
 	vector<vector<T>> s;
 
-	RMQ() {}
-	RMQ(const vector<T>& vec) { init(vec); }
-
 	// Initialize RMQ structure; time: O(n lg n)
-	void init(const vector<T>& vec) {
+	RMQ(const vector<T>& vec = {}) {
 		s = {vec};
 		for (int h = 1; h <= sz(vec); h *= 2) {
 			s.emplace_back();
