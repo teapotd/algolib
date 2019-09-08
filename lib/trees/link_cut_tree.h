@@ -4,47 +4,44 @@
 // Link/cut tree; space: O(n)
 // Represents forest of (un)rooted trees.
 struct LinkCutTree {
-	struct Node {
-		int E[2] = {-1, -1}, par{-1}, prev{-1};
-		bool flip{0};
-	};
-
-	vector<Node> G;
+	vector<array<int, 2>> child;
+	Vi par, prev, flip;
 
 	// Initialize structure for n vertices; O(n)
-	// Each vertex is separated.
-	LinkCutTree(int n = 0) { init(n); }
-	void init(int n) { G.assign(n, {}); }
+	// At first there's no edges.
+	LinkCutTree(int n = 0)
+			: child(n, {-1, -1}), par(n, -1),
+			  prev(n, -1), flip(n, -1) {}
 
-	void auxLink(int par, int i, int child) {
-		G[par].E[i] = child;
-		if (child >= 0) G[child].par = par;
+	void auxLink(int p, int i, int ch) {
+		child[p][i] = ch;
+		if (ch >= 0) par[ch] = p;
 	}
 
 	void push(int x) {
-		if (x >= 0 && G[x].flip) {
-			G[x].flip = 0;
-			swap(G[x].E[0], G[x].E[1]);
-			each(e, G[x].E) if (e>=0) G[e].flip ^= 1;
+		if (x >= 0 && flip[x]) {
+			flip[x] = 0;
+			swap(child[x][0], child[x][1]);
+			each(e, child[x]) if (e>=0) flip[e] ^= 1;
 		}
 	}
 
 	void rot(int p, int i) {
-		int x = G[p].E[i], g = G[x].par = G[p].par;
-		if (g >= 0) G[g].E[G[g].E[1] == p] = x;
-		auxLink(p, i, G[x].E[!i]);
+		int x = child[p][i], g = par[x] = par[p];
+		if (g >= 0) child[g][child[g][1] == p] = x;
+		auxLink(p, i, child[x][!i]);
 		auxLink(x, !i, p);
-		swap(G[x].prev, G[p].prev);
+		swap(prev[x], prev[p]);
 	}
 
 	void splay(int x) {
-		while (G[x].par >= 0) {
-			int p = G[x].par, g = G[p].par;
+		while (par[x] >= 0) {
+			int p = par[x], g = par[p];
 			push(g); push(p); push(x);
-			bool f = (G[p].E[1] == x);
+			bool f = (child[p][1] == x);
 
 			if (g >= 0) {
-				if (G[g].E[f] == p) { // zig-zig
+				if (child[g][f] == p) { // zig-zig
 					rot(g, f); rot(p, f);
 				} else { // zig-zag
 					rot(p, f); rot(g, !f);
@@ -59,24 +56,24 @@ struct LinkCutTree {
 	void access(int x) {
 		while (true) {
 			splay(x);
-			int p = G[x].prev;
+			int p = prev[x];
 			if (p < 0) break;
 
-			G[x].prev = -1;
+			prev[x] = -1;
 			splay(p);
 
-			int r = G[p].E[1];
-			if (r >= 0) swap(G[r].par, G[r].prev);
+			int r = child[p][1];
+			if (r >= 0) swap(par[r], prev[r]);
 			auxLink(p, 1, x);
 		}
 	}
 
 	void makeRoot(int x) {
 		access(x);
-		int& l = G[x].E[0];
+		int& l = child[x][0];
 		if (l >= 0) {
-			swap(G[l].par, G[l].prev);
-			G[l].flip ^= 1;
+			swap(par[l], prev[l]);
+			flip[l] ^= 1;
 			l = -1;
 		}
 	}
@@ -84,19 +81,20 @@ struct LinkCutTree {
 	// Find representative of tree containing x
 	int find(int x) { // time: amortized O(lg n)
 		access(x);
-		while (G[x].E[0] >= 0) push(x = G[x].E[0]);
+		while (child[x][0] >= 0)
+			push(x = child[x][0]);
 		splay(x);
 		return x;
 	}
 
 	// Add edge x-y; time: amortized O(lg n)
 	void link(int x, int y) {
-		makeRoot(x); G[x].prev = y;
+		makeRoot(x); prev[x] = y;
 	}
 
 	// Remove edge x-y; time: amortized O(lg n)
 	void cut(int x, int y) {
 		makeRoot(x); access(y);
-		G[x].par = G[y].E[0] = -1;
+		par[x] = child[y][0] = -1;
 	}
 };

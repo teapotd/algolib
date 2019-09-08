@@ -75,7 +75,7 @@ void benchmark() {
 	constexpr int TIMES = 2;
 
 	vector<Pii> edges;
-	tree.init(nVerts);
+	tree = {nVerts};
 
 	rep(times, 0, TIMES) {
 		edges.clear();
@@ -108,7 +108,7 @@ int main() {
 	benchmark();
 
 	G.resize(N);
-	tree.init(N);
+	tree = {N};
 	check();
 
 	rep(i, 0, OPS) {
