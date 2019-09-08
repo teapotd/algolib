@@ -6,10 +6,7 @@ struct Checker {
 	vector<T> elems;
 	SegmentTree tree;
 
-	Checker(int n) {
-		elems.resize(n);
-		tree.init(n);
-	}
+	Checker(int n) : elems(n), tree(n) {}
 
 	void setMin(int begin, int end, T x) {
 		rep(i, begin, end) elems[i] = min(elems[i], x);
@@ -24,8 +21,8 @@ struct Checker {
 	void sum(int begin, int end) {
 		T ret = 0;
 		rep(i, begin, end) ret += elems[i];
-		deb(begin, end, ret, tree.sum(begin, end));
-		assert(ret == tree.sum(begin, end));
+		// deb(begin, end, ret, tree.getSum(begin, end));
+		assert(ret == tree.getSum(begin, end));
 	}
 
 	void getMax(int begin, int end) {
@@ -55,7 +52,7 @@ void timeTest() {
 				tree.getMax(b, e);
 				break;
 			case 4:
-				tree.sum(b, e);
+				tree.getSum(b, e);
 				break;
 		}
 	}
@@ -65,8 +62,8 @@ int main() {
 	//timeTest();
 	//return 0;
 
-	rep(i, 0, 100) {
-		int n = r(1, 5);
+	rep(i, 0, 1000) {
+		int n = r(1, 50);
 		Checker check(n);
 
 		rep(j, 0, 10000) {
