@@ -42,13 +42,12 @@ int since(Time begin) {
 	return int(std::chrono::duration_cast<std::chrono::milliseconds>(now() - begin).count());
 }
 
-template<class T>
-void generateTree(std::vector<T>& verts) {
+void generateTree(std::vector<std::vector<int>>& verts) {
 	auto shuf = perm(0, int(verts.size())-1);
 
 	for (int i = 1; i < int(verts.size()); i++) {
 		int e = r(0, i-1);
-		verts[shuf[i]].E.push_back(int(shuf[e]));
-		verts[shuf[e]].E.push_back(int(shuf[i]));
+		verts[shuf[i]].push_back(int(shuf[e]));
+		verts[shuf[e]].push_back(int(shuf[i]));
 	}
 }

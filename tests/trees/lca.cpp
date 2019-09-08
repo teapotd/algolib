@@ -1,10 +1,11 @@
 #include "../../lib/trees/lca.h"
 #include "../testing.h"
 
+vector<Vi> G;
 Vi parents, levels;
 
 void dfsParents(int i, int parent, int d) {
-	each(e, G[i].edges) if (e != parent) dfsParents(e, i, d+1);
+	each(e, G[i]) if (e != parent) dfsParents(e, i, d+1);
 	parents[i] = parent;
 	levels[i] = d;
 }
@@ -36,11 +37,11 @@ int main() {
 		levels.resize(n);
 		dfsParents(0, -1, 0);
 
-		initLCA(0);
+		LCA lca(G, 0);
 
 		rep(i, 0, n) rep(j, 0, n) {
-      if (G[i].level >= j) {
-				assert(laq(i, j) == naiveLAQ(i, j));
+			if (lca.level[i] >= j) {
+				assert(lca.laq(i, j) == naiveLAQ(i, j));
 			}
 			assert(lca(i, j) == naiveLCA(i, j));
 		}
