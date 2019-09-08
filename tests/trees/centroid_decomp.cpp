@@ -1,9 +1,12 @@
 #include "../../lib/trees/centroid_decomp.h"
 #include "../testing.h"
 
+vector<Vi> G;
+CentroidTree cen;
+
 void edge(int i, int j) {
-	G[i-1].E.pb(j-1);
-	G[j-1].E.pb(i-1);
+	G[i-1].pb(j-1);
+	G[j-1].pb(i-1);
 }
 
 void dfs(int v, int indent = 0) {
@@ -11,10 +14,10 @@ void dfs(int v, int indent = 0) {
 		printf(" ");
 	}
 
-	printf("%d (%d/%d): ", v+1, G[v].cDepth, G[v].cSize);
+	printf("%d (%d/%d): ", v+1, cen.depth[v], cen.size[v]);
 	printf("\n");
 
-	each(e, G[v].cE) dfs(e, indent+4);
+	each(e, cen.child[v]) dfs(e, indent+4);
 }
 
 int main() {
@@ -36,10 +39,11 @@ int main() {
 	edge(13, 15);
 	edge(13, 16);
 
-	dfs(centroidDecomp(0));
+	cen = {G};
+	dfs(cen.root);
 
 	rep(i, 0, sz(G)) {
-		deb(i, G[i].cLinks, G[i].cSubtree, G[i].cDists);
+		deb(i, cen.ind[i], cen.subtree[i], cen.dists[i]);
 	}
 	return 0;
 }
