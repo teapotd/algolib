@@ -25,7 +25,7 @@ bool checkQuery(int begin, int end) {
 }
 
 int main() {
-	tree.init(LEN, 0);
+	tree = {LEN, 0};
 
 	rep(i, 0, 10000) {
 		int pos = r(0, LEN-1);

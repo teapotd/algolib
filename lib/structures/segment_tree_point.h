@@ -1,11 +1,11 @@
 #pragma once
 #include "../template.h"
 
-// Simple segment tree (point-interval)
+// Segment tree (point, interval)
 // Configure by modifying:
 // - T - stored data type
-// - ID - neutral element for QUERY operation
-// - merge(a, b) - merge operation
+// - ID - neutral element for query operation
+// - merge(a, b) - combine results
 struct SegmentTree {
 	using T = int;
 	static constexpr T ID = INT_MIN;
@@ -14,22 +14,18 @@ struct SegmentTree {
 	vector<T> V;
 	int len;
 
-	SegmentTree(int n=0, T def=ID){init(n,def);}
-
-	void init(int n, T def) {
+	SegmentTree(int n = 0, T def = ID) {
 		for (len = 1; len < n; len *= 2);
-		V.assign(len+n, def);
 		V.resize(len*2, ID);
-		for (int i = len-1; i > 0; i--) update(i);
-	}
-
-	void update(int i) {
-		V[i] = merge(V[i*2], V[i*2+1]);
+		rep(i, 0, n) V[len+i] = def;
+		for (int i = len-1; i > 0; i--)
+			V[i] = merge(V[i*2], V[i*2+1]);
 	}
 
 	void set(int i, T val) {
 		V[i+=len] = val;
-		while ((i/=2) > 0) update(i);
+		while ((i/=2) > 0)
+			V[i] = merge(V[i*2], V[i*2+1]);
 	}
 
 	T query(int begin, int end) {
