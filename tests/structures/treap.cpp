@@ -29,7 +29,7 @@ int main() {
 		naive.resize(n);
 		iota(all(naive), 0);
 
-		treap.init(n);
+		treap = {n};
 		root = 0;
 		rep(j, 1, n) root = treap.join(root, j);
 

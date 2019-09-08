@@ -16,8 +16,7 @@ struct Treap {
 	// Initialize structure for n nodes; O(n)
 	// Each node is separate treap,
 	// use join() to construct sequence.
-	Treap(int n = 0) { init(n); }
-	void init(int n) { G.clear(); G.resize(n); }
+	Treap(int n = 0) : G(n) {}
 
 	int size(int x) { // Returns subtree size
 		return (x >= 0 ? G[x].size : 0);
