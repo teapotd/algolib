@@ -2,7 +2,7 @@
 #include "../template.h"
 
 // Big prime number, about 2*10^9
-constexpr ll MOD = 15*(1<<27)+1;
+constexpr int MOD = 15*(1<<27)+1;
 
 ll modInv(ll a, ll m) { // a^(-1) mod m
 	if (a == 1) return 1;
@@ -12,8 +12,8 @@ ll modInv(ll a, ll m) { // a^(-1) mod m
 ll modPow(ll a, ll e, ll m) { // a^e mod m
 	ll t = 1 % m;
 	while (e) {
-		if (e & 1) t = t*a % m;
-		e >>= 1; a = a*a % m;
+		if (e % 2) t = t*a % m;
+		e /= 2; a = a*a % m;
 	}
 	return t;
 }
@@ -21,25 +21,21 @@ ll modPow(ll a, ll e, ll m) { // a^e mod m
 // Wrapper for modular arithmetic
 struct Zp {
 	ll x; // Contained value, in range [0;MOD-1]
-	Zp(ll a = 0) {
-		if (a < 0) a = a%MOD + MOD;
-		else if (a >= MOD*2) a %= MOD;
-		else if (a >= MOD) a -= MOD;
-		x = a;
-	}
+	Zp() {}
+	Zp(ll a) : x(a%MOD) { if (x < 0) x += MOD; }
 
-	Zp operator+(Zp r) const{ return x+r.x; }
-	Zp operator-(Zp r) const{ return x-r.x+MOD; }
-	Zp operator*(Zp r) const{ return x*r.x; }
-	Zp operator/(Zp r) const{return x*r.inv().x;}
-	Zp operator-()     const{ return MOD-x; }
-	Zp pow(ll e) const{ return modPow(x,e,MOD); }
+	#define OP(c,d) Zp& operator c##=(Zp r) { \
+			x = x d; return *this; } \
+		Zp operator c(Zp r) const { \
+			Zp t = *this; return t c##= r; }
+
+	OP(+, +r.x - MOD*(x+r.x >= MOD));
+	OP(-, -r.x + MOD*(x-r.x < 0));
+	OP(*, *r.x % MOD);
+	OP(/, *r.inv().x % MOD);
 
 	// For composite modulus use modInv, not pow
 	Zp inv() const { return pow(MOD-2); }
-
-	#define OP(c) Zp& operator c##=(Zp r){ \
-		return *this=*this c r; }
-	OP(+)OP(-)OP(*)OP(/)
-	void print() { cerr << x; }
+	Zp pow(ll e) const{ return modPow(x,e,MOD); }
+	void print() { cerr << x; } // For deb()
 };
