@@ -3,7 +3,7 @@
 
 // Nimbers are defined as sizes of Nim heaps.
 // Operations on nimbers are defined as:
-// a+b = mex({a'+b : a' < a} ∪ {a+b' : b' < b})
+// a+b = mex({a'+b : a' < a} u {a+b' : b' < b})
 // ab  = mex({a'b+ab'+a'b' : a' < a, b' < b})
 // Nimbers smaller than M = 2^2^k form a field.
 // Addition is equivalent to xor, meanwhile
