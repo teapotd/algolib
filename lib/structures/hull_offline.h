@@ -7,7 +7,6 @@ constexpr ll INF = 2e18;
 // MAX of linear functions; space: O(n)
 // Use if you add lines in increasing `a` order
 // Default uncommented version is for int64
-// TESTED ONLY FOR DOUBLES
 struct Hull {
 	using T = ll; // Or change to double
 
