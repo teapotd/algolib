@@ -39,3 +39,11 @@ struct Zp {
 	Zp pow(ll e) const{ return modPow(x,e,MOD); }
 	void print() { cerr << x; } // For deb()
 };
+
+// Extended Euclidean Algorithm
+ll egcd(ll a, ll b, ll& x, ll& y) {
+	if (!a) return x=0, y=1, b;
+	ll d = egcd(b%a, a, y, x);
+	x -= b/a*y;
+	return d;
+}

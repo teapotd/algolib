@@ -9,7 +9,26 @@ ll naivePow(ll a, ll p) {
 	return ret;
 }
 
+ll gcd(ll a, ll b) {
+	while (b) {
+		a %= b;
+		swap(a, b);
+	}
+	return a;
+}
+
+void testExtGcd() {
+	rep(i, 0, 1000000) {
+		ll a = r(1, 1e9);
+		ll b = r(1, 1e9);
+		ll x, y, d = egcd(a, b, x, y);
+		assert(d == gcd(a, b));
+		assert(x*a + y*b == d);
+	}
+}
+
 int main() {
+	testExtGcd();
 	assert(Zp(-3243245).x >= 0);
 
 	for (Zp a = 1; a.x <= 3000000; a.x++) {
