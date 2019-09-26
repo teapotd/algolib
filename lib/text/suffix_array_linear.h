@@ -28,8 +28,8 @@ Vi sufArray(Vi str, int k) {
 	each(i, tmp) {
 		code[i] = mc += (j == -1 ||
 				str[i] != str[j] ||
-		    str[i+1] != str[j+1] ||
-		    str[i+2] != str[j+2]);
+				str[i+1] != str[j+1] ||
+				str[i+2] != str[j+2]);
 		j = i;
 	}
 
