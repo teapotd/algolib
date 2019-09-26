@@ -15,22 +15,22 @@ struct KMR {
 		ids.pb(Vi(all(str)));
 
 		for (int h = 1; h <= sz(str); h *= 2) {
-			vector<pair<Pii, int>> pairs;
+			vector<pair<Pii, int>> tmp;
 
 			rep(j, 0, sz(str)) {
 				int a = ids.back()[j], b = -1; 
 				if (j+h < sz(str)) b = ids.back()[j+h];
-				pairs.pb({ {a, b}, j });
+				tmp.pb({ {a, b}, j });
 			}
 
-			sort(all(pairs));
-			ids.emplace_back(sz(pairs));
+			sort(all(tmp));
+			ids.emplace_back(sz(tmp));
 
-			int n = 1;
-			rep(j, 0, sz(pairs)) {
-				if (j>0 && pairs[j-1].x != pairs[j].x)
+			int n = 0;
+			rep(j, 0, sz(tmp)) {
+				if (j > 0 && tmp[j-1].x != tmp[j].x)
 					n++;
-				ids.back()[pairs[j].y] = n;
+				ids.back()[tmp[j].y] = n;
 			}
 		}
 	}
@@ -51,5 +51,13 @@ struct KMR {
 
 		if (x == y) return (l1 > l2) - (l1 < l2);
 		return (x > y) - (x < y);
+	}
+
+	// Compute suffix array of string; O(n)
+	Vi sufArray() {
+		Vi sufs(sz(ids.back()));
+		rep(i, 0, sz(ids.back()))
+			sufs[ids.back()[i]] = i;
+		return sufs;
 	}
 };

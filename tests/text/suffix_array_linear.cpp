@@ -1,7 +1,5 @@
 #include "../../lib/text/suffix_array_linear.h"
-#define sufArray sufArrayKmr
-#include "../../lib/text/suffix_array.h"
-#undef sufArray
+#include "../../lib/text/kmr.h"
 #include "../testing.h"
 
 void test(int n, int alpha) {
@@ -10,7 +8,7 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi sufsKmr = sufArrayKmr(KMR(str));
+	Vi sufsKmr = KMR(str).sufArray();
 	Vi sufs = sufArray(str);
 
 	if (sufsKmr != sufs) {

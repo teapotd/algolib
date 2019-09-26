@@ -21,6 +21,11 @@ void test(int n, int alpha) {
 			assert(a == b);
 		}
 	}
+
+	Vi sufs = kmr.sufArray();
+	rep(i, 1, sz(sufs)) {
+		assert(strcmp(&str[sufs[i-1]], &str[sufs[i]]) < 0);
+	}
 }
 
 int main() {

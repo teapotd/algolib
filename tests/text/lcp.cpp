@@ -1,4 +1,5 @@
-#include "../../lib/text/suffix_array.h"
+#include "../../lib/text/suffix_array_linear.h"
+#include "../../lib/text/lcp.h"
 #include "../testing.h"
 
 void test(int n, int alpha) {
@@ -7,12 +8,7 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi sufs = sufArray(KMR(str));
-
-	rep(i, 1, sz(sufs)) {
-		assert(strcmp(&str[sufs[i-1]], &str[sufs[i]]) < 0);
-	}
-
+	Vi sufs = sufArray(str);
 	Vi lcp = lcpArray(str, sufs);
 
 	rep(i, 0, sz(lcp)) {
