@@ -5,7 +5,8 @@
 // Word is simple iff it's stricly smaller
 // than any of it's nontrivial suffixes.
 // Lyndon factorization is division of string
-// into simple words. It is unique.
+// into non-increasing simple words.
+// It is unique.
 vector<string> duval(const string& s) {
 	int n = sz(s), i = 0;
 	vector<string> ret;
