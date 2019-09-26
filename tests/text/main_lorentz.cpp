@@ -3,7 +3,7 @@
 
 // http://e-maxx.ru/algo/string_tandems
 
-vector<pair<Pii, int>> inters;
+vector<Vi> sqr;
 
 vector<int> z_function (const string & s) {
 	int n = (int) s.length();
@@ -28,11 +28,9 @@ void output_tandems (const string &, int shift, bool left, int cntr, int l, int 
 	int lastPos = (left ? cntr-last : cntr-last-(l-last)-last+1) + shift;
 	if (firstPos > lastPos) swap(firstPos, lastPos);
 
-	inters.pb({ {firstPos, lastPos+1}, l });
-
-	// for (int pos = firstPos; pos <= lastPos; pos++) {
-	// 	cerr << "[" << pos << ".." << pos+2*l-1 << "] = " << s.substr (pos-shift, 2*l) << '\n';
-	// }
+	rep(i, firstPos, lastPos+1) {
+		sqr[i].pb(l);
+	}
 }
 
 inline int get_z (const vector<int> & z, int i) {
@@ -81,23 +79,37 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	inters.clear();
+	sqr.assign(n, {});
 	find_tandems(str);
-	sort(all(inters));
 
-	vector<pair<Pii, int>> our;
-	each(p, lorentz(str)) our.pb({{p.begin, p.end}, p.len});
-	sort(all(our));
+	vector<Vi> our(n);
 
-	deb(inters);
-	deb(our);
-	assert(inters == our);
+	each(p, lorentz(str)) {
+		assert(p.begin < p.end);
+		assert(p.begin >= 0 && p.begin < sz(str));
+		assert(p.end >= 0 && p.end < sz(str));
+		assert(p.begin+p.len*2 <= sz(str));
+		rep(i, p.begin, p.end) our[i].pb(p.len);
+	}
+
+	each(v, sqr) {
+		sort(all(v));
+		v.erase(unique(all(v)), v.end());
+	}
+
+	each(v, our) {
+		sort(all(v));
+	}
+
+	// deb(sqr);
+	// deb(our);
+	assert(sqr == our);
 }
 
 int main() {
-	rep(alpha, 1, 10) rep(n, 1, 20) {
+	rep(alpha, 1, 10) rep(n, 1, 40) {
 		deb(n, alpha);
-		rep(i, 0, 10) {
+		rep(i, 0, 100) {
 			test(n, alpha);
 		}
 	}

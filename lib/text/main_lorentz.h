@@ -9,39 +9,35 @@ struct Sqr {
 // Main-Lorentz algorithm for finding
 // all squares in given word; time: O(n lg n)
 // Results are in compressed form:
-// (l, r, s) means that for each l <= i < r
-// there is square at position i of size 2s
-// UNFINISHED
+// (b, e, l) means that for each b <= i < e
+// there is square at position i of size 2l.
+// Each square is present in only one interval.
 vector<Sqr> lorentz(const string& s) {
-	if (sz(s) <= 1) return {};
-	auto a = s.substr(0, sz(s)/2);
-	auto b = s.substr(sz(a));
+	int n = sz(s);
+	if (n <= 1) return {};
+	auto a = s.substr(0, n/2), b = s.substr(n/2);
 
 	auto ans = lorentz(a);
 	each(p, lorentz(b))
-		ans.pb({p.begin+sz(a),p.end+sz(a),p.len});
+		ans.pb({p.begin+n/2, p.end+n/2, p.len});
 
 	string ra(a.rbegin(), a.rend());
 	string rb(b.rbegin(), b.rend());
 
-	rep(i, 0, 2) {
-		Vi z1 = prefPref(ra), z2 = prefPref(b+"#"+a);
+	rep(j, 0, 2) {
+		Vi z1 = prefPref(ra), z2 = prefPref(b+a);
 		z1.pb(0); z2.pb(0);
 
 		rep(c, 0, sz(a)) {
 			int l = sz(a)-c;
-			int k1 = z1[sz(a)-c], k2 = z2[sz(b)+c+1];
-			if (k1+k2 < l) continue;
+			int x = c - min(l-1, z1[l]);
+			int y = c - max(l-z2[sz(b)+c], j);
+			if (x > y) continue;
 
-			int first = c - min(l-1, k1);
-			int last = c - max(l-k2, 1-i);
-			if (first > last) continue;
-
-			if (i) {
-				ans.pb({sz(s)-last-l*2, sz(s)-first-l*2+1, l});
-			} else {
-				ans.pb({first, last+1, l});
-			}
+			if (j)
+				ans.pb({n-y-l*2, n-x-l*2+1, l});
+			else
+				ans.pb({x, y+1, l});
 		}
 
 		a.swap(rb);
