@@ -1,0 +1,21 @@
+#pragma once
+#include "../template.h"
+
+// Find lexicographically smallest
+// rotation of s; time: O(n)
+// Returns index where shifted word starts.
+// You can use std::rotate to get the word:
+// rotate(s.begin(), v.begin()+minRotation(v),
+//        v.end());
+int minRotation(string s) {
+	int a = 0, n = sz(s); s += s;
+	rep(b, 0, n) rep(i, 0, n) {
+		if (a+i == b || s[a+i] < s[b+i]) {
+			b += max(0, i-1); break;
+		}
+		if (s[a+i] > s[b+i]) {
+			a = b; break;
+		}
+	}
+	return a;
+}
