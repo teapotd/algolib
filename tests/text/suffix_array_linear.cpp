@@ -1,9 +1,7 @@
 #include "../../lib/text/suffix_array_linear.h"
 #define sufArray sufArrayKmr
-#define lcpArray lcpArrayKmr
 #include "../../lib/text/suffix_array.h"
 #undef sufArray
-#undef lcpArray
 #include "../testing.h"
 
 void test(int n, int alpha) {
@@ -22,13 +20,21 @@ void test(int n, int alpha) {
 	}
 }
 
+void perfTest() {
+	string str(1e6, 'a');
+	each(c, str) c = char('a' + r(0, 20));
+	sufArray(str);
+}
+
 int main() {
 	rep(alpha, 1, 10) rep(n, 1, 50) {
-		deb(n, alpha);
+		// deb(n, alpha);
 		rep(i, 0, 10) {
 			test(n, alpha);
 		}
 	}
+
 	cerr << "OK\n";
+	perfTest();
 	return 0;
 }
