@@ -21,7 +21,7 @@ ll modPow(ll a, ll e, ll m) { // a^e mod m
 // Wrapper for modular arithmetic
 struct Zp {
 	ll x; // Contained value, in range [0;MOD-1]
-	Zp() {}
+	Zp() : x(0) {}
 	Zp(ll a) : x(a%MOD) { if (x < 0) x += MOD; }
 
 	#define OP(c,d) Zp& operator c##=(Zp r) { \
