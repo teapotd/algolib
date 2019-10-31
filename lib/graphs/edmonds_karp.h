@@ -1,21 +1,20 @@
 #pragma once
 #include "../template.h"
 
-constexpr int INF = 1e9+10;
+using flow_t = int;
+constexpr flow_t INF = 1e9+10;
 
 // Edmonds-Karp algorithm for finding
 // maximum flow in graph; time: O(V*E^2)
 // NOT HEAVILY TESTED
 struct MaxFlow {
-	using T = int;
-
 	struct Edge {
 		int dst, inv;
-		T flow, cap;
+		flow_t flow, cap;
 	};
 
 	vector<vector<Edge>> G;
-	vector<T> add;
+	vector<flow_t> add;
 	Vi prev;
 
 	// Initialize for n vertices
@@ -28,7 +27,8 @@ struct MaxFlow {
 
 	// Add edge between u and v with capacity cap
 	// and reverse capacity rcap
-	void addEdge(int u, int v, T cap, T rcap=0) {
+	void addEdge(int u, int v,
+	             flow_t cap, flow_t rcap = 0) {
 		G[u].pb({ v, sz(G[v]), 0, cap });
 		G[v].pb({ u, sz(G[u])-1, 0, rcap });
 	}
@@ -37,8 +37,9 @@ struct MaxFlow {
 	// Flow values can be found in edges,
 	// vertices with `add` >= 0 belong to
 	// cut component containing `s`.
-	T maxFlow(int src, int dst) {
-		T f = 0;
+	flow_t maxFlow(int src, int dst) {
+		flow_t f = 0;
+		each(v, G) each(e, v) e.flow = 0;
 
 		do {
 			queue<int> Q;
@@ -49,7 +50,7 @@ struct MaxFlow {
 
 			while (!Q.empty()) {
 				int i = Q.front();
-				T m = add[i];
+				flow_t m = add[i];
 				Q.pop();
 
 				if (i == dst) {
@@ -74,5 +75,10 @@ struct MaxFlow {
 		} while (prev[dst] != -1);
 
 		return f;
+	}
+
+	// Get if v belongs to cut component with src
+	bool cutSide(int v) {
+		return add[v] >= 0;
 	}
 };

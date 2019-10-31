@@ -1,23 +1,22 @@
 #pragma once
 #include "../template.h"
 
-constexpr int64_t INF = 1e18;
+using flow_t = int;
+constexpr flow_t INF = 1e9+10;
 
 // Push-relabel algorithm with global relabel
 // heuristic for finding maximum flow; O(V^3),
 // but very fast in practice.
 // Preflow is not converted to flow!
 struct MaxFlow {
-	using T = int64_t;
-
 	struct Vert {
 		int head{0}, cur{0}, label;
-		T excess;
+		flow_t excess;
 	};
 
 	struct Edge {
 		int dst, nxt;
-		T avail, cap;
+		flow_t avail, cap;
 	};
 
 	vector<Vert> V;
@@ -38,7 +37,8 @@ struct MaxFlow {
 
 	// Add edge between u and v with capacity cap
 	// and reverse capacity rcap
-	void addEdge(int u, int v, T cap, T rcap=0) {
+	void addEdge(int u, int v,
+	             flow_t cap, flow_t rcap = 0) {
 		E.pb({ v, V[u].head, 0, cap });
 		E.pb({ u, V[v].head, 0, rcap });
 		V[u].head = sz(E)-2;
@@ -46,7 +46,7 @@ struct MaxFlow {
 	}
 
 	void push(int v, int e) {
-		T f = min(V[v].excess, E[e].avail);
+		flow_t f = min(V[v].excess, E[e].avail);
 		E[e].avail -= f;
 		E[e^1].avail += f;
 		V[v].excess -= f;
@@ -55,9 +55,9 @@ struct MaxFlow {
 	}
 
 	// Compute maximum flow from src to dst
-	T maxFlow(int src, int dst) {
+	flow_t maxFlow(int src, int dst) {
 		each(v, V) v.excess = v.label = v.cur = 0;
-		each(e, E) e.avail = max(e.cap, T(0));
+		each(e, E) e.avail = max(e.cap, flow_t(0));
 
 		int cnt, n = cnt = V[src].label = sz(V);
 		V[src].excess = INF;
