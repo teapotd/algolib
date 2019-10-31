@@ -4,6 +4,9 @@
 constexpr ll MOD = 15*(1<<27)+1; // ~2e9
 constexpr ll ROOT = 440564289; // order = 1<<27
 
+// constexpr ll MOD = 998244353;
+// constexpr ll ROOT = 31; // order = 1<<23
+
 ll modInv(ll a, ll m) {
 	if (a == 1) return 1;
 	return ((a - modInv(m%a, a))*m + 1) / a;
