@@ -58,6 +58,8 @@ tem vector<t> span(const t* a, u n) {
 
 // > Utils
 
+// #define _USE_MATH_DEFINES
+
 // #pragma GCC optimize("Ofast,unroll-loops,
 //                       no-stack-protector")
 // #pragma GCC target("avx")
