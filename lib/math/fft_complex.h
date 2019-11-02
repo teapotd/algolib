@@ -16,6 +16,7 @@ cmpl operator*=(cmpl& a,cmpl b) {return a=a*b;}
 
 // Compute DFT over complex numbers; O(n lg n)
 // Input size must be power of 2!
+//! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransform.h
 void fft(vector<cmpl>& a) {
 	static vector<cmpl> w(2, 1);
 	int n = sz(a);
@@ -51,8 +52,9 @@ void convolve(vector<cmpl>& a, vector<cmpl> b){
 	a.resize(len);
 }
 
-// Convolve real-valued a and b, return result
+// Convolve real-valued a and b, returns result
 // time: O(n lg n), 2x FFT
+//! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransform.h
 vector<dbl> convolve(vector<dbl>& a,
                      vector<dbl>& b) {
 	int len = sz(a) + sz(b) - 1;
@@ -69,5 +71,43 @@ vector<dbl> convolve(vector<dbl>& a,
 
 	vector<dbl> ret(len);
 	rep(i, 0, len) ret[i] = imag(out[i]) / (n*4);
+	return ret;
+}
+
+constexpr int MOD = 1e9+7;
+
+// High precision convolution of integer-valued
+// a and b mod MOD; time: O(n lg n), 4x FFT
+// Input is expected to be in range [0;MOD)
+//! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransformMod.h
+Vi convolve(Vi& a, Vi& b) {
+	int len = sz(a) + sz(b) - 1;
+	int n = 1 << (32 - __builtin_clz(len));
+	int cut = int(sqrt(MOD));
+
+	vector<cmpl> c(n), d(n), g(n), f(n);
+
+	rep(i, 0, sz(a)) c[i] = {a[i]/cut, a[i]%cut};
+	rep(i, 0, sz(b)) d[i] = {b[i]/cut, b[i]%cut};
+	fft(c); fft(d);
+
+	rep(i, 0, n) {
+		int j = -i & (n-1);
+		f[j] = (c[i]+conj(c[j])) * d[i] / (n*2.0);
+		g[j] =
+			(c[i]-conj(c[j])) * d[i] / cmpl(0, n*2);
+	}
+
+	Vi ret(len);
+	fft(f); fft(g);
+
+	rep(i, 0, len) {
+		ll t = llround(real(f[i])) % MOD * cut;
+		t += llround(imag(f[i]));
+		t = (t + llround(real(g[i]))) % MOD * cut;
+		t = (t + llround(imag(g[i]))) % MOD;
+		ret[i] = int(t < 0 ? t+MOD : t);
+	}
+
 	return ret;
 }

@@ -110,6 +110,9 @@ func processFile(path string, info os.FileInfo) {
 		if cur == "#pragma once" {
 			continue
 		}
+		if strings.HasPrefix(cur, "//!") {
+			continue
+		}
 		if strings.HasPrefix(cur, "#include ") && strings.HasSuffix(cur, "template.h\"") {
 			continue
 		}
