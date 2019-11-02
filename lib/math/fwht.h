@@ -5,6 +5,7 @@
 // Input must be power of 2!
 // Uncommented version is for XOR.
 // UNTESTED
+//! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastSubsetTransform.h
 template<class T, bool inv>
 void fwht(vector<T>& b) {
 	using Q = pair<T, T>;

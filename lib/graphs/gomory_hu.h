@@ -14,6 +14,7 @@ struct Edge {
 // is equal to minimum on path from u and v
 // in Gomory-Hu tree. n is vertex count.
 // Returns vector of Gomory-Hu tree edges.
+//! Source: https://github.com/koosaga/DeobureoMinkyuParty/blob/master/teamnote.pdf
 vector<Edge> gomoryHu(vector<Edge>& edges,
                       int n) {
 	MaxFlow flow(n);
