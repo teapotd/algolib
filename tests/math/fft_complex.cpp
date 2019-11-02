@@ -1,12 +1,12 @@
 #include "../../lib/math/fft_complex.h"
 #include "../testing.h"
 
-vector<cmpl> naiveConvolve(vector<cmpl>& A, vector<cmpl>& B) {
+vector<dbl> naiveConvolve(vector<dbl>& A, vector<dbl>& B) {
 	int len = sz(A) + sz(B) - 1;
 	int n = 1 << (32 - __builtin_clz(len));
 	A.resize(n); B.resize(n);
 
-	vector<cmpl> ret(sz(A));
+	vector<dbl> ret(sz(A));
 	rep(i, 0, n) rep(j, 0, n) {
 		auto& x = ret[(i+j)&(n-1)];
 		x = x + A[i]*B[j];
@@ -16,32 +16,35 @@ vector<cmpl> naiveConvolve(vector<cmpl>& A, vector<cmpl>& B) {
 	return ret;
 }
 
-void randData(vector<cmpl>& data) {
-	each(d, data) d = complex<double>(r(-1000, 1000), r(-1000, 1000));
+void randData(vector<dbl>& data) {
+	each(d, data) d = dbl(r(-1000, 1000));
 }
 
 int main() {
 	cerr << fixed << setprecision(10);
 
 	// int n = 1<<20;
-	// vector<cmpl> d1(n), d2(n);
+	// vector<dbl> d1(n), d2(n);
 	// randData(d1);
 	// randData(d2);
-	// vector<cmpl> x1 = convolve(d1, d2);
+	// d1 = convolve(d1, d2);
+
+	// cout << d1[123] << endl;
 
 	for (int i = 0; i < 14; i++) {
 		int n = 1 << i;
 
-		vector<cmpl> d1(n), d2(n);
+		vector<dbl> d1(n), d2(n);
 		randData(d1);
 		randData(d2);
 
-		vector<cmpl> x1 = d1;
-		convolve(x1, d2);
-		vector<cmpl> x2 = naiveConvolve(d1, d2);
+		vector<dbl> x1 = convolve(d1, d2);
+		vector<dbl> x2 = naiveConvolve(d1, d2);
+
+		assert(sz(x1) == sz(x2));
 
 		double diff = 0;
-		rep(j, 0, n) {
+		rep(j, 0, sz(x1)) {
 			auto d = abs(x1[i]-x2[i]);
 			diff = max(max(diff, real(d)), imag(d));
 		}
