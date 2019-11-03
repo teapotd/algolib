@@ -109,8 +109,14 @@ int main() {
 	checkWithNaiveConv();
 
 	benchConv("kactl convolve", kactl::conv);
+
 	benchConv("our convolve", [](vector<ll> a, vector<ll>& b) {
 		convolve(a, b);
+		return a;
+	});
+
+	benchConv("our convolve long", [](vector<ll> a, vector<ll>& b) {
+		convLong(a, b);
 		return a;
 	});
 
