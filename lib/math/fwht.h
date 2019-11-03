@@ -8,15 +8,14 @@
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastSubsetTransform.h
 template<class T, bool inv>
 void fwht(vector<T>& b) {
-	using Q = pair<T, T>;
 	for (int s = 1; s < sz(b); s *= 2) {
 		for (int i = 0; i < sz(b); i += s*2) {
 			rep(j, i, i+s) {
 				auto &x = b[j], &y = b[j+s];
 				tie(x, y) =
-				   Q(x+y, x-y);                 // XOR
-				// inv ? Q(y-x, x) : Q(y, x+y); // AND
-				// inv ? Q(y, x-y) : Q(x+y, y); // OR
+				   mp(x+y, x-y);                  //XOR
+				// inv ? mp(y-x, x) : mp(y, x+y); //AND
+				// inv ? mp(y, x-y) : mp(x+y, y); //OR
 			}
 		}
 	}
