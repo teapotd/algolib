@@ -54,6 +54,9 @@ void convolve(vector<cmpl>& a, vector<cmpl> b){
 
 // Convolve real-valued a and b, returns result
 // time: O(n lg n), 2x FFT
+// Rounding to integers is safe as long as
+// (max_coeff^2)*n*log_2(n) < 9*10^14
+// (in practice 10^16 or higher).
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransform.h
 vector<dbl> convolve(vector<dbl>& a,
                      vector<dbl>& b) {
@@ -74,21 +77,26 @@ vector<dbl> convolve(vector<dbl>& a,
 	return ret;
 }
 
-constexpr int MOD = 1e9+7;
+constexpr ll MOD = 1e9+7;
 
 // High precision convolution of integer-valued
 // a and b mod MOD; time: O(n lg n), 4x FFT
-// Input is expected to be in range [0;MOD)
+// Input is expected to be in range [0;MOD).
+// Rounding is safe if MOD*n*log_2(n) < 9*10^14
+// (in practice 10^16 or higher).
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransformMod.h
-Vi convolve(Vi& a, Vi& b) {
-	int len = sz(a) + sz(b) - 1;
-	int n = 1 << (32 - __builtin_clz(len));
-	int cut = int(sqrt(MOD));
+vector<ll> convolve(vector<ll>& a, vector<ll>& b) {
+	vector<ll> ret(sz(a) + sz(b) - 1);
+	int n = 1 << (32 - __builtin_clz(sz(ret)));
+	ll cut = ll(sqrt(MOD))+1;
 
 	vector<cmpl> c(n), d(n), g(n), f(n);
 
-	rep(i, 0, sz(a)) c[i] = {a[i]/cut, a[i]%cut};
-	rep(i, 0, sz(b)) d[i] = {b[i]/cut, b[i]%cut};
+	rep(i, 0, sz(a))
+		c[i] = {dbl(a[i]/cut), dbl(a[i]%cut)};
+	rep(i, 0, sz(b))
+		d[i] = {dbl(b[i]/cut), dbl(b[i]%cut)};
+
 	fft(c); fft(d);
 
 	rep(i, 0, n) {
@@ -98,15 +106,14 @@ Vi convolve(Vi& a, Vi& b) {
 			(c[i]-conj(c[j])) * d[i] / cmpl(0, n*2);
 	}
 
-	Vi ret(len);
 	fft(f); fft(g);
 
-	rep(i, 0, len) {
+	rep(i, 0, sz(ret)) {
 		ll t = llround(real(f[i])) % MOD * cut;
 		t += llround(imag(f[i]));
 		t = (t + llround(real(g[i]))) % MOD * cut;
 		t = (t + llround(imag(g[i]))) % MOD;
-		ret[i] = int(t < 0 ? t+MOD : t);
+		ret[i] = (t < 0 ? t+MOD : t);
 	}
 
 	return ret;
