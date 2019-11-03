@@ -66,3 +66,23 @@ void convolve(vector<ll>& a, vector<ll> b) {
 	ntt<M,R,1>(a);
 	a.resize(len);
 }
+
+#include "crt.h"
+
+// Convolve a and b with 64-bit output,
+// store result in a; time: O(n lg n), 6x NTT
+// Input is expected to be non-negative!
+void convLong(vector<ll>& a, vector<ll> b) {
+	const ll M1 = (479<<21)+1, M2 = (483<<21)+1;
+	const ll R = 62;
+
+	vector<ll> c = a, d = b;
+	each(k, a) k %= M1; each(k, b) k %= M1;
+	each(k, c) k %= M2; each(k, d) k %= M2;
+
+	convolve<M1, R>(a, b);
+	convolve<M2, R>(c, d);
+
+	rep(i, 0, sz(a))
+		a[i] = crt({a[i],M1}, {c[i],M2}).x;
+}

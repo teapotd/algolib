@@ -51,16 +51,15 @@ vector<ll> naiveConvolve(vector<ll>& A, vector<ll>& B) {
 	vector<ll> ret(sz(A));
 	rep(i, 0, n) rep(j, 0, n) {
 		auto& x = ret[(i+j)&(n-1)];
-		x = (x + A[i]*B[j]) % kactl::mod;
+		x = (x + A[i]*B[j]);
 	}
 
 	ret.resize(len);
-	each(x, ret) if (x < 0) x += kactl::mod;
 	return ret;
 }
 
 void randData(vector<ll>& data) {
-	each(d, data) d = r(0, 1000);
+	each(d, data) d = r(0, 1000000);
 }
 
 void checkWithNaiveConv() {
@@ -72,7 +71,7 @@ void checkWithNaiveConv() {
 		randData(d2);
 
 		vector<ll> x1 = d1;
-		convolve(x1, d2);
+		convLong(x1, d2);
 		vector<ll> x2 = naiveConvolve(d1, d2);
 
 		ll diff = 0;
