@@ -67,14 +67,19 @@ void convolve(vector<ll>& a, vector<ll> b) {
 	a.resize(len);
 }
 
-#include "crt.h"
+ll egcd(ll a, ll b, ll& x, ll& y) {
+	if (!a) return x=0, y=1, b;
+	ll d = egcd(b%a, a, y, x);
+	x -= b/a*y;
+	return d;
+}
 
 // Convolve a and b with 64-bit output,
 // store result in a; time: O(n lg n), 6x NTT
 // Input is expected to be non-negative!
 void convLong(vector<ll>& a, vector<ll> b) {
 	const ll M1 = (479<<21)+1, M2 = (483<<21)+1;
-	const ll R = 62;
+	const ll MOD = M1*M2, R = 62;
 
 	vector<ll> c = a, d = b;
 	each(k, a) k %= M1; each(k, b) k %= M1;
@@ -83,6 +88,10 @@ void convLong(vector<ll>& a, vector<ll> b) {
 	convolve<M1, R>(a, b);
 	convolve<M2, R>(c, d);
 
-	rep(i, 0, sz(a))
-		a[i] = crt({a[i],M1}, {c[i],M2}).x;
+	ll x, y; egcd(M1, M2, x, y);
+
+	rep(i, 0, sz(a)) {
+		a[i] += (c[i]-a[i])*x % M2 * M1;
+		if ((a[i] %= MOD) < 0) a[i] += MOD;
+	}
 }
