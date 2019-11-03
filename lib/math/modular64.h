@@ -13,6 +13,7 @@ ll modSub(ll x, ll y, ll m) {
 	return x >= 0 ? x : x+m;
 }
 
+// About 4x slower than normal modulo
 ll modMul(ll a, ll b, ll m) {
 	ll c = ll((long double)a * b / m);
 	ll r = (a*b - c*m) % m;

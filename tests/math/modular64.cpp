@@ -15,7 +15,7 @@ ll naivePow(__int128 a, __int128 p) {
   return ll(ret);
 }
 
-int main() {
+void check() {
   rep(i, 0, 100000) {
     ll a = rl(0, MOD);
     ll b = rl(0, MOD);
@@ -25,5 +25,36 @@ int main() {
       assert(naivePow(a, p) == modPow(a, p, MOD));
     }
   }
+}
+
+void benchMulMod32() {
+  auto start = now();
+
+  constexpr ll p = 1e9+7;
+  ll a = 1337;
+
+  rep(i, 0, int(1e8)) {
+    a = a*(i+1) % p;
+  }
+
+  cout << "integer modulo " << since(start) << "ms (" << a << ")" << endl;
+}
+
+void benchMulMod64() {
+  auto start = now();
+
+  ll a = 1337;
+
+  rep(i, 0, int(1e8)) {
+    a = modMul(a, i+1, MOD);
+  }
+
+  cout << "long modulo " << since(start) << "ms (" << a << ")" << endl;
+}
+
+int main() {
+  check();
+  benchMulMod32();
+  benchMulMod64();
   return 0;
 }
