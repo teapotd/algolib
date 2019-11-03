@@ -85,7 +85,8 @@ constexpr ll MOD = 1e9+7;
 // Rounding is safe if MOD*n*log_2(n) < 9*10^14
 // (in practice 10^16 or higher).
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransformMod.h
-vector<ll> convolve(vector<ll>& a, vector<ll>& b) {
+vector<ll> convMod(vector<ll>& a,
+                   vector<ll>& b) {
 	vector<ll> ret(sz(a) + sz(b) - 1);
 	int n = 1 << (32 - __builtin_clz(sz(ret)));
 	ll cut = ll(sqrt(MOD))+1;

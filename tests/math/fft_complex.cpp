@@ -149,7 +149,7 @@ int main() {
 	benchConv<dbl>("our convolve", convolve);
 
 	benchConv<ll>("kacl convolve mod", kactl::convMod);
-	benchConv<ll>("our convolve mod", convolve);
+	benchConv<ll>("our convolve mod", convMod);
 
 	return 0;
 }
