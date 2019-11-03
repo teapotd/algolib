@@ -3,7 +3,7 @@
 
 namespace kactl {
 	typedef vector<ll> vl;
-	const ll mod = (119 << 23) + 1, root = 62;
+	const ll mod = (119<<23)+1, root = 62;
 
 	ll modpow(ll a, ll e) { // a^e mod m
 		ll t = 1 % mod;
@@ -51,11 +51,11 @@ vector<ll> naiveConvolve(vector<ll>& A, vector<ll>& B) {
 	vector<ll> ret(sz(A));
 	rep(i, 0, n) rep(j, 0, n) {
 		auto& x = ret[(i+j)&(n-1)];
-		x = (x + A[i]*B[j]) % MOD;
+		x = (x + A[i]*B[j]) % kactl::mod;
 	}
 
 	ret.resize(len);
-	each(x, ret) if (x < 0) x += MOD;
+	each(x, ret) if (x < 0) x += kactl::mod;
 	return ret;
 }
 
@@ -95,13 +95,13 @@ void benchConv(const char *name, conv_t conv) {
 	iota(all(a), 15435);
 	iota(all(b), 53455);
 
-	rep(i, 0, 10) {
+	rep(i, 0, 5) {
 		a = conv(a, b);
 		a.resize(n);
 		a.swap(b);
 	}
 
-	cout << name << " " << since(start) << "ms" << endl;
+	cout << name << " " << since(start) << "ms (" << a[12345] << ")" << endl;
 }
 
 int main() {

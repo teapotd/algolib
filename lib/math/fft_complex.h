@@ -81,7 +81,7 @@ constexpr ll MOD = 1e9+7;
 
 // High precision convolution of integer-valued
 // a and b mod MOD; time: O(n lg n), 4x FFT
-// Input is expected to be in range [0;MOD).
+// Input is expected to be in range [0;MOD)!
 // Rounding is safe if MOD*n*log_2(n) < 9*10^14
 // (in practice 10^16 or higher).
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransformMod.h

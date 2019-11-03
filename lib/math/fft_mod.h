@@ -1,62 +1,68 @@
 #pragma once
 #include "../template.h"
 
-constexpr ll MOD = 15*(1<<27)+1; // ~2e9
-constexpr ll ROOT = 440564289; // order = 1<<27
+// Number Theoretic Tranform (NTT)
+// For functions below you can choose 2 params:
+// 1. M - prime modulus that MUST BE of form
+//        a*2^k+1, computation is done in Z_M
+// 2. R - generator of Z_M
 
-// constexpr ll MOD = 998244353;
-// constexpr ll ROOT = 31; // order = 1<<23
+// Modulus often seen on Codeforces:
+// M = (119<<23)+1, R = 62; M is 998244353
 
-ll modInv(ll a, ll m) {
-	if (a == 1) return 1;
-	return ((a - modInv(m%a, a))*m + 1) / a;
+// Parameters for ll compution with CRT:
+// M = (479<<21)+1, R = 62; M is > 10^9
+// M = (483<<21)+1, R = 62; M is > 10^9
+
+ll modPow(ll a, ll e, ll m) {
+	ll t = 1 % m;
+	while (e) {
+		if (e % 2) t = t*a % m;
+		e /= 2; a = a*a % m;
+	}
+	return t;
 }
 
-// Compute DFT over integers mod MOD; O(n lg n)
-// DFT is in bit-reversed order!
-// Input size must be power of 2!
-template<int dir> // 1 for DFT, -1 for inverse
-void fft(vector<ll>& buf) {
-	assert(__builtin_popcount(sz(buf)) == 1);
-	int n = sz(buf), bits = 31-__builtin_clz(n);
-	int i = (dir > 0 ? 0 : bits-1);
+// Compute DFT over Z_M with generator R.
+// Input size must be power of 2; O(n lg n)
+// Input is expected to be in range [0;MOD)!
+// dit == true <=> inverse transform * 2^n
+//                 (without normalization)
+template<ll M, ll R, bool dit>
+void ntt(vector<ll>& a) {
+	static vector<ll> w(2, 1);
+	int n = sz(a);
 
-	vector<ll> bases = {1};
-	ll c = ROOT;
-	rep(k, bits, 27) c = c*c % MOD;
-	rep(k, 0, n) bases.pb(bases.back()*c % MOD);
+	for (int k = sz(w); k < n; k *= 2) {
+		w.resize(n, 1);
+		ll c = modPow(R, M/2/k, M);
+		if (dit) c = modPow(c, M-2, M);
+		rep(i, k+1, k*2) w[i] = w[i-1]*c % M;
+	}
 
-	for (; i >= 0 && i < bits; i += dir) {
-		int shift = 1 << (bits-i-1);
-		rep(j, 0, 1 << i) rep(k, 0, shift) {
-			int a = (j << (bits-i)) | k, b = a|shift;
-			auto v1 = buf[a], v2 = buf[b];
-			auto base = bases[(dir*(k<<i)) & (n-1)];
-			if (dir > 0) {
-				buf[b] = (v1-v2)*base % MOD;
-			} else {
-				v2 *= base;
-				buf[b] = (v1-v2) % MOD;
-			}
-			buf[a] = (v1+v2) % MOD;
+	for (int t=1, s=n/2; t < n; t *= 2, s /= 2) {
+		int k = (dit ? t : s);
+		for (int i=0; i < n; i += k*2) rep(j,0,k) {
+			ll &c = a[i+j], &d = a[i+j+k];
+			ll e = w[j+k], f = d;
+			d = (dit ? c - (f=f*e%M) : (c-f)*e % M);
+			if (d < 0) d += M;
+			if ((c += f) >= M) c -= M;
 		}
 	}
-
-	if (dir < 0) {
-		ll y = modInv(n, MOD);
-		each(x, buf) x = x*y % MOD;
-	}
-	each(x, buf) if (x < 0) x += MOD;
 }
 
-// Convolve a and b, store result in a;
-// time: O(n lg n)
+// Convolve a and b mod M (R is generator),
+// store result in a; time: O(n lg n), 3x NTT
+// Input is expected to be in range [0;MOD)!
+template<ll M = (119<<23)+1, ll R = 62>
 void convolve(vector<ll>& a, vector<ll> b) {
 	int len = sz(a) + sz(b) - 1;
 	int n = 1 << (32 - __builtin_clz(len));
+	ll t = modPow(n, M-2, M);
 	a.resize(n); b.resize(n);
-	fft<1>(a); fft<1>(b);
-	rep(i, 0, n) a[i] = a[i]*b[i] % MOD;
-	fft<-1>(a);
+	ntt<M,R,0>(a); ntt<M,R,0>(b);
+	rep(i, 0, n) a[i] = a[i]*b[i] % M * t % M;
+	ntt<M,R,1>(a);
 	a.resize(len);
 }
