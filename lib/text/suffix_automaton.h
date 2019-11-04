@@ -14,13 +14,20 @@ constexpr int ALPHA = 26; // Set alphabet size
 // - [PATHS] - count paths from node
 //! Source: https://cp-algorithms.com/string/suffix-automaton.html
 struct SufDFA {
+	// State v represents endpos-equivalence
+	// class that contains words of all lengths
+	// between link[len[v]]+1 and len[v].
+	// len[v] = longest word of equivalence class
+	// link[v] = link to state of longest suffix
+	//           in other equivalence class
+	// to[v][c] = automaton edge c from v
 	Vi len{0}, link{-1};
 	vector<array<int, ALPHA>> to{ {} };
 	int last{0}; // Current node (whole word)
 
-	vector<Vi> inSufs; // [OCC]
-	Vi cnt{0};         // [OCC]
-	vector<ll> paths;  // [PATHS]
+	vector<Vi> inSufs; // [OCC] Suffix-link tree
+	Vi cnt{0};         // [OCC] Occurence count
+	vector<ll> paths;  // [PATHS] Out-path count
 
 	SufDFA() {}
 
@@ -72,7 +79,7 @@ struct SufDFA {
 		// [/OCC]
 
 		// [PATHS]
-		paths.assign(sz(len), 1);
+		paths.assign(sz(len), 0);
 		dfs(0);
 		// [/PATHS]
 	}
@@ -87,6 +94,8 @@ struct SufDFA {
 
 	// Only for [PATHS]
 	void dfs(int v) {
+		if (paths[v]) return;
+		paths[v] = 1;
 		each(e, to[v]) if (e) {
 			dfs(e);
 			paths[v] += paths[e];
