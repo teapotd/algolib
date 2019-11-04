@@ -10,7 +10,7 @@ struct KMR {
 
 	// Initialize structure; time: O(n lg^2 n)
 	// You can change str type to Vi freely.
-	explicit KMR(const string& str) {
+	KMR(const string& str) {
 		ids.clear();
 		ids.pb(Vi(all(str)));
 

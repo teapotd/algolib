@@ -7,6 +7,7 @@
 // You can use std::rotate to get the word:
 // rotate(s.begin(), v.begin()+minRotation(v),
 //        v.end());
+//! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/strings/MinRotation.h
 int minRotation(string s) {
 	int a = 0, n = sz(s); s += s;
 	rep(b, 0, n) rep(i, 0, n) {
