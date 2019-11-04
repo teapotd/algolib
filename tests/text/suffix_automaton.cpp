@@ -7,8 +7,7 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	SufDFA dfa;
-	each(c, str) dfa.add(c-'a');
+	SufDFA dfa(str);
 
 	rep(i, 0, n) {
 		int v = 0;
