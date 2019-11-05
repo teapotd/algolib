@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 
+using dbl = double;
+
 // Find size of smallest set of points
 // such that each arc contains at least one
 // of them; time: O(n lg n)
@@ -17,7 +19,7 @@ int arcCover(vector<pair<dbl, dbl>>& inters,
 		inters.pb({e.x+wrap, e.y+wrap});
 	}
 
-	vector<Vi> jmp(n*2+1, {n*2});
+	Vi nxt(n);
 	deque<dbl> que;
 	dbl r = wrap*4;
 	sort(all(inters));
@@ -27,22 +29,19 @@ int arcCover(vector<pair<dbl, dbl>>& inters,
 		que.push_front(inters[i].x);
 		while (!que.empty() && que.back() > r)
 			que.pop_back();
-		jmp[i][0] = i+sz(que);
+		if (i < n) nxt[i] = i+sz(que);
 	}
 
-	int lg = 32-__builtin_clz(n), ans = n;
-	rep(i, 0, lg) each(v,jmp) v.pb(jmp[v[i]][i]);
+	int a = 0, b = 0;
+	do {
+		a = nxt[a] % n;
+		b = nxt[nxt[b]%n] % n;
+	} while (a != b);
 
-	rep(i, 0, n) {
-		int v = i, k = 0;
-		for (int j = lg; j--;) {
-			if (jmp[v][j] < i+n) {
-				k += 1<<j;
-				v = jmp[v][j];
-			}
-		}
-		ans = min(ans, k+1);
+	int ans = 0;
+	while (b < a+n) {
+		b += nxt[b%n] - b%n;
+		ans++;
 	}
-
 	return ans;
 }
