@@ -1,5 +1,5 @@
-#include "../../lib/util/bump_alloc.h"
-#include "../../lib/template.h"
+#include "../../src/util/bump_alloc.h"
+#include "../../src/template.h"
 #include "../testing.h"
 
 int main() {

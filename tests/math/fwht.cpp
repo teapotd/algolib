@@ -1,4 +1,4 @@
-#include "../../lib/math/fwht.h"
+#include "../../src/math/fwht.h"
 #include "../testing.h"
 
 int main() {

@@ -1,4 +1,4 @@
-#include "../../lib/text/kmr.h"
+#include "../../src/text/kmr.h"
 #include "../testing.h"
 
 void test(int n, int alpha) {

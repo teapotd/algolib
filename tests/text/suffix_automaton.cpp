@@ -1,4 +1,4 @@
-#include "../../lib/text/suffix_automaton.h"
+#include "../../src/text/suffix_automaton.h"
 #include "../testing.h"
 
 void test(int n, int alpha) {

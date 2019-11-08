@@ -1,4 +1,4 @@
-#include "../../lib/graphs/scc.h"
+#include "../../src/graphs/scc.h"
 #include "../testing.h"
 
 vector<Vi> G, inv;

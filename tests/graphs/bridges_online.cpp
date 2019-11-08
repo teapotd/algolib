@@ -1,4 +1,4 @@
-#include "../../lib/graphs/bridges_online.h"
+#include "../../src/graphs/bridges_online.h"
 #include "../testing.h"
 
 struct BridgesNaive {

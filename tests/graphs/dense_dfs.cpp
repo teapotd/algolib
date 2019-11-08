@@ -1,4 +1,4 @@
-#include "../../lib/graphs/dense_dfs.h"
+#include "../../src/graphs/dense_dfs.h"
 #include "../testing.h"
 
 int n = 100000/64*64;

@@ -1,4 +1,4 @@
-#include "../../lib/geometry/segment2.h"
+#include "../../src/geometry/segment2.h"
 #include "../testing.h"
 using namespace rel_ops;
 

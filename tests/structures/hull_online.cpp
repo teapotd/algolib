@@ -1,4 +1,4 @@
-#include "../../lib/structures/hull_online.h"
+#include "../../src/structures/hull_online.h"
 #include "../testing.h"
 
 vector<Pii> funcs;

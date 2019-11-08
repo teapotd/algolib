@@ -1,4 +1,4 @@
-#include "../../lib/text/lyndon_factorization.h"
+#include "../../src/text/lyndon_factorization.h"
 #include "../testing.h"
 
 bool isSimple(const string& str) {

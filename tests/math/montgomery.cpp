@@ -1,4 +1,4 @@
-#include "../../lib/math/montgomery.h"
+#include "../../src/math/montgomery.h"
 #include "../testing.h"
 
 int main() {

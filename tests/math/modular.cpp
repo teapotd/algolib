@@ -1,4 +1,4 @@
-#include "../../lib/math/modular.h"
+#include "../../src/math/modular.h"
 #include "../testing.h"
 
 ll naivePow(ll a, ll p) {

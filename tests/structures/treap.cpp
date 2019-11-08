@@ -1,4 +1,4 @@
-#include "../../lib/structures/treap.h"
+#include "../../src/structures/treap.h"
 #include "../testing.h"
 
 int n;

@@ -1,4 +1,4 @@
-#include "../../lib/graphs/gomory_hu.h"
+#include "../../src/graphs/gomory_hu.h"
 #include "../testing.h"
 
 vector<vector<Pii>> tree;

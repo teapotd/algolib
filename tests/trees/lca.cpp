@@ -1,4 +1,4 @@
-#include "../../lib/trees/lca.h"
+#include "../../src/trees/lca.h"
 #include "../testing.h"
 
 vector<Vi> G;

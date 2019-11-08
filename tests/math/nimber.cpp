@@ -1,4 +1,4 @@
-#include "../../lib/math/nimber.h"
+#include "../../src/math/nimber.h"
 #include "../testing.h"
 
 void perfTest() {

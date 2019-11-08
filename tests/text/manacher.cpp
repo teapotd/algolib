@@ -1,4 +1,4 @@
-#include "../../lib/text/manacher.h"
+#include "../../src/text/manacher.h"
 #include "../testing.h"
 
 Vi naiveManacher(const string& tmp) {

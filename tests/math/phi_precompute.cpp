@@ -1,4 +1,4 @@
-#include "../../lib/math/phi_precompute.h"
+#include "../../src/math/phi_precompute.h"
 #include "../testing.h"
 
 int main() {

@@ -1,5 +1,5 @@
-#include "../../lib/math/miller_rabin.h"
-#include "../../lib/math/sieve.h"
+#include "../../src/math/miller_rabin.h"
+#include "../../src/math/sieve.h"
 #include "../testing.h"
 
 // Assumes that sieve work

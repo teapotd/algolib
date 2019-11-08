@@ -1,5 +1,5 @@
-#include "../../lib/geometry/convex_hull.h"
-#include "../../lib/geometry/convex_hull_sum.h"
+#include "../../src/geometry/convex_hull.h"
+#include "../../src/geometry/convex_hull_sum.h"
 #include "../testing.h"
 using namespace rel_ops;
 

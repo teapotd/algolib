@@ -56,7 +56,7 @@ func main() {
 \begin{document}`)
 
 	line(&out, `\begin{multicols*}{4}`)
-	processDir("lib")
+	processDir("src")
 	line(&out, `\end{multicols*}\pagebreak`)
 
 	line(&out, `\begin{multicols*}{4}`)

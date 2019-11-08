@@ -1,6 +1,6 @@
-#include "../../lib/math/phi_large.h"
+#include "../../src/math/phi_large.h"
 #define phi phi2
-#include "../../lib/math/phi_precompute.h"
+#include "../../src/math/phi_precompute.h"
 #undef phi
 #include "../testing.h"
 

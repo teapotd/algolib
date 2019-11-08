@@ -1,4 +1,4 @@
-#include "../../lib/math/pollard_rho.h"
+#include "../../src/math/pollard_rho.h"
 #include "../testing.h"
 
 constexpr ll MAX_N = 1e18;

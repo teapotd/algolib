@@ -1,4 +1,4 @@
-#include "../../lib/structures/rmq.h"
+#include "../../src/structures/rmq.h"
 #include "../testing.h"
 
 void run() {

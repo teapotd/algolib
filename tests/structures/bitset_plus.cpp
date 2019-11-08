@@ -1,4 +1,4 @@
-#include "../../lib/structures/bitset_plus.h"
+#include "../../src/structures/bitset_plus.h"
 #include "../testing.h"
 
 int main() {

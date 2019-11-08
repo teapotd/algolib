@@ -1,5 +1,5 @@
-#include "../../lib/util/radix_sort.h"
-#include "../../lib/template.h"
+#include "../../src/util/radix_sort.h"
+#include "../../src/template.h"
 #include "../testing.h"
 
 int main() {

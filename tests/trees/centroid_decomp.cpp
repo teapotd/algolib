@@ -1,4 +1,4 @@
-#include "../../lib/trees/centroid_decomp.h"
+#include "../../src/trees/centroid_decomp.h"
 #include "../testing.h"
 
 vector<Vi> G;

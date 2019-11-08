@@ -1,4 +1,4 @@
-#include "../../lib/math/fft_mod.h"
+#include "../../src/math/fft_mod.h"
 #include "../testing.h"
 
 namespace kactl {

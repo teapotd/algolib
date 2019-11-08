@@ -1,4 +1,4 @@
-#include "../../lib/graphs/edmonds_karp.h"
+#include "../../src/graphs/edmonds_karp.h"
 #include "../testing.h"
 
 int main() {

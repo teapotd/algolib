@@ -1,4 +1,4 @@
-#include "../../lib/structures/segment_tree_multi.h"
+#include "../../src/structures/segment_tree_multi.h"
 #include "../testing.h"
 
 int main() {

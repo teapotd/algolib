@@ -1,5 +1,5 @@
-#include "../../lib/util/bit_hacks.h"
-#include "../../lib/template.h"
+#include "../../src/util/bit_hacks.h"
+#include "../../src/template.h"
 #include "../testing.h"
 
 int at(array<ull, 64>& mat, int x, int y) {

@@ -1,4 +1,4 @@
-#include "../../lib/util/compress_vec.h"
+#include "../../src/util/compress_vec.h"
 #include "../testing.h"
 
 int cmp(int a, int b) {

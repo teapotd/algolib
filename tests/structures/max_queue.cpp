@@ -1,4 +1,4 @@
-#include "../../lib/structures/max_queue.h"
+#include "../../src/structures/max_queue.h"
 #include "../testing.h"
 
 int main() {

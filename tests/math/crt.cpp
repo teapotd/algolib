@@ -1,4 +1,4 @@
-#include "../../lib/math/crt.h"
+#include "../../src/math/crt.h"
 #include "../testing.h"
 
 ll gcd(ll a, ll b) {

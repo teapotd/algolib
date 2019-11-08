@@ -1,5 +1,5 @@
-#include "../../lib/math/sieve_factors.h"
-#include "../../lib/math/miller_rabin.h"
+#include "../../src/math/sieve_factors.h"
+#include "../../src/math/miller_rabin.h"
 #include "../testing.h"
 
 void check(ll n) {

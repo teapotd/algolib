@@ -1,5 +1,5 @@
-#include "../../lib/util/inversion_vector.h"
-#include "../../lib/template.h"
+#include "../../src/util/inversion_vector.h"
+#include "../../src/template.h"
 #include "../testing.h"
 
 Vi naive(const Vi& perm) {

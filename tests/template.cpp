@@ -1,5 +1,5 @@
 #include "testing.h"
-#include "../lib/template.h"
+#include "../src/template.h"
 
 struct Vert {
 	int weight;

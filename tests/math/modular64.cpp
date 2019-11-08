@@ -1,4 +1,4 @@
-#include "../../lib/math/modular64.h"
+#include "../../src/math/modular64.h"
 #include "../testing.h"
 
 constexpr ll MOD = 12345678912345678;

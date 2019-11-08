@@ -1,4 +1,4 @@
-#include "../../lib/trees/heavylight_decomp.h"
+#include "../../src/trees/heavylight_decomp.h"
 #include "../testing.h"
 
 vector<Vi> G;

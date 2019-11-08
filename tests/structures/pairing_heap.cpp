@@ -1,4 +1,4 @@
-#include "../../lib/structures/pairing_heap.h"
+#include "../../src/structures/pairing_heap.h"
 #include "../testing.h"
 
 PHeap<int>::Vnode heapMem;

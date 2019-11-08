@@ -1,4 +1,4 @@
-#include "../../lib/math/polynomial.h"
+#include "../../src/math/polynomial.h"
 #include "../testing.h"
 
 int main() {

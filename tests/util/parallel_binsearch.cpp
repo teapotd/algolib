@@ -1,5 +1,5 @@
-#include "../../lib/util/parallel_binsearch.h"
-#include "../../lib/template.h"
+#include "../../src/util/parallel_binsearch.h"
+#include "../../src/template.h"
 #include "../testing.h"
 
 void run(int nElems, int maxVal) {

@@ -1,4 +1,4 @@
-#include "../../lib/structures/fenwick_tree.h"
+#include "../../src/structures/fenwick_tree.h"
 #include "../testing.h"
 
 int main() {

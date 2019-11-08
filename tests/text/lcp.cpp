@@ -1,5 +1,5 @@
-#include "../../lib/text/suffix_array_linear.h"
-#include "../../lib/text/lcp.h"
+#include "../../src/text/suffix_array_linear.h"
+#include "../../src/text/lcp.h"
 #include "../testing.h"
 
 void test(int n, int alpha) {

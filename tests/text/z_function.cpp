@@ -1,4 +1,4 @@
-#include "../../lib/text/z_function.h"
+#include "../../src/text/z_function.h"
 #include "../testing.h"
 
 Vi naivePrefPref(const string& str) {

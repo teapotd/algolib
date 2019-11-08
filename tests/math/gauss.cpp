@@ -1,4 +1,4 @@
-#include "../../lib/math/gauss.h"
+#include "../../src/math/gauss.h"
 #include "../testing.h"
 
 int main() {

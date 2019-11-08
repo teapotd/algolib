@@ -1,4 +1,4 @@
-#include "../../lib/trees/link_cut_tree.h"
+#include "../../src/trees/link_cut_tree.h"
 #include "../testing.h"
 
 constexpr int N = 100;

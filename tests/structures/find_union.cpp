@@ -1,4 +1,4 @@
-#include "../../lib/structures/find_union.h"
+#include "../../src/structures/find_union.h"
 #include "../testing.h"
 
 void bench() {

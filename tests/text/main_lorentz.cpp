@@ -1,4 +1,4 @@
-#include "../../lib/text/main_lorentz.h"
+#include "../../src/text/main_lorentz.h"
 #include "../testing.h"
 
 // http://e-maxx.ru/algo/string_tandems

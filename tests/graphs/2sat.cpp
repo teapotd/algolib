@@ -1,4 +1,4 @@
-#include "../../lib/graphs/2sat.h"
+#include "../../src/graphs/2sat.h"
 #include "../testing.h"
 
 struct OldSAT2 {

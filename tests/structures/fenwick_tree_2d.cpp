@@ -1,4 +1,4 @@
-#include "../../lib/structures/fenwick_tree_2d.h"
+#include "../../src/structures/fenwick_tree_2d.h"
 #include "../testing.h"
 
 //void bench() {
