@@ -21,8 +21,6 @@ FILE_TEMPLATE = r'''
 \lstset{breaklines=true}
 \lstset{emptylines=*1}
 \lstset{inputencoding=utf8}
-\lstset{aboveskip=2pt}
-\lstset{belowskip=0pt}
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
 
 \setminted{tabsize=2}
@@ -103,7 +101,7 @@ def process_file(path):
 
 	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill %d}}\vspace{-4pt}' % (title, file_count) + '\n'
 	content += r'\begin{minted}{%s}' % lang + '\n'
-	content += data
+	content += data + '\n'
 	content += r'\end{minted}' + '\n'
 
 
