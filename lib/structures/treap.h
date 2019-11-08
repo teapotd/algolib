@@ -111,6 +111,25 @@ struct Treap {
 		return -1;
 	}
 
+	// Get key of treap containing node x
+	// (key of treap root). x can be -1.
+	int root(int x) { // time: ~O(lg n)
+		while (G[x].par >= 0) x = G[x].par;
+		return x;
+	}
+
+	// Get position of node x in its treap.
+	// x is assumed to NOT be -1; time: ~O(lg n)
+	int index(int x) {
+		int p, i = size(G[x].E[G[x].flip]);
+		while ((p = G[x].par) >= 0) {
+			if (G[p].E[1] == x) i+=size(G[p].E[0])+1;
+			if (G[p].flip) i = G[p].size-i-1;
+			x = p;
+		}
+		return i;
+	}
+
 	// Reverse interval [l;r) in treap x.
 	// Returns new key of treap; time: ~O(lg n)
 	int reverse(int x, int l, int r) {
@@ -119,13 +138,5 @@ struct Treap {
 		split(b, a, b, l);
 		if (b >= 0) G[b].flip ^= 1;
 		return join(join(a, b), c);
-	}
-
-	// Get key of treap containing node x
-	// (key of treap root).
-	// x can be -1; time: ~O(lg n)
-	int root(int x) {
-		while (G[x].par >= 0) x = G[x].par;
-		return x;
 	}
 };
