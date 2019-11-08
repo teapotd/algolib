@@ -27,6 +27,7 @@ FILE_TEMPLATE = r'''
 
 \setminted{tabsize=2}
 \setminted{fontsize=\scriptsize}
+\usemintedstyle{tango}
 
 \pagestyle{fancy}
 \fancyhf{}
