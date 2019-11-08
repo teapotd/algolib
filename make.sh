@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
 
-go run make.go
+mkdir -p build
+python3 make.py > build/algolib.tex
 cd build && pdflatex algolib.tex
