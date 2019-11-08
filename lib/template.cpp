@@ -35,11 +35,8 @@ pri(all(a), "["; auto d=""; for (auto i : a)
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
-	int b = 44;
-	while (*s && *s != b) {
-		b += (*s == 40 ? 50 : *s == 41 ? -50 : 0);
-		cerr << *s++;
-	}
+	for (int b = 44; *s && *s - b; cerr << *s++)
+		b += ((*s == 41) - (*s == 40)) * 88;
 	cerr << ": " << a << *s++; DD(s, k...);
 }
 
@@ -48,7 +45,7 @@ tem vector<t> span(const t* a, u n) {
 }
 
 #ifdef LOC
-#define deb(...) (DD("#, "#__VA_ARGS__, \
+#define deb(...) (DD("[,\b :] "#__VA_ARGS__, \
 	__LINE__, __VA_ARGS__), cerr << endl)
 #else
 #define deb(...)
