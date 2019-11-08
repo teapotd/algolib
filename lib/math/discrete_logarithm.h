@@ -6,7 +6,7 @@
 // Finds smallest x such that a^x = b (mod p)
 // or returns -1 if there's no solution.
 ll dlog(ll a, ll b, ll p) {
-	int m = int(min(llround(sqrt(p))+1, p-1));
+	int m = int(min(ll(sqrt(p))+2, p-1));
 	unordered_map<ll, int> small;
 	ll t = 1;
 
