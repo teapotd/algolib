@@ -9,13 +9,12 @@ FILE_TEMPLATE = r'''
 \usepackage{titletoc}
 \usepackage{courier}
 \usepackage{fancyhdr}
-\usepackage{needspace}
+\usepackage{minted}
+\usepackage{ulem}
 
 \setlength{\columnseprule}{0.5pt}
 \setlength{\columnsep}{8pt}
 
-\lstset{language=C++}
-\lstset{morekeywords={alignas,alignof,constexpr,ll,ull,ld,cmpl,rep,repd,each,all,sz,Vi,Pii,mp,mt,pb}}
 \lstset{frame=t}
 \lstset{tabsize=2}
 \lstset{showstringspaces=false}
@@ -25,6 +24,9 @@ FILE_TEMPLATE = r'''
 \lstset{aboveskip=2pt}
 \lstset{belowskip=0pt}
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
+
+\setminted{tabsize=2}
+\setminted{fontsize=\scriptsize}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -90,17 +92,18 @@ def process_file(path):
 	data = '\n'.join(lines).strip()
 	file_count += 1
 
-	captions += r'\noindent{\lstinline[language={}]|%s|}\hfill %d\break' % (title, file_count) + '\n'
+	lang = 'cpp'
+	if path.endswith('.bashrc'):
+		lang = 'bash'
+	elif path.endswith('.vimrc'):
+		lang = 'vim'
 
-	content += r'\vspace{3pt}\needspace{0.3cm}\noindent{\textbf{\lstinline|%s|}}\hfill %d' % (title, file_count) + '\n'
+	captions += r'\noindent{\lstinline|%s|}\hfill %d\break' % (title, file_count) + '\n'
 
-	if path.endswith('.sh') or path.endswith('.bashrc'):
-		content += r'\begin{lstlisting}[language=Bash]' + '\n'
-	else:
-		content += r'\begin{lstlisting}' + '\n'
-
+	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill %d}}\vspace{-4pt}' % (title, file_count) + '\n'
+	content += r'\begin{minted}{%s}' % lang + '\n'
 	content += data
-	content += r'\end{lstlisting}' + '\n'
+	content += r'\end{minted}' + '\n'
 
 
 if __name__ == '__main__':
