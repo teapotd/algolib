@@ -16,15 +16,15 @@ struct LCA {
 	LCA(vector<Vi>& G, int r)
 			: jumps(sz(G)), level(sz(G)),
 			  pre(sz(G)), post(sz(G)) {
-		dfs(G, r, -1);
+		dfs(G, r, r);
 		depth = int(log2(sz(G))) + 2;
-		rep(j, 0, depth) rep(i, 0, sz(G))
-			jumps[i].pb(jumps[jumps[i][j]][j]);
+		rep(j, 0, depth) each(v, jumps)
+			v.pb(jumps[v[j]][j]);
 	}
 
 	void dfs(vector<Vi>& G, int i, int p) {
-		level[i] = p < 0 ? 0 : level[p]+1;
-		jumps[i].pb(p < 0 ? i : p);
+		level[i] = p == i ? 0 : level[p]+1;
+		jumps[i].pb(p);
 		pre[i] = ++cnt;
 		each(e, G[i]) if (e != p) dfs(G, e, i);
 		post[i] = ++cnt;
@@ -38,20 +38,18 @@ struct LCA {
 
 	// Lowest Common Ancestor; time: O(lg n)
 	int operator()(int a, int b) {
-		for (int j = depth; j >= 0; j--) {
+		for (int j = depth; j--;)
 			if (!isAncestor(jumps[a][j], b))
 				a = jumps[a][j];
-		}
 		return isAncestor(a, b) ? a : jumps[a][0];
 	}
 
 	// Level Ancestor Query; time: O(lg n)
 	int laq(int a, int lvl) {
-		for (int j = depth; j >= 0; j--) {
-			if (lvl < level[jumps[a][j]])
+		for (int j = depth; j--;)
+			if (lvl <= level[jumps[a][j]])
 				a = jumps[a][j];
-		}
-		return level[a] <= lvl ? a : jumps[a][0];
+		return a;
 	}
 
 	// Get distance from a to b; time: O(lg n)
