@@ -62,6 +62,8 @@ struct PalTree {
 			if (diff[i] == diff[link[i]])
 				series[i] = min(series[i],
 				                series[link[i]]);
+			// If you want only even palindromes
+			// set ans only for sz(txt)%2 == 0
 			ans.back() = min(ans.back(),series[i]+1);
 		}
 		// [/EXT]
