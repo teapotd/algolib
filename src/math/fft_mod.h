@@ -40,8 +40,8 @@ void ntt(vector<ll>& a) {
 		rep(i, k+1, k*2) w[i] = w[i-1]*c % M;
 	}
 
-	for (int t=1, s=n/2; t < n; t *= 2, s /= 2) {
-		int k = (dit ? t : s);
+	for (int t = 1; t < n; t *= 2) {
+		int k = (dit ? t : n/t/2);
 		for (int i=0; i < n; i += k*2) rep(j,0,k) {
 			ll &c = a[i+j], &d = a[i+j+k];
 			ll e = w[j+k], f = d;
