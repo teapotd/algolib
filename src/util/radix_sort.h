@@ -1,12 +1,11 @@
 #pragma once
 #include "../template.h"
 
-Vi buf, cnt;
-
 // Stable countingsort; time: O(k+sz(vec))
 // See example usage in radixSort for pairs.
 template<class F>
 void countSort(Vi& vec, F key, int k) {
+	static Vi buf, cnt;
 	vec.swap(buf);
 	vec.resize(sz(buf));
 	cnt.assign(k+1, 0);
