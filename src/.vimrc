@@ -1,4 +1,3 @@
 se ai aw cin cul ic is nocp nohls nu sc scs
-se bg=dark so=7 sw=4 ttm=9 ts=4
+se bg=dark sw=4 ts=4 so=7 ttm=9
 sy on
-colo delek
