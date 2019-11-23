@@ -8,15 +8,15 @@
 // Returns 0 if intersection is empty,
 // 1 if intersection is non-empty and bounded,
 // 2 if intersection is unbounded.
-// Vertices ARE ONLY computed if intersection
-// is non-empty and bounded.
+// Output vertices are valid ONLY IF
+// intersection is non-empty and bounded.
 // Works only with floating point vec2/line2.
 // UNTESTED
 int intersectHalfPlanes(vector<line2> lines,
                         vector<vec2>& out) {
 	deque<line2> H;
 	out.clear();
-	if (lines.empty()) return 2;
+	if (sz(lines) <= 1) return 2;
 
 	sort(all(lines), [](line2 a, line2 b) {
 		int t = cmp(a.norm.angle(),b.norm.angle());
@@ -45,20 +45,22 @@ int intersectHalfPlanes(vector<line2> lines,
 	while (sz(H) > 2 && bad(H[sz(H)-2],
 		H.back(), H[0])) H.pop_back();
 	while (sz(H) > 2 && bad(H.back(),
-		H[0], H[1])) H.pop_back();
+		H[0], H[1])) H.pop_front();
 
 	out.resize(sz(H));
-	deb(H);
 
 	rep(i, 0, sz(H)) {
 		auto a = H[i], b = H[(i+1)%sz(H)];
-		if (a.norm.cross(b.norm) < 0) return 2;
+		if (a.norm.cross(b.norm) <= 0)
+			return cmp(a.off*b.norm.len(),
+				-b.off*a.norm.len()) <= 0 ? 0 : 2;
 		assert(a.intersect(b, out[i]));
 	}
 
 	rep(i, 0, sz(H)) {
 		auto a = out[i], b = out[(i+1)%sz(H)];
-		if (H[i].norm.perp().cross(b-a) <= 0) return 0;
+		if (H[i].norm.perp().cross(b-a) <= 0)
+			return 0;
 	}
 	return 1;
 }
