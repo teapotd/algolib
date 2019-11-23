@@ -19,45 +19,45 @@ struct HLD {
 	HLD() {}
 
 	// Initialize structure for tree G
-	// and root r; time: O(n lg n)
+	// and given root; time: O(n lg n)
 	// MODIFIES ORDER OF EDGES IN G!
-	HLD(vector<Vi>& G, int r)
+	HLD(vector<Vi>& G, int root)
 			: par(sz(G)), size(sz(G)),
 			  depth(sz(G)), pos(sz(G)),
 			  chBegin(sz(G)), chEnd(sz(G)) {
-		dfs(G, r, -1);
-		decomp(G, r, -1, 0);
+		dfs(G, root, -1);
+		decomp(G, root, -1, 0);
 		tree = {sz(order)};
 	}
 
-	void dfs(vector<Vi>& G, int i, int p) {
-		par[i] = p;
-		size[i] = 1;
-		depth[i] = p < 0 ? 0 : depth[p]+1;
+	void dfs(vector<Vi>& G, int v, int p) {
+		par[v] = p;
+		size[v] = 1;
+		depth[v] = p < 0 ? 0 : depth[p]+1;
 
-		int& fs = G[i][0];
-		if (fs == p) swap(fs, G[i].back());
+		int& fs = G[v][0];
+		if (fs == p) swap(fs, G[v].back());
 
-		each(e, G[i]) if (e != p) {
-			dfs(G, e, i);
-			size[i] += size[e];
+		each(e, G[v]) if (e != p) {
+			dfs(G, e, v);
+			size[v] += size[e];
 			if (size[e] > size[fs]) swap(e, fs);
 		}
 	}
 
 	void decomp(vector<Vi>& G,
-	            int i, int p, int chb) {
-		pos[i] = sz(order);
-		chBegin[i] = chb;
-		chEnd[i] = pos[i]+1;
-		order.pb(i);
+	            int v, int p, int chb) {
+		pos[v] = sz(order);
+		chBegin[v] = chb;
+		chEnd[v] = pos[v]+1;
+		order.pb(v);
 
-		each(e, G[i]) if (e != p) {
-			if (e == G[i][0]) {
-				decomp(G, e, i, chb);
-				chEnd[i] = chEnd[e];
+		each(e, G[v]) if (e != p) {
+			if (e == G[v][0]) {
+				decomp(G, e, v, chb);
+				chEnd[v] = chEnd[e];
 			} else {
-				decomp(G, e, i, sz(order));
+				decomp(G, e, v, sz(order));
 			}
 		}
 	}
@@ -66,11 +66,11 @@ struct HLD {
 	int chRoot(int v) {return order[chBegin[v]];}
 
 	// Level Ancestor Query; time: O(lg n)
-	int laq(int i, int level) {
+	int laq(int v, int level) {
 		while (true) {
-			int k = pos[i] - depth[i] + level;
-			if (k >= chBegin[i]) return order[k];
-			i = par[chRoot(i)];
+			int k = pos[v] - depth[v] + level;
+			if (k >= chBegin[v]) return order[k];
+			v = par[chRoot(v)];
 		}
 	}
 
