@@ -13,21 +13,21 @@ struct LCA {
 
 	// Initialize structure for tree G
 	// and root r; time: O(n lg n)
-	LCA(vector<Vi>& G, int r)
+	LCA(vector<Vi>& G, int root)
 			: jumps(sz(G)), level(sz(G)),
 			  pre(sz(G)), post(sz(G)) {
-		dfs(G, r, r);
+		dfs(G, root, root);
 		depth = int(log2(sz(G))) + 2;
 		rep(j, 0, depth) each(v, jumps)
 			v.pb(jumps[v[j]][j]);
 	}
 
-	void dfs(vector<Vi>& G, int i, int p) {
-		level[i] = p == i ? 0 : level[p]+1;
-		jumps[i].pb(p);
-		pre[i] = ++cnt;
-		each(e, G[i]) if (e != p) dfs(G, e, i);
-		post[i] = ++cnt;
+	void dfs(vector<Vi>& G, int v, int p) {
+		level[v] = p == v ? 0 : level[p]+1;
+		jumps[v].pb(p);
+		pre[v] = ++cnt;
+		each(e, G[v]) if (e != p) dfs(G, e, v);
+		post[v] = ++cnt;
 	}
 
 	// Check if a is ancestor of b; time: O(1)
