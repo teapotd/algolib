@@ -63,6 +63,7 @@ tem vector<t> span(const t* a, u n) {
 // #pragma GCC target("avx,tune=native")
 
 // while (clock() < time*CLOCKS_PER_SEC)
+
 // using namespace rel_ops;
 
 // Return smallest k such that 2^k > n
@@ -76,3 +77,11 @@ int uplg(ll n){ return 64-__builtin_clzll(n); }
 int cmp(double a, double b, double eps=1e-10) {
 	return (a > b+eps) - (a+eps < b);
 }
+
+// > Randomization
+
+// mt19937_64 rnd(chrono::steady_clock::now()
+// 	.time_since_epoch().count());
+
+// To pick from [0;N-1]: rnd() % N
+// To random shuffle: shuffle(all(vec), rnd)
