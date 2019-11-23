@@ -34,7 +34,7 @@ struct vec2i : bvec2<ll, vec2i> {
 		return x == r.x && y == r.y;
 	}
 
-	// Sort by angle, length if angles equal
+	// Compare by angle, length if angles equal
 	bool operator<(vec2i r) const {
 		if (upper() != r.upper()) return upper();
 		auto t = cross(r);
@@ -62,7 +62,7 @@ struct vec2d : bvec2<double, vec2d> {
 		return !cmp(x, r.x) && !cmp(y, r.y);
 	}
 
-	// Sort by angle, length if angles equal
+	// Compare by angle, length if angles equal
 	bool operator<(vec2d r) const {
 		int t = cmp(angle(), r.angle());
 		return t < 0 || (!t && len2()<r.len2());
