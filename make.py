@@ -97,9 +97,10 @@ def process_file(path):
 	elif path.endswith('.vimrc'):
 		lang = 'vim'
 
-	captions += r'\noindent{\lstinline|%s|}\hfill %d\break' % (title, file_count) + '\n'
+	captions += r'\noindent{\lstinline|%s|}\hfill\pageref{%s}\break' % (title, title) + '\n'
 
-	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill %d}}\vspace{-4pt}' % (title, file_count) + '\n'
+	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill}}\vspace{-4pt}' % title + '\n'
+	content += r'\label{%s}' % title + '\n'
 	content += r'\begin{minted}{%s}' % lang + '\n'
 	content += data + '\n'
 	content += r'\end{minted}' + '\n'
