@@ -1,11 +1,23 @@
-b()(
-	g++ $@ -o $1.e -DLOC -O2 -g -std=c++11    \
+build()(
+	g++ $@ -o $1.e -DLOC -std=c++11           \
 	    -Wall -Wextra -Wfatal-errors -Wshadow \
 	    -Wlogical-op -Wconversion -Wfloat-equal
 )
 
-d()( b $@ -fsanitize=address,undefined \
-          -D_GLIBCXX_DEBUG )
+b()( build $@ -O2 )
+
+d()( build $@ -fsanitize=address,undefined \
+              -D_GLIBCXX_DEBUG -g )
+
+run()( $1 $2 && echo start && time ./$2.e )
+
+loo()(
+	set -e; $1 $2; $1 $3
+	for ((;;)) {
+		./$3.e > gen.in
+		time ./$2.e < gen.in > gen.out
+	}
+)
 
 cmp()(
 	set -e; $1 $2; $1 $3; $1 $4
