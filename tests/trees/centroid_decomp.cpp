@@ -43,7 +43,7 @@ int main() {
 	dfs(cen.root);
 
 	rep(i, 0, sz(G)) {
-		deb(i, cen.ind[i], cen.subtree[i], cen.dists[i]);
+		deb(i, cen.ind[i], cen.subtree[i], cen.dists[i], cen.neigh[i], cen.dir[i]);
 	}
 	return 0;
 }

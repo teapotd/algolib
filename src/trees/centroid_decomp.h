@@ -5,15 +5,27 @@
 // UNTESTED
 struct CentroidTree {
 	// child[v] = children of v in centroid tree
-	// ind[v][i] = index of vertex v in
-	//             i-th centroid from root
-	// subtree[v] = vertices in centroid subtree
-	// dists[v] = distances from v to vertices
-	//            in centroid subtree
 	// par[v] = parent of v in centroid tree
+	//          (-1 for root)
 	// depth[v] = depth of v in centroid tree
+	//            (0 for root)
+	// ind[v][i] = index of vertex v in i-th
+	//             centroid subtree from root
 	// size[v] = size of centroid subtree of v
-	vector<Vi> child, ind, dists, subtree;
+	// subtree[v] = list of vertices
+	//              in centroid subtree of v
+	// dists[v] = distances from v to vertices
+	//            in its centroid subtree
+	//            (in the order of subtree[v])
+	// neigh[v] = neighbours of v
+	//            in its centroid subtree
+	// dir[v][i] = index of centroid neighbour
+	//             that is first vertex on path
+	//             from centroid v to i-th vertex
+	//             of centroid subtree
+	//             (-1 for centroid)
+	vector<Vi> child, ind, dists, subtree,
+	           neigh, dir;
 	Vi par, depth, size;
 	int root; // Root centroid
 
@@ -21,7 +33,8 @@ struct CentroidTree {
 
 	CentroidTree(vector<Vi>& G)
 			: child(sz(G)), ind(sz(G)), dists(sz(G)),
-			  subtree(sz(G)), par(sz(G), -2),
+			  subtree(sz(G)), neigh(sz(G)),
+			  dir(sz(G)), par(sz(G), -2),
 			  depth(sz(G)), size(sz(G)) {
 		root = decomp(G, 0, 0);
 	}
@@ -38,8 +51,11 @@ struct CentroidTree {
 		ind[v].pb(sz(subtree[c]));
 		subtree[c].pb(v);
 		dists[c].pb(d);
-		each(e, G[v]) if (e != p && par[e] == -2)
+		dir[c].pb(sz(neigh[c])-1);
+		each(e, G[v]) if (e != p && par[e] == -2) {
+			if (v == c) neigh[c].pb(e);
 			layer(G, e, v, c, d+1);
+		}
 	}
 
 	int decomp(vector<Vi>& G, int v, int d) {
