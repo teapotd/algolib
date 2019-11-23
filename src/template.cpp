@@ -60,7 +60,7 @@ tem vector<t> span(const t* a, u n) {
 
 // #pragma GCC optimize("Ofast,unroll-loops,
 //                       no-stack-protector")
-// #pragma GCC target("avx")
+// #pragma GCC target("avx,tune=native")
 
 // while (clock() < time*CLOCKS_PER_SEC)
 // using namespace rel_ops;
