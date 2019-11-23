@@ -26,20 +26,20 @@ struct CentroidTree {
 		root = decomp(G, 0, 0);
 	}
 
-	int dfs(vector<Vi>& G, int i, int p) {
-		size[i] = 1;
-		each(e, G[i]) if (e != p && par[e] == -2)
-			size[i] += dfs(G, e, i);
-		return size[i];
+	int dfs(vector<Vi>& G, int v, int p) {
+		size[v] = 1;
+		each(e, G[v]) if (e != p && par[e] == -2)
+			size[v] += dfs(G, e, v);
+		return size[v];
 	}
 
-	void layer(vector<Vi>& G, int i,
+	void layer(vector<Vi>& G, int v,
 	           int p, int c, int d) {
-		ind[i].pb(sz(subtree[c]));
-		subtree[c].pb(i);
+		ind[v].pb(sz(subtree[c]));
+		subtree[c].pb(v);
 		dists[c].pb(d);
-		each(e, G[i]) if (e != p && par[e] == -2)
-			layer(G, e, i, c, d+1);
+		each(e, G[v]) if (e != p && par[e] == -2)
+			layer(G, e, v, c, d+1);
 	}
 
 	int decomp(vector<Vi>& G, int v, int d) {
