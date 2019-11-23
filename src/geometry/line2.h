@@ -13,11 +13,12 @@ struct bline2 {
 	// (i.e. normal vector points outside)
 	P norm; // Normal vector [A; B]
 	T off;  // Offset (C parameter of equation)
+	DBP(norm, off);
 
 	// Line through 2 points; normal vector
-	// points to the left of ab vector
+	// points to the right of ab vector
 	static S through(P a, P b) {
-		return { (b-a).perp(), b.cross(a) };
+		return { (a-b).perp(), a.cross(b) };
 	}
 
 	// Parallel line through point
