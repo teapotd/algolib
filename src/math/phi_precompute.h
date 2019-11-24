@@ -1,9 +1,9 @@
 #pragma once
 #include "../template.h"
 
-Vi phi(10e6+1);
+Vi phi(1e7+1);
 
-// Precompute Euler's totients; time O(n lg n)
+// Precompute Euler's totients; time: O(n lg n)
 void calcPhi() {
 	iota(all(phi), 0);
 	rep(i, 2, sz(phi)) if (phi[i] == i)
