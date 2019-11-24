@@ -18,14 +18,14 @@ void calcPhiSum() {
 // For n > 4*10^9, answer will overflow.
 // If you wish to get answer mod M use
 // commented lines.
-// UNTESTED
 ll getPhiSum(ll n) { // time: O(n^(2/3))
 	static unordered_map<ll, ll> big;
 	if (n < sz(phiSum)) return phiSum[n];
 	if (big.count(--n)) return big[n];
 
 	ll ret = n*(n+1)/2;
-	// ll ret = n%M * (n%M+1) / 2 % M;
+	// ll ret = (n%2 ? n%M * ((n+1)/2 % M)
+	//               : n/2%M * (n%M+1)) % M;
 
 	for (ll s, i = 2; i <= n; i = s+1) {
 		s = n / (n/i);
