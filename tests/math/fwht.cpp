@@ -39,8 +39,8 @@ void test(F fast, G naive) {
 }
 
 int main() {
-	test(convolve<ll>, naiveXorConv);
-	// test(convolve<ll>, naiveOrConv);
-	// test(convolve<ll>, naiveAndConv);
+	test(bitConv<ll>, naiveXorConv);
+	// test(bitConv<ll>, naiveAndConv);
+	// test(bitConv<ll>, naiveOrConv);
 	return 0;
 }

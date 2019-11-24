@@ -26,11 +26,13 @@ void fwht(vector<T>& b) {
 	if (inv) each(e, b) e /= sz(b);
 }
 
-// "Bit-convolve" a and b, store result in a;
-// time: O(n lg n)
+// Compute convolution of a and b such that
+// ans[i#j] += a[i]*b[j], where # is OR, AND
+// or XOR, depending on FWHT version.
+// Stores result in a; time: O(n lg n)
 // Both arrays must be of same size = 2^n!
 template<class T>
-void convolve(vector<T>& a, vector<T> b) {
+void bitConv(vector<T>& a, vector<T> b) {
 	fwht<0>(a);
 	fwht<0>(b);
 	rep(i, 0, sz(a)) a[i] *= b[i];
