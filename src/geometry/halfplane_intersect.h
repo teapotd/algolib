@@ -11,7 +11,8 @@
 // Output vertices are valid ONLY IF
 // intersection is non-empty and bounded.
 // Works only with floating point vec2/line2.
-// PARTIALLY TESTED
+// CURRENTLY DOESN'T WORK FOR NON-EMPTY
+// AND UNBOUNDED CASES!
 int intersectHalfPlanes(vector<line2> lines,
                         vector<vec2>& out) {
 	deque<line2> H;
