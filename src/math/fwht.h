@@ -6,6 +6,7 @@
 // Uncommented version is for XOR.
 // OR version is equivalent to sum-over-subsets
 // (Zeta transform, inverse is Moebius).
+// AND version is same as sum-over-supersets.
 // TESTED ON RANDS
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastSubsetTransform.h
 template<bool inv, class T>
@@ -16,7 +17,7 @@ void fwht(vector<T>& b) {
 				auto &x = b[j], &y = b[j+s];
 				tie(x, y) =
 				   mp(x+y, x-y);                  //XOR
-				// inv ? mp(y-x, x) : mp(y, x+y); //AND
+				// inv ? mp(x-y, y) : mp(x+y, y); //AND
 				// inv ? mp(x, y-x) : mp(x, x+y); //OR
 			}
 		}
