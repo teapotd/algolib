@@ -10,7 +10,7 @@
 // Modulus often seen on Codeforces:
 // M = (119<<23)+1, R = 62; M is 998244353
 
-// Parameters for ll compution with CRT:
+// Parameters for ll computation with CRT:
 // M = (479<<21)+1, R = 62; M is > 10^9
 // M = (483<<21)+1, R = 62; M is > 10^9
 
