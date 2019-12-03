@@ -36,12 +36,8 @@ pri(all(a), "["; auto d=""; for (auto i : a)
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
 	for (int b=1; *s && *s - b*44; cerr << *s++)
-		b += (*s == 41) - (*s == 40);
+		b += 2 / (*s*2 - 81);
 	cerr << ": " << a << *s++; DD(s, k...);
-}
-
-tem vector<t> span(const t* a, u n) {
-	return {a, a+n};
 }
 
 #ifdef LOC

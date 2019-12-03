@@ -40,10 +40,10 @@ int main() {
 	boolVec[1] = 1;
 	deb(boolVec);
 
-	int i = 5;
-	each(x, arr) x = i++;
-	const int* constArr = arr;
-	deb(span(constArr, 5));
+	// int i = 5;
+	// each(x, arr) x = i++;
+	// const int* constArr = arr;
+	// deb(span(constArr, 5));
 
 	deb(make_pair(make_pair(0, 1), 2), 3, 4);
 
