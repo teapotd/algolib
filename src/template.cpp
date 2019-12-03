@@ -35,8 +35,8 @@ pri(all(a), "["; auto d=""; for (auto i : a)
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
-	for (int b = 44; *s && *s - b; cerr << *s++)
-		b += ((*s == 41) - (*s == 40)) * 88;
+	for (int b=1; *s && *s - b*44; cerr << *s++)
+		b += (*s == 41) - (*s == 40);
 	cerr << ": " << a << *s++; DD(s, k...);
 }
 
@@ -56,16 +56,6 @@ tem vector<t> span(const t* a, u n) {
 
 // > Utils
 
-// #define _USE_MATH_DEFINES
-
-// #pragma GCC optimize("Ofast,unroll-loops,
-//                       no-stack-protector")
-// #pragma GCC target("avx,tune=native")
-
-// while (clock() < time*CLOCKS_PER_SEC)
-
-// using namespace rel_ops;
-
 // Return smallest k such that 2^k > n
 // Undefined for n = 0!
 int uplg(int n) { return 32-__builtin_clz(n); }
@@ -77,11 +67,3 @@ int uplg(ll n){ return 64-__builtin_clzll(n); }
 int cmp(double a, double b, double eps=1e-10) {
 	return (a > b+eps) - (a+eps < b);
 }
-
-// > Randomization
-
-// mt19937_64 rnd(chrono::steady_clock::now()
-// 	.time_since_epoch().count());
-
-// To pick from [0;N-1]: rnd() % N
-// To random shuffle: shuffle(all(vec), rnd)
