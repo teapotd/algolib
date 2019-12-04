@@ -24,14 +24,14 @@ int main() {
 // > Debug printer
 
 #define tem template<class t,class u,class...w>
-#define pri(x,y)tem auto operator<<(t& o,u a) \
-	->decltype(x,o) { o << y; return o; }
+#define pri(x,y,z)tem auto operator<<(t&o,u a)\
+	->decltype(x,o) { o << z; return o << y; }
 
-pri(a.print(), "{"; a.print(); o << "}")
-pri(a.y, "(" << a.x << ", " << a.y << ")")
+pri(a.print(), '}', '{'; a.print())
+pri(a.y, ')', '(' << a.x << ", " << a.y)
 
-pri(all(a), "["; auto d=""; for (auto i : a)
-	(o << d << i, d = ", "); o << "]")
+pri(all(a), ']', '['; auto d="";
+	for (auto i : a) (o << d << i, d = ", "))
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
