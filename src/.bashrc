@@ -9,7 +9,7 @@ b()( build $@ -O2 )
 d()( build $@ -fsanitize=address,undefined \
               -D_GLIBCXX_DEBUG -g )
 
-run()( $1 $2 && echo start && time ./$2.e )
+run()( $1 $2 && echo start >&2 && time ./$2.e )
 
 loo()(
 	set -e; $1 $2; $1 $3
