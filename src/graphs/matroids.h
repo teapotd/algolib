@@ -158,7 +158,7 @@ struct CographOracle {
 
 // Matroid equivalent to linear space with XOR
 struct XorOracle {
-	vector<ll> elems;
+	vector<ll> elems; // Ground set: numbers
 	vector<ll> base;
 
 	// Init for independent set S; O(n+r^2)
