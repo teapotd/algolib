@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 
+MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
 
 FILE_TEMPLATE = r'''
@@ -84,9 +85,12 @@ def process_file(path):
 	file_count += 1
 	sys.stderr.write("Processing %s\n" % title)
 
+	if len(title) > MAX_TITLE_LENGTH:
+		sys.stderr.write("WARNING: too long title for %s\n" % title)
+
 	lines, lines_without_includes = [], []
 
-	for line in data.split('\n'):
+	for nr, line in enumerate(data.split('\n')):
 		if line == '#pragma once':
 			continue
 		if line.startswith('#include ') and 'template.h' in line:
@@ -96,15 +100,19 @@ def process_file(path):
 		lines.append(line)
 		if not line.startswith('#include '):
 			lines_without_includes.append(line)
+		if len(line) > MAX_CHARS_PER_LINE:
+			sys.stderr.write("WARNING: too long line #%d in %s\n" % (nr+1, title))
 
-	data, _ = generate_hashes('\n'.join(lines).strip(), 0, False)
+	data = '\n'.join(lines).strip()
 	full_hash = get_code_hash('\n'.join(lines_without_includes).strip())
 
-	lang = 'cpp'
 	if path.endswith('.bashrc'):
 		lang = 'bash'
 	elif path.endswith('.vimrc'):
 		lang = 'vim'
+	else:
+		lang = 'cpp'
+		data, _ = generate_hashes(data, 0, False)
 
 	captions += r'\noindent{\lstinline|%s|}\hfill\pageref{%s}\break' % (title, title) + '\n'
 

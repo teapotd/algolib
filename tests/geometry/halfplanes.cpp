@@ -1,4 +1,4 @@
-#include "../../src/geometry/halfplane_intersect.h"
+#include "../../src/geometry/halfplanes.h"
 #include "../testing.h"
 using namespace rel_ops;
 

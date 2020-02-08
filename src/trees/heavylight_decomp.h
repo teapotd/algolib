@@ -1,6 +1,6 @@
 #pragma once
 #include "../template.h"
-#include "../structures/segment_tree_point.h"
+#include "../structures/seg_tree_point.h"
 
 // Heavy-Light Decomposition of tree
 // with subtree query support; space: O(n)

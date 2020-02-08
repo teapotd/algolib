@@ -1,4 +1,4 @@
-#include "../../src/structures/segment_tree_beats.h"
+#include "../../src/structures/seg_tree_beats.h"
 #include "../testing.h"
 
 struct Checker {

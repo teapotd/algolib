@@ -1,4 +1,4 @@
-#include "../../src/structures/segment_tree.h"
+#include "../../src/structures/seg_tree.h"
 #include "../testing.h"
 
 constexpr int LEN = 100;
