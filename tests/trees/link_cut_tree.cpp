@@ -2,14 +2,24 @@
 #include "../testing.h"
 
 constexpr int N = 100;
-constexpr int OPS = 10000;
-constexpr int MIN_COMPS = 30;
+constexpr int OPS = 4000;
+constexpr int MIN_COMPS = 5;
 constexpr int MAX_COMPS = 60;
 
 LinkCutTree tree;
 vector<Vi> G;
-vector<int> comps;
+vector<int> comps, dists;
 int nComps = 0;
+
+void dfsDists(int i, int d) {
+	dists[i] = d;
+	each(e, G[i]) if (dists[e] == INF) dfsDists(e, d+1);
+}
+
+void calcDists(int i) {
+	dists.assign(sz(G), INF);
+	dfsDists(i, 0);
+}
 
 void dfs(int i, int c) {
 	comps[i] = c;
@@ -66,6 +76,18 @@ void check() {
 		if (valid != answer) {
 			deb(i, j, valid, answer);
 			exit(0);
+		}
+	}
+
+	rep(i, 0, sz(G)) {
+		calcDists(i);
+		rep(j, 0, sz(G)) {
+			int valid = dists[j];
+			int answer = tree.dist(i, j);
+			if (valid != answer) {
+				deb(i, j, valid, answer);
+				exit(0);
+			}
 		}
 	}
 }
