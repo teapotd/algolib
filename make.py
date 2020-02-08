@@ -1,4 +1,8 @@
 import os
+import subprocess
+import sys
+
+MAX_CHARS_PER_LINE = 47
 
 FILE_TEMPLATE = r'''
 \documentclass[10pt]{article}
@@ -75,7 +79,12 @@ def process_file(path):
 	if '!!IGNORE' in data:
 		return
 
-	lines = []
+	global captions, content, file_count
+	title = path[path.index('/')+1:]
+	file_count += 1
+	sys.stderr.write("Processing %s\n" % title)
+
+	lines, lines_without_includes = [], []
 
 	for line in data.split('\n'):
 		if line == '#pragma once':
@@ -85,11 +94,11 @@ def process_file(path):
 		if line.startswith('//!'):
 			continue
 		lines.append(line)
+		if not line.startswith('#include '):
+			lines_without_includes.append(line)
 
-	global captions, content, file_count
-	title = path[path.index('/')+1:]
-	data = '\n'.join(lines).strip()
-	file_count += 1
+	data, _ = generate_hashes('\n'.join(lines).strip(), 0, False)
+	full_hash = get_code_hash('\n'.join(lines_without_includes).strip())
 
 	lang = 'cpp'
 	if path.endswith('.bashrc'):
@@ -99,12 +108,48 @@ def process_file(path):
 
 	captions += r'\noindent{\lstinline|%s|}\hfill\pageref{%s}\break' % (title, title) + '\n'
 
-	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill}}\vspace{-4pt}' % title + '\n'
+	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill\lstinline|%s|}}\vspace{-4pt}' % (title, full_hash) + '\n'
 	content += r'\label{%s}' % title + '\n'
 	content += r'\begin{minted}{%s}' % lang + '\n'
 	content += data + '\n'
 	content += r'\end{minted}' + '\n'
 
+def generate_hashes(data, pos, is_open):
+	ret = ''
+	while pos < len(data):
+		if data[pos] == '{':
+			ret += '{'
+			tmp, pos = generate_hashes(data, pos+1, True)
+			ret += tmp
+		elif is_open and data[pos] == '}':
+			code_hash = get_code_hash(ret)
+			ret += '}'
+			pos += 1
+
+			if pos < len(data) and data[pos] == ')':
+				ret += ')'
+				pos += 1
+
+			if pos < len(data) and data[pos] == ';':
+				ret += ';'
+				pos += 1
+
+			if pos == len(data) or data[pos] == '\n':
+				alt = ret + ' // ' + code_hash
+				endl = alt.rfind('\n')
+				if endl != -1 and len(alt)-endl-1 <= MAX_CHARS_PER_LINE:
+					ret = alt
+			break
+		else:
+			ret += data[pos]
+			pos += 1
+	return ret, pos
+
+def get_code_hash(data):
+	process = subprocess.Popen(['./hash.sh'],
+		stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	stdout, _ = process.communicate(input=data.encode("utf-8"))
+	return stdout.decode('utf-8').strip()
 
 if __name__ == '__main__':
 	main()
