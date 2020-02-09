@@ -1,10 +1,10 @@
-#include "../../src/structures/seg_tree_point.h"
+#include "../../src/structures/segtree_point.h"
 #include "../testing.h"
 
 constexpr int LEN = 100;
 
 vector<int> elems(LEN);
-SegmentTree tree;
+SegTree tree;
 
 void debugPrint() {
 	deb(elems);

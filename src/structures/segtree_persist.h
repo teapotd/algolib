@@ -3,7 +3,7 @@
 
 // UNTESTED
 struct SegTree {
-	#include "seg_tree_config.h"
+	#include "segtree_config.h"
 
 	vector<Agg> agg;
 	vector<T> lazy;

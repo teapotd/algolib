@@ -6,7 +6,7 @@
 // - T - stored data type
 // - ID - neutral element for query operation
 // - merge(a, b) - combine results
-struct SegmentTree {
+struct SegTree {
 	using T = int;
 	static constexpr T ID = INT_MIN;
 	static T merge(T a, T b) { return max(a,b); }
@@ -14,7 +14,7 @@ struct SegmentTree {
 	vector<T> V;
 	int len;
 
-	SegmentTree(int n = 0, T def = ID) {
+	SegTree(int n = 0, T def = ID) {
 		for (len = 1; len < n; len *= 2);
 		V.resize(len*2, ID);
 		rep(i, 0, n) V[len+i] = def;
@@ -43,4 +43,4 @@ struct SegmentTree {
 	}
 };
 
-constexpr SegmentTree::T SegmentTree::ID;
+constexpr SegTree::T SegTree::ID;

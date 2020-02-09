@@ -1,5 +1,5 @@
 #define TREE_PLUS 1
-#include "../../src/structures/segtree_persist.h"
+#include "../../src/structures/segtree_static.h"
 #include "../testing.h"
 
 struct NaivePlus {
@@ -35,23 +35,17 @@ struct NaivePlus {
 template<class Fast, class Naive>
 void test(int n, int times) {
 	Fast tree(n);
-	map<int, Naive> naive;
-	Vi versions;
-
-	naive[0] = Naive(n);
-	versions.pb(0);
+	Naive naive(n);
 
 	rep(t, 0, times) {
-		int ver = versions[r(0, sz(versions)-1)];
-
 		int b = r(0, n-1), e = r(0, n-1);
 		if (b >= e) swap(b, e);
 		e++;
 
-		auto expected = naive[ver].query(b, e);
-		auto got = tree.query(ver, b, e);
+		auto expected = naive.query(b, e);
+		auto got = tree.query(b, e);
 
-		// deb(ver, b, e);
+		// deb(b, e);
 		// deb(got.sum, got.vMax, got.nMax);
 		// deb(expected.sum, expected.vMax, expected.nMax);
 
@@ -59,29 +53,21 @@ void test(int n, int times) {
 		assert(got.vMax == expected.vMax);
 		assert(got.nMax == expected.nMax);
 
-		if (r(0, 1)) {
-			int newVer = tree.fork(ver);
-			assert(naive.count(newVer) == 0);
-			naive[newVer] = naive[ver];
-			versions.pb(newVer);
-			ver = newVer;
-		}
-
 		b = r(0, n-1), e = r(0, n-1);
 		if (b >= e) swap(b, e);
 		e++;
 
 		int val = r(-5, 5);
-		// deb(ver, b, e, val);
-		naive[ver].update(b, e, val);
-		tree.update(ver, b, e, val);
+		// deb(b, e, val);
+		naive.update(b, e, val);
+		tree.update(b, e, val);
 	}
 }
 
 template<class Fast, class Naive>
 void test() {
 	for (int n = 1; n < 1000; n += 10) {
-		test<Fast, Naive>(n, 2000);
+		test<Fast, Naive>(n, 8000);
 	}
 }
 
