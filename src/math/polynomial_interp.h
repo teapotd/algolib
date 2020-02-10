@@ -1,8 +1,8 @@
 #pragma once
 #include "../template.h"
 
-// Interpolates set of points (i, vec[i])
-// and returns it evaluated at x; time: O(n)
+// Interpolate set of points (i, vec[i])
+// and return it evaluated at x; time: O(n)
 template<class T>
 T polyExtend(vector<T>& vec, T x) {
 	int n = sz(vec);
@@ -16,6 +16,26 @@ T polyExtend(vector<T>& vec, T x) {
 		T d = fac[i] * fac[n-i-1] * ((n-i)%2*2-1);
 		ret += vec[i] * suf[i] * pref / d;
 		pref *= x-i;
+	}
+	return ret;
+}
+
+// Given n points (x, f(x)) compute n-1-degree
+// polynomial f that passes through them;
+template<class T> // time: O(n^2)
+vector<T> polyInterp(vector<pair<T, T>> P) {
+	int n = sz(P);
+	vector<T> ret(n), tmp(n);
+	T last = 0;
+	tmp[0] = 1;
+
+	rep(k, 0, n-1) rep(i, k+1, n)
+		P[i].y = (P[i].y-P[k].y) / (P[i].x-P[k].x);
+
+	rep(k, 0, n) rep(i, 0, n) {
+		ret[i] += P[k].y * tmp[i];
+		swap(last, tmp[i]);
+		tmp[i] -= last * P[k].x;
 	}
 	return ret;
 }
