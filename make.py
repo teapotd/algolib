@@ -95,7 +95,7 @@ def process_file(path):
 			continue
 		if line.startswith('#include ') and 'template.h' in line:
 			continue
-		if line.startswith('//!'):
+		if line.startswith('//!') or '//!HIDE' in line:
 			continue
 		lines.append(line)
 		if not line.startswith('#include '):

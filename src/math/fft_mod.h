@@ -1,5 +1,7 @@
 #pragma once
 #include "../template.h"
+#define modPow modPow2 //!HIDE
+#define egcd egcd2     //!HIDE
 
 // Number Theoretic Tranform (NTT)
 // For functions below you can choose 2 params:
@@ -79,7 +81,7 @@ ll egcd(ll a, ll b, ll& x, ll& y) {
 // Input is expected to be non-negative!
 void convLong(vector<ll>& a, vector<ll> b) {
 	const ll M1 = (479<<21)+1, M2 = (483<<21)+1;
-	const ll MOD = M1*M2, R = 62;
+	const ll MX = M1*M2, R = 62;
 
 	vector<ll> c = a, d = b;
 	each(k, a) k %= M1; each(k, b) k %= M1;
@@ -92,6 +94,6 @@ void convLong(vector<ll>& a, vector<ll> b) {
 
 	rep(i, 0, sz(a)) {
 		a[i] += (c[i]-a[i])*x % M2 * M1;
-		if ((a[i] %= MOD) < 0) a[i] += MOD;
+		if ((a[i] %= MX) < 0) a[i] += MX;
 	}
 }
