@@ -1,15 +1,20 @@
 #pragma once
 #include "../template.h"
 
-// UNTESTED
+// Highly configurable (interval; interval)
+// persistent segment tree;
+// space: O(queries lg n) [UNTESTED]
+// First tree version number is 0.
 struct SegTree {
+	// Choose/write configuration
 	#include "segtree_config.h"
 
-	vector<Agg> agg;
-	vector<T> lazy;
-	Vi L, R;
-	int len{1};
+	vector<Agg> agg; // Aggregated data for nodes
+	vector<T> lazy;  // Lazy tags for nodes
+	Vi L, R;         // Children links
+	int len{1};      // Number of leaves
 
+	// Initialize tree for n elements; O(lg n)
 	SegTree(int n = 0) {
 		int k = 1;
 		while (len < n) len *= 2, k++;
@@ -26,6 +31,8 @@ struct SegTree {
 		}
 	}
 
+	// New version from version `i`; time: O(1)
+	// First version number is 0.
 	int fork(int i) {
 		L.pb(L[i]); R.pb(R[i]);
 		agg.pb(agg[i]); lazy.pb(lazy[i]);
@@ -45,6 +52,8 @@ struct SegTree {
 		}
 	}
 
+	// Modify interval [vb;ve) with val
+	// in tree version `i`; time: O(lg n)
 	T update(int i, int vb, int ve, T val,
 	         int b = 0, int e = -1) {
 		if (e < 0) e = len;
@@ -62,6 +71,8 @@ struct SegTree {
 		return val;
 	}
 
+	// Query interval [vb;ve)
+	// in tree version `i`; time: O(lg n)
 	Agg query(int i, int vb, int ve,
 	          int b = 0, int e = -1) {
 		if (e < 0) e = len;

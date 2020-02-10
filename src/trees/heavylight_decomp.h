@@ -1,6 +1,6 @@
 #pragma once
 #include "../template.h"
-#include "../structures/seg_tree_point.h"
+#include "../structures/segtree_point.h"
 
 // Heavy-Light Decomposition of tree
 // with subtree query support; space: O(n)
@@ -14,7 +14,7 @@ struct HLD {
 	Vi chBegin; // Begin of chain with vertex
 	Vi chEnd;   // End of chain with vertex
 	Vi order;   // "HLD" preorder of vertices
-	SegmentTree tree; // Verts are in HLD order
+	SegTree tree; // Verts are in HLD order
 
 	HLD() {}
 
@@ -106,17 +106,17 @@ struct HLD {
 	}
 
 	// Query path between a and b; O(lg^2 n)
-	SegmentTree::T queryPath(int a, int b) {
-		auto ret = SegmentTree::ID;
+	SegTree::T queryPath(int a, int b) {
+		auto ret = SegTree::ID;
 		iterPath(a, b, [&](int i, int j) {
-			ret = SegmentTree::merge(ret,
+			ret = SegTree::merge(ret,
 					tree.query(i, j));
 		});
 		return ret;
 	}
 
 	// Query subtree of v; time: O(lg n)
-	SegmentTree::T querySubtree(int v) {
+	SegTree::T querySubtree(int v) {
 		return tree.query(pos[v], pos[v]+size[v]);
 	}
 };

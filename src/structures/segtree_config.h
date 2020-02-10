@@ -1,14 +1,28 @@
-#if TREE_PLUS // (+; sum, max, max count)
-	using T = int;
-	const T ID = 0;
+// Segment tree configurations to be used
+// in segtree_general and segtree_persistent.
+// See comments in TREE_PLUS version
+// to understand how to create custom ones.
+// Capabilities notation: (update; query)
 
+#if TREE_PLUS // (+; sum, max, max count)
+	// time: O(lg n) [UNTESTED]
+	using T = int;  // Data type for update
+	                // operations (lazy tag)
+	const T ID = 0; // Neutral value for
+	                // updates and lazy tags
+
+	// This structure keeps aggregated data
 	struct Agg {
+		// Aggregated data: sum, max, max count
+		// Default values should be neutral
+		// values, i.e. "aggregate over empty set"
 		T sum{0}, vMax{INT_MIN}, nMax{0};
 
-		void leaf() {
-			sum = vMax = 0; nMax = 1;
-		}
+		// Initialize as leaf (single value)
+		void leaf() { sum = vMax = 0; nMax = 1; }
 
+		// Combine data with aggregated data
+		// from node to the right
 		void merge(const Agg& r) {
 			if (vMax < r.vMax) nMax = r.nMax;
 			else if (vMax == r.vMax) nMax += r.nMax;
@@ -16,6 +30,15 @@
 			sum += r.sum;
 		}
 
+		// Apply update provided in `x`:
+		// - update aggregated data
+		// - update lazy tag `lazy`
+		// - `size` is amount of elements
+		// - return 0 if update should branch
+		//   (to be used in "segement tree beats")
+		// - if you change value of `x` changed
+		//   value will be passed to next node
+		//   to the right during updates
 		bool apply(T& lazy, T& x, int size) {
 			lazy += x;
 			sum += x*size;
@@ -24,15 +47,14 @@
 		}
 	};
 #elif TREE_MAX // (max; max, max count)
+	// time: O(lg n) [UNTESTED]
 	using T = int;
 	const T ID = INT_MIN;
 
 	struct Agg {
+		// Aggregated data: max value, max count
 		T vMax{INT_MIN}, nMax{0};
-
-		void leaf() {
-			vMax = 0; nMax = 1;
-		}
+		void leaf() { vMax = 0; nMax = 1; }
 
 		void merge(const Agg& r) {
 			if (vMax < r.vMax) nMax = r.nMax;
@@ -48,16 +70,15 @@
 		}
 	};
 #elif TREE_SET // (=; sum, max, max count)
-	// Set ID to some unused value
+	// time: O(lg n) [UNTESTED]
+	// Set ID to some unused value.
 	using T = int;
 	const T ID = INT_MIN;
 
 	struct Agg {
+		// Aggregated data: sum, max, max count
 		T sum{0}, vMax{INT_MIN}, nMax{0};
-
-		void leaf() {
-			sum = vMax = 0; nMax = 1;
-		}
+		void leaf() { sum = vMax = 0; nMax = 1; }
 
 		void merge(const Agg& r) {
 			if (vMax < r.vMax) nMax = r.nMax;
@@ -77,16 +98,20 @@
 #elif TREE_BEATS // (+, min; sum, max)
 	// time: amortized O(lg n) if not using +
 	//       amortized O(lg^2 n) if using +
-	using T = Pii; // +, min
+	// Lazy tag is pair (add, min).
+	// To add x: run update with {x, INT_MAX},
+	// to min x: run update with {0, x}.
+	// When both parts are provided addition
+	// is applied first, then minimum.
+	using T = Pii;
 	const T ID = {0, INT_MAX};
 
 	struct Agg {
+		// Aggregated data: max value, max count,
+		//                  second max value, sum
 		int vMax{INT_MIN}, nMax{0}, max2{INT_MIN};
 		int sum{0};
-
-		void leaf() {
-			sum = vMax = 0; nMax = 1;
-		}
+		void leaf() { sum = vMax = 0; nMax = 1; }
 
 		void merge(const Agg& r) {
 			if (r.vMax > vMax) {

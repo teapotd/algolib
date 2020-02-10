@@ -24,10 +24,10 @@ int naiveLCA(int i, int j) {
 }
 
 int naiveQuery(int i, int j) {
-	int ret = SegmentTree::ID;
+	int ret = SegTree::ID;
 	while (i != j) {
 		if (levels[i] < levels[j]) swap(i, j);
-		ret = SegmentTree::merge(ret, vals[i]);
+		ret = SegTree::merge(ret, vals[i]);
 		i = parents[i];
 	}
 	return ret;

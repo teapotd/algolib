@@ -1,14 +1,19 @@
 #pragma once
 #include "../template.h"
 
-// UNTESTED
+// Highly configurable statically allocated
+// (interval; interval) segment tree;
+// space: O(n) [UNTESTED]
 struct SegTree {
+	// Choose/write configuration
 	#include "segtree_config.h"
 
-	vector<Agg> agg;
-	vector<T> lazy;
-	int len{1};
+	// Root node is 1, left is i*2, right i*2+1
+	vector<Agg> agg; // Aggregated data for nodes
+	vector<T> lazy;  // Lazy tags for nodes
+	int len{1};      // Number of leaves
 
+	// Initialize tree for n elements; time: O(n)
 	SegTree(int n = 0) {
 		while (len < n) len *= 2;
 		agg.resize(len*2);
@@ -27,6 +32,7 @@ struct SegTree {
 		}
 	}
 
+	// Modify interval [vb;ve) with val; O(lg n)
 	T update(int vb, int ve, T val, int i = 1,
 	         int b = 0, int e = -1) {
 		if (e < 0) e = len;
@@ -44,6 +50,7 @@ struct SegTree {
 		return val;
 	}
 
+	// Query interval [vb;ve); time: O(lg n)
 	Agg query(int vb, int ve, int i = 1,
 	          int b = 0, int e = -1) {
 		if (e < 0) e = len;
