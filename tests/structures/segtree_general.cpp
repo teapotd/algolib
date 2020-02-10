@@ -1,5 +1,5 @@
 #define TREE_PLUS 1
-#include "../../src/structures/segtree_static.h"
+#include "../../src/structures/segtree_general.h"
 #include "../testing.h"
 
 struct NaivePlus {

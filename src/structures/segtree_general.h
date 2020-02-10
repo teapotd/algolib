@@ -9,11 +9,11 @@ struct SegTree {
 	vector<T> lazy;
 	int len{1};
 
-	SegTree(int n = 0, T def = 0) {
+	SegTree(int n = 0) {
 		while (len < n) len *= 2;
 		agg.resize(len*2);
-		lazy.resize(len*2);
-		rep(i, 0, n) agg[len+i].leaf(def);
+		lazy.resize(len*2, ID);
+		rep(i, 0, n) agg[len+i].leaf();
 		for (int i = len; --i;)
 			(agg[i] = agg[i*2]).merge(agg[i*2+1]);
 	}

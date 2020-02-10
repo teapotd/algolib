@@ -10,15 +10,15 @@ struct SegTree {
 	Vi L, R;
 	int len{1};
 
-	SegTree(int n = 0, T def = 0) {
+	SegTree(int n = 0) {
 		int k = 1;
 		while (len < n) len *= 2, k++;
 
 		agg.resize(k);
-		lazy.resize(k);
+		lazy.resize(k, ID);
 		L.resize(k);
 		R.resize(k);
-		agg[--k].leaf(def);
+		agg[--k].leaf();
 
 		while (k--) {
 			(agg[k] = agg[k+1]).merge(agg[k+1]);
