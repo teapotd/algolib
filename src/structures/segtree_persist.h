@@ -11,6 +11,7 @@ struct SegTree {
 
 	vector<Agg> agg; // Aggregated data for nodes
 	vector<T> lazy;  // Lazy tags for nodes
+	vector<bool> cow; // Copy children on push?
 	Vi L, R;         // Children links
 	int len{1};      // Number of leaves
 
@@ -21,6 +22,7 @@ struct SegTree {
 
 		agg.resize(k);
 		lazy.resize(k, ID);
+		cow.resize(k, 1);
 		L.resize(k);
 		R.resize(k);
 		agg[--k].leaf();
@@ -34,16 +36,16 @@ struct SegTree {
 	// New version from version `i`; time: O(1)
 	// First version number is 0.
 	int fork(int i) {
-		L.pb(L[i]); R.pb(R[i]);
+		L.pb(L[i]); R.pb(R[i]); cow.pb(cow[i] = 1);
 		agg.pb(agg[i]); lazy.pb(lazy[i]);
 		return sz(L)-1;
 	}
 
 	void push(int i, int s, bool w) {
 		bool has = (lazy[i] != ID);
-		if (has || w) {
+		if ((has || w) && cow[i]) {
 			int a = fork(L[i]), b = fork(R[i]);
-			L[i] = a; R[i] = b;
+			L[i] = a; R[i] = b; cow[i] = 0;
 		}
 		if (has) {
 			agg[L[i]].apply(lazy[L[i]],lazy[i],s/2);
