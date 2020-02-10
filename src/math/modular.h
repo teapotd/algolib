@@ -1,8 +1,9 @@
 #pragma once
 #include "../template.h"
 
-// Big prime number, about 2*10^9
-constexpr int MOD = 15*(1<<27)+1;
+// Modulus often seen on Codeforces:
+constexpr int MOD = 998244353;
+// Some big prime: 15*(1<<27)+1 ~ 2*10^9
 
 ll modInv(ll a, ll m) { // a^(-1) mod m
 	if (a == 1) return 1;

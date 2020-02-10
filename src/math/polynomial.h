@@ -4,6 +4,7 @@
 #include "fft_mod.h"
 
 // UNTESTED
+//! Source: https://github.com/e-maxx-eng/e-maxx-eng-aux/blob/master/src/polynomial.cpp
 using Poly = vector<Zp>;
 
 // Cut off trailing zeroes; time: O(n)
@@ -41,8 +42,7 @@ Poly operator-(Poly l, const Poly& r) {
 	return l -= r;
 }
 
-// Multiply by polynomial;
-// time: O(n lg n) if using FFT
+// Multiply by polynomial; time: O(n lg n)
 Poly& operator*=(Poly& l, const Poly& r) {
 	if (sz(l)*sz(r) < 200) {
 		// Naive multiplication
@@ -57,7 +57,7 @@ Poly& operator*=(Poly& l, const Poly& r) {
 		each(k, r) b.pb(k.x);
 		// Choose appropriate convolution method,
 		// see fft_mod.h and fft_complex.h
-		convLong(a, b);
+		convolve<MOD, 62>(a, b);
 		l.assign(all(a));
 	}
 	norm(l);
@@ -68,18 +68,65 @@ Poly operator*(Poly l, const Poly& r) {
 }
 
 // Derivate polynomial; time: O(n)
-void derivate(Poly& P) {
+Poly derivate(Poly P) {
 	if (!P.empty()) {
 		rep(i, 1, sz(P)) P[i-1] = P[i]*i;
 		P.pop_back();
 	}
+	return P;
 }
 
 // Integrate polynomial; time: O(n)
-void integrate(Poly& P) {
+Poly integrate(Poly P) {
 	if (!P.empty()) {
 		P.pb(0);
 		for (int i = sz(P); --i;) P[i] = P[i-1]/i;
 		P[0] = 0;
 	}
+	return P;
+}
+
+// Compute inverse series mod x^n; O(n lg n)
+Poly invert(Poly& P, int n) {
+	assert(P[0].x != 0);
+	Poly tmp, ret = {P[0].inv()};
+
+	for (int i = 1; i < n; i *= 2) {
+		tmp.clear();
+		rep(j, 0, min(i*2, sz(P)))
+			tmp.pb(Zp(0)-P[j]);
+		tmp *= ret;
+		tmp[0] += 2;
+		ret *= tmp;
+		ret.resize(i*2);
+	}
+
+	ret.resize(n);
+	return ret;
+}
+
+// Floor division by polynomial; O(n lg n)
+Poly operator/(Poly l, Poly r) {
+	norm(l); norm(r);
+	if (sz(l) < sz(r)) return {};
+
+	int d = sz(l)-sz(r)+1;
+	reverse(all(l));
+	reverse(all(r));
+	l.resize(d);
+	l *= invert(r, d);
+	l.resize(d);
+	reverse(all(l));
+	return l;
+}
+Poly& operator/=(Poly& l, const Poly& r) {
+	return l = l/r;
+}
+
+// Compute modulo by polynomial; O(n lg n)
+Poly operator%(Poly l, Poly r) {
+	return l - r*(l/r);
+}
+Poly& operator%=(Poly& l, const Poly& r) {
+	return l -= r*(l/r);
 }
