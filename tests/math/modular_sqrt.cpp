@@ -1,4 +1,4 @@
-#include "../../src/math/discrete_sqrt.h"
+#include "../../src/math/modular_sqrt.h"
 #include "../../src/math/sieve.h"
 #include "../testing.h"
 

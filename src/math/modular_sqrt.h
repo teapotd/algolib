@@ -1,14 +1,6 @@
 #pragma once
 #include "../template.h"
-
-ll modPow(ll a, ll e, ll m) { // a^e mod m
-	ll t = 1 % m;
-	while (e) {
-		if (e % 2) t = t*a % m;
-		e /= 2; a = a*a % m;
-	}
-	return t;
-}
+#include "modular.h" // modPow
 
 // Tonelli-Shanks algorithm for modular sqrt
 // modulo prime; O(lg^2 p), O(lg p) for most p

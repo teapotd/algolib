@@ -1,6 +1,6 @@
 #pragma once
 #include "../template.h"
-#include "modular.h"
+#include "modular.h" // modInv
 
 // Montgomery modular multiplication
 // MOD < MG_MULT, gcd(MG_MULT, MOD) must be 1

@@ -1,10 +1,6 @@
 #pragma once
 #include "../template.h"
-
-ll modInv(ll a, ll m) { // a^(-1) mod m
-	if (a == 1) return 1;
-	return ((a - modInv(m%a, a))*m + 1) / a;
-}
+#include "modular.h" // modInv
 
 // Baby-step giant-step algorithm; O(sqrt(p))
 // Finds smallest x such that a^x = b (mod p)
