@@ -107,9 +107,8 @@ Poly invert(const Poly& P, int n) {
 // Floor division by polynomial; O(n lg n)
 Poly operator/(Poly l, Poly r) {
 	norm(l); norm(r);
-	if (sz(l) < sz(r)) return {};
-
 	int d = sz(l)-sz(r)+1;
+	if (d <= 0) return {};
 	reverse(all(l));
 	reverse(all(r));
 	l.resize(d);
