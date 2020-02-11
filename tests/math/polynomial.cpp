@@ -1,4 +1,5 @@
 #include "../../src/math/polynomial.h"
+#include "../../src/math/polynomial_interp.h"
 #include "../testing.h"
 
 bool operator==(Zp l, Zp r) { return l.x == r.x; }
@@ -40,18 +41,39 @@ void testDivMod() {
 
 void testMultiEval() {
 	rep(t, 0, 10) {
-		int n = r(1, 50);
-		int m = r(1, 50);
+		int n = r(1, 500);
+		int m = r(1, 500);
 
 		Poly P(n), args(m);
-		each(k, P) k = r(1, MOD-1);
-		each(k, args) k = r(1, MOD-1);
+		each(k, P) k = r(0, MOD-1);
+		each(k, args) k = r(0, MOD-1);
 
 		Poly vals = eval(P, args);
 
 		rep(i, 0, m) {
 			Zp expected = eval(P, args[i]);
 			assert(vals[i] == expected);
+		}
+	}
+}
+
+void testInterpolate() {
+	rep(t, 0, 10) {
+		int n = r(1, 500);
+		vector<pair<Zp, Zp>> points(n);
+
+		each(p, points) {
+			p.x = r(0, MOD-1);
+			p.y = r(0, MOD-1);
+		}
+
+		Poly fast = interpolate(points);
+		Poly slow = polyInterp(points);
+
+		assert(fast == slow);
+
+		each(p, points) {
+			assert(eval(fast, p.x).x == p.y.x);
 		}
 	}
 }
@@ -67,8 +89,21 @@ void benchMultiEval() {
 	eval(P, args);
 }
 
+void benchInterp() {
+	int n = 50000;
+	vector<pair<Zp, Zp>> points(n);
+
+	each(p, points) {
+		p.x = r(0, MOD-1);
+		p.y = r(0, MOD-1);
+	}
+
+	interpolate(points);
+}
+
 int main() {
 	// benchMultiEval();
+	// benchInterp();
 	// return 0;
 
 	invert(Poly{1}, 5);
@@ -107,6 +142,7 @@ int main() {
 
 	testDivMod();
 	testMultiEval();
+	testInterpolate();
 
 	return 0;
 }

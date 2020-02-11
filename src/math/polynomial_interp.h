@@ -22,7 +22,9 @@ T polyExtend(vector<T>& vec, T x) {
 
 // Given n points (x, f(x)) compute n-1-degree
 // polynomial f that passes through them;
-template<class T> // time: O(n^2)
+// time: O(n^2)
+// For O(n lg^2 n) version see polynomial.h
+template<class T>
 vector<T> polyInterp(vector<pair<T, T>> P) {
 	int n = sz(P);
 	vector<T> ret(n), tmp(n);

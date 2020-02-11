@@ -130,7 +130,7 @@ Poly& operator%=(Poly& l, const Poly& r) {
 	return l -= r*(l/r);
 }
 
-// Evaluate polynomial P in given points
+// Evaluate polynomial P in given points;
 // time: O(n lg^2 n)
 Poly eval(const Poly& P, Poly points) {
 	int len = 1;
@@ -152,4 +152,32 @@ Poly eval(const Poly& P, Poly points) {
 		points[i] = vec.empty() ? 0 : vec[0];
 	}
 	return points;
+}
+
+// Given n points (x, f(x)) compute n-1-degree
+// polynomial f that passes through them;
+// time: O(n lg^2 n)
+// For O(n^2) version see polynomial_interp.h.
+Poly interpolate(const vector<pair<Zp,Zp>>& P){
+	int len = 1;
+	while (len < sz(P)) len *= 2;
+
+	vector<Poly> mult(len*2, {1}), tree(len*2);
+	rep(i, 0, sz(P))
+		mult[len+i] = {-P[i].x, 1};
+
+	for (int i = len; --i;)
+		mult[i] = mult[i*2] * mult[i*2+1];
+
+	tree[0] = derivate(mult[1]);
+	rep(i, 1, len*2)
+		tree[i] = tree[i/2] % mult[i];
+
+	rep(i, 0, sz(P))
+		tree[len+i][0] = P[i].y / tree[len+i][0];
+
+	for (int i = len; --i;)
+		tree[i] = tree[i*2]*mult[i*2+1]
+		        + mult[i*2]*tree[i*2+1];
+	return tree[1];
 }
