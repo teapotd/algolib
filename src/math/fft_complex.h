@@ -42,7 +42,7 @@ void fft(vector<cmpl>& a) {
 // Convolve complex-valued a and b,
 // store result in a; time: O(n lg n), 3x FFT
 void convolve(vector<cmpl>& a, vector<cmpl> b){
-	int len = sz(a) + sz(b) - 1;
+	int len = max(sz(a) + sz(b) - 1, 0);
 	int n = 1 << (32 - __builtin_clz(len));
 	a.resize(n); b.resize(n);
 	fft(a); fft(b);
@@ -60,7 +60,7 @@ void convolve(vector<cmpl>& a, vector<cmpl> b){
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastFourierTransform.h
 vector<dbl> convolve(vector<dbl>& a,
                      vector<dbl>& b) {
-	int len = sz(a) + sz(b) - 1;
+	int len = max(sz(a) + sz(b) - 1, 0);
 	int n = 1 << (32 - __builtin_clz(len));
 
 	vector<cmpl> in(n), out(n);

@@ -23,8 +23,8 @@ void testInvert() {
 
 void testDivMod() {
 	rep(t, 0, 100) {
-		int n = r(1, 500);
-		int m = r(1, 500);
+		int n = r(1, 5000);
+		int m = r(1, 5000);
 
 		Poly P(n), Q(m);
 		each(k, P) k = r(1, MOD-1);
@@ -38,7 +38,46 @@ void testDivMod() {
 	}
 }
 
+void testMultiEval() {
+	rep(t, 0, 10) {
+		int n = r(1, 50);
+		int m = r(1, 50);
+
+		Poly P(n), args(m);
+		each(k, P) k = r(1, MOD-1);
+		each(k, args) k = r(1, MOD-1);
+
+		Poly vals = eval(P, args);
+
+		rep(i, 0, m) {
+			Zp expected = eval(P, args[i]);
+			assert(vals[i] == expected);
+		}
+	}
+}
+
+void benchMultiEval() {
+	int n = 50000;
+	int m = 50000;
+
+	Poly P(n), args(m);
+	each(k, P) k = r(1, MOD-1);
+	each(k, args) k = r(1, MOD-1);
+
+	eval(P, args);
+}
+
 int main() {
+	// benchMultiEval();
+	// return 0;
+
+	invert(Poly{1}, 5);
+	Poly{} + Poly{};
+	Poly{} - Poly{};
+	Poly{} * Poly{};
+	Poly{} / Poly{1};
+	Poly{} % Poly{1};
+
 	// +, -, *, eval, norm
 	Poly P = {1,2,3,0,0};
 	norm(P);
@@ -67,6 +106,7 @@ int main() {
 	assert((P == Poly{7, 6}));
 
 	testDivMod();
+	testMultiEval();
 
 	return 0;
 }

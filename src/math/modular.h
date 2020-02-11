@@ -34,6 +34,8 @@ struct Zp {
 	OP(-, -r.x + MOD*(x-r.x < 0));
 	OP(*, *r.x % MOD);
 	OP(/, *r.inv().x % MOD);
+	Zp operator-()
+		const { Zp t; t.x = MOD-x; return t; }
 
 	// For composite modulus use modInv, not pow
 	Zp inv() const { return pow(MOD-2); }

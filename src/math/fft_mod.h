@@ -59,7 +59,7 @@ void ntt(vector<ll>& a) {
 // Input is expected to be in range [0;MOD)!
 template<ll M = (119<<23)+1, ll R = 62>
 void convolve(vector<ll>& a, vector<ll> b) {
-	int len = sz(a) + sz(b) - 1;
+	int len = max(sz(a) + sz(b) - 1, 0);
 	int n = 1 << (32 - __builtin_clz(len));
 	ll t = modPow(n, M-2, M);
 	a.resize(n); b.resize(n);
