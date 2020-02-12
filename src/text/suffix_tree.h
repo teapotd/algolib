@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 
+constexpr int ALPHA = 26;
+
 // Ukkonen's algorithm for online suffix tree
 // construction; space: O(n*ALPHA); time: O(n)
 // Real tree nodes are called dedicated nodes.
