@@ -9,7 +9,6 @@
 // Articulation points <=> vertices that belong
 //                         to > 1 component
 // Isolated vertex <=> empty component list
-// UNTESTED
 struct Biconnected : vector<Vi> {
 	vector<Vi> comps;
 	Vi S;
