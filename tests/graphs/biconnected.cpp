@@ -20,6 +20,6 @@ int main() {
 
 	Biconnected bi(G);
 	rep(v, 0, sz(bi)) deb(v, bi[v]);
-	rep(c, 0, sz(bi.comps)) deb(c, bi.comps[c]);
+	rep(c, 0, sz(bi.verts)) deb(c, bi.verts[c], bi.edges[c]);
 	return 0;
 }
