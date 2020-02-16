@@ -5,6 +5,7 @@
 // Usage: SCC scc(graph);
 // scc[v] = index of SCC for vertex v
 // scc.comps[i] = vertices of i-th SCC
+// Components are in reversed topological order
 struct SCC : Vi {
 	vector<Vi> comps;
 	Vi S;
