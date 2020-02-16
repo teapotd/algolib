@@ -5,10 +5,9 @@
 // Usage: SCC scc(graph);
 // scc[v] = index of SCC for vertex v
 // scc.comps[i] = vertices of i-th SCC
-struct SCC : Vi {
+struct SCC : Vi { // UNTESTED
 	vector<Vi> comps;
 	Vi S;
-	int cnt{0};
 
 	SCC() {}
 
@@ -17,18 +16,19 @@ struct SCC : Vi {
 	}
 
 	int dfs(vector<Vi>& G, int v) {
-		int low = S[v] = ++cnt, t = -1;
+		int low = S[v] = sz(S);
 		S.pb(v);
 
 		each(e, G[v]) if (at(e) < 0)
 			low = min(low, S[e] ?: dfs(G, e));
 
 		if (low == S[v]) {
-			comps.emplace_back();
-			for (; t != v; S.pop_back()) {
-				at(t = S.back()) = sz(comps) - 1;
-				comps.back().pb(t);
+			comps.pb({});
+			rep(i, S[v], sz(S)) {
+				at(S[i]) = sz(comps)-1;
+				comps.back().pb(S[i]);
 			}
+			S.resize(S[v]);
 		}
 
 		return low;
