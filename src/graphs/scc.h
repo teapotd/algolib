@@ -5,7 +5,7 @@
 // Usage: SCC scc(graph);
 // scc[v] = index of SCC for vertex v
 // scc.comps[i] = vertices of i-th SCC
-struct SCC : Vi { // UNTESTED
+struct SCC : Vi {
 	vector<Vi> comps;
 	Vi S;
 

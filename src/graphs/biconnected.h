@@ -10,7 +10,7 @@
 // Articulation points <=> vertices that belong
 //                         to > 1 component
 // Isolated vertex <=> empty component list
-struct Biconnected : vector<Vi> { // UNTESTED
+struct Biconnected : vector<Vi> {
 	vector<Vi> verts;
 	vector<vector<Pii>> edges;
 	vector<Pii> S;
