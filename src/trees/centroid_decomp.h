@@ -39,11 +39,10 @@ struct CentroidTree {
 		root = decomp(G, 0, 0);
 	}
 
-	int dfs(vector<Vi>& G, int v, int p) {
+	void dfs(vector<Vi>& G, int v, int p) {
 		size[v] = 1;
 		each(e, G[v]) if (e != p && par[e] == -2)
-			size[v] += dfs(G, e, v);
-		return size[v];
+			dfs(G, e, v), size[v] += size[e];
 	}
 
 	void layer(vector<Vi>& G, int v,
@@ -59,16 +58,13 @@ struct CentroidTree {
 	}
 
 	int decomp(vector<Vi>& G, int v, int d) {
-		int p = -1, s = dfs(G, v, -1);
-		bool ok = 1;
-		while (ok) {
-			ok = 0;
-			each(e, G[v]) {
-				if (e != p && par[e] == -2 &&
-						size[e] > s/2) {
-					p = v; v = e; ok = 1;
-					break;
-				}
+		dfs(G, v, -1);
+		int p = -1, s = size[v];
+	loop:
+		each(e, G[v]) {
+			if (e != p && par[e] == -2 &&
+			    size[e] > s/2) {
+				p = v; v = e; goto loop;
 			}
 		}
 
