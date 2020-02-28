@@ -57,4 +57,15 @@ struct LCA {
 		return level[a] + level[b] -
 		       level[operator()(a, b)]*2;
 	}
+
+	// Get k-th vertex on path from a to b,
+	// a is 0, b is last; time: O(lg n)
+	// Returns -1 if k > distance(a, b)
+	int kthVertex(int a, int b, int k) {
+		int c = operator()(a, b);
+		if (level[a]-k >= level[c])
+			return laq(a, level[a]-k);
+		k += level[c]*2 - level[a];
+		return (k > level[b] ? -1 : laq(b, k));
+	}
 };
