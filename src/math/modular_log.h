@@ -20,7 +20,7 @@ ll dlog(ll a, ll b, ll p) {
 
 	rep(i, 0, m) {
 		int j = small[b];
-		if (j) return i*m + j - 1;
+		if (j) return i*ll(m) + j - 1;
 		b = b*t % p;
 	}
 
