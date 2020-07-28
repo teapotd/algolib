@@ -110,12 +110,14 @@ struct MaxFlow {
 		arc.assign(n, 0);
 		prv.resize(n*2);
 		nxt.resize(n*2);
+		hei.resize(n);
+		act.resize(n);
 		bot.resize(n);
 		each(v, G) each(e, v) e.rem = e.cap;
 
 		extra[dst] = -(extra[src] = INF);
-		global(dst);
 		each(e, G[src]) push(src, e);
+		global(dst);
 
 		for (; high; high--)
 			while (act[high] != -1) {
