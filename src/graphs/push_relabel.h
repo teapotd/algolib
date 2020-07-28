@@ -131,7 +131,5 @@ struct MaxFlow {
 	}
 
 	// Get if v belongs to cut component with src
-	bool cutSide(int v) {
-		return V[v].label >= sz(V);
-	}
+	bool cutSide(int v) { return hei[v] >= n; }
 };
