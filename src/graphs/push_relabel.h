@@ -4,108 +4,130 @@
 using flow_t = int;
 constexpr flow_t INF = 1e9+10;
 
-// Push-relabel algorithm with global relabel
-// heuristic for finding maximum flow; O(V^3),
-// but very fast in practice.
+// Push-relabel algorithm for maximum flow;
+// O(V^2*sqrt(E)), but very fast in practice.
 // Preflow is not converted to flow!
+// UNTESTED
 struct MaxFlow {
-	struct Vert {
-		int head{0}, cur{0}, label;
-		flow_t excess;
-	};
-
 	struct Edge {
-		int dst, nxt;
-		flow_t avail, cap;
+		int to, inv;
+		flow_t rem, cap;
 	};
 
-	vector<Vert> V;
-	vector<Edge> E;
-	queue<int> que, bfs;
+	vector<basic_string<Edge>> G;
+	vector<flow_t> extra;
+	Vi hei, arc, prv, nxt, act, bot;
+	queue<int> Q;
+	int n, high, cut, work;
 
 	// Initialize for n vertices
-	MaxFlow(int n = 0) {
-		V.assign(n, {});
-		E.resize(2);
-	}
+	MaxFlow(int k = 0) : G(k) {}
 
 	// Add new vertex
 	int addVert() {
-		V.emplace_back();
-		return sz(V)-1;
+		G.emplace_back();
+		return sz(G)-1;
 	}
 
-	// Add edge between u and v with capacity cap
-	// and reverse capacity rcap
+	// Add edge between u and v with
+	// capacity cap and reverse capacity rcap
 	void addEdge(int u, int v,
 	             flow_t cap, flow_t rcap = 0) {
-		E.pb({ v, V[u].head, 0, cap });
-		E.pb({ u, V[v].head, 0, rcap });
-		V[u].head = sz(E)-2;
-		V[v].head = sz(E)-1;
+		G[u].pb({ v, sz(G[v]), 0, cap });
+		G[v].pb({ u, sz(G[u])-1, 0, rcap });
 	}
 
-	void push(int v, int e) {
-		flow_t f = min(V[v].excess, E[e].avail);
-		E[e].avail -= f;
-		E[e^1].avail += f;
-		V[v].excess -= f;
-		if ((V[E[e].dst].excess += f) == f)
-			que.push(E[e].dst);
+	void raise(int v, int h) {
+		if (hei[v] < n)
+			prv[nxt[prv[v]] = nxt[v]] = prv[v];
+		if ((hei[v] = h) < n) {
+			if (extra[v] > 0) {
+				bot[v] = act[h], act[h] = v;
+				high = max(high, h);
+			}
+			cut = max(cut, h);
+			nxt[v] = nxt[prv[v] = h += n];
+			prv[nxt[nxt[h] = v]] = v;
+		}
+	}
+
+	void global(int t) {
+		hei.assign(n, n);
+		act.assign(n, -1);
+		iota(all(prv), 0);
+		iota(all(nxt), 0);
+		hei[t] = high = cut = work = 0;
+		for (Q.push(t); !Q.empty(); Q.pop()) {
+			int v = Q.front();
+			each(e, G[v])
+				if (hei[e.to]==n && G[e.to][e.inv].rem)
+					Q.push(e.to), raise(e.to, hei[v]+1);
+		}
+	}
+
+	void push(int v, Edge& e) {
+		auto f = min(extra[v], e.rem);
+		if (f > 0) {
+			if (!extra[e.to]) {
+				bot[e.to] = act[hei[e.to]];
+				act[hei[e.to]] = e.to;
+			}
+			e.rem -= f; G[e.to][e.inv].rem += f;
+			extra[v] -= f; extra[e.to] += f;
+		}
+	}
+
+	void discharge(int v) {
+		int h = n;
+
+		auto go = [&](int a, int b) {
+			rep(i, a, b) {
+				auto& e = G[v][i];
+				if (e.rem) {
+					if (hei[v] == hei[e.to]+1) {
+						push(v, e);
+						if (extra[v] <= 0)
+							return arc[v] = i, 0;
+					} else h = min(h, hei[e.to]+1);
+				}
+			}
+			return 1;
+		};
+
+		if (go(arc[v], sz(G[v])) && go(0, arc[v])){
+			int k = hei[v] + n;
+			if (nxt[k] == prv[k]) {
+				rep(j, k, cut+n+1)
+					while (nxt[j] < n) raise(nxt[j], n);
+				cut = k-n-1;
+			} else raise(v, h), work++;
+		}
 	}
 
 	// Compute maximum flow from src to dst
 	flow_t maxFlow(int src, int dst) {
-		each(v, V) v.excess = v.label = v.cur = 0;
-		each(e, E) e.avail = max(e.cap, flow_t(0));
+		extra.assign(n = sz(G), 0);
+		arc.assign(n, 0);
+		prv.resize(n*2);
+		nxt.resize(n*2);
+		bot.resize(n);
+		each(v, G) each(e, v) e.rem = e.cap;
 
-		int cnt, n = cnt = V[src].label = sz(V);
-		V[src].excess = INF;
-		for (int e = V[src].head; e; e = E[e].nxt)
-			push(src, e);
+		extra[dst] = -(extra[src] = INF);
+		global(dst);
+		each(e, G[src]) push(src, e);
 
-		for (; !que.empty(); que.pop()) {
-			if (cnt >= n/2) {
-				each(v, V) v.label = n;
-				V[dst].label = 0;
-				bfs.push(dst);
-				cnt = 0;
-
-				for (; !bfs.empty(); bfs.pop()) {
-					auto& v = V[bfs.front()];
-					for (int e=v.head; e; e = E[e].nxt) {
-						int x = E[e].dst;
-						if (E[e^1].avail &&
-						    V[x].label > v.label+1) {
-							V[x].label = v.label+1;
-							bfs.push(x);
-						}
-					}
+		for (; high; high--)
+			while (act[high] != -1) {
+				int v = act[high];
+				act[high] = bot[v];
+				if (hei[v] == high) {
+					discharge(v);
+					if (work > 4*n) global(dst);
 				}
 			}
 
-			int v = que.front(), &l = V[v].label;
-			if (v == dst) continue;
-
-			while (V[v].excess && l < n) {
-				if (!V[v].cur) {
-					l = n;
-					for (int e=V[v].head; e; e=E[e].nxt){
-						if (E[e].avail)
-							l = min(l, V[E[e].dst].label+1);
-					}
-					V[v].cur = V[v].head;
-					cnt++;
-				}
-
-				int e = V[v].cur;
-				V[v].cur = E[e].nxt;
-				if (E[e].avail &&
-					l == V[E[e].dst].label+1) push(v, e);
-			}
-		}
-
-		return V[dst].excess;
+		return extra[dst] + INF;
 	}
 
 	// Get if v belongs to cut component with src
