@@ -107,10 +107,10 @@ struct MaxFlow {
 	// Compute maximum flow from src to dst
 	flow_t maxFlow(int src, int dst) {
 		extra.assign(n = sz(G), 0);
+		hei.assign(n, 0);
 		arc.assign(n, 0);
 		prv.resize(n*2);
 		nxt.resize(n*2);
-		hei.resize(n);
 		act.resize(n);
 		bot.resize(n);
 		each(v, G) each(e, v) e.rem = e.cap;
