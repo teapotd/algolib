@@ -6,10 +6,10 @@
 
 #if TREE_PLUS // (+; sum, max, max count)
 	// time: O(lg n) [UNTESTED]
-	using T = int;  // Data type for update
-	                // operations (lazy tag)
-	const T ID = 0; // Neutral value for
-	                // updates and lazy tags
+	using T = int; // Data type for update
+	               // operations (lazy tag)
+	T ID = 0;      // Neutral value for
+	               // updates and lazy tags
 
 	// This structure keeps aggregated data
 	struct Agg {
@@ -49,7 +49,7 @@
 #elif TREE_MAX // (max; max, max count)
 	// time: O(lg n) [UNTESTED]
 	using T = int;
-	const T ID = INT_MIN;
+	T ID = INT_MIN;
 
 	struct Agg {
 		// Aggregated data: max value, max count
@@ -73,7 +73,7 @@
 	// time: O(lg n) [UNTESTED]
 	// Set ID to some unused value.
 	using T = int;
-	const T ID = INT_MIN;
+	T ID = INT_MIN;
 
 	struct Agg {
 		// Aggregated data: sum, max, max count
@@ -104,7 +104,7 @@
 	// When both parts are provided addition
 	// is applied first, then minimum.
 	using T = Pii;
-	const T ID = {0, INT_MAX};
+	T ID = {0, INT_MAX};
 
 	struct Agg {
 		// Aggregated data: max value, max count,

@@ -6,7 +6,7 @@
 // Change s to hashmap for O(q lg^2 n) memory
 struct Fenwick2D {
 	using T = int;
-	static constexpr T ID = 0;
+	T ID = 0;
 	T f(T a, T b) { return a+b; }
 
 	vector<T> s;

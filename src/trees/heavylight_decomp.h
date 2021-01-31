@@ -107,10 +107,9 @@ struct HLD {
 
 	// Query path between a and b; O(lg^2 n)
 	SegTree::T queryPath(int a, int b) {
-		auto ret = SegTree::ID;
+		auto ret = tree.ID;
 		iterPath(a, b, [&](int i, int j) {
-			ret = SegTree::merge(ret,
-					tree.query(i, j));
+			ret = tree.f(ret, tree.query(i, j));
 		});
 		return ret;
 	}

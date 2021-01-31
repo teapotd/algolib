@@ -5,8 +5,8 @@
 // Default version: prefix sums
 struct Fenwick {
 	using T = int;
-	static const T ID = 0;
-	T f(T a, T b)  { return a+b; }
+	T ID = 0;
+	T f(T a, T b) { return a+b; }
 
 	vector<T> s;
 	Fenwick(int n = 0) : s(n, ID) {}
@@ -16,7 +16,7 @@ struct Fenwick {
 		for (; i < sz(s); i |= i+1) s[i]=f(s[i],v);
 	}
 
-	// Get f(A[0], .., A[i-1]); time: O(lg n)
+	// Get f(A[0], ..., A[i-1]); time: O(lg n)
 	T query(int i) {
 		T v = ID;
 		for (; i > 0; i &= i-1) v = f(v, s[i-1]);

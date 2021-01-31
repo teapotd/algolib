@@ -10,11 +10,10 @@ void run() {
 	RMQ rmq(elems);
 
 	rep(b, 0, n+1) {
-		int id = RMQ::ID;
-
+		int cur = rmq.ID;
 		rep(e, 0, n+1) {
-			assert(id == rmq.query(b, e));
-			if (e >= b) id = min(id, elems[e]);
+			assert(cur == rmq.query(b, e));
+			if (e >= b) cur = min(cur, elems[e]);
 		}
 	}
 }

@@ -23,11 +23,11 @@ int naiveLCA(int i, int j) {
 	return i;
 }
 
-int naiveQuery(int i, int j) {
-	int ret = SegTree::ID;
+int naiveQuery(SegTree& tree, int i, int j) {
+	int ret = tree.ID;
 	while (i != j) {
 		if (levels[i] < levels[j]) swap(i, j);
-		ret = SegTree::merge(ret, vals[i]);
+		ret = tree.f(ret, vals[i]);
 		i = parents[i];
 	}
 	return ret;
@@ -61,7 +61,7 @@ int main() {
 				assert(hld.laq(i, j) == naiveLAQ(i, j));
 			}
 			assert(hld.lca(i, j) == naiveLCA(i, j));
-			assert(hld.queryPath(i, j) == naiveQuery(i, j));
+			assert(hld.queryPath(i, j) == naiveQuery(hld.tree, i, j));
 		}
 	}
 	return 0;
