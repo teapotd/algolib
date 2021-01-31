@@ -3,7 +3,7 @@
 
 // Get inversion vector for sequence of
 // numbers in [0;n); ret[i] = count of numbers
-// smaller than perm[i] to the left; O(n lg n)
+// greater than perm[i] to the left; O(n lg n)
 Vi encodeInversions(Vi perm) {
 	Vi odd, ret(sz(perm));
 	int cont = 1;
