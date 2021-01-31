@@ -1,41 +1,37 @@
 #pragma once
 #include "../template.h"
 
-// Run `count` binary searches on [begin;end),
-// `cmp` arguments:
-// 1) vector<Pii>& - pairs (value, index)
-//    which are queries if value of index is
-//    greater or equal to value,
-//    sorted by value
-// 2) vector<bool>& - true at index i means
-//    value of i-th query is >= queried value
-// Returns vector of found values.
-// Time: O((n+c) lg n), where c is cmp time.
+// Run `n` binary searches on [b;e) parallely.
+// `cmp` should be lambda with arguments:
+// 1) vector<Pii>& - pairs (v, i)
+//    which are queries if value for index i
+//    is greater or equal to v;
+//    pairs are sorted by v
+// 2) vector<bool>& - output vector,
+//    set true at index i if value
+//    for i-th query is >= queried value
+// Returns vector of found values;
+// time: O((n+c) lg range), where c is cmp time
 template<class T>
-Vi multiBS(int begin,int end,int count,T cmp) {
-	vector<Pii> ranges(count, {begin, end});
-	vector<Pii> queries(count);
-	vector<bool> answers(count);
+Vi multiBS(int b, int e, int n, T cmp) {
+	vector<Pii> que(n), rng(n, {b, e});
+	vector<bool> ans(n);
 
-	rep(i,0,count) queries[i]={(begin+end)/2,i};
+	rep(i, 0, n) que[i] = {(b+e)/2, i};
 
-	for (int k = uplg(end-begin); k > 0; k--) {
+	for (int k = 32-__builtin_clz(e-b); k--;) {
 		int last = 0, j = 0;
-		cmp(queries, answers);
-
-		rep(i, 0, sz(queries)) {
-			Pii &q = queries[i], &r = ranges[q.y];
+		cmp(que, ans);
+		rep(i, 0, sz(que)) {
+			Pii &q = que[i], &r = rng[q.y];
 			if (q.x != last) last = q.x, j = i;
-
-			(answers[i] ? r.x : r.y) = q.x;
+			(ans[i] ? r.x : r.y) = q.x;
 			q.x = (r.x+r.y) / 2;
-
-			if (!answers[i])
-				swap(queries[i], queries[j++]);
+			if (!ans[i]) swap(que[i], que[j++]);
 		}
 	}
 
 	Vi ret;
-	each(p, ranges) ret.pb(p.x);
+	each(p, rng) ret.pb(p.x);
 	return ret;
 }
