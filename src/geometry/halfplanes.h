@@ -5,19 +5,16 @@
 
 // Intersect halfplanes given by `lines`
 // and output hull vertices to `out`
-// in counter-clockwise order; time: O(n lg n)
-// Returns 0 if intersection is empty,
-// 1 if intersection is non-empty and bounded,
-// 2 if intersection is unbounded.
-// Output vertices are valid ONLY IF
-// intersection is non-empty and bounded.
-// Works only with floating point vec2/line2.
-// UNBOUNDED CASE IS NOT YET WORKING
-// UNTESTED
+// in counter-clockwise order. Returns true
+// if intersection is non-empty and bounded.
+// Unbounded cases are not supported,
+// add bounding-box if necessary. Works only
+// with floating point vec2/line2; O(n lg n)
+// PARTIALLY TESTED
 //! Source: https://github.com/koosaga/DeobureoMinkyuParty/blob/e4778e32145a4410e866f0059790417dcbc83d98/teamnote.tex#L1725-L1767
 //! Source: https://github.com/kth-competitive-programming/kactl/pull/90/files
-int intersectHalfplanes(vector<line2> in,
-	                      vector<vec2>& out) {
+bool intersectHalfplanes(vector<line2> in,
+                         vector<vec2>& out) {
 	sort(all(in), [](line2 a, line2 b) {
 		return (a.v.angleCmp(b.v) ?:
 		        a.c*b.v.len() - b.c*a.v.len()) < 0;

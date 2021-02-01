@@ -34,7 +34,7 @@ int main() {
 	shuffle(all(hplanes), rnd);
 
 	vector<vec2> verts;
-	int result = intersectHalfplanes(hplanes, verts);
+	bool result = intersectHalfplanes(hplanes, verts);
 
 	deb(result);
 	deb(verts);
