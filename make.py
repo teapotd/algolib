@@ -8,7 +8,7 @@ MAX_CHARS_PER_LINE = 47
 FILE_TEMPLATE = r'''
 \documentclass[10pt]{article}
 
-\usepackage[a4paper,landscape,hmargin={0.5cm,0.5cm},vmargin={1.2cm,0.9cm},headsep=0.1cm]{geometry}
+\usepackage{geometry}
 \usepackage{listings}
 \usepackage{multicol}
 \usepackage{titletoc}
@@ -17,25 +17,50 @@ FILE_TEMPLATE = r'''
 \usepackage{minted}
 \usepackage{ulem}
 
+\geometry{
+	a4paper,
+	landscape,
+	includehead,
+	hmargin={0.5cm,0.5cm},
+	vmargin={0.5cm,0.6cm},
+	headsep=0.1cm,
+	footskip=0.25cm
+}
+
 \setlength{\columnseprule}{0.5pt}
 \setlength{\columnsep}{8pt}
+\setlength{\parindent}{0pt}
 
-\lstset{frame=t}
-\lstset{tabsize=2}
-\lstset{showstringspaces=false}
-\lstset{breaklines=true}
-\lstset{emptylines=*1}
-\lstset{inputencoding=utf8}
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
 
 \setminted{tabsize=2}
 \setminted{fontsize=\scriptsize}
+\setminted{mathescape=true}
 \usemintedstyle{tango}
+
+\makeatletter
+
+\let\FV@ListProcessLineOrig\FV@ListProcessLine
+\def\FV@ListProcessLine#1{%%
+  \ifx\FV@Line\empty
+    \hbox{}\vspace{-4pt}%%
+  \else
+    \FV@ListProcessLineOrig{#1}%%
+  \fi}
+
+\newenvironment{code}{%%
+	\VerbatimEnvironment
+	\let\FV@ListVSpace\relax
+	\vspace*{4pt}
+	\begin{minted}}
+	{\end{minted}}
+
+\makeatother
 
 \pagestyle{fancy}
 \fancyhf{}
-\renewcommand{\footrulewidth}{0pt}
-\lhead{algolib}
+\renewcommand{\footrulewidth}{0.5pt}
+\lhead{Jagiellonian University}
 \rhead{\thepage}
 \setcounter{page}{0}
 
@@ -43,9 +68,7 @@ FILE_TEMPLATE = r'''
 
 \begin{multicols*}{4}
 %s
-\end{multicols*}\pagebreak
-
-\begin{multicols*}{4}
+\vspace{\fill}\pagebreak
 %s
 \end{multicols*}
 
@@ -114,13 +137,12 @@ def process_file(path):
 		lang = 'cpp'
 		data, _ = generate_hashes(data, 0, False)
 
-	captions += r'\noindent{\lstinline|%s|}\hfill\pageref{%s}\break' % (title, title) + '\n'
+	captions += r'\lstinline|%s|\hfill\pageref{%s}' % (title, title) + '\n\n'
 
-	content += r'\noindent{\uline{\textbf{\lstinline|%s|}\hfill\lstinline|%s|}}\vspace{-4pt}' % (title, full_hash) + '\n'
-	content += r'\label{%s}' % title + '\n'
-	content += r'\begin{minted}{%s}' % lang + '\n'
+	content += r'\uline{\label{%s}\textbf{\lstinline|%s|}\hfill\lstinline|%s|}' % (title, title, full_hash) + '\n\n'
+	content += r'\begin{code}{%s}' % lang + '\n'
 	content += data + '\n'
-	content += r'\end{minted}' + '\n'
+	content += r'\end{code}' + '\n\n'
 
 def generate_hashes(data, pos, is_open):
 	ret = ''
