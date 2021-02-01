@@ -3,65 +3,43 @@
 #include "vec2.h"
 #include "line2.h"
 
-// Intersect given halfplanes and output
-// hull vertices to out.
+// Intersect halfplanes given by `lines`
+// and output hull vertices to `out`
+// in counter-clockwise order; time: O(n lg n)
 // Returns 0 if intersection is empty,
 // 1 if intersection is non-empty and bounded,
 // 2 if intersection is unbounded.
 // Output vertices are valid ONLY IF
 // intersection is non-empty and bounded.
 // Works only with floating point vec2/line2.
-// CURRENTLY DOESN'T WORK FOR NON-EMPTY
-// AND UNBOUNDED CASES!
-int intersectHalfPlanes(vector<line2> lines,
-                        vector<vec2>& out) {
-	deque<line2> H;
-	out.clear();
-	if (sz(lines) <= 1) return 2;
-
-	sort(all(lines), [](line2 a, line2 b) {
-		int t = cmp(a.norm.angle(),b.norm.angle());
-		return t ? t < 0 : cmp(a.off*b.norm.len(),
-			b.off*a.norm.len()) < 0;
+// UNBOUNDED CASE IS NOT YET WORKING
+// UNTESTED
+//! Source: https://github.com/koosaga/DeobureoMinkyuParty/blob/e4778e32145a4410e866f0059790417dcbc83d98/teamnote.tex#L1725-L1767
+//! Source: https://github.com/kth-competitive-programming/kactl/pull/90/files
+int intersectHalfplanes(vector<line2> in,
+	                      vector<vec2>& out) {
+	sort(all(in), [](line2 a, line2 b) {
+		return (a.v.angleCmp(b.v) ?:
+		        a.c*b.v.len() - b.c*a.v.len()) < 0;
 	});
 
-	auto bad = [](line2 a, line2 b, line2 c) {
-		if (cmp(a.norm.cross(c.norm), 0) <= 0)
-			return false;
-		vec2 p; assert(a.intersect(c, p));
-		return b.side(p) <= 0;
-	};
+	int a = 0, b = 0, n = sz(in);
+	vector<line2> dq(n+5);
+	out.resize(n+5);
+	dq[0] = in[0];
 
-	each(e, lines) {
-		if (!H.empty() &&
-			!cmp(H.back().norm.angle(),
-			e.norm.angle())) continue;
-		while (sz(H) > 1 && bad(H[sz(H)-2],
-			H.back(), e)) H.pop_back();
-		while (sz(H) > 1 && bad(e, H[0], H[1]))
-			H.pop_front();
-		H.pb(e);
+	rep(i, 1, n+1) {
+		if (i == n) in.pb(dq[a]);
+		if (!in[i].v.angleCmp(in[i-1].v)) continue;
+		while (a < b && in[i].side(out[b-1]) > 0)
+			b--;
+		while (i!=n && a<b && in[i].side(out[a])>0)
+			a++;
+		if (in[i].intersect(dq[b], out[b]))
+			dq[++b] = in[i];
 	}
 
-	while (sz(H) > 2 && bad(H[sz(H)-2],
-		H.back(), H[0])) H.pop_back();
-	while (sz(H) > 2 && bad(H.back(),
-		H[0], H[1])) H.pop_front();
-
-	out.resize(sz(H));
-
-	rep(i, 0, sz(H)) {
-		auto a = H[i], b = H[(i+1)%sz(H)];
-		if (a.norm.cross(b.norm) <= 0)
-			return cmp(a.off*b.norm.len(),
-				-b.off*a.norm.len()) <= 0 ? 0 : 2;
-		assert(a.intersect(b, out[i]));
-	}
-
-	rep(i, 0, sz(H)) {
-		auto a = out[i], b = out[(i+1)%sz(H)];
-		if (H[i].norm.perp().cross(b-a) <= 0)
-			return 0;
-	}
-	return 1;
+	out.resize(b);
+	out.erase(out.begin(), out.begin()+a);
+	return b-a > 2;
 }
