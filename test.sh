@@ -2,10 +2,28 @@
 set -e
 ROOT=`pwd`
 
-mkdir -p `dirname $ROOT/build/$1.e`
-g++-10 -std=c++11 -O2 -g -Wall -Wextra -Wfatal-errors -Wshadow    \
-       -Wconversion -Wfloat-equal -Wlogical-op -Wformat=2 -DLOC   \
-       -Wl,-stack_size -Wl,0x10000000 \
-       -o $ROOT/build/$1.e $ROOT/$1
+if [ $# -lt 2 ]; then
+    echo "usage: ./test.sh [b|d] [path to cpp file] [arguments...]"
+    exit 1
+fi
+
+FLAGS="-std=c++11 -DLOC -Wl,-stack_size -Wl,0x10000000"
+FLAGS+=" -Wall -Wextra -Wfatal-errors -Wshadow -Wlogical-op -Wconversion -Wfloat-equal"
+FLAGS+=" -Wformat=2 -Wcast-qual -Wcast-align -Wduplicated-cond"
+
+if [ $1 = "b" ]; then
+	FLAGS+=" -O2"
+elif [ $1 = "d" ]; then
+	FLAGS+=" -O0 -g -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address,undefined -fvisibility=hidden"
+else
+    echo "usage: ./test.sh [b|d] [path to cpp file] [arguments...]"
+    exit 1
+fi
+
+SRC=$ROOT/$2
+EXE=$ROOT/build/$2.e
+
+mkdir -p `dirname $EXE`
+g++-10 $FLAGS -o $EXE $SRC
 echo start
-time $ROOT/build/$1.e
+time $EXE ${@:3}
