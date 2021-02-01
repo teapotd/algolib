@@ -5,8 +5,8 @@
 // Translate points such that lower-left point
 // is (0, 0). Returns old point location; O(n)
 vec2 normPos(vector<vec2>& points) {
-	auto q = points[0].yxPair();
-	each(p, points) q = min(q, p.yxPair());
+	auto q = points[0].yx();
+	each(p, points) q = min(q, p.yx());
 	vec2 ret{q.y, q.x};
 	each(p, points) p = p-ret;
 	return ret;

@@ -8,12 +8,12 @@
 // Base class of versions for ints and doubles
 template<class T, class P, class S>
 struct bline2 {
-	// For lines: norm*point == off
-	// For halfplanes: norm*point <= off
+	// For lines: v * point == c
+	// For halfplanes: v * point <= c
 	// (i.e. normal vector points outside)
-	P norm; // Normal vector [A; B]
-	T off;  // Offset (C parameter of equation)
-	DBP(norm, off);
+	P v; // Normal vector [A; B]
+	T c; // Offset (C parameter of equation)
+	DBP(v, c);
 
 	// Line through 2 points; normal vector
 	// points to the right of ab vector
@@ -23,31 +23,31 @@ struct bline2 {
 
 	// Parallel line through point
 	static S parallel(P a, S b) {
-		return { b.norm, b.norm.dot(a) };
+		return { b.v, b.v.dot(a) };
 	}
 
 	// Perpendicular line through point
 	static S perp(P a, S b) {
-		return { b.norm.perp(), b.norm.cross(a) };
+		return { b.v.perp(), b.v.cross(a) };
 	}
 
 	// Distance from point to line
 	double distTo(P a) {
-		return fabs(norm.dot(a)-off) / norm.len();
+		return fabs(v.dot(a)-c) / v.len();
 	}
 };
 
 // Version for integer coordinates (long long)
 struct line2i : bline2<ll, vec2i, line2i> {
 	line2i() : bline2{{}, 0} {}
-	line2i(vec2i n, ll c) : bline2{n, c} {}
+	line2i(vec2i a, ll b) : bline2{a, b} {}
 
 	// Returns 0 if point a lies on the line,
 	// 1 if on side where normal vector points,
 	// -1 if on the other side.
 	int side(vec2i a) {
-		ll d = norm.dot(a);
-		return (d > off) - (d < off);
+		ll d = v.dot(a);
+		return (d > c) - (d < c);
 	}
 };
 
@@ -55,23 +55,21 @@ struct line2i : bline2<ll, vec2i, line2i> {
 // Requires cmp() from template
 struct line2d : bline2<double, vec2d, line2d> {
 	line2d() : bline2{{}, 0} {}
-	line2d(vec2d n, double c) : bline2{n, c} {}
+	line2d(vec2d a, double b) : bline2{a, b} {}
 
 	// Returns 0 if point a lies on the line,
 	// 1 if on side where normal vector points,
 	// -1 if on the other side.
-	int side(vec2d a) {
-		return cmp(norm.dot(a), off);
-	}
+	int side(vec2d a) { return cmp(v.dot(a),c); }
 
 	// Intersect this line with line a, returns
 	// true on success (false if parallel).
 	// Intersection point is saved to `out`.
 	bool intersect(line2d a, vec2d& out) {
-		double d = norm.cross(a.norm);
-		if (cmp(d, 0) == 0) return false;
-		out = (norm*a.off-a.norm*off).perp() / d;
-		return true;
+		double d = v.cross(a.v);
+		if (!cmp(d, 0)) return 0;
+		out = (v*a.c - a.v*c).perp() / d;
+		return 1;
 	}
 };
 

@@ -8,10 +8,8 @@
 vec2 edgeSeq(vector<vec2> points,
              vector<vec2>& edges) {
 	int i = 0, n = sz(points);
-	rep(j, 0, n) {
-		if (points[i].yxPair()>points[j].yxPair())
-			i = j;
-	}
+	rep(j, 0, n)
+		if (points[i].yx() > points[j].yx()) i = j;
 	rep(j, 0, n) edges.pb(points[(i+j+1)%n] -
 	                      points[(i+j)%n]);
 	return points[i];
