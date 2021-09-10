@@ -24,6 +24,6 @@ SRC=$ROOT/$2
 EXE=$ROOT/build/$2.e
 
 mkdir -p `dirname $EXE`
-g++-10 $FLAGS -o $EXE $SRC
+g++-11 $FLAGS -o $EXE $SRC
 echo start
 time $EXE ${@:3}

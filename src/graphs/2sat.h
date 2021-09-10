@@ -24,9 +24,9 @@ struct SAT2 : Vi {
 
 	// Add (i => j) constraint
 	void imply(int i, int j) {
-		i = max(i*2-1, -i*2-2);
-		j = max(j*2-1, -j*2-2);
-		G[i].pb(j); G[j^1].pb(i^1);
+		i = i*2 ^ i >> 31;
+		j = j*2 ^ j >> 31;
+		G[--i].pb(--j); G[j^1].pb(i^1);
 	}
 
 	// Add (i v j) constraint
@@ -34,11 +34,10 @@ struct SAT2 : Vi {
 
 	// Constraint at most one true variable
 	void atMostOne(Vi& vars) {
-		int x = addVar();
+		int y, x = addVar();
 		each(i, vars) {
-			int y = addVar();
-			imply(x, y); imply(i, -x); imply(i, y);
-			x = y;
+			imply(x, y = addVar());
+			imply(i, -x); imply(i, x = y);
 		}
 	}
 

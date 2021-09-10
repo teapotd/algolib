@@ -38,41 +38,37 @@ struct MaxFlow {
 	// vertices with `add` >= 0 belong to
 	// cut component containing `s`.
 	flow_t maxFlow(int src, int dst) {
-		flow_t f = 0;
+		flow_t i, m, f = 0;
 		each(v, G) each(e, v) e.flow = 0;
 
-		do {
-			queue<int> Q;
-			Q.push(src);
-			prev.assign(sz(G), -1);
-			add.assign(sz(G), -1);
-			add[src] = INF;
+	nxt:
+		queue<int> Q;
+		Q.push(src);
+		prev.assign(sz(G), -1);
+		add.assign(sz(G), -1);
+		add[src] = INF;
 
-			while (!Q.empty()) {
-				int i = Q.front();
-				flow_t m = add[i];
-				Q.pop();
+		while (!Q.empty()) {
+			m = add[i = Q.front()];
+			Q.pop();
 
-				if (i == dst) {
-					while (i != src) {
-						auto& e = G[i][prev[i]];
-						e.flow -= m;
-						G[e.dst][e.inv].flow += m;
-						i = e.dst;
-					}
-					f += m;
-					break;
+			if (i == dst) {
+				while (i != src) {
+					auto& e = G[i][prev[i]];
+					e.flow -= m;
+					G[i = e.dst][e.inv].flow += m;
 				}
-
-				each(e, G[i]) if (add[e.dst] < 0) {
-					if (e.flow < e.cap) {
-						Q.push(e.dst);
-						prev[e.dst] = e.inv;
-						add[e.dst] = min(m, e.cap-e.flow);
-					}
-				}
+				f += m;
+				goto nxt;
 			}
-		} while (prev[dst] != -1);
+
+			each(e, G[i])
+				if (add[e.dst] < 0 && e.flow < e.cap) {
+					Q.push(e.dst);
+					prev[e.dst] = e.inv;
+					add[e.dst] = min(m, e.cap-e.flow);
+				}
+		}
 
 		return f;
 	}

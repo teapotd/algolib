@@ -71,7 +71,7 @@ struct Eppstein {
 			int i = P[t].E[0], j = P[t].E[1];
 			int d = P[i].s > P[j].s;
 			int k = push(d ? j : i, x);
-			P[t].E[d] = k;
+			P[t].E[d] = k; // Don't inline k!
 		}
 		P[t].s++;
 		return t;

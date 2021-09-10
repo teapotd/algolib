@@ -22,10 +22,9 @@ struct Bridges {
 	void addEdge(int u, int v) {
 		if (cc[u] == cc[v]) {
 			int r = lca(u, v);
-			while ((v = root(v)) != r)
-				v = bp[bi(v)] = par[v];
-			while ((u = root(u)) != r)
-				u = bp[bi(u)] = par[u];
+			for (int x : {u, v})
+				while ((x = root(x)) != r)
+					x = bp[bi(x)] = par[x];
 		} else {
 			G[u].pb(v); G[v].pb(u);
 			if (size[cc[u]] > size[cc[v]]) swap(u,v);
@@ -36,7 +35,7 @@ struct Bridges {
 
 	// Get 2-edge connected component ID
 	int bi(int v) { // amortized time: < O(lg n)
-		return bp[v] == -1 ? v : bp[v] = bi(bp[v]);
+		return bp[v] + 1 ? bp[v] = bi(bp[v]) : v;
 	}
 
 	int root(int v) {
@@ -45,7 +44,7 @@ struct Bridges {
 	}
 
 	void dfs(int v, int p) {
-		par[v] = p; cc[v] = cc[p];
+		cc[v] = cc[par[v] = p];
 		each(e, G[v]) if (e != p) dfs(e, v);
 	}
 

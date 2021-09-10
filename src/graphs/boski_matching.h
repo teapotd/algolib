@@ -34,10 +34,8 @@ struct Matching : Vi {
 			each(v, seen) each(e, adj[v])
 				if (rank[e] < 1e9 && vis[at(e)] < k)
 					goto nxt;
-			each(v, seen) {
-				low[v] = 1e9;
-				each(w, adj[v]) rank[w] = 1e9;
-			}
+			each(v, seen) each(w, adj[v])
+				rank[w] = low[v] = 1e9;
 		}
 		return 0;
 	}

@@ -5,7 +5,7 @@
 // Usage: Biconnected bi(graph);
 // bi[v] = indices of components containing v
 // bi.verts[i] = vertices of i-th component
-// bit.edges[i] = edges of i-th component
+// bi.edges[i] = edges of i-th component
 // Bridges <=> components with 2 vertices
 // Articulation points <=> vertices that belong
 //                         to > 1 component
@@ -19,7 +19,7 @@ struct Biconnected : vector<Vi> {
 
 	Biconnected(vector<Vi>& G) : S(sz(G)) {
 		resize(sz(G));
-		rep(i, 0, sz(G)) if (!S[i].x) dfs(G,i,-1);
+		rep(i, 0, sz(G)) S[i].x ?: dfs(G, i, -1);
 		rep(c, 0, sz(verts)) each(v, verts[c])
 			at(v).pb(c);
 	}
@@ -33,7 +33,7 @@ struct Biconnected : vector<Vi> {
 			low = min(low, S[e].x ?: dfs(G, e, v));
 		}
 
-		if (p != -1 && low >= S[p].x) {
+		if (p+1 && low >= S[p].x) {
 			verts.pb({p}); edges.pb({});
 			rep(i, S[v].x, sz(S)) {
 				if (S[i].y == -1)

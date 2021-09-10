@@ -79,6 +79,7 @@ void runTest() {
 				break;
 			}
 		}
+		deb(0);
 	}
 }
 
