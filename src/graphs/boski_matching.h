@@ -11,7 +11,6 @@
 // match.add(indices_of_white_neighbours);
 // Black vertices are indexed in order they
 // were added, the first black vertex is 0.
-// UNTESTED
 struct Matching : Vi {
 	vector<Vi> adj;
 	Vi rank, low, pos, vis, seen;

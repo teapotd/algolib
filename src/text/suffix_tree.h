@@ -63,7 +63,7 @@ struct SufTree {
 	}
 
 	// Append letter from [0;ALPHA) to the back
-	void add(int x) { // amoritzed time: O(1)
+	void add(int x) { // amortized time: O(1)
 		Pii t; txt.pb(x);
 		while ((t = next(cur, x)).x == -1) {
 			int m = split(cur);
