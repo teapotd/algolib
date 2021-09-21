@@ -1,9 +1,11 @@
 import os
+import pickle
 import subprocess
 import sys
 
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
+CODE_HASH_CACHE_FILE = 'build/code-hash-cache.pickle'
 
 FILE_TEMPLATE = r'''
 \documentclass[10pt]{article}
@@ -76,10 +78,20 @@ FILE_TEMPLATE = r'''
 '''
 
 def main():
-	global captions, content, file_count
+	global captions, content, file_count, code_hash_cache
 	captions, content, file_count = '', '', 0
+
+	if os.path.isfile(CODE_HASH_CACHE_FILE):
+		with open(CODE_HASH_CACHE_FILE, 'rb') as file:
+			code_hash_cache = pickle.load(file)
+	else:
+		code_hash_cache = {}
+
 	process_dir('src')
 	print(FILE_TEMPLATE % (captions, content))
+
+	with open(CODE_HASH_CACHE_FILE, 'wb') as file:
+		pickle.dump(code_hash_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
 
 def process_dir(dir):
 	entries = [os.path.join(dir, s) for s in os.listdir(dir)]
@@ -176,10 +188,13 @@ def generate_hashes(data, pos, is_open):
 	return ret, pos
 
 def get_code_hash(data):
-	process = subprocess.Popen(['./hash.sh'],
-		stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	if data in code_hash_cache:
+		return code_hash_cache[data]
+	process = subprocess.Popen(['./hash.sh'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	stdout, _ = process.communicate(input=data.encode("utf-8"))
-	return stdout.decode('utf-8').strip()
+	hashed = stdout.decode('utf-8').strip()
+	code_hash_cache[data] = hashed
+	return hashed
 
 if __name__ == '__main__':
 	main()
