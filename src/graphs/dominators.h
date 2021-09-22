@@ -2,7 +2,7 @@
 #include "../template.h"
 
 // Tarjan's algorithm for finding dominators
-// in directed acyclic graph; time: O(m log n)
+// in directed graph; time: O(m log n)
 // Returns array of immediate dominators idom.
 // idom[root] = root
 // idom[v] = -1 if v is unreachable from root
