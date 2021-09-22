@@ -33,8 +33,8 @@ Vi dominators(const vector<Vi>& G, int root) {
 	iota(all(best), 0);
 	dfs(root, -1);
 
-	rep(i, 0, n) {
-		int v = ord[n-i-1], b = pre[v];
+	rep(i, 0, sz(ord)) {
+		int v = ord[sz(ord)-i-1], b = pre[v];
 		each(e, in[v])
 			b = min(b, pre[e] < pre[v] ? pre[e] :
 			           sdom[find(e).x]);
