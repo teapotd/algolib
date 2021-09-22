@@ -39,7 +39,7 @@ Vi dominators(const vector<Vi>& G, int root) {
 			b = min(b, pre[e] < pre[v] ? pre[e] :
 			           sdom[find(e).x]);
 		each(u, bucket[v]) rdom[u] = find(u).x;
-		sdom[best[v] = v] = b;
+		sdom[v] = b;
 		anc[v] = par[v];
 		bucket[ord[sdom[v]]].pb(v);
 	}
