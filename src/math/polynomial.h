@@ -3,7 +3,6 @@
 #include "modular.h"
 #include "fft_mod.h"
 
-// UNTESTED
 //! Source: https://github.com/e-maxx-eng/e-maxx-eng-aux/blob/master/src/polynomial.cpp
 using Poly = vector<Zp>;
 

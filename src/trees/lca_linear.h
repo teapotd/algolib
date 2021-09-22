@@ -3,8 +3,6 @@
 
 // LAQ and LCA using jump pointers
 // with linear memory; space: O(n)
-// UNTESTED
-
 struct LCA {
 	Vi par, jmp, depth, pre, post;
 	int cnt{0};

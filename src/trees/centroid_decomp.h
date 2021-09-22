@@ -2,7 +2,6 @@
 #include "../template.h"
 
 // Centroid decomposition; space: O(n lg n)
-// UNTESTED
 struct CentroidTree {
 	// child[v] = children of v in centroid tree
 	// par[v] = parent of v in centroid tree

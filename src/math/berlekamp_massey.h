@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-constexpr int MOD = 1e9+7;
+constexpr int MOD = 998244353;
 
 ll modInv(ll a, ll m) { // a^(-1) mod m
 	if (a == 1) return 1;
@@ -12,9 +12,9 @@ ll modInv(ll a, ll m) { // a^(-1) mod m
 // given starting terms of recurrence; O(n^2)
 // Returns vector C such that for each i >= |C|
 // A[i] = sum A[i-j-1]*C[j] for j = 0..|C|-1
-// UNTESTED
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/BerlekampMassey.h
 vector<ll> massey(vector<ll>& A) {
+	if (A.empty()) return {};
 	int n = sz(A), len = 0, k = 0;
 	ll s = 1;
 	vector<ll> B(n), C(n), tmp;

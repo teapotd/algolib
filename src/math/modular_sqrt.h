@@ -7,7 +7,6 @@
 // Returns -1 if root doesn't exists or else
 // returns square root x (the other one is -x).
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/number-theory/ModSqrt.h
-// UNTESTED
 ll modSqrt(ll a, ll p) {
 	a %= p;
 	if (a < 0) a += p;

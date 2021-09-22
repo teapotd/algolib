@@ -2,7 +2,6 @@
 #include "../template.h"
 #include "modular.h"
 
-// UNTESTED
 using Row = vector<Zp>;
 using Matrix = vector<Row>;
 
