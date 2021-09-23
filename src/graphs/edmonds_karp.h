@@ -6,7 +6,6 @@ constexpr flow_t INF = 1e9+10;
 
 // Edmonds-Karp algorithm for finding
 // maximum flow in graph; time: O(V*E^2)
-// NOT HEAVILY TESTED
 struct MaxFlow {
 	struct Edge {
 		int dst, inv;
@@ -25,12 +24,14 @@ struct MaxFlow {
 		G.emplace_back(); return sz(G)-1;
 	}
 
-	// Add edge between u and v with capacity cap
-	// and reverse capacity rcap
-	void addEdge(int u, int v,
-	             flow_t cap, flow_t rcap = 0) {
+	// Add edge from u to v with capacity cap
+	// and reverse capacity rcap.
+	// Returns edge index in adjacency list of u.
+	int addEdge(int u, int v,
+	            flow_t cap, flow_t rcap = 0) {
 		G[u].pb({ v, sz(G[v]), 0, cap });
 		G[v].pb({ u, sz(G[u])-1, 0, rcap });
+		return sz(G[u])-1;
 	}
 
 	// Compute maximum flow from src to dst.
@@ -73,8 +74,11 @@ struct MaxFlow {
 		return f;
 	}
 
-	// Get if v belongs to cut component with src
-	bool cutSide(int v) {
-		return add[v] >= 0;
+	// Get flow through e-th edge of vertex v
+	flow_t getFlow(int v, int e) {
+		return G[v][e].flow;
 	}
+
+	// Get if v belongs to cut component with src
+	bool cutSide(int v) { return add[v] >= 0; }
 };
