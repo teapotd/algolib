@@ -2,7 +2,6 @@
 #include "../template.h"
 
 using flow_t = int;
-constexpr flow_t INF = 1e9+10;
 
 // Push-relabel algorithm for maximum flow;
 // O(V^2*sqrt(E)), but very fast in practice.
@@ -18,14 +17,11 @@ struct MaxFlow {
 	queue<int> Q;
 	int n, high, cut, work;
 
-	// Initialize for n vertices
+	// Initialize for k vertices
 	MaxFlow(int k = 0) : G(k) {}
 
 	// Add new vertex
-	int addVert() {
-		G.emplace_back();
-		return sz(G)-1;
-	}
+	int addVert() { G.pb({}); return sz(G)-1; }
 
 	// Add edge from u to v with capacity cap
 	// and reverse capacity rcap.
@@ -108,21 +104,21 @@ struct MaxFlow {
 		bot.resize(n);
 		each(v, G) each(e, v) e.rem = e.cap;
 
-		extra[dst] = -(extra[src] = INF);
-		each(e, G[src]) push(src, e, 0);
+		each(e, G[src])
+			extra[src] = e.cap, push(src, e, 0);
 		global(src, dst);
 
 		for (; high; high--)
 			while (act[high] != -1) {
 				int v = act[high];
 				act[high] = bot[v];
-				if (hei[v] == high) {
+				if (v != src && hei[v] == high) {
 					discharge(v);
 					if (work > 4*n) global(src, dst);
 				}
 			}
 
-		return extra[dst] + INF;
+		return extra[dst];
 	}
 
 	// Get flow through e-th edge of vertex v
