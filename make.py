@@ -35,6 +35,8 @@ FILE_TEMPLATE = r'''
 
 \lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
 
+\let\underline\relax %% TODO: fixes space length in minted environment, but disables underlines globally - do something smarter
+
 \setminted{tabsize=2}
 \setminted{fontsize=\scriptsize}
 \setminted{mathescape=true}
