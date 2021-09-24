@@ -128,6 +128,17 @@ Poly& operator%=(Poly& l, const Poly& r) {
 	return l -= r*(l/r);
 }
 
+// Compute a^e mod m, where a and m are
+// polynomials; time: O(m log m log e)
+Poly pow(Poly a, ll e, Poly m) {
+	Poly t = {1};
+	while (e) {
+		if (e % 2) t = t*a % m;
+		e /= 2; a = a*a % m;
+	}
+	return t;
+}
+
 // Evaluate polynomial P in given points;
 // time: O(n lg^2 n)
 Poly eval(const Poly& P, Poly points) {
