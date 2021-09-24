@@ -13,7 +13,7 @@ struct RMQ {
 	RMQ(const vector<T>& vec = {}) {
 		s = {vec};
 		for (int h = 1; h <= sz(vec); h *= 2) {
-			s.emplace_back();
+			s.pb({});
 			auto& prev = s[sz(s)-2];
 			rep(i, 0, sz(vec)-h*2+1)
 				s.back().pb(f(prev[i], prev[i+h]));

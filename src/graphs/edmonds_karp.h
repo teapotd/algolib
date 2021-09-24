@@ -20,9 +20,7 @@ struct MaxFlow {
 	MaxFlow(int n = 0) : G(n) {}
 
 	// Add new vertex
-	int addVert() {
-		G.emplace_back(); return sz(G)-1;
-	}
+	int addVert() { G.pb({}); return sz(G)-1; }
 
 	// Add edge from u to v with capacity cap
 	// and reverse capacity rcap.
@@ -35,9 +33,6 @@ struct MaxFlow {
 	}
 
 	// Compute maximum flow from src to dst.
-	// Flow values can be found in edges,
-	// vertices with `add` >= 0 belong to
-	// cut component containing `s`.
 	flow_t maxFlow(int src, int dst) {
 		flow_t i, m, f = 0;
 		each(v, G) each(e, v) e.flow = 0;

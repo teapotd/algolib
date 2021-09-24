@@ -43,7 +43,7 @@ struct PalTree {
 			len.pb(len[last]+2);
 			link.pb(to[ext(link[last])][x]);
 			to[last][x] = sz(to);
-			to.emplace_back();
+			to.pb({});
 
 			// [EXT]
 			diff.pb(len.back() - len[link.back()]);

@@ -13,7 +13,7 @@ void run() {
 		int cur = rmq.ID;
 		rep(e, 0, n+1) {
 			assert(cur == rmq.query(b, e));
-			if (e >= b) cur = min(cur, elems[e]);
+			if (e >= b && e < n) cur = min(cur, elems[e]);
 		}
 	}
 }

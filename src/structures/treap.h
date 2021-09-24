@@ -28,9 +28,7 @@ struct Treap {
 
 	// Create new treap (a single node),
 	// returns its key; time: O(1)
-	int make() {
-		G.emplace_back(); return sz(G)-1;
-	}
+	int make() { G.pb({}); return sz(G)-1; }
 
 	// Get size of node x subtree. x can be -1.
 	int size(int x) { // time: O(1)
