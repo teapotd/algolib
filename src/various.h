@@ -20,7 +20,7 @@ mt19937_64 rnd(chrono::steady_clock::now()
 	.time_since_epoch().count());
 
 // To shuffle randomly use:
-shuffle(all(vec), rnd)
+shuffle(all(vec), rnd);
 
 // To pick random integer from [A;B] use:
 uniform_int_distribution<> dist(A, B);
