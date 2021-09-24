@@ -1,8 +1,8 @@
 #pragma once
 #include "../template.h"
 
-// Blossom algorithm for maximum matching
-// in general graphs; time: O(nm)
+// Edmond's Blossom algorithm for maximum
+// matching in general graphs; time: O(nm)
 // Returns matching size (edge count).
 // match[v] = vert matched to v or -1
 //! Source: https://codeforces.com/blog/entry/92339?#comment-810264
