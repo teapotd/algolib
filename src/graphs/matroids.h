@@ -17,6 +17,10 @@ vector<bool> intersectMatroids(T& A, U& B,
 	vector<bool> ans(n);
 	bool ok = 1;
 
+	// NOTE: for weighted matroid intersection
+	// find shortest augmenting paths
+	// first by weight change, then by length
+	// using Bellman-Ford, and skip this speedup:
 	A.init(ans);
 	B.init(ans);
 	rep(i, 0, n) if (A.canAdd(i) && B.canAdd(i))
