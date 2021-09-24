@@ -18,6 +18,7 @@ FILE_TEMPLATE = r'''
 \usepackage{fancyhdr}
 \usepackage{minted}
 \usepackage{ulem}
+\usepackage{graphicx}
 
 \geometry{
 	a4paper,
@@ -75,6 +76,10 @@ FILE_TEMPLATE = r'''
 \vspace{\fill}\pagebreak
 %s
 \end{multicols*}
+
+\begin{center}
+	\includegraphics[scale=0.78]{../appendix.png}
+\end{center}
 
 \end{document}
 '''
