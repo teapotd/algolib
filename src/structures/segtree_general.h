@@ -3,7 +3,7 @@
 
 // Highly configurable statically allocated
 // (interval; interval) segment tree;
-// space: O(n) [UNTESTED]
+// space: O(n)
 struct SegTree {
 	// Choose/write configuration
 	#include "segtree_config.h"

@@ -64,7 +64,7 @@ FILE_TEMPLATE = r'''
 \pagestyle{fancy}
 \fancyhf{}
 \renewcommand{\footrulewidth}{0.5pt}
-\lhead{Jagiellonian University}
+\lhead{Jagiellonian University - Jagiellonian 1}
 \rhead{\thepage}
 \setcounter{page}{0}
 

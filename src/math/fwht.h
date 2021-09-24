@@ -7,7 +7,6 @@
 // OR version is equivalent to sum-over-subsets
 // (Zeta transform, inverse is Moebius).
 // AND version is same as sum-over-supersets.
-// TESTED ON RANDS
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastSubsetTransform.h
 template<bool inv, class T>
 void fwht(vector<T>& b) {

@@ -3,7 +3,7 @@
 
 // Highly configurable (interval; interval)
 // persistent segment tree;
-// space: O(queries lg n) [UNTESTED]
+// space: O(queries lg n)
 // First tree version number is 0.
 struct SegTree {
 	// Choose/write configuration

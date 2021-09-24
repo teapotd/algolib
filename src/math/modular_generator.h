@@ -20,7 +20,7 @@ vector<ll> factorize(ll n) {
 // Returns -1 if generator doesn't exist.
 // For n <= 10^7 smallest generator is <= 115.
 // You can use faster factorization algorithm
-// to get rid of sqrt(n). [UNTESTED]
+// to get rid of sqrt(n).
 ll generator(ll n) {
 	if (n <= 1 || (n > 4 && n%4 == 0)) return -1;
 

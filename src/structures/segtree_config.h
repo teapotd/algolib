@@ -5,7 +5,7 @@
 // Capabilities notation: (update; query)
 
 #if TREE_PLUS // (+; sum, max, max count)
-	// time: O(lg n) [UNTESTED]
+	// time: O(lg n)
 	using T = int; // Data type for update
 	               // operations (lazy tag)
 	T ID = 0;      // Neutral value for
@@ -47,7 +47,7 @@
 		}
 	};
 #elif TREE_MAX // (max; max, max count)
-	// time: O(lg n) [UNTESTED]
+	// time: O(lg n)
 	using T = int;
 	T ID = INT_MIN;
 
@@ -70,7 +70,7 @@
 		}
 	};
 #elif TREE_SET // (=; sum, max, max count)
-	// time: O(lg n) [UNTESTED]
+	// time: O(lg n)
 	// Set ID to some unused value.
 	using T = int;
 	T ID = INT_MIN;
