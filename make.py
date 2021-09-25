@@ -152,6 +152,11 @@ def process_file(path):
 		lang = 'bash'
 	elif path.endswith('.vimrc'):
 		lang = 'vim'
+	elif path.endswith('.py'):
+		lang = 'python'
+	elif path.endswith('.java'):
+		lang = 'java'
+		data, _ = generate_hashes(data, 0, False)
 	else:
 		lang = 'cpp'
 		data, _ = generate_hashes(data, 0, False)
