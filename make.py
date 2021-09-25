@@ -5,6 +5,7 @@ import sys
 
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
+TABLE_OF_CONTENTS = False
 CODE_HASH_CACHE_FILE = 'build/code-hash-cache.pickle'
 
 FILE_TEMPLATE = r'''
@@ -67,18 +68,15 @@ FILE_TEMPLATE = r'''
 \renewcommand{\footrulewidth}{0.5pt}
 \lhead{Jagiellonian University - Jagiellonian 1}
 \rhead{\thepage}
-\setcounter{page}{0}
 
 \begin{document}
 
 \begin{multicols*}{4}
 %s
-\vspace{\fill}\pagebreak
-%s
 \end{multicols*}
 
 \begin{center}
-	\includegraphics[scale=0.78]{../appendix.png}
+	\includegraphics[scale=1.185]{../appendix.png}
 \end{center}
 
 \end{document}
@@ -95,7 +93,9 @@ def main():
 		code_hash_cache = {}
 
 	process_dir('src')
-	print(FILE_TEMPLATE % (captions, content))
+	if TABLE_OF_CONTENTS:
+		content = captions + '\n\vspace{\fill}\pagebreak\n' + content
+	print(FILE_TEMPLATE % content)
 
 	with open(CODE_HASH_CACHE_FILE, 'wb') as file:
 		pickle.dump(code_hash_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
