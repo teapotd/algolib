@@ -34,3 +34,10 @@ cmp()(
 # -Wcast-align -Wduplicated-cond
 # -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2
 # -fno-sanitize-recover -fstack-protector
+
+# Stacktrace on STL assert:
+#   g++ -D_GLIBCXX_DEBUG -H test.cpp 2>&1
+#     >/dev/null | grep "debug/macros.h"
+#   #ifdef __SANITIZE_ADDRESS__
+#   extern "C"
+#     void __sanitizer_print_stack_trace();
