@@ -31,7 +31,7 @@ struct Zp {
 			Zp t = *this; return t c##= r; }
 
 	OP(+, +r.x - MOD*(x+r.x >= MOD));
-	OP(-, -r.x + MOD*(x-r.x < 0));
+	OP(-, -r.x + MOD*(0 > x-r.x));
 	OP(*, *r.x % MOD);
 	OP(/, *r.inv().x % MOD);
 	Zp operator-()
