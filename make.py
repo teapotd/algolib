@@ -5,7 +5,7 @@ import sys
 
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
-TABLE_OF_CONTENTS = False
+TABLE_OF_CONTENTS = True
 CODE_HASH_CACHE_FILE = 'build/code-hash-cache.pickle'
 
 FILE_TEMPLATE = r'''
@@ -94,7 +94,7 @@ def main():
 
 	process_dir('src')
 	if TABLE_OF_CONTENTS:
-		content = captions + '\n\vspace{\fill}\pagebreak\n' + content
+		content = captions + '\n\\vspace{\\fill}\\pagebreak\n' + content
 	print(FILE_TEMPLATE % content)
 
 	with open(CODE_HASH_CACHE_FILE, 'wb') as file:
