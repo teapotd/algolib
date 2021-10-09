@@ -17,7 +17,7 @@ using Pii = pair<int,int>;
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
-	cout << fixed << setprecision(18);
+	cout << fixed << setprecision(12);
 
 	// Don't call destructors:
 	cout << flush; _Exit(0);
@@ -27,12 +27,12 @@ int main() {
 
 #define tem template<class t,class u,class...w>
 #define pri(x,y,z)tem auto operator<<(t&o,u a)\
-	->decltype(x,o) { o << z; return o << y; }
+	->decltype(x,o) { o<<*y; z; return o<<y[1]; }
 
-pri(a.print(), '}', '{'; a.print())
-pri(a.y, ')', '(' << a.x << ", " << a.y)
+pri(a.print(), "{}", a.print())
+pri(a.y, "()", o << a.x << ", " << a.y)
 
-pri(all(a), ']', '['; auto d="";
+pri(all(a), "[]", auto d="";
 	for (auto i : a) (o << d << i, d = ", "))
 
 void DD(...) {}

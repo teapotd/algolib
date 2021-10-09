@@ -1,5 +1,5 @@
 build()(
-	g++ $@ -o $1.e -DLOC -std=c++11           \
+	g++ $@ -o $1.e -DLOC -std=c++14           \
 	    -Wall -Wextra -Wfatal-errors -Wshadow \
 	    -Wlogical-op -Wconversion -Wfloat-equal
 )
