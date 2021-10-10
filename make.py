@@ -203,7 +203,7 @@ def get_code_hash(data):
 	if data in code_hash_cache:
 		return code_hash_cache[data]
 	process = subprocess.Popen(['./hash.sh'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	stdout, _ = process.communicate(input=data.encode("utf-8"))
+	stdout, _ = process.communicate(input=data.encode('utf-8'))
 	hashed = stdout.decode('utf-8').strip()
 	code_hash_cache[data] = hashed
 	return hashed
