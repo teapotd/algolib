@@ -45,7 +45,19 @@ int main() {
 	// const int* constArr = arr;
 	// deb(span(constArr, 5));
 
-	deb(make_pair(make_pair(0, 1), 2), 3, 4);
+	deb(mp(mp(0, 1), 2), 3, 4);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+
+	deb((0,1,2),(3,4,5));
+
+	// This exotic case doesn't work
+	struct WeirdStruct { DBP((0,1,2)); };
+	WeirdStruct weird;
+	deb(weird);
+
+#pragma GCC diagnostic pop
 
 	bitset<16> bitSet;
 	bitSet.set(5);

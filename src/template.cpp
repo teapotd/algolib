@@ -37,14 +37,14 @@ pri(all(a), "[]", auto d="";
 
 void DD(...) {}
 tem void DD(t s, u a, w... k) {
-	for (int b=1; *s && *s - b*44; cerr << *s++)
+	for (int b=1; cerr << *s++, *s && *s - b*44;)
 		b += 2 / (*s*2 - 81);
-	cerr << ": " << a << *s++; DD(s, k...);
+	cerr << ": " << a; DD(s, k...);
 }
 
 #ifdef LOC
-#define deb(...) (DD("[,\b :] "#__VA_ARGS__, \
-	__LINE__, __VA_ARGS__), cerr << endl)
+#define deb(...) DD("[,\b :] "#__VA_ARGS__, \
+	__LINE__, __VA_ARGS__), cerr << endl
 #else
 #define deb(...)
 #endif
