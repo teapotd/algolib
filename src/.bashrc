@@ -35,6 +35,8 @@ cmp()(
 # -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2
 # -fno-sanitize-recover -fstack-protector
 
+# Print optimization info: -fopt-info-all
+
 # Stacktrace on STL assert:
 #   g++ -D_GLIBCXX_DEBUG -H test.cpp 2>&1
 #     >/dev/null | grep "debug/macros.h"

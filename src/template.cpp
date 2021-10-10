@@ -25,18 +25,20 @@ int main() {
 
 // > Debug printer
 
-#define tem template<class t,class u,class...w>
-#define pri(x,y,z)tem auto operator<<(t&o,u a)\
-	->decltype(x,o) { o<<*y; z; return o<<y[1]; }
+#define tem \
+	template<class t,class u,class...w> auto
+#define pri(x,y,z) \
+	tem operator<<(t&o,u a)->decltype(z,o) \
+	{ o << *x; y; z; return o << x[1]; }
 
-pri(a.print(), "{}", a.print())
-pri(a.y, "()", o << a.x << ", " << a.y)
+pri("{}",, a.print())
+pri("()",, o << a.x << ", " << a.y)
 
-pri(all(a), "[]", auto d="";
-	for (auto i : a) (o << d << i, d = ", "))
+pri("[]", auto d=""; for (auto i : a)
+	(o << d << i, d = ", "), all(a))
 
 void DD(...) {}
-tem void DD(t s, u a, w... k) {
+tem DD(t s, u a, w... k) {
 	for (int b=1; cerr << *s++, *s && *s - b*44;)
 		b += 2 / (*s*2 - 81);
 	cerr << ": " << a; DD(s, k...);

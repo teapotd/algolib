@@ -3,8 +3,7 @@
 #define _USE_MATH_DEFINES
 
 // Pragmas
-#pragma GCC optimize("Ofast,unroll-loops,     \
-                      no-stack-protector")
+#pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("popcnt,avx,tune=native")
 
 // Clock
