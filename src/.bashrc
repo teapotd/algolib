@@ -1,6 +1,6 @@
 build()(
-	g++ $@ -o $1.e -DLOC -std=c++14           \
-	    -Wall -Wextra -Wfatal-errors -Wshadow \
+	g++ $@ -o $1.e -DLOC -std=c++14      \
+	    -Wall -W -Wfatal-errors -Wshadow \
 	    -Wlogical-op -Wconversion -Wfloat-equal
 )
 

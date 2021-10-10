@@ -8,7 +8,7 @@ if [ $# -ne 2 ]; then
 fi
 
 FLAGS="-std=c++14 -DLOC -Wl,-stack_size -Wl,0x10000000"
-FLAGS+=" -Wall -Wextra -Wfatal-errors -Wshadow -Wlogical-op -Wconversion -Wfloat-equal"
+FLAGS+=" -Wall -W -Wfatal-errors -Wshadow -Wlogical-op -Wconversion -Wfloat-equal"
 FLAGS+=" -Wformat=2 -Wcast-qual -Wcast-align -Wduplicated-cond"
 FLAGS+=" -Wno-misleading-indentation"
 
