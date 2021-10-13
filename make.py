@@ -6,7 +6,8 @@ import sys
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
 TABLE_OF_CONTENTS = True
-CODE_HASH_CACHE_FILE = 'build/code-hash-cache.pickle'
+HASHES_CACHE_FILE = 'build/hashes-cache.pickle'
+EXCLUDED_FILES = ['.DS_Store']
 
 FILE_TEMPLATE = r'''
 \documentclass[10pt]{article}
@@ -83,22 +84,22 @@ FILE_TEMPLATE = r'''
 '''
 
 def main():
-	global captions, content, file_count, code_hash_cache
-	captions, content, file_count = '', '', 0
+	global captions, content, hashes_cache
+	captions, content = '', ''
 
-	if os.path.isfile(CODE_HASH_CACHE_FILE):
-		with open(CODE_HASH_CACHE_FILE, 'rb') as file:
-			code_hash_cache = pickle.load(file)
+	if os.path.isfile(HASHES_CACHE_FILE):
+		with open(HASHES_CACHE_FILE, 'rb') as file:
+			hashes_cache = pickle.load(file)
 	else:
-		code_hash_cache = {}
+		hashes_cache = {}
 
 	process_dir('src')
 	if TABLE_OF_CONTENTS:
 		content = captions + '\n\\vspace{\\fill}\\pagebreak\n' + content
 	print(FILE_TEMPLATE % content)
 
-	with open(CODE_HASH_CACHE_FILE, 'wb') as file:
-		pickle.dump(code_hash_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
+	with open(HASHES_CACHE_FILE, 'wb') as file:
+		pickle.dump(hashes_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
 
 def process_dir(dir):
 	entries = [os.path.join(dir, s) for s in os.listdir(dir)]
@@ -113,7 +114,7 @@ def process_dir(dir):
 			process_dir(entry)
 
 def process_file(path):
-	if os.path.basename(path) == '.DS_Store':
+	if os.path.basename(path) in EXCLUDED_FILES:
 		return
 
 	with open(path, 'r') as file:
@@ -122,9 +123,8 @@ def process_file(path):
 	if '!!IGNORE' in data:
 		return
 
-	global captions, content, file_count
+	global captions, content
 	title = path[path.index('/')+1:]
-	file_count += 1
 	sys.stderr.write("Processing %s\n" % title)
 
 	if len(title) > MAX_TITLE_LENGTH:
@@ -146,12 +146,15 @@ def process_file(path):
 			sys.stderr.write("WARNING: too long line #%d in %s\n" % (nr+1, title))
 
 	data = '\n'.join(lines).strip()
-	full_hash = get_code_hash('\n'.join(lines_without_includes).strip())
+	data_without_includes = '\n'.join(lines_without_includes).strip()
+	compute_hash = True
 
 	if path.endswith('.bashrc'):
 		lang = 'bash'
+		compute_hash = False
 	elif path.endswith('.vimrc'):
 		lang = 'vim'
+		compute_hash = False
 	elif path.endswith('.py'):
 		lang = 'python'
 	elif path.endswith('.java'):
@@ -160,6 +163,8 @@ def process_file(path):
 	else:
 		lang = 'cpp'
 		data, _ = generate_hashes(data, 0, False)
+
+	full_hash = get_code_hash(data_without_includes) if compute_hash else ''
 
 	captions += r'\lstinline|%s|\hfill\pageref{%s}' % (title, title) + '\n\n'
 
@@ -200,12 +205,14 @@ def generate_hashes(data, pos, is_open):
 	return ret, pos
 
 def get_code_hash(data):
-	if data in code_hash_cache:
-		return code_hash_cache[data]
+	if data in hashes_cache:
+		return hashes_cache[data]
 	process = subprocess.Popen(['./hash.sh'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	stdout, _ = process.communicate(input=data.encode('utf-8'))
+	if process.returncode != 0:
+		raise ValueError('Hashing failed')
 	hashed = stdout.decode('utf-8').strip()
-	code_hash_cache[data] = hashed
+	hashes_cache[data] = hashed
 	return hashed
 
 if __name__ == '__main__':
