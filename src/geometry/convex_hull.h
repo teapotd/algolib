@@ -43,11 +43,14 @@ vector<vec2> convexHull(vector<vec2> points) {
 // as output from convexHull function.
 int minDot(const vector<vec2>& hull, vec2 q) {
 	auto search = [&](int b, int e, vec2 p) {
+		int k = e-1;
 		while (b+1 < e) {
 			int m = (b+e) / 2;
 			(p.dot(hull[m-1]) > p.dot(hull[m])
 				? b : e) = m;
 		}
+		if (p.dot(hull[0]) < p.dot(hull[b])) b = 0;
+		if (p.dot(hull[k]) < p.dot(hull[b])) b = k;
 		return b;
 	};
 
