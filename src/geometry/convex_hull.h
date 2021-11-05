@@ -42,21 +42,27 @@ vector<vec2> convexHull(vector<vec2> points) {
 // Points are expected to be in the same order
 // as output from convexHull function.
 int minDot(const vector<vec2>& hull, vec2 q) {
+	auto C = [](vec2 a, vec2 b) {
+		return mp(a.dot(b), a.cross(b));
+	};
 	auto search = [&](int b, int e, vec2 p) {
-		int k = e-1;
+		int f = b, g = e;
 		while (b+1 < e) {
 			int m = (b+e) / 2;
-			(p.dot(hull[m-1]) > p.dot(hull[m])
+			(C(p, hull[m-1]) > C(p, hull[m])
 				? b : e) = m;
 		}
-		if (p.dot(hull[0]) < p.dot(hull[b])) b = 0;
-		if (p.dot(hull[k]) < p.dot(hull[b])) b = k;
+		rep(i, 0, min(g-f, 2)) {
+			if (C(p, hull[f+i]) < C(p, hull[b]))
+				b = f+i;
+			if (C(p, hull[g-i-1]) < C(p, hull[b]))
+				b = g-i-1;
+		}
 		return b;
 	};
-
 	int m = search(0, sz(hull), {0, -1});
 	int i = search(0, m, q);
 	int j = search(m, sz(hull), q);
-	return q.dot(hull[i]) > q.dot(hull[j])
+	return C(q, hull[i]) > C(q, hull[j])
 		? j : i;
 }
