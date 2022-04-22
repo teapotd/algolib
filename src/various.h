@@ -28,3 +28,6 @@ int value = dist(rnd);
 // To pick random real number from [A;B] use:
 uniform_real_distribution<> dist(A, B);
 double value = dist(rnd);
+
+// Floats can represent integers up to 19*10^6
+// Doubles can represent integers up to 9*10^15

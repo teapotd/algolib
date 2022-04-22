@@ -35,6 +35,7 @@ struct HLD {
 		size[v] = 1;
 		depth[v] = p < 0 ? 0 : depth[p]+1;
 
+		if (G[v].empty()) return;
 		int& fs = G[v][0];
 		if (fs == p) swap(fs, G[v].back());
 
