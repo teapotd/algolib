@@ -9,6 +9,8 @@ TABLE_OF_CONTENTS = True
 HASHES_CACHE_FILE = 'build/hashes-cache.pickle'
 EXCLUDED_FILES = ['.DS_Store']
 
+FILE_WHITELIST = None
+
 FILE_TEMPLATE = r'''
 \documentclass[10pt]{article}
 
@@ -114,6 +116,9 @@ def process_dir(dir):
 			process_dir(entry)
 
 def process_file(path):
+	base_path = os.path.basename(path)
+	if FILE_WHITELIST is not None and base_path not in FILE_WHITELIST:
+		return
 	if os.path.basename(path) in EXCLUDED_FILES:
 		return
 
