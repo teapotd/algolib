@@ -8,19 +8,17 @@ struct Vert {
 	DBP(weight, edges);
 };
 
-vector<Vert> graph;
-
-int arr[10];
-
 int main() {
-	graph.resize(10);
+	vector<Vert> graph;
 
-	each(v, graph) {
-		v.weight = r(1, 5);
-		v.edges.resize(r(0, 9));
-		each(x, v.edges) x = r(0, 9);
+	rep(i, 0, 10) {
+		Vert v;
+		v.weight = i + 100;
+		rep(j, 0, i+2) v.edges.pb(i+j);
+		graph.pb(v);
 	}
 
+	deb(graph);
 	rep(i, 0, sz(graph)) deb(i, graph[i]);
 
 	auto kek = make_pair(make_pair(12, 34), "abcde");
@@ -39,11 +37,6 @@ int main() {
 	vector<bool> boolVec(5);
 	boolVec[1] = 1;
 	deb(boolVec);
-
-	// int i = 5;
-	// each(x, arr) x = i++;
-	// const int* constArr = arr;
-	// deb(span(constArr, 5));
 
 	deb(mp(mp(0, 1), 2), 3, 4);
 

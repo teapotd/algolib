@@ -29,12 +29,12 @@ int main() {
 	template<class t,class u,class...w> auto
 #define pri(x,y,z) \
 	tem operator<<(t&o,u a)->decltype(z,o) \
-	{ o << *x; y; z; return o << x[1]; }
+	{ o << *#x; y; z; return o << #x+1; }
 
-pri("{}",, a.print())
-pri("()",, o << a.x << ", " << a.y)
+pri({},, a.print())
+pri((),, o << a.x << ", " << a.y)
 
-pri("[]", auto d=""; for (auto i : a)
+pri([], auto d=""; for (auto i : a)
 	(o << d << i, d = ", "), all(a))
 
 void DD(...) {}
@@ -45,14 +45,13 @@ tem DD(t s, u a, w... k) {
 }
 
 #ifdef LOC
-#define deb(...) DD("[,\b :] "#__VA_ARGS__, \
-	__LINE__, __VA_ARGS__), cerr << endl
+#define deb(x...) \
+	DD("[,\b :] "#x, __LINE__, x), cerr << endl
 #else
 #define deb(...)
 #endif
 
-#define DBP(...) void print() { \
-	DD(#__VA_ARGS__, __VA_ARGS__); }
+#define DBP(x...) void print() { DD(#x, x); }
 
 // > Utils
 
