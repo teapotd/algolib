@@ -45,19 +45,16 @@ Poly operator-(Poly l, const Poly& r) {
 Poly& operator*=(Poly& l, const Poly& r) {
 	if (min(sz(l), sz(r)) < 50) {
 		// Naive multiplication
-		Poly P(sz(l)+sz(r));
+		Poly p(sz(l)+sz(r));
 		rep(i, 0, sz(l)) rep(j, 0, sz(r))
-			P[i+j] += l[i]*r[j];
-		l.swap(P);
+			p[i+j] += l[i]*r[j];
+		l.swap(p);
 	} else {
 		// FFT multiplication
-		vector<ll> a, b;
-		each(k, l) a.pb(k.x);
-		each(k, r) b.pb(k.x);
 		// Choose appropriate convolution method,
 		// see fft_mod.h and fft_complex.h
-		convolve<MOD, 62>(a, b);
-		l.assign(all(a));
+		using v = vector<ll>;
+		convolve<MOD, 62>(*(v*)&l, *(const v*)&r);
 	}
 	norm(l);
 	return l;
@@ -87,7 +84,7 @@ Poly integrate(Poly P) {
 
 // Compute inverse series mod x^n; O(n lg n)
 Poly invert(const Poly& P, int n) {
-	assert(!P.empty() && P[0].x != 0);
+	assert(!P.empty() && P[0].x);
 	Poly tmp, ret = {P[0].inv()};
 
 	for (int i = 1; i < n; i *= 2) {
@@ -104,10 +101,10 @@ Poly invert(const Poly& P, int n) {
 }
 
 // Floor division by polynomial; O(n lg n)
-Poly operator/(Poly l, Poly r) {
+Poly& operator/=(Poly& l, Poly r) {
 	norm(l); norm(r);
 	int d = sz(l)-sz(r)+1;
-	if (d <= 0) return {};
+	if (d <= 0) return l.clear(), l;
 	reverse(all(l));
 	reverse(all(r));
 	l.resize(d);
@@ -116,8 +113,8 @@ Poly operator/(Poly l, Poly r) {
 	reverse(all(l));
 	return l;
 }
-Poly& operator/=(Poly& l, const Poly& r) {
-	return l = l/r;
+Poly operator/(Poly l, const Poly& r) {
+	return l /= r;
 }
 
 // Compute modulo by polynomial; O(n lg n)
@@ -129,7 +126,7 @@ Poly& operator%=(Poly& l, const Poly& r) {
 }
 
 // Compute a^e mod m, where a and m are
-// polynomials; time: O(m log m log e)
+// polynomials; time: O(|m| log |m| log e)
 Poly pow(Poly a, ll e, Poly m) {
 	Poly t = {1};
 	while (e) {

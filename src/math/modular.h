@@ -20,6 +20,8 @@ ll modPow(ll a, ll e, ll m) { // a^e mod m
 }
 
 // Wrapper for modular arithmetic
+//! Warning: we need to keep it binary compatible with `ll` type here,
+//! because we cast vector<Zp> as vector<ll> in `polynomial.h`.
 struct Zp {
 	ll x; // Contained value, in range [0;MOD-1]
 	Zp() : x(0) {}
@@ -34,7 +36,7 @@ struct Zp {
 	OP(-, -r.x + MOD*(0 > x-r.x));
 	OP(*, *r.x % MOD);
 	OP(/, *r.inv().x % MOD);
-	Zp operator-() const { return Zp(0)-*this; }
+	Zp operator-() const { return Zp()-*this; }
 
 	// For composite modulus use modInv, not pow
 	Zp inv() const { return pow(MOD-2); }
