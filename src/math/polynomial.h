@@ -125,15 +125,51 @@ Poly& operator%=(Poly& l, const Poly& r) {
 	return l -= r*(l/r);
 }
 
+// Compute a^e mod x^n, where a is polynomial;
+// time: O(m log n log e)
+Poly pow(Poly a, ll e, int n) {
+	Poly t = {1};
+	while (e) {
+		if (e % 2) (t *= a).resize(n);
+		e /= 2; (a *= a).resize(n);
+	}
+	norm(t);
+	return t;
+}
+
 // Compute a^e mod m, where a and m are
 // polynomials; time: O(|m| log |m| log e)
-Poly pow(Poly a, ll e, Poly m) {
+Poly pow(Poly a, ll e, const Poly& m) {
 	Poly t = {1};
 	while (e) {
 		if (e % 2) t = t*a % m;
 		e /= 2; a = a*a % m;
 	}
 	return t;
+}
+
+// Compute ln(P) mod x^n; time: O(n log n)
+Poly log(const Poly& P, int n) {
+	Poly a = integrate(derivate(P)*invert(P,n));
+	a.resize(n);
+	return a;
+}
+
+// Compute exp(P) mod x^n; time: O(n lg n)
+Poly exp(Poly P, int n) {
+	assert(P.empty() || !P[0].x);
+	Poly tmp, ret = {1};
+
+	for (int i = 1; i < n; i *= 2) {
+		tmp.clear();
+		rep(j, 0, min(i*2, sz(P))) tmp.pb(P[j]);
+		tmp[0] += 1;
+		ret *= (tmp - log(ret, i*2));
+		ret.resize(i*2);
+	}
+
+	ret.resize(n);
+	return ret;
 }
 
 // Evaluate polynomial P in given points;
