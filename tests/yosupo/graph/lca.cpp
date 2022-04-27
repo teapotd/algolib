@@ -1,6 +1,7 @@
 #include "../../../src/trees/lca_linear.h"
 
 int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
 	int n, q;
 	cin >> n >> q;
 

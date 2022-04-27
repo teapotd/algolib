@@ -1,6 +1,7 @@
 #include "../../../src/graphs/directed_mst.h"
 
 int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
 	int n, m, s;
 	cin >> n >> m >> s;
 	vector<Edge> edges(m);

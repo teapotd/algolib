@@ -1,6 +1,7 @@
 #include "../../../src/graphs/general_matching_w.h"
 
 int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
 	int n, m; cin >> n >> m;
 	WeightedBlossom G(n);
 

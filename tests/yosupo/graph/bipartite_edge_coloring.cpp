@@ -1,6 +1,7 @@
 #include "../../../src/graphs/bipartite_edge_coloring.h"
 
 int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
 	int l, r, m; cin >> l >> r >> m;
 	vector<Pii> edges(m);
 	each(e, edges) cin >> e.x >> e.y;

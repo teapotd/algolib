@@ -1,6 +1,7 @@
 #include "../../../src/math/linear_rec_fast.h"
 
 int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
 	int d;
 	ll k;
 	cin >> d >> k;

@@ -1,6 +1,7 @@
 #include "../../../src/math/polynomial.h"
 
 int main() {
+	cin.sync_with_stdio(0); cin.tie(0);
 	int n; cin >> n;
 	vector<pair<Zp, Zp>> points(n);
 	each(e, points) cin >> e.x.x;
