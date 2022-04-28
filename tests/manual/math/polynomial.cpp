@@ -39,6 +39,25 @@ void testDivMod() {
 	}
 }
 
+void testChirpZ() {
+	rep(t, 0, 10) {
+		int n = r(1, 500);
+		int m = r(1, 500);
+
+		Poly P(n);
+		Zp arg = r(0, MOD-1);
+		each(k, P) k = r(0, MOD-1);
+
+		Poly vals = chirpz(P, arg, m);
+		assert(sz(vals) == m);
+
+		rep(i, 0, m) {
+			Zp expected = eval(P, arg.pow(i));
+			assert(vals[i] == expected);
+		}
+	}
+}
+
 void testMultiEval() {
 	rep(t, 0, 10) {
 		int n = r(1, 500);
@@ -141,6 +160,7 @@ int main() {
 	assert((P == Poly{7, 6}));
 
 	testDivMod();
+	testChirpZ();
 	testMultiEval();
 	testInterpolate();
 

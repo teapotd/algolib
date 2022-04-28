@@ -4,6 +4,7 @@
 #include "fft_mod.h"
 
 //! Source: https://github.com/e-maxx-eng/e-maxx-eng-aux/blob/master/src/polynomial.cpp
+//! and https://cp-algorithms.com/algebra/polynomial.html
 using Poly = vector<Zp>;
 
 // Cut off trailing zeroes; time: O(n)
@@ -159,6 +160,21 @@ Poly exp(Poly P, int n) {
 	}
 	ret.resize(n);
 	return ret;
+}
+
+// Compute values P(x^0), ..., P(x^{n-1});
+// time: O(n lg n)
+//! Source: https://codeforces.com/blog/entry/83532
+Poly chirpz(Poly P, Zp x, int n) {
+	int k = sz(P);
+	Poly Q(n+k);
+	rep(i, 0, n+k) Q[i] = x.pow(i*(i-1)/2);
+	rep(i, 0, k) P[i] /= Q[i];
+	reverse(all(P));
+	P *= Q;
+	rep(i, 0, n) P[i] = P[k+i-1] / Q[i];
+	P.resize(n);
+	return P;
 }
 
 // Evaluate polynomial P in given points;
