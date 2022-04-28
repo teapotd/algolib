@@ -13,35 +13,43 @@ struct Sqr {
 // there is square at position i of size 2l.
 // Each square is present in only one interval.
 vector<Sqr> lorentz(const string& s) {
-	int n = sz(s);
-	if (n <= 1) return {};
-	auto a = s.substr(0, n/2), b = s.substr(n/2);
+	vector<Sqr> ans;
+	Vi pos(sz(s)/2+2, -1);
 
-	auto ans = lorentz(a);
-	each(p, lorentz(b))
-		ans.pb({p.begin+n/2, p.end+n/2, p.len});
+	rep(mid, 1, sz(s)) {
+		int part = mid & ~(mid-1), off = mid-part;
+		int end = min(mid+part, sz(s));
+		auto a = s.substr(off, part);
+		auto b = s.substr(mid, end-mid);
 
-	string ra(a.rbegin(), a.rend());
-	string rb(b.rbegin(), b.rend());
+		string ra(a.rbegin(), a.rend());
+		string rb(b.rbegin(), b.rend());
 
-	rep(j, 0, 2) {
-		Vi z1 = prefPref(ra), z2 = prefPref(b+a);
-		z1.pb(0); z2.pb(0);
+		rep(j, 0, 2) {
+			// Set # to some unused character!
+			Vi z1 = prefPref(ra);
+			Vi z2 = prefPref(b+"#"+a);
+			z1.pb(0); z2.pb(0);
 
-		rep(c, 0, sz(a)) {
-			int l = sz(a)-c;
-			int x = c - min(l-1, z1[l]);
-			int y = c - max(l-z2[sz(b)+c], j);
-			if (x > y) continue;
+			rep(c, 0, sz(a)) {
+				int l = sz(a)-c;
+				int x = c - min(l-1, z1[l]);
+				int y = c - max(l-z2[sz(b)+c+1], j);
+				if (x > y) continue;
 
-			if (j)
-				ans.pb({n-y-l*2, n-x-l*2+1, l});
-			else
-				ans.pb({x, y+1, l});
+				int sb = (j ? end-y-l*2 : off+x);
+				int se = (j ? end-x-l*2+1 : off+y+1);
+				int& p = pos[l];
+
+				if (p != -1 && ans[p].end == sb)
+					ans[p].end = se;
+				else
+					p = sz(ans), ans.pb({sb, se, l});
+			}
+
+			a.swap(rb);
+			b.swap(ra);
 		}
-
-		a.swap(rb);
-		b.swap(ra);
 	}
 
 	return ans;
