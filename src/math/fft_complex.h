@@ -42,7 +42,8 @@ void fft(vector<cmpl>& a) {
 // Convolve complex-valued a and b,
 // store result in a; time: O(n lg n), 3x FFT
 void convolve(vector<cmpl>& a, vector<cmpl> b){
-	int len = max(sz(a) + sz(b) - 1, 0);
+	int len = sz(a) + sz(b) - 1;
+	if (len <= 0) return a.clear();
 	int n = 1 << (32 - __builtin_clz(len));
 	a.resize(n); b.resize(n);
 	fft(a); fft(b);

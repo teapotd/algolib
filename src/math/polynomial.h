@@ -63,39 +63,14 @@ Poly operator*(Poly l, const Poly& r) {
 	return l *= r;
 }
 
-// Derivate polynomial; time: O(n)
-Poly derivate(Poly P) {
-	if (!P.empty()) {
-		rep(i, 1, sz(P)) P[i-1] = P[i]*i;
-		P.pop_back();
-	}
-	return P;
-}
-
-// Integrate polynomial; time: O(n)
-Poly integrate(Poly P) {
-	if (!P.empty()) {
-		P.pb(0);
-		for (int i = sz(P); --i;) P[i] = P[i-1]/i;
-		P[0] = 0;
-	}
-	return P;
-}
-
 // Compute inverse series mod x^n; O(n lg n)
 Poly invert(const Poly& P, int n) {
 	assert(!P.empty() && P[0].x);
-	Poly tmp, ret = {P[0].inv()};
-
+	Poly tmp{P[0]}, ret = {P[0].inv()};
 	for (int i = 1; i < n; i *= 2) {
-		tmp.clear();
-		rep(j, 0, min(i*2, sz(P))) tmp.pb(-P[j]);
-		tmp *= ret;
-		tmp[0] += 2;
-		ret *= tmp;
-		ret.resize(i*2);
+		rep(j, i, min(i*2, sz(P))) tmp.pb(P[j]);
+		(ret *= Poly{2} - tmp*ret).resize(i*2);
 	}
-
 	ret.resize(n);
 	return ret;
 }
@@ -117,7 +92,7 @@ Poly operator/(Poly l, const Poly& r) {
 	return l /= r;
 }
 
-// Compute modulo by polynomial; O(n lg n)
+// Remainder modulo a polynomial; O(n lg n)
 Poly operator%(const Poly& l, const Poly& r) {
 	return l - r*(l/r);
 }
@@ -126,7 +101,7 @@ Poly& operator%=(Poly& l, const Poly& r) {
 }
 
 // Compute a^e mod x^n, where a is polynomial;
-// time: O(m log n log e)
+// time: O(n log n log e)
 Poly pow(Poly a, ll e, int n) {
 	Poly t = {1};
 	while (e) {
@@ -148,6 +123,25 @@ Poly pow(Poly a, ll e, const Poly& m) {
 	return t;
 }
 
+// Derivate polynomial; time: O(n)
+Poly derivate(Poly P) {
+	if (!P.empty()) {
+		rep(i, 1, sz(P)) P[i-1] = P[i]*i;
+		P.pop_back();
+	}
+	return P;
+}
+
+// Integrate polynomial; time: O(n)
+Poly integrate(Poly P) {
+	if (!P.empty()) {
+		P.pb(0);
+		for (int i = sz(P); --i;) P[i] = P[i-1]/i;
+		P[0] = 0;
+	}
+	return P;
+}
+
 // Compute ln(P) mod x^n; time: O(n log n)
 Poly log(const Poly& P, int n) {
 	Poly a = integrate(derivate(P)*invert(P,n));
@@ -158,16 +152,11 @@ Poly log(const Poly& P, int n) {
 // Compute exp(P) mod x^n; time: O(n lg n)
 Poly exp(Poly P, int n) {
 	assert(P.empty() || !P[0].x);
-	Poly tmp, ret = {1};
-
+	Poly tmp{P[0]+1}, ret = {1};
 	for (int i = 1; i < n; i *= 2) {
-		tmp.clear();
-		rep(j, 0, min(i*2, sz(P))) tmp.pb(P[j]);
-		tmp[0] += 1;
-		ret *= (tmp - log(ret, i*2));
-		ret.resize(i*2);
+		rep(j, i, min(i*2, sz(P))) tmp.pb(P[j]);
+		(ret *= (tmp - log(ret, i*2))).resize(i*2);
 	}
-
 	ret.resize(n);
 	return ret;
 }

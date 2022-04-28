@@ -59,7 +59,8 @@ void ntt(vector<ll>& a) {
 // Input is expected to be in range [0;MOD)!
 template<ll M = (119<<23)+1, ll R = 62>
 void convolve(vector<ll>& a, vector<ll> b) {
-	int len = max(sz(a) + sz(b) - 1, 0);
+	int len = sz(a) + sz(b) - 1;
+	if (len <= 0) return a.clear();
 	int n = 1 << (32 - __builtin_clz(len));
 	ll t = modPow(n, M-2, M);
 	a.resize(n); b.resize(n);
@@ -83,9 +84,11 @@ void convLong(vector<ll>& a, vector<ll> b) {
 	const ll M1 = (479<<21)+1, M2 = (483<<21)+1;
 	const ll MX = M1*M2, R = 62;
 
-	vector<ll> c = a, d = b;
-	each(k, a) k %= M1; each(k, b) k %= M1;
-	each(k, c) k %= M2; each(k, d) k %= M2;
+	auto c = a, d = b;
+	each(k, a) k %= M1;
+	each(k, b) k %= M1;
+	each(k, c) k %= M2;
+	each(k, d) k %= M2;
 
 	convolve<M1, R>(a, b);
 	convolve<M2, R>(c, d);
