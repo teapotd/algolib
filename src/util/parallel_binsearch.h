@@ -14,6 +14,7 @@
 // time: O((n+c) lg range), where c is cmp time
 template<class T>
 Vi multiBS(int b, int e, int n, T cmp) {
+	if (b >= e) return Vi(n, b);
 	vector<Pii> que(n), rng(n, {b, e});
 	vector<bool> ans(n);
 
