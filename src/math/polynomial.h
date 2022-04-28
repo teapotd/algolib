@@ -162,6 +162,23 @@ Poly exp(Poly P, int n) {
 	return ret;
 }
 
+// Compute polynomial P(x+c); time: O(n lg n)
+Poly shift(Poly P, Zp c) {
+	int n = sz(P);
+	Poly Q(n, 1);
+	Zp fac = 1;
+	rep(i, 1, n) {
+		P[i] *= (fac *= i);
+		Q[n-i-1] = Q[n-i] * c / i;
+	}
+	P *= Q;
+	if (sz(P) < n) return {};
+	P.erase(P.begin(), P.begin()+n-1);
+	fac = 1;
+	rep(i, 1, n) P[i] /= (fac *= i);
+	return P;
+}
+
 // Compute values P(x^0), ..., P(x^{n-1});
 // time: O(n lg n)
 //! Source: https://codeforces.com/blog/entry/83532
