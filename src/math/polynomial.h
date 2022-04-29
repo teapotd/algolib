@@ -65,6 +65,7 @@ Poly operator*(Poly l, const Poly& r) {
 }
 
 // Compute inverse series mod x^n; O(n lg n)
+// Requires P(0) != 0.
 Poly invert(const Poly& P, int n) {
 	assert(!P.empty() && P[0].x);
 	Poly tmp{P[0]}, ret = {P[0].inv()};
@@ -151,6 +152,7 @@ Poly log(const Poly& P, int n) {
 }
 
 // Compute exp(P) mod x^n; time: O(n lg n)
+// Requires P(0) = 0.
 Poly exp(Poly P, int n) {
 	assert(P.empty() || !P[0].x);
 	Poly tmp{P[0]+1}, ret = {1};
@@ -160,6 +162,33 @@ Poly exp(Poly P, int n) {
 	}
 	ret.resize(n);
 	return ret;
+}
+
+// Compute sqrt(P) mod x^n; time: O(n log n)
+#include "modular_sqrt.h"
+bool sqrt(Poly& P, int n) {
+	norm(P);
+	if (P.empty()) return P.resize(n), 1;
+
+	int tail = 0;
+	while (!P[tail].x) tail++;
+	if (tail % 2) return 0;
+
+	ll sq = modSqrt(P[tail].x, MOD);
+	if (sq == -1) return 0;
+
+	Poly tmp{P[tail]}, ret = {sq};
+	for (int i = 1; i < n - tail/2; i *= 2) {
+		rep(j, i, min(i*2, sz(P)-tail))
+			tmp.pb(P[tail+j]);
+		(ret += tmp * invert(ret,i*2)).resize(i*2);
+		each(e, ret) e /= 2;
+	}
+
+	P.resize(tail/2);
+	P.insert(P.end(), all(ret));
+	P.resize(n);
+	return 1;
 }
 
 // Compute polynomial P(x+c); time: O(n lg n)
