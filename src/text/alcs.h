@@ -22,16 +22,18 @@ struct ALCS {
 	// Precompute compressed matrix; time: O(nm)
 	ALCS(string s, string t) : A(s), B(t) {
 		int n = sz(A), m = sz(B);
-		vector<Vi> iv(n+1, Vi(m+1));
 		ih.resize(n+1, Vi(m+1));
 		iota(all(ih[0]), 0);
-		rep(l, 1, n+1) rep(j, 1, m+1) {
-			if (A[l-1] != B[j-1]) {
-				ih[l][j] = max(iv[l][j-1], ih[l-1][j]);
-				iv[l][j] = min(iv[l][j-1], ih[l-1][j]);
-			} else {
-				ih[l][j] = iv[l][j-1];
-				iv[l][j] = ih[l-1][j];
+		rep(l, 1, n+1) {
+			int iv = 0;
+			rep(j, 1, m+1) {
+				if (A[l-1] != B[j-1]) {
+					ih[l][j] = max(ih[l-1][j], iv);
+					iv = min(ih[l-1][j], iv);
+				} else {
+					ih[l][j] = iv;
+					iv = ih[l-1][j];
+				}
 			}
 		}
 	}
