@@ -5,8 +5,22 @@
 // iff there exists a (sub-)permutation
 // (N-1)x(N-1) matrix P such that:
 //   A[x,y] = sum i>=x, j<y: P[i,j]
+// The first column and last row are always 0.
 // We represent these matrices implicitly
 // using permutations p s.t. P[i,p(i)] = 1.
+
+// (min, +) product of simple unit-Monge
+// matrices represented by permutations P, Q,
+// is also a simple unit-Monge matrix.
+// The permutation that describes the product
+// can be obtained by the following procedure:
+// 1. Decompose P, Q into minimal sequences of
+//    elementary transpositions.
+// 2. Concatenate the transposition sequences.
+// 3. Scan from left to right and remove
+//    transpositions that decrease
+//    inversion count (i.e. second crossings).
+// 4. The reduced sequence represents result.
 
 // Invert sub-permutation with values [0;n).
 // Missing values should have value `def`.
@@ -43,12 +57,24 @@ Vi expand(const Vi& P, Vi& ind1, Vi& ind2,
 
 // Compute (min, +) product of square
 // simple unit-Monge matrices given their
-// permutation representations; O(n lg n)
+// permutation representations; time: O(n lg n)
 // Permutation of second matrix is inverted!
 //! Source: https://arxiv.org/pdf/0707.3619.pdf
 Vi comb(const Vi& P, const Vi& invQ) {
 	int n = sz(P);
-	if (n <= 1) return P;
+
+	if (n < 100) {
+		// 5s -> 1s speedup for ALIS for n = 10^5
+		Vi ret = invert(P, n, -1);
+		rep(i, 0, sz(invQ)) {
+			int from = invQ[i];
+			rep(j, 0, i) from += invQ[j] > invQ[i];
+			for (int j = from; j > i; j--)
+				if (ret[j-1] < ret[j])
+					swap(ret[j-1], ret[j]);
+		}
+		return invert(ret, n, -1);
+	}
 
 	Vi p1, p2, q1, q2, i1, i2, j1, j2;
 	split(P, n/2, p1, p2, i1, i2);
@@ -90,7 +116,7 @@ void padPerm(const Vi& P, Vi& has, Vi& pad,
 
 // Compute (min, +) product of
 // simple sub-unit-Monge matrices given their
-// permutation representations; O(n lg n)
+// permutation representations; time: O(n lg n)
 // Left matrix has size sz(P) x sz(Q).
 // Right matrix has size sz(Q) x n.
 // Output matrix has size sz(P) x n.
@@ -121,7 +147,7 @@ struct ALIS {
 	WaveletTree tree;
 	ALIS() {}
 
-	// Precompute data structure; O(n lg^2  n)
+	// Precompute data structure; O(n lg^2 n)
 	ALIS(const Vi& seq) {
 		Vi P = build(seq);
 		each(k, P) if (k == -1) k = sz(seq);
