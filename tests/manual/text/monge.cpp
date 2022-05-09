@@ -42,7 +42,7 @@ Vi mongeMulNaive(const Vi& P, const Vi& Q) {
 
 void testMongeMul(const Vi& P, const Vi& Q) {
 	Vi expected = mongeMulNaive(P, Q);
-	Vi got = mongeMul(P, Q);
+	Vi got = mongeMul(P, Q, sz(P));
 	if (got != expected) {
 		deb(P);
 		deb(Q);

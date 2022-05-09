@@ -12,6 +12,8 @@ struct WaveletTree {
 	vector<Vi> seq, left;
 	int len;
 
+	WaveletTree() {}
+
 	// Build wavelet tree for sequence `elems`;
 	// time and space: O((n+maxVal) log maxVal)
 	// Values are expected to be in [0;maxVal).
