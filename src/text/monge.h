@@ -48,33 +48,23 @@ Vi mongeMul(const Vi& P, const Vi& Q) {
 	p1 = mongeMul(p1, invert(q1));
 	p2 = mongeMul(p2, invert(q2));
 
-	p1 = expand(p1, i1, j1, n, -2);
-	p2 = expand(p2, i2, j2, n, n+1);
-	q1 = invert(p1, -2);
-	q2 = invert(p2, n+1);
+	p1 = expand(p1, i1, j1, n, -1);
+	p2 = expand(p2, i2, j2, n, n);
+	q1 = invert(p1, -1);
+	q2 = invert(p2, n);
 
 	Vi ans(n, -1);
-	int j = n, delta = 0;
+	int delta = 0, j = n;
 
 	rep(i, 0, n) {
-		while (j > 0 && delta >= 0) {
-			j--;
-			delta -= (q2[j] < i) + (q1[j] >= i);
-		}
+		ans[i] = (p1[i] < 0 ? p2[i] : p1[i]);
+		while (j > 0 && delta >= 0)
+			delta -= (q2[--j] < i || q1[j] >= i);
 
-		if (delta < 0) {
-			if (p2[i] < j || p1[i] >= j) {
-				if (q2[j] <= i || q1[j] > i) {
+		if (p2[i] < j || p1[i] >= j)
+			if (delta++ < 0)
+				if (q2[j] < i || q1[j] >= i)
 					ans[i] = j;
-				}
-			}
-		}
-
-		if (ans[i] == -1) {
-			ans[i] = (p1[i] != -2 ? p1[i] : p2[i]);
-		}
-
-		delta += (p2[i] < j) + (p1[i] >= j);
 	}
 
 	return ans;
