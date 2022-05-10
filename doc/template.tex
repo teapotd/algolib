@@ -1,0 +1,84 @@
+\documentclass[10pt]{article}
+
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{titletoc}
+\usepackage{courier}
+\usepackage{fancyhdr}
+\usepackage{minted}
+\usepackage{ulem}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+
+\geometry{
+	a4paper,
+	landscape,
+	includehead,
+	hmargin={0.5cm,0.5cm},
+	vmargin={0.5cm,0.6cm},
+	headsep=0.1cm,
+	footskip=0.25cm
+}
+
+\setlength{\columnsep}{8pt}
+\setlength{\parindent}{0pt}
+\setlength{\columnseprule}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Jagiellonian University - Jagiellonian 1}
+\rhead{\thepage}
+
+\makeatletter
+
+% Listing and minted style settings
+\lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
+\setminted{tabsize=2}
+\setminted{fontsize=\scriptsize}
+\setminted{mathescape=true}
+\usemintedstyle{tango}
+
+% Fixes space length in minted environment, but disables underlines globally. TODO: do something smarter
+\let\underline\relax
+
+% Minimalistic style for table of contents
+\renewcommand\tableofcontents{\@starttoc{toc}}
+\titlecontents{section}[0em]{}{\thecontentslabel}{\thecontentslabel}{\hfill\contentspage}
+
+% Make empty lines in listings smaller
+\let\FV@ListProcessLineOriginal\FV@ListProcessLine
+\def\FV@ListProcessLine#1{%
+  \ifx\FV@Line\empty%
+    \hbox{}\vspace{-4pt}%
+  \else%
+    \FV@ListProcessLineOriginal{#1}%
+  \fi}
+
+% Environment for code listing. Arguments: title, language, hash. TODO: fix PDF string
+\newenvironment{code}[3]{%
+	\phantomsection%
+	\addcontentsline{toc}{section}{\protect{\texorpdfstring{\lstinline|#1|}{}}}%
+	\uline{\textbf{\lstinline|#1|}\hfill\lstinline|#3|}%
+	\VerbatimEnvironment%
+	\let\FV@ListVSpace\relax%
+	\vspace*{4pt}%
+	\begin{minted}{#2}}
+	{\end{minted}}
+
+\makeatother
+
+\begin{document}
+
+\begin{multicols*}{4}
+	\tableofcontents
+	\vspace{\fill}\pagebreak
+	{CONTENT}
+\end{multicols*}
+
+\begin{center}
+	\includegraphics[scale=1.185]{../doc/appendix.png}
+\end{center}
+
+\end{document}

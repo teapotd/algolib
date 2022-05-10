@@ -5,89 +5,15 @@ import sys
 
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
-TABLE_OF_CONTENTS = True
+TEMPLATE_FILE = 'doc/template.tex'
 HASHES_CACHE_FILE = 'build/hashes-cache.pickle'
 EXCLUDED_FILES = ['.DS_Store']
 
 FILE_WHITELIST = None
 
-FILE_TEMPLATE = r'''
-\documentclass[10pt]{article}
-
-\usepackage{geometry}
-\usepackage{listings}
-\usepackage{multicol}
-\usepackage{titletoc}
-\usepackage{courier}
-\usepackage{fancyhdr}
-\usepackage{minted}
-\usepackage{ulem}
-\usepackage{graphicx}
-
-\geometry{
-	a4paper,
-	landscape,
-	includehead,
-	hmargin={0.5cm,0.5cm},
-	vmargin={0.5cm,0.6cm},
-	headsep=0.1cm,
-	footskip=0.25cm
-}
-
-\setlength{\columnseprule}{0.5pt}
-\setlength{\columnsep}{8pt}
-\setlength{\parindent}{0pt}
-
-\lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
-
-\let\underline\relax %% TODO: fixes space length in minted environment, but disables underlines globally - do something smarter
-
-\setminted{tabsize=2}
-\setminted{fontsize=\scriptsize}
-\setminted{mathescape=true}
-\usemintedstyle{tango}
-
-\makeatletter
-
-\let\FV@ListProcessLineOrig\FV@ListProcessLine
-\def\FV@ListProcessLine#1{%%
-  \ifx\FV@Line\empty
-    \hbox{}\vspace{-4pt}%%
-  \else
-    \FV@ListProcessLineOrig{#1}%%
-  \fi}
-
-\newenvironment{code}{%%
-	\VerbatimEnvironment
-	\let\FV@ListVSpace\relax
-	\vspace*{4pt}
-	\begin{minted}}
-	{\end{minted}}
-
-\makeatother
-
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\footrulewidth}{0.5pt}
-\lhead{Jagiellonian University - Jagiellonian 1}
-\rhead{\thepage}
-
-\begin{document}
-
-\begin{multicols*}{4}
-%s
-\end{multicols*}
-
-\begin{center}
-	\includegraphics[scale=1.185]{../appendix.png}
-\end{center}
-
-\end{document}
-'''
-
 def main():
-	global captions, content, hashes_cache
-	captions, content = '', ''
+	global content, hashes_cache
+	content = ''
 
 	if os.path.isfile(HASHES_CACHE_FILE):
 		with open(HASHES_CACHE_FILE, 'rb') as file:
@@ -96,15 +22,17 @@ def main():
 		hashes_cache = {}
 
 	process_dir('src')
-	if TABLE_OF_CONTENTS:
-		content = captions + '\n\\vspace{\\fill}\\pagebreak\n' + content
-	print(FILE_TEMPLATE % content)
+
+	with open(TEMPLATE_FILE, 'r') as file:
+		template_str = file.read()
+	template_str = template_str.replace('{CONTENT}', content)
+	print(template_str)
 
 	with open(HASHES_CACHE_FILE, 'wb') as file:
 		pickle.dump(hashes_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
 
-def process_dir(dir):
-	entries = [os.path.join(dir, s) for s in os.listdir(dir)]
+def process_dir(dir_name):
+	entries = [os.path.join(dir_name, s) for s in os.listdir(dir_name)]
 	entries.sort()
 
 	for entry in entries:
@@ -119,7 +47,7 @@ def process_file(path):
 	base_path = os.path.basename(path)
 	if FILE_WHITELIST is not None and base_path not in FILE_WHITELIST:
 		return
-	if os.path.basename(path) in EXCLUDED_FILES:
+	if base_path in EXCLUDED_FILES:
 		return
 
 	with open(path, 'r') as file:
@@ -128,7 +56,7 @@ def process_file(path):
 	if '!!EXCLUDE-FILE' in data:
 		return
 
-	global captions, content
+	global content
 	title = path[path.index('/')+1:]
 	sys.stderr.write("Processing %s\n" % title)
 
@@ -171,10 +99,7 @@ def process_file(path):
 
 	full_hash = get_code_hash(data_without_includes) if compute_hash else ''
 
-	captions += r'\lstinline|%s|\hfill\pageref{%s}' % (title, title) + '\n\n'
-
-	content += r'\uline{\label{%s}\textbf{\lstinline|%s|}\hfill\lstinline|%s|}' % (title, title, full_hash) + '\n\n'
-	content += r'\begin{code}{%s}' % lang + '\n'
+	content += r'\begin{code}{%s}{%s}{%s}' % (title, lang, full_hash) + '\n'
 	content += data + '\n'
 	content += r'\end{code}' + '\n\n'
 
