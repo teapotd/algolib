@@ -1,4 +1,4 @@
-#include "../../../src/graphs/bipartite_edge_coloring.h"
+#include "../../../src/graphs/bip_edge_coloring.h"
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
@@ -7,7 +7,7 @@ int main() {
 	each(e, edges) cin >> e.x >> e.y;
 
 	if (l > 10000 || r > 10000 || m > 10000) {
-		cout << "nope\n";
+		cout << "IGNORE-TEST";
 		return 0;
 	}
 

@@ -7,6 +7,7 @@ int main() {
 	each(e, f) cin >> e.x;
 
 	vector<Zp> g = pow(f, m, n);
+	g.resize(n);
 	each(e, g) cout << e.x << ' ';
 	cout << '\n';
 	return 0;

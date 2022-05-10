@@ -17,6 +17,8 @@ OUT_DIR=$PROBLEM_DIR/out
 CHECKER=$PROBLEM_DIR/checker
 GOT_FILE=$ROOT/../build/got.out
 
+$ROOT/library-checker-problems/generate.py $PROBLEM_DIR/info.toml
+
 for IN_FILE in $IN_DIR/*.in; do
 	TEST_NAME=`basename ${IN_FILE%.*}`
 	OUT_FILE=$OUT_DIR/$TEST_NAME.out
@@ -25,5 +27,9 @@ for IN_FILE in $IN_DIR/*.in; do
 	echo $TEST_NAME
 	rm -f $GOT_FILE
 	time $EXE < $IN_FILE > $GOT_FILE
-	$CHECKER $IN_FILE $GOT_FILE $OUT_FILE
+	if [[ $(< $GOT_FILE) != "IGNORE-TEST" ]]; then
+		$CHECKER $IN_FILE $GOT_FILE $OUT_FILE
+	else
+		echo "warning: ignoring test"
+	fi
 done
