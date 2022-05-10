@@ -1,7 +1,6 @@
 \documentclass[10pt]{article}
 
 \usepackage{geometry}
-\usepackage{listings}
 \usepackage{multicol}
 \usepackage{titletoc}
 \usepackage{courier}
@@ -33,8 +32,7 @@
 
 \makeatletter
 
-% Listing and minted style settings
-\lstset{basicstyle=\ttfamily\lst@ifdisplaystyle\scriptsize\fi}
+% Minted style settings
 \setminted{tabsize=2}
 \setminted{fontsize=\scriptsize}
 \setminted{mathescape=true}
@@ -47,7 +45,7 @@
 \renewcommand\tableofcontents{\@starttoc{toc}}
 \titlecontents{section}[0em]{}{\thecontentslabel}{\thecontentslabel}{\hfill\contentspage}
 
-% Make empty lines in listings smaller
+% Make empty lines in code listings smaller
 \let\FV@ListProcessLineOriginal\FV@ListProcessLine
 \def\FV@ListProcessLine#1{%
   \ifx\FV@Line\empty%
@@ -56,11 +54,11 @@
     \FV@ListProcessLineOriginal{#1}%
   \fi}
 
-% Environment for code listing. Arguments: title, language, hash. TODO: fix PDF string
+% Environment for code listing. Arguments: title, language, hash.
 \newenvironment{code}[3]{%
+	\uline{\textbf{\Verb{#1}}\hfill\Verb{#3}}%
 	\phantomsection%
-	\addcontentsline{toc}{section}{\protect{\texorpdfstring{\lstinline|#1|}{}}}%
-	\uline{\textbf{\lstinline|#1|}\hfill\lstinline|#3|}%
+	\addcontentsline{toc}{section}{\protect\Verb{#1}}%
 	\VerbatimEnvironment%
 	\let\FV@ListVSpace\relax%
 	\vspace*{4pt}%
