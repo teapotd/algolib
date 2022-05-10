@@ -11,7 +11,7 @@ fi
 ./build.sh $1 yosupo/$2
 
 EXE=$ROOT/../build/tests/yosupo/$2.e
-PROBLEM_DIR=$ROOT/library-checker-problems/${2%.*}
+PROBLEM_DIR=$ROOT/library-checker-problems/${2%%.*}
 IN_DIR=$PROBLEM_DIR/in
 OUT_DIR=$PROBLEM_DIR/out
 CHECKER=$PROBLEM_DIR/checker
