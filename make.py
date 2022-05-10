@@ -125,7 +125,7 @@ def process_file(path):
 	with open(path, 'r') as file:
 		data = file.read()
 
-	if '!!IGNORE' in data:
+	if '!!EXCLUDE-FILE' in data:
 		return
 
 	global captions, content
