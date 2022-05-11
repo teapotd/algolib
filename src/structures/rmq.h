@@ -4,7 +4,7 @@
 // Range Minimum Query; space: O(n lg n)
 struct RMQ {
 	using T = int;
-	T ID = INT_MAX;
+	static constexpr T ID = INT_MAX;
 	T f(T a, T b)  { return min(a, b); }
 
 	vector<vector<T>> s;

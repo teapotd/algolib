@@ -36,7 +36,9 @@ struct LiChao {
 		}
 	};
 
-	Func ID_ADD{0, 0}, ID_MAX{0, T(-1e9)};
+	static constexpr Func ID_ADD{0, 0};
+	static constexpr Func ID_MAX{0, T(-1e9)};
+
 	vector<Func> val, lazy;
 	int len;
 

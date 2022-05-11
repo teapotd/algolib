@@ -5,7 +5,7 @@
 // Default version: prefix sums
 struct Fenwick {
 	using T = int;
-	T ID = 0;
+	static constexpr T ID = 0;
 	T f(T a, T b) { return a+b; }
 
 	vector<T> s;

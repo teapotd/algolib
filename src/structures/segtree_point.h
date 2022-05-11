@@ -8,7 +8,7 @@
 // - f(a, b) - combine results
 struct SegTree {
 	using T = int;
-	T ID = INT_MIN;
+	static constexpr T ID = INT_MIN;
 	T f(T a, T b) { return max(a,b); }
 
 	vector<T> V;
