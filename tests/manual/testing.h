@@ -51,3 +51,24 @@ void generateTree(std::vector<std::vector<int>>& verts) {
 		verts[shuf[e]].push_back(int(shuf[i]));
 	}
 }
+
+template<class T>
+bool areElemsUnique(std::vector<T> elems) {
+	sort(all(elems));
+	return unique(all(elems)) == elems.end();
+}
+
+template<class T>
+bool isSubseq(const std::vector<T>& big, const std::vector<T>& sub) {
+	int i = 0;
+	for (T x : sub) {
+		while (i < int(big.size()) && big[i] != x) {
+			i++;
+		}
+		if (i >= int(big.size())) {
+			return false;
+		}
+		i++;
+	}
+	return true;
+}
