@@ -6,7 +6,7 @@ int main() {
 	vector<vector<ll>> mat(n, vector<ll>(n));
 	each(row, mat) each(e, row) cin >> e;
 
-	Vi L, R;
+	vi L, R;
 	cout << hungarian(mat, L, R) << '\n';
 	each(v, L) cout << v << ' ';
 	cout << '\n';

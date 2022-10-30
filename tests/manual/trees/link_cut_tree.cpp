@@ -7,7 +7,7 @@ constexpr int MIN_COMPS = 5;
 constexpr int MAX_COMPS = 60;
 
 LinkCutTree tree;
-vector<Vi> G;
+vector<vi> G;
 vector<int> comps, dists;
 int nComps = 0;
 
@@ -35,7 +35,7 @@ void calcComps() {
 void modify() {
 	calcComps();
 
-	vector<Pii> toAdd, toCut;
+	vector<pii> toAdd, toCut;
 	rep(i, 0, sz(G)) each(j, G[i]) {
 		toCut.pb({ i, j });
 	}
@@ -54,12 +54,12 @@ void modify() {
 	}
 
 	if (add) {
-		Pii e = toAdd[r(0, sz(toAdd)-1)];
+		pii e = toAdd[r(0, sz(toAdd)-1)];
 		tree.link(e.x, e.y);
 		G[e.x].pb(e.y);
 		G[e.y].pb(e.x);
 	} else {
-		Pii e = toCut[r(0, sz(toCut)-1)];
+		pii e = toCut[r(0, sz(toCut)-1)];
 		tree.cut(e.x, e.y);
 		G[e.x].erase(find(all(G[e.x]), e.y));
 		G[e.y].erase(find(all(G[e.y]), e.x));
@@ -96,7 +96,7 @@ void benchmark() {
 	constexpr int nVerts = 1000000;
 	constexpr int TIMES = 2;
 
-	vector<Pii> edges;
+	vector<pii> edges;
 	tree = {nVerts};
 
 	rep(times, 0, TIMES) {

@@ -24,8 +24,8 @@
 
 // Invert sub-permutation with values [0;n).
 // Missing values should have value `def`.
-Vi invert(const Vi& P, int n, int def) {
-	Vi ret(n, def);
+vi invert(const vi& P, int n, int def) {
+	vi ret(n, def);
 	rep(i, 0, sz(P)) if (P[i] != def)
 		ret[P[i]] = i;
 	return ret;
@@ -36,8 +36,8 @@ Vi invert(const Vi& P, int n, int def) {
 // with remaining values, shifted by `k`.
 // Missing rows from `lo` and `hi` are removed,
 // original indices are in `loInd` and `hiInd`.
-void split(const Vi& P, int k, Vi& lo, Vi& hi,
-           Vi& loInd, Vi& hiInd) {
+void split(const vi& P, int k, vi& lo, vi& hi,
+           vi& loInd, vi& hiInd) {
   int i = 0;
 	each(e, P) {
 		if (e < k) lo.pb(e), loInd.pb(i++);
@@ -47,9 +47,9 @@ void split(const Vi& P, int k, Vi& lo, Vi& hi,
 
 // Map sub-permutation into sub-permutation
 // of length `n` on given indices sets.
-Vi expand(const Vi& P, Vi& ind1, Vi& ind2,
+vi expand(const vi& P, vi& ind1, vi& ind2,
           int n, int def) {
-	Vi ret(n, def);
+	vi ret(n, def);
 	rep(k, 0, sz(P)) if (P[k] != def)
 		ret[ind1[k]] = ind2[P[k]];
 	return ret;
@@ -60,12 +60,12 @@ Vi expand(const Vi& P, Vi& ind1, Vi& ind2,
 // permutation representations; time: O(n lg n)
 // Permutation of second matrix is inverted!
 //! Source: https://arxiv.org/pdf/0707.3619.pdf
-Vi comb(const Vi& P, const Vi& invQ) {
+vi comb(const vi& P, const vi& invQ) {
 	int n = sz(P);
 
 	if (n < 100) {
 		// 5s -> 1s speedup for ALIS for n = 10^5
-		Vi ret = invert(P, n, -1);
+		vi ret = invert(P, n, -1);
 		rep(i, 0, sz(invQ)) {
 			int from = invQ[i];
 			rep(j, 0, i) from += invQ[j] > invQ[i];
@@ -76,7 +76,7 @@ Vi comb(const Vi& P, const Vi& invQ) {
 		return invert(ret, n, -1);
 	}
 
-	Vi p1, p2, q1, q2, i1, i2, j1, j2;
+	vi p1, p2, q1, q2, i1, i2, j1, j2;
 	split(P, n/2, p1, p2, i1, i2);
 	split(invQ, n/2, q1, q2, j1, j2);
 
@@ -85,7 +85,7 @@ Vi comb(const Vi& P, const Vi& invQ) {
 	q1 = invert(p1, n, -1);
 	q2 = invert(p2, n, n);
 
-	Vi ans(n, -1);
+	vi ans(n, -1);
 	int delta = 0, j = n;
 
 	rep(i, 0, n) {
@@ -103,8 +103,8 @@ Vi comb(const Vi& P, const Vi& invQ) {
 }
 
 // Helper function for `mongeMul`.
-void padPerm(const Vi& P, Vi& has, Vi& pad,
-            Vi& ind, int n) {
+void padPerm(const vi& P, vi& has, vi& pad,
+            vi& ind, int n) {
 	vector<bool> seen(n);
 	rep(i, 0, sz(P)) if (P[i] != -1) {
 		ind.pb(i);
@@ -122,14 +122,14 @@ void padPerm(const Vi& P, Vi& has, Vi& pad,
 // Output matrix has size sz(P) x n.
 // NON-SQUARE MATRICES ARE NOT TESTED!
 //! Source: https://arxiv.org/pdf/0707.3619.pdf
-Vi mongeMul(const Vi& P, const Vi& Q, int n) {
-	Vi h1, p1, i1, h2, p2, i2;
+vi mongeMul(const vi& P, const vi& Q, int n) {
+	vi h1, p1, i1, h2, p2, i2;
 	padPerm(P, h1, p1, i1, sz(Q));
 	padPerm(invert(Q, n, -1), h2, p2, i2, sz(Q));
 
 	h1.insert(h1.begin(), all(p1));
 	h2.insert(h2.end(), all(p2));
-	Vi ans(sz(P), -1), tmp = comb(h1, h2);
+	vi ans(sz(P), -1), tmp = comb(h1, h2);
 
 	rep(i, 0, sz(i1)) {
 		int j = tmp[i+sz(p1)];
@@ -148,8 +148,8 @@ struct ALIS {
 	ALIS() {}
 
 	// Precompute data structure; O(n lg^2 n)
-	ALIS(const Vi& seq) {
-		Vi P = build(seq);
+	ALIS(const vi& seq) {
+		vi P = build(seq);
 		each(k, P) if (k == -1) k = sz(seq);
 		tree = {P, sz(seq)+1};
 	}
@@ -160,21 +160,21 @@ struct ALIS {
 			tree.count(b, sz(tree.seq[1]), 0, e);
 	}
 
-	Vi build(const Vi& seq) {
+	vi build(const vi& seq) {
 		int n = sz(seq);
 		if (!n) return {};
 		int lo = *min_element(all(seq));
 		int hi = *max_element(all(seq));
 
 		if (lo == hi) {
-			Vi tmp(n);
+			vi tmp(n);
 			iota(all(tmp), 1);
 			tmp.back() = -1;
 			return tmp;
 		}
 
 		int mid = (lo+hi+1) / 2;
-		Vi p1, p2, i1, i2;
+		vi p1, p2, i1, i2;
 		split(seq, mid, p1, p2, i1, i2);
 
 		p1 = expand(build(p1), i1, i1, n, -1);

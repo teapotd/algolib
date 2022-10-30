@@ -1,8 +1,8 @@
 #include "../../../src/trees/heavylight_decomp.h"
 #include "../testing.h"
 
-vector<Vi> G;
-Vi parents, levels, vals;
+vector<vi> G;
+vi parents, levels, vals;
 
 void dfsParents(int i, int parent, int d) {
 	each(e, G[i]) if (e != parent) dfsParents(e, i, d+1);

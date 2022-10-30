@@ -3,8 +3,8 @@
 
 void bench() {
 	int n = 100000;
-	vector<Pii> points(n);
-	vector<vector<Pii>> G;
+	vector<pii> points(n);
+	vector<vector<pii>> G;
 
 	each(p, points) {
 		p.x = r(-1e8, 1e8);
@@ -18,10 +18,10 @@ void bench() {
 
 int main() {
 	int n; cin >> n;
-	vector<Pii> points(n);
+	vector<pii> points(n);
 	each(p, points) cin >> p.x >> p.y;
 
-	vector<vector<Pii>> G;
+	vector<vector<pii>> G;
 	cout << rmst(points, G) << endl;
 	return 0;
 }

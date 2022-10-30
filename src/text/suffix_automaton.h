@@ -21,12 +21,12 @@ struct SufDFA {
 	// link[v] = link to state of longest suffix
 	//           in other equivalence class
 	// to[v][c] = automaton edge c from v
-	Vi len{0}, link{-1};
+	vi len{0}, link{-1};
 	vector<array<int, ALPHA>> to{ {} };
 	int last{0}; // Current node (whole word)
 
-	vector<Vi> inSufs; // [OCC] Suffix-link tree
-	Vi cnt{0};         // [OCC] Occurence count
+	vector<vi> inSufs; // [OCC] Suffix-link tree
+	vi cnt{0};         // [OCC] Occurence count
 	vector<ll> paths;  // [PATHS] Out-path count
 
 	SufDFA() {}

@@ -39,7 +39,7 @@ void pop(Node*& a) {
 // out[root] = -1
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/DirectedMST.h
 ll dmst(vector<Edge>& edges,
-        int n, int root, Vi& out) {
+        int n, int root, vi& out) {
 	RollbackFAU uf(n);
 	vector<Node*> heap(n);
 
@@ -48,7 +48,7 @@ ll dmst(vector<Edge>& edges,
 			new Node{e, 0, 0, 0});
 
 	ll res = 0;
-	Vi seen(n, -1), path(n);
+	vi seen(n, -1), path(n);
 	seen[root] = root;
 
 	struct Cycle { int u, t; vector<Edge> e; };

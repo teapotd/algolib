@@ -2,8 +2,8 @@
 #include "../../../src/template.h"
 #include "../testing.h"
 
-Vi naive(const Vi& perm) {
-	Vi ans;
+vi naive(const vi& perm) {
+	vi ans;
 	rep(i, 0, sz(perm)) {
 		int x = 0;
 		rep(j, 0, i) {
@@ -14,7 +14,7 @@ Vi naive(const Vi& perm) {
 	return ans;
 }
 
-void test(const Vi& perm) {
+void test(const vi& perm) {
 	auto vec1 = encodeInversions(perm);
 	auto vec2 = naive(perm);
 
@@ -29,7 +29,7 @@ void test(const Vi& perm) {
 int main() {
 	rep(i, 0, 10000) {
 		int n = r(0, 1000);
-		Vi perm(n);
+		vi perm(n);
 		rep(j, 0, n) perm[j] = r(0, n-1);
 		test(perm);
 	}

@@ -3,9 +3,9 @@
 
 // Computes Z function array; time: O(n)
 // zf[i] = max common prefix of str and str[i:]
-template<class T> Vi prefPref(const T& str) {
+template<class T> vi prefPref(const T& str) {
 	int n = sz(str), b = 0, e = 1;
-	Vi zf(n);
+	vi zf(n);
 	rep(i, 1, n) {
 		if (i < e) zf[i] = min(zf[i-b], e-i);
 		while (i+zf[i] < n &&

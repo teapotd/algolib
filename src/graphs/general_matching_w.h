@@ -9,8 +9,8 @@ struct WeightedBlossom {
 	struct edge { int u, v, w; };
 	int n, s, nx;
 	vector<vector<edge>> g;
-	Vi lab, match, slack, st, pa, S, vis;
-	vector<Vi> flo, floFrom;
+	vi lab, match, slack, st, pa, S, vis;
+	vector<vi> flo, floFrom;
 	queue<int> q;
 
 	// Initialize for k vertices
@@ -19,7 +19,7 @@ struct WeightedBlossom {
 			  g(s, vector<edge>(s)),
 			  lab(s), match(s), slack(s), st(s),
 			  pa(s), S(s), vis(s), flo(s),
-			  floFrom(s, Vi(n+1)) {
+			  floFrom(s, vi(n+1)) {
 		rep(u, 1, n+1) rep(v, 1, n+1)
 			g[u][v] = {u, v, 0};
 	}
@@ -35,7 +35,7 @@ struct WeightedBlossom {
 	// `weight` is set to matching weight.
 	// Returns vector `match` such that:
 	// match[v] = vert matched to v or -1
-	Vi solve(int& count, ll& weight) {
+	vi solve(int& count, ll& weight) {
 		fill(all(match), 0);
 		nx = n;
 		weight = count = 0;
@@ -50,7 +50,7 @@ struct WeightedBlossom {
 		rep(u, 1, n+1)
 			if (match[u] && match[u] < u)
 				weight += g[u][match[u]].w;
-		Vi ans(n);
+		vi ans(n);
 		rep(i, 0, n) ans[i] = match[i+1]-1;
 		return ans;
 	}

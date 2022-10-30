@@ -36,7 +36,7 @@ template<class Fast, class Naive>
 void test(int n, int times) {
 	Fast tree(n);
 	map<int, Naive> naive;
-	Vi versions;
+	vi versions;
 
 	naive[0] = Naive(n);
 	versions.pb(0);

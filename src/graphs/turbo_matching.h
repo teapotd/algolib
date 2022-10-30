@@ -5,7 +5,7 @@
 // G must be bipartite graph!
 // Returns matching size (edge count).
 // match[v] = vert matched to v or -1
-int matching(vector<Vi>& G, Vi& match) {
+int matching(vector<vi>& G, vi& match) {
 	vector<bool> seen;
 	int n = 0, k = 1;
 	match.assign(sz(G), -1);
@@ -34,8 +34,8 @@ int matching(vector<Vi>& G, Vi& match) {
 
 // Convert maximum matching to vertex cover
 // time: O(n+m)
-Vi vertexCover(vector<Vi>& G, Vi& match) {
-	Vi ret, col(sz(G)), seen(sz(G));
+vi vertexCover(vector<vi>& G, vi& match) {
+	vi ret, col(sz(G)), seen(sz(G));
 
 	function<void(int, int)> dfs =
 			[&](int i, int c) {

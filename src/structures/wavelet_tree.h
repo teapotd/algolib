@@ -9,7 +9,7 @@
 // left[i][j] = how many values in seq[0:j)
 //              go to left subtree
 struct WaveletTree {
-	vector<Vi> seq, left;
+	vector<vi> seq, left;
 	int len;
 
 	WaveletTree() {}
@@ -17,7 +17,7 @@ struct WaveletTree {
 	// Build wavelet tree for sequence `elems`;
 	// time and space: O((n+maxVal) log maxVal)
 	// Values are expected to be in [0;maxVal).
-	WaveletTree(const Vi& elems, int maxVal) {
+	WaveletTree(const vi& elems, int maxVal) {
 		for (len = 1; len < maxVal; len *= 2);
 		seq.resize(len*2);
 		left.resize(len*2);

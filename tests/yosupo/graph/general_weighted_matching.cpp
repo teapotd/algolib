@@ -13,7 +13,7 @@ int main() {
 
 	int matchSize;
 	ll weight;
-	Vi match = G.solve(matchSize, weight);
+	vi match = G.solve(matchSize, weight);
 
 	cout << matchSize << ' ' << weight << '\n';
 	rep(i, 0, n) if (match[i] > i) cout << i << ' ' << match[i] << '\n';

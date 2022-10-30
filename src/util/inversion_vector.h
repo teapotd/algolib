@@ -4,8 +4,8 @@
 // Get inversion vector for sequence of
 // numbers in [0;n); ret[i] = count of numbers
 // greater than perm[i] to the left; O(n lg n)
-Vi encodeInversions(Vi perm) {
-	Vi odd, ret(sz(perm));
+vi encodeInversions(vi perm) {
+	vi odd, ret(sz(perm));
 	int cont = 1;
 
 	while (cont) {
@@ -23,9 +23,9 @@ Vi encodeInversions(Vi perm) {
 
 // Count inversions in sequence of numbers
 // in [0;n); time: O(n lg n)
-ll countInversions(Vi perm) {
+ll countInversions(vi perm) {
 	ll ret = 0, cont = 1;
-	Vi odd;
+	vi odd;
 
 	while (cont) {
 		odd.assign(sz(perm)+1, 0);

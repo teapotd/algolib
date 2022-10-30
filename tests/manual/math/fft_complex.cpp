@@ -16,7 +16,7 @@ namespace kactl {
 			auto x = polar(1.0L, ld(M_PI) / k); // M_PI, lower-case L
 			rep(i,k,2*k) rt[i] = R[i] = i&1 ? R[i/2] * x : R[i/2];
 		}
-		Vi rev(n);
+		vi rev(n);
 		rep(i,0,n) rev[i] = (rev[i / 2] | (i & 1) << L) / 2;
 		rep(i,0,n) if (i < rev[i]) swap(a[i], a[rev[i]]);
 		for (int k = 1; k < n; k *= 2)

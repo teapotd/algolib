@@ -19,7 +19,7 @@ int arcCover(vector<pair<dbl, dbl>>& inters,
 		inters.pb({e.x+wrap, e.y+wrap});
 	}
 
-	Vi nxt(n);
+	vi nxt(n);
 	deque<dbl> que;
 	dbl r = wrap*4;
 	sort(all(inters));

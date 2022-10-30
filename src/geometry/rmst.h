@@ -6,12 +6,12 @@
 // Returns MST weight. Outputs spanning tree
 // to G, vertex indices match point indices.
 // Edge in G is pair (target, weight).
-ll rmst(vector<Pii>& points,
-        vector<vector<Pii>>& G) {
+ll rmst(vector<pii>& points,
+        vector<vector<pii>>& G) {
 	int n = sz(points);
-	vector<pair<int, Pii>> edges;
-	vector<Pii> close;
-	Vi ord(n), merged(n);
+	vector<pair<int, pii>> edges;
+	vector<pii> close;
+	vi ord(n), merged(n);
 	iota(all(ord), 0);
 
 	function<void(int,int)> octant =
@@ -23,16 +23,16 @@ ll rmst(vector<Pii>& points,
 		octant(mid, end);
 
 		int j = mid;
-		Pii best = {INT_MAX, -1};
+		pii best = {INT_MAX, -1};
 		merged.clear();
 
 		rep(i, begin, mid) {
 			int v = ord[i];
-			Pii p = points[v];
+			pii p = points[v];
 
 			while (j < end) {
 				int e = ord[j];
-				Pii q = points[e];
+				pii q = points[e];
 				if (q.x-q.y > p.x-p.y) break;
 				best = min(best,make_pair(q.x+q.y, e));
 				merged.pb(e);
@@ -59,7 +59,7 @@ ll rmst(vector<Pii>& points,
 			close.assign(n, {INT_MAX, -1});
 			octant(0, n);
 			rep(k, 0, n) {
-				Pii p = close[k];
+				pii p = close[k];
 				if (p.y != -1) edges.pb({p.x,{k,p.y}});
 				points[k].x *= -1;
 			}

@@ -10,7 +10,7 @@ bitset<MAX_P/2+1> primes; // Only odd numbers
 void sieve() {
 	constexpr int SEG_SIZE = 1<<18;
 	int pSqrt = int(sqrt(MAX_P)+0.5);
-	vector<Pii> dels;
+	vector<pii> dels;
 	primes.set();
 	primes.reset(0);
 

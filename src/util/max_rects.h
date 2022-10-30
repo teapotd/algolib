@@ -7,16 +7,16 @@ struct MaxRect {
 	// hei = height of rectangle
 	// touch = columns of height hei inside
 	int begin, end, hei;
-	Vi touch; // sorted increasing
+	vi touch; // sorted increasing
 };
 
 // Given consecutive column heights find
 // all inclusion-wise maximal rectangles
 // contained in "drawing" of columns; time O(n)
-vector<MaxRect> getMaxRects(Vi hei) {
+vector<MaxRect> getMaxRects(vi hei) {
 	hei.insert(hei.begin(), -1);
 	hei.pb(-1);
-	Vi reach(sz(hei), sz(hei)-1);
+	vi reach(sz(hei), sz(hei)-1);
 	vector<MaxRect> ans;
 
 	for (int i = sz(hei)-1; --i;) {

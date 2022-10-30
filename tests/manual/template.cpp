@@ -3,7 +3,7 @@
 
 struct Vert {
 	int weight;
-	Vi edges;
+	vi edges;
 
 	DBP(weight, edges);
 };
@@ -56,7 +56,7 @@ int main() {
 	bitSet.set(5);
 	deb(bitSet);
 
-	Vi emptyVec;
+	vi emptyVec;
 	deb(emptyVec);
 
 	cout << string("abcdef") << endl;

@@ -14,7 +14,7 @@ struct Sqr {
 // Each square is present in only one interval.
 vector<Sqr> lorentz(const string& s) {
 	vector<Sqr> ans;
-	Vi pos(sz(s)/2+2, -1);
+	vi pos(sz(s)/2+2, -1);
 
 	rep(mid, 1, sz(s)) {
 		int part = mid & ~(mid-1), off = mid-part;
@@ -27,8 +27,8 @@ vector<Sqr> lorentz(const string& s) {
 
 		rep(j, 0, 2) {
 			// Set # to some unused character!
-			Vi z1 = prefPref(ra);
-			Vi z2 = prefPref(b+"#"+a);
+			vi z1 = prefPref(ra);
+			vi z2 = prefPref(b+"#"+a);
 			z1.pb(0); z2.pb(0);
 
 			rep(c, 0, sz(a)) {

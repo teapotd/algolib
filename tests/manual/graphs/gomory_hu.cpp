@@ -1,7 +1,7 @@
 #include "../../../src/graphs/gomory_hu.h"
 #include "../testing.h"
 
-vector<vector<Pii>> tree;
+vector<vector<pii>> tree;
 
 int dfs(int v, int dst, int p) {
 	if (v == dst) {

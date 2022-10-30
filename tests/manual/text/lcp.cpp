@@ -8,8 +8,8 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi sufs = sufArray(str);
-	Vi lcp = lcpArray(str, sufs);
+	vi sufs = sufArray(str);
+	vi lcp = lcpArray(str, sufs);
 
 	rep(i, 0, sz(lcp)) {
 		int a = sufs[i], b = sufs[i+1], c = lcp[i];

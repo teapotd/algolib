@@ -2,8 +2,8 @@
 using namespace std;
 
 using ll  = long long;
-using Vi  = vector<int>;
-using Pii = pair<int,int>;
+using vi  = vector<int>;
+using pii = pair<int,int>;
 
 #define mp make_pair
 #define pb push_back

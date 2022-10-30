@@ -3,7 +3,7 @@
 
 // http://e-maxx.ru/algo/string_tandems
 
-vector<Vi> sqr;
+vector<vi> sqr;
 
 vector<int> z_function (const string & s) {
 	int n = (int) s.length();
@@ -82,7 +82,7 @@ void test(int n, int alpha) {
 	sqr.assign(n, {});
 	find_tandems(str);
 
-	vector<Vi> our(n);
+	vector<vi> our(n);
 
 	each(p, lorentz(str)) {
 		assert(p.begin < p.end);

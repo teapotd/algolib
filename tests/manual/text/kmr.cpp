@@ -22,7 +22,7 @@ void test(int n, int alpha) {
 		}
 	}
 
-	Vi sufs = kmr.sufArray();
+	vi sufs = kmr.sufArray();
 	rep(i, 1, sz(sufs)) {
 		assert(strcmp(&str[sufs[i-1]], &str[sufs[i]]) < 0);
 	}

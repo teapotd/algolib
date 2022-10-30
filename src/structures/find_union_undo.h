@@ -6,8 +6,8 @@
 // Operations work in O(log(n)) time.
 //! https://github.com/kth-competitive-programming/kactl/blob/main/content/data-structures/UnionFindRollback.h
 struct RollbackFAU {
-	Vi G;
-	vector<Pii> his;
+	vi G;
+	vector<pii> his;
 
 	RollbackFAU(int n = 0) : G(n, -1) {}
 

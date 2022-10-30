@@ -34,7 +34,7 @@ struct ShiftTree {
 
 	// Find mismatches between T[a:b) and Q[a:b);
 	// time: O((|D|+1) log n)
-	void diff(Vi& out, const ShiftTree& T,
+	void diff(vi& out, const ShiftTree& T,
 	          int vb, int ve, int lvl = -1,
 	          int b = 0, int e = -1,
 	          int i = 1, int j = 1) {
@@ -92,11 +92,11 @@ int bitrev(int n, int bits) {
 // The returned array encodes solutions,
 // which can be recovered using `recover`.
 // ans[x] != -1 <=> subset with sum x exists
-Vi subsetSumMod(const Vi& counts) {
+vi subsetSumMod(const vi& counts) {
 	int mod = sz(counts), len = 1, k = 0;
 	while (len < mod*2) len *= 2, k++;
 
-	Vi tmp, ans(mod, -1);
+	vi tmp, ans(mod, -1);
 	ShiftTree T(len), Q(len);
 
 	ans[0] = 0;
@@ -127,9 +127,9 @@ Vi subsetSumMod(const Vi& counts) {
 	return ans;
 }
 
-Vi recoverSubset(const Vi& dp, int s) {
+vi recoverSubset(const vi& dp, int s) {
 	assert(dp[s] != -1);
-	Vi ret;
+	vi ret;
 	while (s) {
 		ret.pb(dp[s]);
 		s = (s - dp[s] + sz(dp)) % sz(dp);

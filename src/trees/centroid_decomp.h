@@ -23,14 +23,14 @@ struct CentroidTree {
 	//             from centroid v to i-th vertex
 	//             of centroid subtree
 	//             (-1 for centroid)
-	vector<Vi> child, ind, dists, subtree,
+	vector<vi> child, ind, dists, subtree,
 	           neigh, dir;
-	Vi par, depth, size;
+	vi par, depth, size;
 	int root; // Root centroid
 
 	CentroidTree() {}
 
-	CentroidTree(vector<Vi>& G)
+	CentroidTree(vector<vi>& G)
 			: child(sz(G)), ind(sz(G)), dists(sz(G)),
 			  subtree(sz(G)), neigh(sz(G)),
 			  dir(sz(G)), par(sz(G), -2),
@@ -38,13 +38,13 @@ struct CentroidTree {
 		root = decomp(G, 0, 0);
 	}
 
-	void dfs(vector<Vi>& G, int v, int p) {
+	void dfs(vector<vi>& G, int v, int p) {
 		size[v] = 1;
 		each(e, G[v]) if (e != p && par[e] == -2)
 			dfs(G, e, v), size[v] += size[e];
 	}
 
-	void layer(vector<Vi>& G, int v,
+	void layer(vector<vi>& G, int v,
 	           int p, int c, int d) {
 		ind[v].pb(sz(subtree[c]));
 		subtree[c].pb(v);
@@ -56,7 +56,7 @@ struct CentroidTree {
 		}
 	}
 
-	int decomp(vector<Vi>& G, int v, int d) {
+	int decomp(vector<vi>& G, int v, int d) {
 		dfs(G, v, -1);
 		int p = -1, s = size[v];
 	loop:

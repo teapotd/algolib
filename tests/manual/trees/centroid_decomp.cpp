@@ -1,7 +1,7 @@
 #include "../../../src/trees/centroid_decomp.h"
 #include "../testing.h"
 
-vector<Vi> G;
+vector<vi> G;
 CentroidTree cen;
 
 void edge(int i, int j) {

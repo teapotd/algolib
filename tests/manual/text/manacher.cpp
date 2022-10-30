@@ -1,14 +1,14 @@
 #include "../../../src/text/manacher.h"
 #include "../testing.h"
 
-Vi naiveManacher(const string& tmp) {
+vi naiveManacher(const string& tmp) {
 	string str;
 	each(c, tmp) {
 		str.pb(c);
 		str.pb('#');
 	}
 
-	Vi ret(sz(str));
+	vi ret(sz(str));
 
 	rep(i, 0, sz(str)) {
 		int k = 1;
@@ -29,8 +29,8 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi naive = naiveManacher(str);
-	Vi fast = manacher(str);
+	vi naive = naiveManacher(str);
+	vi fast = manacher(str);
 	deb(naive, fast);
 	assert(naive == fast);
 }

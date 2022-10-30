@@ -4,9 +4,9 @@
 
 // KS algorithm for suffix array; time: O(n)
 // Input values are assumed to be in [1;k]
-Vi sufArray(Vi str, int k) {
+vi sufArray(vi str, int k) {
 	int n = sz(str);
-	Vi suf(n);
+	vi suf(n);
 	str.resize(n+15);
 
 	if (n < 15) {
@@ -17,7 +17,7 @@ Vi sufArray(Vi str, int k) {
 	}
 
 	// Compute triples codes
-	Vi tmp, code(n+2);
+	vi tmp, code(n+2);
 	rep(i, 0, n) if (i % 3) tmp.pb(i);
 
 	rep(j, 0, 3) countSort(tmp,
@@ -41,7 +41,7 @@ Vi sufArray(Vi str, int k) {
 	tmp = sufArray(move(tmp), mc);
 
 	// Compute partial suffix arrays
-	Vi third;
+	vi third;
 	int th = (n+4) / 3;
 	if (n%3 == 1) third.pb(n-1);
 
@@ -71,6 +71,6 @@ Vi sufArray(Vi str, int k) {
 }
 
 // KS algorithm for suffix array; time: O(n)
-Vi sufArray(const string& str) {
-	return sufArray(Vi(all(str)), 255);
+vi sufArray(const string& str) {
+	return sufArray(vi(all(str)), 255);
 }

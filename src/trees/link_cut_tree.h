@@ -7,7 +7,7 @@ constexpr int INF = 1e9;
 // Represents forest of (un)rooted trees.
 struct LinkCutTree {
 	vector<array<int, 2>> child;
-	Vi par, prev, flip, size;
+	vi par, prev, flip, size;
 
 	// Initialize structure for n vertices; O(n)
 	// At first there's no edges.

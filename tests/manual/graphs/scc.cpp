@@ -1,9 +1,9 @@
 #include "../../../src/graphs/scc.h"
 #include "../testing.h"
 
-vector<Vi> G, inv;
-Vi seen, order;
-vector<Vi> comps;
+vector<vi> G, inv;
+vi seen, order;
+vector<vi> comps;
 
 void dfsOrder(int v) {
 	if (seen[v] >= 1) return;

@@ -22,7 +22,7 @@ int main() {
 
 	sieve();
 
-	Vi cnt(MAX_P_SEG+1);
+	vi cnt(MAX_P_SEG+1);
 	rep(i, 1, MAX_P_SEG+1) {
 		cnt[i] = cnt[i-1] + isPrime(i);
 	}

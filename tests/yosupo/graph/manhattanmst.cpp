@@ -3,10 +3,10 @@
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
 	int n; cin >> n;
-	vector<Pii> points(n);
+	vector<pii> points(n);
 	each(p, points) cin >> p.x >> p.y;
 
-	vector<vector<Pii>> G;
+	vector<vector<pii>> G;
 	ll ans = rmst(points, G);
 
 	cout << ans << '\n';

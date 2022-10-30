@@ -6,12 +6,12 @@
 // Constructor calls method `process`
 // for each centroid subtree.
 struct CentroidDecomp {
-	vector<Vi>& G; // Reference to target graph
+	vector<vi>& G; // Reference to target graph
 	vector<bool> on; // Is vertex enabled?
-	Vi size; // Used internally
+	vi size; // Used internally
 
 	// Run centroid decomposition for graph g
-	CentroidDecomp(vector<Vi>& g)
+	CentroidDecomp(vector<vi>& g)
 			: G(g), on(sz(g), 1), size(sz(g)) {
 		decomp(0);
 	}

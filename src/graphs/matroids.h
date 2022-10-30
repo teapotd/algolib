@@ -27,10 +27,10 @@ vector<bool> intersectMatroids(T& A, U& B,
 		ans[i] = 1, A.init(ans), B.init(ans);
 
 	while (ok) {
-		vector<Vi> G(n);
+		vector<vi> G(n);
 		vector<bool> good(n);
 		queue<int> que;
-		Vi prev(n, -1);
+		vi prev(n, -1);
 
 		A.init(ans);
 		B.init(ans);
@@ -78,9 +78,9 @@ vector<bool> intersectMatroids(T& A, U& B,
 // and set is independent iff for each color c
 // #{elements of color c} <= maxAllowed[c].
 struct LimOracle {
-	Vi color; // color[i] = color of i-th element
-	Vi maxAllowed; // Limits for colors
-	Vi tmp;
+	vi color; // color[i] = color of i-th element
+	vi maxAllowed; // Limits for colors
+	vi tmp;
 
 	// Init oracle for independent set S; O(n)
 	void init(vector<bool>& S) {
@@ -97,9 +97,9 @@ struct LimOracle {
 // Graphic matroid - each element is edge,
 // set is independent iff subgraph is acyclic.
 struct GraphOracle {
-	vector<Pii> elems; // Ground set: graph edges
+	vector<pii> elems; // Ground set: graph edges
 	int n; // Number of vertices, indexed [0;n-1]
-	Vi par;
+	vi par;
 
 	int find(int i) {
 		return par[i] == -1 ? i
@@ -125,10 +125,10 @@ struct GraphOracle {
 // from graph number of connected components
 // doesn't change.
 struct CographOracle {
-	vector<Pii> elems; // Ground set: graph edges
+	vector<pii> elems; // Ground set: graph edges
 	int n; // Number of vertices, indexed [0;n-1]
-	vector<Vi> G;
-	Vi pre, low;
+	vector<vi> G;
+	vi pre, low;
 	int cnt;
 
 	int dfs(int v, int p) {
@@ -145,7 +145,7 @@ struct CographOracle {
 		low.resize(n);
 		cnt = 0;
 		rep(i, 0, sz(S)) if (!S[i]) {
-			Pii e = elems[i];
+			pii e = elems[i];
 			G[e.x].pb(e.y);
 			G[e.y].pb(e.x);
 		}
@@ -154,7 +154,7 @@ struct CographOracle {
 
 	// Check if S+{k} is independent; time: O(1)
 	bool canAdd(int k) {
-		Pii e = elems[k];
+		pii e = elems[k];
 		return max(pre[e.x], pre[e.y])
 			!= max(low[e.x], low[e.y]);
 	}

@@ -12,7 +12,7 @@
 // 2 if more than 1 solution exist.
 int gauss(vector<vector<double>>& A,
           vector<double>& ans, int m) {
-	Vi col;
+	vi col;
 	ans.assign(m, 0);
 
 	rep(i, 0, sz(A)) {

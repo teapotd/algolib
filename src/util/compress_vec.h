@@ -4,10 +4,10 @@
 // Compress integers to range [0;n) while
 // preserving their order; time: O(n lg n)
 // Returns mapping: compressed -> original
-Vi compressVec(vector<int*>& vec) {
+vi compressVec(vector<int*>& vec) {
 	sort(all(vec),
 		[](int* l, int* r) { return *l < *r; });
-	Vi old;
+	vi old;
 	each(e, vec) {
 		if (old.empty() || old.back() != *e)
 			old.pb(*e);

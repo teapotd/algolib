@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-Vi phi(1e7+1);
+vi phi(1e7+1);
 
 // Precompute Euler's totients; time: O(n lg n)
 void calcPhi() {

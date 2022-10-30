@@ -13,7 +13,7 @@
 
 int main() {
 	int N = 2000, M = 1000;
-	vector<Vi> naive(N, Vi(M));
+	vector<vi> naive(N, vi(M));
 	Fenwick2D tree(N, M);
 	
 	rep(t, 0, 1000) {

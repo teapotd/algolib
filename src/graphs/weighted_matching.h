@@ -8,7 +8,7 @@
 // R[i] = left vertex matched to i-th right
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/WeightedMatching.h
 ll hungarian(const vector<vector<ll>>& cost,
-             Vi& L, Vi& R) {
+             vi& L, vi& R) {
 	if (cost.empty())
 		return L.clear(), R.clear(), 0;
 	int b, c = 0, n = sz(cost), m = sz(cost[0]);
@@ -20,7 +20,7 @@ ll hungarian(const vector<vector<ll>>& cost,
 
 	rep(i, 0, n) {
 		vector<ll> sla(m, INT64_MAX);
-		Vi vis(m+1), prv(m, -1);
+		vi vis(m+1), prv(m, -1);
 		for (R[b = m] = i; R[b]+1; b = c) {
 			int a = R[b];
 			ll d = INT64_MAX;

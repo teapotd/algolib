@@ -6,10 +6,10 @@
 // Returns matching size (edge count).
 // match[v] = vert matched to v or -1
 //! Source: https://codeforces.com/blog/entry/92339?#comment-810264
-int blossom(vector<Vi>& G, Vi& match) {
+int blossom(vector<vi>& G, vi& match) {
 	int n = sz(G), cnt = -1, ans = 0;
 	match.assign(n, -1);
-	Vi lab(n), par(n), orig(n), aux(n, -1), q;
+	vi lab(n), par(n), orig(n), aux(n, -1), q;
 
 	auto blos = [&](int v, int w, int a) {
 		while (orig[v] != a) {

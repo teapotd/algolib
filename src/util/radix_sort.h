@@ -4,8 +4,8 @@
 // Stable countingsort; time: O(k+sz(vec))
 // See example usage in radixSort for pairs.
 template<class F>
-void countSort(Vi& vec, F key, int k) {
-	static Vi buf, cnt;
+void countSort(vi& vec, F key, int k) {
+	static vi buf, cnt;
 	vec.swap(buf);
 	vec.resize(sz(buf));
 	cnt.assign(k+1, 0);
@@ -16,8 +16,8 @@ void countSort(Vi& vec, F key, int k) {
 }
 
 // Compute order of elems, k is max key; O(n)
-Vi radixSort(const vector<Pii>& elems, int k) {
-	Vi order(sz(elems));
+vi radixSort(const vector<pii>& elems, int k) {
+	vi order(sz(elems));
 	iota(all(order), 0);
 	countSort(order,
 		[&](int i) { return elems[i].y; }, k);

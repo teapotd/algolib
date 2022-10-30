@@ -7,14 +7,14 @@ int main() {
 		int n = r(1, 10000);
 		int k = r(1, 10000);
 
-		vector<Pii> data(n);
+		vector<pii> data(n);
 		each(p, data) {
 			p.x = r(1, k);
 			p.y = r(1, k);
 		}
 
-		Vi orderRadix = radixSort(data, k);
-		Vi order(n);
+		vi orderRadix = radixSort(data, k);
+		vi order(n);
 		iota(all(order), 0);
 		stable_sort(all(order), [&](int l, int r) { return data[l] < data[r]; });
 

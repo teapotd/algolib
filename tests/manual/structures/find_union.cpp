@@ -20,7 +20,7 @@ int main() {
 	rep(total, 0, 10) {
 		int n = r(0, 1000);
 		FAU fau(n);
-		Vi naive(n);
+		vi naive(n);
 		iota(all(naive), 0);
 
 		rep(i, 0, 100) {

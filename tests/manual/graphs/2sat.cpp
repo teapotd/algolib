@@ -2,8 +2,8 @@
 #include "../testing.h"
 
 struct OldSAT2 {
-	vector<Vi> G;
-	Vi order, values; // Also indexed from 1!
+	vector<vi> G;
+	vi order, values; // Also indexed from 1!
 	vector<bool> flags;
 
 	// Init n variables, you can add more later
@@ -51,7 +51,7 @@ struct OldSAT2 {
 		G.resize(sz(G)+2); return sz(G)/2;
 	}
 
-	void atMostOne(Vi& vars) {
+	void atMostOne(vi& vars) {
 		int x = addVar();
 		each(i, vars) {
 			int y = addVar();

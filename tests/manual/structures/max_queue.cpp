@@ -2,7 +2,7 @@
 #include "../testing.h"
 
 int main() {
-	Vi naive;
+	vi naive;
 	MaxQueue que;
 
 	rep(i, 0, 10000) {

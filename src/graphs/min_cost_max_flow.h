@@ -59,7 +59,7 @@ struct MCMF {
 		// [/end]
 
 	nxt:
-		Vi prev(sz(G), -1);
+		vi prev(sz(G), -1);
 		vector<flow_t> dist(sz(G), INF);
 		priority_queue<pair<flow_t, int>> Q;
 		add.assign(sz(G), -1);

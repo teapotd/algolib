@@ -1,7 +1,7 @@
 #include "../../../src/math/phi_prefix_sum.h"
 #include "../testing.h"
 
-Vi naivePhi(1e8+1);
+vi naivePhi(1e8+1);
 vector<ll> naivePhiSum;
 
 void calcPhiNaive() {

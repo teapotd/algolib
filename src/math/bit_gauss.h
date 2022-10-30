@@ -15,7 +15,7 @@ constexpr int MAX_COLS = 2048;
 // 2 if more than 1 solution exist.
 int bitGauss(vector<bitset<MAX_COLS>>& A,
              vector<bool>& ans, int m) {
-	Vi col;
+	vi col;
 	ans.assign(m, 0);
 
 	rep(i, 0, sz(A)) {

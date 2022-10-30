@@ -1,7 +1,7 @@
 #include "../../../src/structures/hull_online.h"
 #include "../testing.h"
 
-vector<Pii> funcs;
+vector<pii> funcs;
 Hull hull;
 
 ll naiveQuery(ll x) {

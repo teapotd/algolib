@@ -20,12 +20,12 @@ struct DenseDFS {
 	void reset() { each(x, V.M) x = -1; }
 
 	// Get/set visited flag for i-th vertex
-	void setVisited(int i) { V.set(0, i, 0); }
-	bool isVisited(int i)  { return !V(0, i); }
+	void setvisited(int i) { V.set(0, i, 0); }
+	bool isvisited(int i)  { return !V(0, i); }
 
 	// DFS step: func is called on each unvisited
 	// neighbour of i. You need to manually call
-	// setVisited(child) to mark it visited
+	// setvisited(child) to mark it visited
 	// or this function will call the callback
 	// with the same vertex again.
 	template<class T>

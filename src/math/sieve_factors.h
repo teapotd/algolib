@@ -2,7 +2,7 @@
 #include "../template.h"
 
 constexpr int MAX_P = 1e6;
-Vi factor(MAX_P+1);
+vi factor(MAX_P+1);
 
 // Erathostenes sieve with saving smallest
 // factor for each number; time: O(n lg lg n)
@@ -18,8 +18,8 @@ void sieve() {
 
 // Factorize n <= MAX_P; time: O(lg n)
 // Returns pairs (prime, power), sorted
-vector<Pii> factorize(ll n) {
-	vector<Pii> ret;
+vector<pii> factorize(ll n) {
+	vector<pii> ret;
 	while (n > 1) {
 		int f = factor[n];
 		if (ret.empty() || ret.back().x != f)

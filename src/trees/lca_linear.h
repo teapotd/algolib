@@ -4,20 +4,20 @@
 // LAQ and LCA using jump pointers
 // with linear memory; space: O(n)
 struct LCA {
-	Vi par, jmp, depth, pre, post;
+	vi par, jmp, depth, pre, post;
 	int cnt{0};
 
 	LCA() {}
 
 	// Initialize structure for tree G
 	// and root v; time: O(n lg n)
-	LCA(vector<Vi>& G, int v)
+	LCA(vector<vi>& G, int v)
 			: par(sz(G), -1), jmp(sz(G), v),
 				depth(sz(G)), pre(sz(G)), post(sz(G)) {
 		dfs(G, v);
 	}
 
-	void dfs(vector<Vi>& G, int v) {
+	void dfs(vector<vi>& G, int v) {
 		int j = jmp[v], k = jmp[j], x =
 			depth[v]+depth[k] == depth[j]*2 ? k : v;
 		pre[v] = ++cnt;

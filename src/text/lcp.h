@@ -6,9 +6,9 @@
 // In order to compute suffix array use kmr.h
 // or suffix_array_linear.h
 template<class T>
-Vi lcpArray(const T& str, const Vi& sufs) {
+vi lcpArray(const T& str, const vi& sufs) {
 	int n = sz(str), k = 0;
-	Vi pos(n), lcp(n-1);
+	vi pos(n), lcp(n-1);
 	rep(i, 0, n) pos[sufs[i]] = i;
 	rep(i, 0, n) {
 		if (pos[i] < n-1) {

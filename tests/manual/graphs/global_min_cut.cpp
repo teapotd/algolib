@@ -4,7 +4,7 @@
 
 void check(const vector<vector<ll>>& mat) {
 	int n = sz(mat);
-	Vi cut;
+	vi cut;
 	ll val = minCut(mat, cut);
 
 	vector<bool> side(n);

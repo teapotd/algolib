@@ -21,7 +21,7 @@ ll hilbert(int x, int y, int s, ll c = 0) {
 }
 
 // Get good order of queries; time: O(n lg n)
-Vi moOrder(vector<Query>& queries, int maxN) {
+vi moOrder(vector<Query>& queries, int maxN) {
 	int s = 1;
 	while (s < maxN) s *= 2;
 
@@ -29,7 +29,7 @@ Vi moOrder(vector<Query>& queries, int maxN) {
 	each(q, queries)
 		ord.pb(hilbert(q.begin, q.end, s));
 
-	Vi ret(sz(ord));
+	vi ret(sz(ord));
 	iota(all(ret), 0);
 	sort(all(ret), [&](int l, int r) {
 		return ord[l] < ord[r];

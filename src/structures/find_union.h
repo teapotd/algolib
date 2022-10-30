@@ -5,7 +5,7 @@
 // Operations work in amortized O(alfa(n))
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/data-structures/UnionFind.h
 struct FAU {
-	Vi G;
+	vi G;
 	FAU(int n = 0) : G(n, -1) {}
 
 	// Get size of set containing i

@@ -3,7 +3,7 @@
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
 	int n, m; cin >> n >> m;
-	vector<Vi> G(n);
+	vector<vi> G(n);
 
 	rep(i, 0, m) {
 		int u, v; cin >> u >> v;

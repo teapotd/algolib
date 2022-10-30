@@ -5,7 +5,7 @@ int main() {
 	int l, r, m;
 	cin >> l >> r >> m;
 
-	vector<Vi> G(r);
+	vector<vi> G(r);
 
 	rep(i, 0, m) {
 		int a, b; cin >> a >> b;

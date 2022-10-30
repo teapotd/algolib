@@ -16,21 +16,21 @@ constexpr int ALPHA = 26;
 // Suffix links are valid only for internal
 // nodes (non-leaves).
 struct SufTree {
-	Vi txt; // Text for which tree is built
+	vi txt; // Text for which tree is built
 	// to[v][c] = edge with label starting with c
 	//            from node v
 	vector<array<int, ALPHA>> to{ {} };
-	Vi L{0}, R{0}; // Parent edge label endpoints
-	Vi par{0};     // Parent link
-	Vi link{0};    // Suffix link
-	Pii cur{0, 0}; // Current state
+	vi L{0}, R{0}; // Parent edge label endpoints
+	vi par{0};     // Parent link
+	vi link{0};    // Suffix link
+	pii cur{0, 0}; // Current state
 
 	// Get current right end of node label
 	int getR(int i) { return min(R[i],sz(txt)); }
 
 	// Follow edge `e` of implicit node `s`.
 	// Returns (-1, -1) if there is no edge.
-	Pii next(Pii s, int e) {
+	pii next(pii s, int e) {
 		if (s.y < getR(s.x))
 			return txt[s.y] == e ? mp(s.x, s.y+1)
 			                     : mp(-1, -1);
@@ -40,7 +40,7 @@ struct SufTree {
 
 	// Create dedicated node for implicit node
 	// and all its suffixes
-	int split(Pii s) {
+	int split(pii s) {
 		if (s.y == R[s.x]) return s.x;
 
 		int t = sz(to); to.pb({});
@@ -64,7 +64,7 @@ struct SufTree {
 
 	// Append letter from [0;ALPHA) to the back
 	void add(int x) { // amortized time: O(1)
-		Pii t; txt.pb(x);
+		pii t; txt.pb(x);
 		while ((t = next(cur, x)).x == -1) {
 			int m = split(cur);
 			to[m][x] = sz(to);

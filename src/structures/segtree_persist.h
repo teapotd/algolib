@@ -12,7 +12,7 @@ struct SegTree {
 	vector<Agg> agg; // Aggregated data for nodes
 	vector<T> lazy;  // Lazy tags for nodes
 	vector<bool> cow; // Copy children on push?
-	Vi L, R;         // Children links
+	vi L, R;         // Children links
 	int len{1};      // Number of leaves
 
 	// Initialize tree for n elements; O(lg n)

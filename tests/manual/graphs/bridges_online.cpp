@@ -2,8 +2,8 @@
 #include "../testing.h"
 
 struct BridgesNaive {
-	vector<vector<Pii>> G;
-	Vi f, seen;
+	vector<vector<pii>> G;
+	vi f, seen;
 	int nEdges{0};
 
 	BridgesNaive(int n) : G(n) {}
@@ -47,7 +47,7 @@ void runTest() {
 	//deb(n);
 	//cerr << '\n';
 
-	vector<Pii> avail;
+	vector<pii> avail;
 	rep(i, 0, n) rep(j, i+1, n) avail.pb({i, j});
 	random_shuffle(all(avail));
 
@@ -55,7 +55,7 @@ void runTest() {
 		switch (r(0, 3)) {
 			case 0: {
 				if (avail.empty()) return;
-				Pii e = avail.back();
+				pii e = avail.back();
 				avail.pop_back();
 				fast.addEdge(e.x, e.y);
 				naive.addEdge(e.x, e.y);
@@ -95,11 +95,11 @@ void bad() {
 	Bridges fast(6);
 	BridgesNaive naive(6);
 
-	for (Pii e : vector<Pii>{ {2,3}, {1,5}, {0,2}, {4,5}, {1,4}, {0,3}, {0,5}, {0,4} }) {
+	for (pii e : vector<pii>{ {2,3}, {1,5}, {0,2}, {4,5}, {1,4}, {0,3}, {0,5}, {0,4} }) {
 		fast.addEdge(e.x, e.y);
 		naive.addEdge(e.x, e.y);
 
-		Vi comp, par;
+		vi comp, par;
 		rep(i, 0, 6) par.pb(fast.par[i]);
 		rep(i, 0, 6) comp.pb(fast.bi(i));
 		deb(e, comp, par);

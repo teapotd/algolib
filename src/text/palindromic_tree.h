@@ -11,20 +11,20 @@ constexpr int ALPHA = 26; // Set alphabet size
 // in O(n lg n). Can also be modified for
 // similar dynamic programmings.
 struct PalTree {
-	Vi txt; // Text for which tree is built
+	vi txt; // Text for which tree is built
 
 	// Node 0 = empty palindrome (root of even)
 	// Node 1 = "-1" palindrome (root of odd)
-	Vi len{0, -1}; // Lengths of palindromes
-	Vi link{1, 0}; // Suffix palindrome links
+	vi len{0, -1}; // Lengths of palindromes
+	vi link{1, 0}; // Suffix palindrome links
 	// Edges to next palindromes
 	vector<array<int, ALPHA>> to{ {}, {} };
 	int last{0}; // Current node (max suffix pal)
 
-	Vi diff{0, 0};   // len[i]-len[link[i]] [EXT]
-	Vi slink{0, 0};  // Serial links        [EXT]
-	Vi series{0, 0}; // Series DP answer    [EXT]
-	Vi ans{0};       // DP answer for prefix[EXT]
+	vi diff{0, 0};   // len[i]-len[link[i]] [EXT]
+	vi slink{0, 0};  // Serial links        [EXT]
+	vi series{0, 0}; // Series DP answer    [EXT]
+	vi ans{0};       // DP answer for prefix[EXT]
 
 	int ext(int i) {
 		while (len[i]+2 > sz(txt) ||

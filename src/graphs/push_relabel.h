@@ -13,7 +13,7 @@ struct MaxFlow {
 
 	vector<basic_string<Edge>> G;
 	vector<flow_t> extra;
-	Vi hei, arc, prv, nxt, act, bot;
+	vi hei, arc, prv, nxt, act, bot;
 	queue<int> Q;
 	int n, high, cut, work;
 

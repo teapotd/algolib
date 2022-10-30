@@ -7,12 +7,12 @@
 // Returns vector of edge colors `col`.
 // col[i] = color of i-th edge [0..D]
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/EdgeColoring.h
-Vi vizing(vector<Pii>& edges, int n) {
-	Vi cc(n+1), ret(sz(edges)),
+vi vizing(vector<pii>& edges, int n) {
+	vi cc(n+1), ret(sz(edges)),
 	   fan(n), fre(n), loc;
 	each(e, edges) cc[e.x]++, cc[e.y]++;
 	int u, v, cnt = *max_element(all(cc)) + 1;
-	vector<Vi> adj(n, Vi(cnt, -1));
+	vector<vi> adj(n, vi(cnt, -1));
 	each(e, edges) {
 		tie(u, v) = e;
 		fan[0] = v;

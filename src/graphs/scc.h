@@ -6,17 +6,17 @@
 // scc[v] = index of SCC for vertex v
 // scc.comps[i] = vertices of i-th SCC
 // Components are in reversed topological order
-struct SCC : Vi {
-	vector<Vi> comps;
-	Vi S;
+struct SCC : vi {
+	vector<vi> comps;
+	vi S;
 
 	SCC() {}
 
-	SCC(vector<Vi>& G) : Vi(sz(G),-1), S(sz(G)) {
+	SCC(vector<vi>& G) : vi(sz(G),-1), S(sz(G)) {
 		rep(i, 0, sz(G)) if (!S[i]) dfs(G, i);
 	}
 
-	int dfs(vector<Vi>& G, int v) {
+	int dfs(vector<vi>& G, int v) {
 		int low = S[v] = sz(S);
 		S.pb(v);
 

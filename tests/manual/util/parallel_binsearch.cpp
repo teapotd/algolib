@@ -3,10 +3,10 @@
 #include "../testing.h"
 
 void run(int nElems, int maxVal) {
-	Vi expected(nElems);
+	vi expected(nElems);
 	each(e, expected) e = r(0, maxVal);
 
-	Vi ret = multiBS(0, maxVal+1, nElems, [&](vector<Pii>& queries, vector<bool>& answers) {
+	vi ret = multiBS(0, maxVal+1, nElems, [&](vector<pii>& queries, vector<bool>& answers) {
 		assert(sz(queries) == nElems);
 		assert(sz(answers) == nElems);
 

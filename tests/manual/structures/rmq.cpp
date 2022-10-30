@@ -4,7 +4,7 @@
 void run() {
 	int n = r(1, 500);
 
-	Vi elems(n);
+	vi elems(n);
 	each(x, elems) x = r(-1000, 1000);
 
 	RMQ rmq(elems);

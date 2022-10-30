@@ -7,8 +7,8 @@
 // - bridges.cc[v] = connected component ID
 // - bridges.bi(v) = 2-edge connected comp ID
 struct Bridges {
-	vector<Vi> G; // Spanning forest
-	Vi cc, size, par, bp, seen;
+	vector<vi> G; // Spanning forest
+	vi cc, size, par, bp, seen;
 	int cnt{0};
 
 	// Initialize structure for n vertices; O(n)

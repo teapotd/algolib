@@ -5,15 +5,15 @@
 // space: O(n lg n)
 
 struct LCA {
-	vector<Vi> jumps;
-	Vi level, pre, post;
+	vector<vi> jumps;
+	vi level, pre, post;
 	int cnt{0}, depth;
 
 	LCA() {}
 
 	// Initialize structure for tree G
 	// and root r; time: O(n lg n)
-	LCA(vector<Vi>& G, int root)
+	LCA(vector<vi>& G, int root)
 			: jumps(sz(G)), level(sz(G)),
 			  pre(sz(G)), post(sz(G)) {
 		dfs(G, root, root);
@@ -22,7 +22,7 @@ struct LCA {
 			v.pb(jumps[v[j]][j]);
 	}
 
-	void dfs(vector<Vi>& G, int v, int p) {
+	void dfs(vector<vi>& G, int v, int p) {
 		level[v] = p == v ? 0 : level[p]+1;
 		jumps[v].pb(p);
 		pre[v] = ++cnt;

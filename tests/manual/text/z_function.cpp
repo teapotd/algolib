@@ -1,8 +1,8 @@
 #include "../../../src/text/z_function.h"
 #include "../testing.h"
 
-Vi naivePrefPref(const string& str) {
-	Vi ret(sz(str));
+vi naivePrefPref(const string& str) {
+	vi ret(sz(str));
 
 	rep(i, 0, sz(str)) {
 		int k = 0;
@@ -21,8 +21,8 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi naive = naivePrefPref(str);
-	Vi fast = prefPref(str);
+	vi naive = naivePrefPref(str);
+	vi fast = prefPref(str);
 	deb(naive, fast);
 	assert(naive == fast);
 }

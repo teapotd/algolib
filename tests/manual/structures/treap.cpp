@@ -2,7 +2,7 @@
 #include "../testing.h"
 
 int n;
-Vi naive;
+vi naive;
 Treap treap;
 int root;
 

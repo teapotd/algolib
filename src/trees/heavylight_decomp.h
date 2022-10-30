@@ -7,13 +7,13 @@
 struct HLD {
 	// Subtree of v = [pos[v]; pos[v]+size[v])
 	// Chain with v = [chBegin[v]; chEnd[v])
-	Vi par;     // Vertex parent
-	Vi size;    // Vertex subtree size
-	Vi depth;   // Vertex distance to root
-	Vi pos;     // Vertex position in "HLD" order
-	Vi chBegin; // Begin of chain with vertex
-	Vi chEnd;   // End of chain with vertex
-	Vi order;   // "HLD" preorder of vertices
+	vi par;     // Vertex parent
+	vi size;    // Vertex subtree size
+	vi depth;   // Vertex distance to root
+	vi pos;     // Vertex position in "HLD" order
+	vi chBegin; // Begin of chain with vertex
+	vi chEnd;   // End of chain with vertex
+	vi order;   // "HLD" preorder of vertices
 	SegTree tree; // Verts are in HLD order
 
 	HLD() {}
@@ -21,7 +21,7 @@ struct HLD {
 	// Initialize structure for tree G
 	// and given root; time: O(n lg n)
 	// MODIFIES ORDER OF EDGES IN G!
-	HLD(vector<Vi>& G, int root)
+	HLD(vector<vi>& G, int root)
 			: par(sz(G)), size(sz(G)),
 			  depth(sz(G)), pos(sz(G)),
 			  chBegin(sz(G)), chEnd(sz(G)) {
@@ -30,7 +30,7 @@ struct HLD {
 		tree = {sz(order)};
 	}
 
-	void dfs(vector<Vi>& G, int v, int p) {
+	void dfs(vector<vi>& G, int v, int p) {
 		par[v] = p;
 		size[v] = 1;
 		depth[v] = p < 0 ? 0 : depth[p]+1;
@@ -46,7 +46,7 @@ struct HLD {
 		}
 	}
 
-	void decomp(vector<Vi>& G,
+	void decomp(vector<vi>& G,
 	            int v, int p, int chb) {
 		pos[v] = sz(order);
 		chBegin[v] = chb;

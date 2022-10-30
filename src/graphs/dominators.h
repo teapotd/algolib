@@ -6,11 +6,11 @@
 // Returns array of immediate dominators idom.
 // idom[root] = root
 // idom[v] = -1 if v is unreachable from root
-Vi dominators(const vector<Vi>& G, int root) {
+vi dominators(const vector<vi>& G, int root) {
 	int n = sz(G);
-	vector<Vi> in(n), bucket(n);
-	Vi pre(n, -1), anc(n, -1), par(n), best(n);
-	Vi ord, idom(n, -1), sdom(n, n), rdom(n);
+	vector<vi> in(n), bucket(n);
+	vi pre(n, -1), anc(n, -1), par(n), best(n);
+	vi ord, idom(n, -1), sdom(n, n), rdom(n);
 
 	function<void(int,int)> dfs =
 		[&](int v, int p) {
@@ -22,7 +22,7 @@ Vi dominators(const vector<Vi>& G, int root) {
 			}
 		};
 
-	function<Pii(int)> find = [&](int v) {
+	function<pii(int)> find = [&](int v) {
 		if (anc[v] == -1) return mp(best[v], v);
 		int b; tie(b, anc[v]) = find(anc[v]);
 		if (sdom[b] < sdom[best[v]]) best[v] = b;

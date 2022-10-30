@@ -6,10 +6,10 @@
 // given its adjacency matrix M; time: O(n^3)
 // `out` contains vertices on one side.
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/graph/GlobalMinCut.h
-ll minCut(vector<vector<ll>> M, Vi& out) {
+ll minCut(vector<vector<ll>> M, vi& out) {
 	int n = sz(M);
 	ll ans = INT64_MAX;
-	vector<Vi> co(n);
+	vector<vi> co(n);
 	rep(i, 0, n) co[i].pb(i);
 	out.clear();
 	rep(ph, 1, n) {

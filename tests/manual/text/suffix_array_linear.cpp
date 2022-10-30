@@ -8,8 +8,8 @@ void test(int n, int alpha) {
 		str.pb(char('a' + r(0, alpha-1)));
 	}
 
-	Vi sufsKmr = KMR(str).sufArray();
-	Vi sufs = sufArray(str);
+	vi sufsKmr = KMR(str).sufArray();
+	vi sufs = sufArray(str);
 
 	if (sufsKmr != sufs) {
 		deb(sufsKmr);

@@ -103,7 +103,7 @@
 	// to min x: run update with {0, x}.
 	// When both parts are provided addition
 	// is applied first, then minimum.
-	using T = Pii;
+	using T = pii;
 	static constexpr T ID = {0, INT_MAX};
 
 	struct Agg {

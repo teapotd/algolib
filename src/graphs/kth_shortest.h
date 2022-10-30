@@ -17,7 +17,7 @@ struct Eppstein {
 	T shortest; // Shortest path length
 	priority_queue<pair<T, int>> Q;
 	vector<Node> P{1};
-	Vi h;
+	vi h;
 
 	// Initialize shortest path structure for
 	// weighted graph G, source s and target t;
@@ -28,7 +28,7 @@ struct Eppstein {
 		vector<vector<Edge>> H(n);
 		rep(i,0,n) each(e,G[i]) H[e.x].pb({i,e.y});
 
-		Vi ord, par(n, -1);
+		vi ord, par(n, -1);
 		vector<T> d(n, -INF);
 		Q.push({d[t] = 0, t});
 

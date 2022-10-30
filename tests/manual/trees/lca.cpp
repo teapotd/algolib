@@ -1,8 +1,8 @@
 #include "../../../src/trees/lca.h"
 #include "../testing.h"
 
-vector<Vi> G;
-Vi parents, levels;
+vector<vi> G;
+vi parents, levels;
 
 void dfsParents(int i, int parent, int d) {
 	each(e, G[i]) if (e != parent) dfsParents(e, i, d+1);

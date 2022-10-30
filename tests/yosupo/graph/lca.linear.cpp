@@ -5,7 +5,7 @@ int main() {
 	int n, q;
 	cin >> n >> q;
 
-	vector<Vi> G(n);
+	vector<vi> G(n);
 	rep(i, 1, n) {
 		int p; cin >> p;
 		G[i].pb(p);

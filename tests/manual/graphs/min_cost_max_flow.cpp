@@ -8,11 +8,11 @@ namespace kactl {
 
 	struct MCMF {
 		int N;
-		vector<Vi> ed, red;
+		vector<vi> ed, red;
 		vector<VL> cap, flow, cost;
-		Vi seen;
+		vi seen;
 		VL dist, pi;
-		vector<Pii> par;
+		vector<pii> par;
 
 		MCMF(int N) :
 			N(N), ed(N), red(N), cap(N, VL(N)), flow(cap), cost(cap),
@@ -97,7 +97,7 @@ void runTest() {
 	MCMF mine(n);
 	kactl::MCMF other(n);
 
-	vector<Pii> edges;
+	vector<pii> edges;
 	rep(i, 0, n) rep(j, i+1, n) edges.pb({i, j});
 	shuffle(all(edges), rnd);
 	edges.resize(m);

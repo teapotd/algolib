@@ -8,20 +8,20 @@
 // (which is equal to max degree).
 // col[i] = color of i-th edge [0..max_deg-1]
 //! Source: https://github.com/koosaga/olympiad/blob/master/Library/codes/graph_etc/edgecolor_bipartite.cpp
-int colorEdges(vector<Pii>& edges,
-               int n, Vi& col) {
+int colorEdges(vector<pii>& edges,
+               int n, vi& col) {
 	int m = sz(edges), c[2] = {}, ans = 0;
-	Vi deg[2];
-	vector<vector<Pii>> has[2];
+	vi deg[2];
+	vector<vector<pii>> has[2];
 	col.assign(m, 0);
 	rep(i, 0, 2) {
 		deg[i].resize(n+1);
-		has[i].resize(n+1, vector<Pii>(n+1));
+		has[i].resize(n+1, vector<pii>(n+1));
 	}
 
 	function<void(int,int)> dfs =
 		[&](int x, int p) {
-			Pii i = has[p][x][c[!p]];
+			pii i = has[p][x][c[!p]];
 			if (has[!p][i.x][c[p]].y) dfs(i.x, !p);
 			else has[!p][i.x][c[!p]] = {};
 			has[p][x][c[p]] = i;

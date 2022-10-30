@@ -11,18 +11,18 @@
 // match.add(indices_of_white_neighbours);
 // Black vertices are indexed in order they
 // were added, the first black vertex is 0.
-struct Matching : Vi {
-	vector<Vi> adj;
-	Vi rank, low, pos, vis, seen;
+struct Matching : vi {
+	vector<vi> adj;
+	vi rank, low, pos, vis, seen;
 	int k{0};
 
 	// Initialize structure for n white vertices
-	Matching(int n = 0) : Vi(n, -1), rank(n) {}
+	Matching(int n = 0) : vi(n, -1), rank(n) {}
 
 	// Add new black vertex with its neighbours
 	// given by `vec`. Returns true if maximum
 	// matching is increased by 1.
-	bool add(Vi vec) {
+	bool add(vi vec) {
 		adj.pb(move(vec));
 		low.pb(0); pos.pb(0); vis.pb(0);
 		if (!adj.back().empty()) {

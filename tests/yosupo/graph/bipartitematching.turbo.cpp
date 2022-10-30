@@ -5,7 +5,7 @@ int main() {
 	int l, r, m;
 	cin >> l >> r >> m;
 
-	vector<Vi> G(l+r);
+	vector<vi> G(l+r);
 
 	rep(i, 0, m) {
 		int a, b; cin >> a >> b;
@@ -13,7 +13,7 @@ int main() {
 		G[b+l].pb(a);
 	}
 
-	Vi match;
+	vi match;
 	int ans = matching(G, match);
 
 	cout << ans << '\n';

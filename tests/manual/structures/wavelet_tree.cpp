@@ -1,14 +1,14 @@
 #include "../../../src/structures/wavelet_tree.h"
 #include "../testing.h"
 
-int kth_naive(const Vi& seq, int begin, int end, int k) {
-	Vi tmp;
+int kth_naive(const vi& seq, int begin, int end, int k) {
+	vi tmp;
 	rep(i, begin, end) tmp.pb(seq[i]);
 	sort(all(tmp));
 	return tmp[k];
 }
 
-int count_naive(const Vi& seq, int begin, int end, int vb, int ve) {
+int count_naive(const vi& seq, int begin, int end, int vb, int ve) {
 	int ret = 0;
 	rep(i, begin, end) ret += (seq[i] >= vb && seq[i] < ve);
 	return ret;
@@ -18,7 +18,7 @@ int main() {
 	rep(t, 0, 100) {
 		int n = r(1, 1000);
 		int maxVal = r(1, 1000);
-		Vi seq(n);
+		vi seq(n);
 		each(s, seq) s = r(0, maxVal-1);
 
 		WaveletTree tree(seq, maxVal);

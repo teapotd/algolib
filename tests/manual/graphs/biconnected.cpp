@@ -2,7 +2,7 @@
 #include "../testing.h"
 
 int main() {
-	vector<Vi> G(10);
+	vector<vi> G(10);
 
 	auto add = [&](int i, int j) {
 		G[i].pb(j);

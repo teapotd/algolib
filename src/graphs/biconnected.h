@@ -10,21 +10,21 @@
 // Articulation points <=> vertices that belong
 //                         to > 1 component
 // Isolated vertex <=> empty component list
-struct Biconnected : vector<Vi> {
-	vector<Vi> verts;
-	vector<vector<Pii>> edges;
-	vector<Pii> S;
+struct Biconnected : vector<vi> {
+	vector<vi> verts;
+	vector<vector<pii>> edges;
+	vector<pii> S;
 
 	Biconnected() {}
 
-	Biconnected(vector<Vi>& G) : S(sz(G)) {
+	Biconnected(vector<vi>& G) : S(sz(G)) {
 		resize(sz(G));
 		rep(i, 0, sz(G)) S[i].x ?: dfs(G, i, -1);
 		rep(c, 0, sz(verts)) each(v, verts[c])
 			at(v).pb(c);
 	}
 
-	int dfs(vector<Vi>& G, int v, int p) {
+	int dfs(vector<vi>& G, int v, int p) {
 		int low = S[v].x = sz(S)-1;
 		S.pb({v, -1});
 

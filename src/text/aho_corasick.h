@@ -9,8 +9,8 @@ constexpr int ALPHA = 26;  // Alphabet size
 // Add patterns using add(), then call build().
 struct Aho {
 	vector<array<int, ALPHA>> nxt{1};
-	Vi suf = {-1}, accLink = {-1};
-	vector<Vi> accept{1};
+	vi suf = {-1}, accLink = {-1};
+	vector<vi> accept{1};
 
 	// Add string with given ID to structure
 	// Returns index of accepting node

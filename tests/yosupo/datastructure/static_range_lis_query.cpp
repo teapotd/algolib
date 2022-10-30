@@ -5,7 +5,7 @@ int main() {
 	int n, q;
 	cin >> n >> q;
 
-	Vi seq(n);
+	vi seq(n);
 	each(p, seq) cin >> p;
 
 	ALIS alis(seq);

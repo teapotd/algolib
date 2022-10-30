@@ -27,7 +27,7 @@ dbl simplex(const Matrix& A,
 	if (!n) return
 		*min_element(all(b)) < -eps ? -1/.0 : 0;
 
-	Vi N(n+1), B(m);
+	vi N(n+1), B(m);
 	Matrix D(m+2, Row(n+2));
 
 	auto pivot = [&](int r, int s) {

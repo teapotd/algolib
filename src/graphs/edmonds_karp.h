@@ -14,7 +14,7 @@ struct MaxFlow {
 
 	vector<vector<Edge>> G;
 	vector<flow_t> add;
-	Vi prev;
+	vi prev;
 
 	// Initialize for n vertices
 	MaxFlow(int n = 0) : G(n) {}

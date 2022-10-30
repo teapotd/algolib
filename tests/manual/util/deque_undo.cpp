@@ -1,7 +1,7 @@
 #include "../../../src/template.h"
 
 struct DataStructure {
-	vector<Pii> stack;
+	vector<pii> stack;
 	int numOperations = 0;
 
 	int time() {
@@ -28,12 +28,12 @@ constexpr int PUSH_BACK = 1;
 constexpr int POP_FRONT = 2;
 constexpr int POP_BACK = 3;
 
-Vi randOps(int n, bool deque) {
+vi randOps(int n, bool deque) {
 	int cnt[2] = {};
-	Vi ret;
+	vi ret;
 
 	rep(i, 0, n) {
-		Vi opts = {PUSH_FRONT, PUSH_BACK};
+		vi opts = {PUSH_FRONT, PUSH_BACK};
 
 		if (deque) {
 			if (cnt[0]+cnt[1] > 0) {
@@ -58,8 +58,8 @@ Vi randOps(int n, bool deque) {
 	return ret;
 }
 
-Vi logBoundOps(int n) {
-	Vi ret(n, PUSH_BACK);
+vi logBoundOps(int n) {
+	vi ret(n, PUSH_BACK);
 	rep(i, 0, n) {
 		ret.pb(PUSH_FRONT);
 		ret.pb(POP_BACK);
@@ -67,8 +67,8 @@ Vi logBoundOps(int n) {
 	return ret;
 }
 
-Vi alternatePops(int n) {
-	Vi ret(n, PUSH_BACK);
+vi alternatePops(int n) {
+	vi ret(n, PUSH_BACK);
 	ret.resize(n*2, PUSH_FRONT);
 	rep(i, 0, n) {
 		ret.pb(POP_FRONT);
@@ -77,13 +77,13 @@ Vi alternatePops(int n) {
 	return ret;
 }
 
-int testTwoStacks(const Vi& ops) {
-	vector<Pii> stacks[2];
+int testTwoStacks(const vi& ops) {
+	vector<pii> stacks[2];
 	DequeUndo deq;
 
 	rep(i, 0, sz(ops)) {
 		int k = ops[i];
-		Pii e = {i, i+123};
+		pii e = {i, i+123};
 
 		if (k == PUSH_FRONT) deq.push(e, 0), stacks[0].pb(e);
 		else if (k == PUSH_BACK) deq.push(e, 1), stacks[1].pb(e);
@@ -99,20 +99,20 @@ int testTwoStacks(const Vi& ops) {
 	return deq.ds.numOperations;
 }
 
-int testDeque(const Vi& ops) {
-	deque<Pii> naive;
+int testDeque(const vi& ops) {
+	deque<pii> naive;
 	DequeUndo deq;
 
 	rep(i, 0, sz(ops)) {
 		int k = ops[i];
-		Pii e = {i, i+123};
+		pii e = {i, i+123};
 
 		if (k == PUSH_FRONT) deq.push(e, 0), naive.push_front(e);
 		else if (k == PUSH_BACK) deq.push(e, 1), naive.push_back(e);
 		else if (k == POP_FRONT) deq.pop(0), naive.pop_front();
 		else if (k == POP_BACK) deq.pop(1), naive.pop_back();
 
-		vector<Pii> tmp1 = deq.ds.stack, tmp2(all(naive));
+		vector<pii> tmp1 = deq.ds.stack, tmp2(all(naive));
 		sort(all(tmp1));
 		sort(all(tmp2));
 		assert(tmp1 == tmp2);
@@ -121,12 +121,12 @@ int testDeque(const Vi& ops) {
 	return deq.ds.numOperations;
 }
 
-int simulateOnly(const Vi& ops) {
+int simulateOnly(const vi& ops) {
 	DequeUndo deq;
 
 	rep(i, 0, sz(ops)) {
 		int k = ops[i];
-		Pii e = {i, i+123};
+		pii e = {i, i+123};
 
 		if (k == PUSH_FRONT) deq.push(e, 0);
 		else if (k == PUSH_BACK) deq.push(e, 1);

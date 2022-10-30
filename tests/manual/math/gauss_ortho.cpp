@@ -2,7 +2,7 @@
 #include "../testing.h"
 
 int gauss(Matrix A, Row& ans, int m) {
-	Vi col;
+	vi col;
 	ans.assign(m, 0);
 
 	rep(i, 0, sz(A)) {

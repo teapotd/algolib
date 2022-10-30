@@ -1,11 +1,11 @@
 #include "../../../src/graphs/weighted_matching.h"
 #include "../testing.h"
 
-pair<ll, Vi> hungarian_kactl(const vector<vector<ll>> &a) {
+pair<ll, vi> hungarian_kactl(const vector<vector<ll>> &a) {
 	if (a.empty()) return {0, {}};
 	ll n = sz(a) + 1, m = sz(a[0]) + 1;
 	vector<ll> u(n), v(m), p(m);
-	Vi ans(n-1);
+	vi ans(n-1);
 	rep(i,1,n) {
 		p[0] = i;
 		ll j0 = 0; // add "dummy" worker 0
@@ -44,13 +44,13 @@ int main() {
 		vector<vector<ll>> cost(n, vector<ll>(m));
 		each(row, cost) each(e, row) e = rl(-1e15, 1e15);
 
-		Vi L, R;
+		vi L, R;
 		ll val = hungarian(cost, L, R);
 
-		Vi kactlL;
+		vi kactlL;
 		ll kactlVal;
 		tie(kactlVal, kactlL) = hungarian_kactl(cost);
-		Vi kactlR(m, -1);
+		vi kactlR(m, -1);
 		rep(i, 0, n) kactlR[kactlL[i]] = i;
 
 		if (val != kactlVal || L != kactlL || R != kactlR) {

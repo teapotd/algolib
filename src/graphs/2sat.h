@@ -10,9 +10,9 @@
 // sat[i] = value of i-th variable, 0 or 1
 //          (also indexed from 1!)
 // (internally: positive = i*2-1, neg. = i*2-2)
-struct SAT2 : Vi {
-	vector<Vi> G;
-	Vi order, flags;
+struct SAT2 : vi {
+	vector<vi> G;
+	vi order, flags;
 
 	// Init n variables, you can add more later
 	SAT2(int n = 0) : G(n*2) {}
@@ -33,7 +33,7 @@ struct SAT2 : Vi {
 	void either(int i, int j) { imply(-i, j); }
 
 	// Constraint at most one true variable
-	void atMostOne(Vi& vars) {
+	void atMostOne(vi& vars) {
 		int y, x = addVar();
 		each(i, vars) {
 			imply(x, y = addVar());

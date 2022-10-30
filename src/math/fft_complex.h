@@ -26,7 +26,7 @@ void fft(vector<cmpl>& a) {
 		rep(i,0,k) w[k+i] = exp(cmpl(0, M_PI*i/k));
 	}
 
-	Vi rev(n);
+	vi rev(n);
 	rep(i,0,n) rev[i] = (rev[i/2] | i%2*n) / 2;
 	rep(i,0,n) if(i<rev[i]) swap(a[i],a[rev[i]]);
 

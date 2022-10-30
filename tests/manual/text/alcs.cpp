@@ -1,8 +1,8 @@
 #include "../../../src/text/alcs.h"
 #include "../testing.h"
 
-vector<Vi> lcs(const string& A, const string& B) {
-	vector<Vi> ret(sz(A)+1, Vi(sz(B)+1));
+vector<vi> lcs(const string& A, const string& B) {
+	vector<vi> ret(sz(A)+1, vi(sz(B)+1));
 	rep(i, 0, sz(A)) rep(j, 0, sz(B)) {
 		if (A[i] == B[j]) {
 			ret[i+1][j+1] = ret[i][j] + 1;
@@ -13,8 +13,8 @@ vector<Vi> lcs(const string& A, const string& B) {
 	return ret;
 }
 
-vector<vector<Vi>> naiveAlcs(const string& A, const string& B) {
-	vector<vector<Vi>> ret(sz(A)+1, vector<Vi>(sz(B)+1, Vi(sz(B)+1)));
+vector<vector<vi>> naiveAlcs(const string& A, const string& B) {
+	vector<vector<vi>> ret(sz(A)+1, vector<vi>(sz(B)+1, vi(sz(B)+1)));
 	rep(j, 0, sz(B)+1) {
 		auto tmp = lcs(A, B.substr(j));
 		rep(i, 0, sz(A)+1) rep(k, j, sz(B)+1) {
