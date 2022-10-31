@@ -1,15 +1,12 @@
-build()(
-	g++ $@ -o $1.e -DLOC -std=c++17 -fconcepts \
-	    -Wall -W -Wfatal-errors -Wshadow \
-	    -Wlogical-op -Wconversion -Wfloat-equal
-)
+b()( g++ -DLOC -O2 -std=c++17 -fconcepts      \
+         -Wall -W -Wfatal-errors -Wconversion \
+         -Wshadow -Wlogical-op -Wfloat-equal  \
+         -o $1.e $@ )
 
-b()( build $@ -O2 )
+d()( b $@ -O0 -g -D_GLIBCXX_DEBUG \
+          -fsanitize=address,undefined )
 
-d()( build $@ -fsanitize=address,undefined \
-              -D_GLIBCXX_DEBUG -g )
-
-run()( $1 $2 && echo start >&2 && time ./$2.e )
+run()( $@ && echo start >&2 && time ./$2.e )
 
 loo()(
 	set -e; $1 $2; $1 $3
@@ -25,11 +22,11 @@ cmp()(
 		./$4.e > gen.in;          echo -n 0
 		./$2.e < gen.in > p1.out; echo -n 1
 		./$3.e < gen.in > p2.out; echo -n 2
-		diff p1.out p2.out;       echo -n Y
+		diff p1.out p2.out
 	}
 )
 
-# Other flags:
+# Other compilation flags:
 # -Wformat=2 -Wshift-overflow=2 -Wcast-qual
 # -Wcast-align -Wduplicated-cond
 # -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2
