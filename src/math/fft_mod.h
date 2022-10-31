@@ -61,7 +61,7 @@ template<ll M = (119<<23)+1, ll R = 62>
 void convolve(vector<ll>& a, vector<ll> b) {
 	int len = sz(a) + sz(b) - 1;
 	if (len <= 0) return a.clear();
-	int n = 1 << (32 - __builtin_clz(len));
+	int n = 2 << __lg(len);
 	ll t = modPow(n, M-2, M);
 	a.resize(n); b.resize(n);
 	ntt<M,R,0>(a); ntt<M,R,0>(b);

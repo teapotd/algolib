@@ -29,8 +29,7 @@ void initNimMul() {
 	rep(i, 0, 64)
 		nbuf[i][0] = nbuf[0][i] = 1ull << i;
 	rep(b, 1, 64) rep(a, 1, b+1) {
-		int i = 1 << (63 - __builtin_clzll(a));
-		int j = 1 << (63 - __builtin_clzll(b));
+		int i = 1 << __lg(a), j = 1 << __lg(b);
 		ull t = nbuf[a-i][b-j];
 		if (i < j)
 			t = nimMul(t, 1ull << i) << j;

@@ -20,7 +20,7 @@ vi multiBS(int b, int e, int n, T cmp) {
 
 	rep(i, 0, n) que[i] = {(b+e)/2, i};
 
-	for (int k = 32-__builtin_clz(e-b); k--;) {
+	for (int k = __lg(e-b); k >= 0; k--) {
 		int last = 0, j = 0;
 		cmp(que, ans);
 		rep(i, 0, sz(que)) {

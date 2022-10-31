@@ -44,7 +44,7 @@ void fft(vector<cmpl>& a) {
 void convolve(vector<cmpl>& a, vector<cmpl> b){
 	int len = sz(a) + sz(b) - 1;
 	if (len <= 0) return a.clear();
-	int n = 1 << (32 - __builtin_clz(len));
+	int n = 2 << __lg(len);
 	a.resize(n); b.resize(n);
 	fft(a); fft(b);
 	rep(i, 0, n) a[i] *= b[i] / dbl(n);
@@ -62,7 +62,7 @@ void convolve(vector<cmpl>& a, vector<cmpl> b){
 vector<dbl> convolve(vector<dbl>& a,
                      vector<dbl>& b) {
 	int len = max(sz(a) + sz(b) - 1, 0);
-	int n = 1 << (32 - __builtin_clz(len));
+	int n = 2 << __lg(len);
 
 	vector<cmpl> in(n), out(n);
 	rep(i, 0, sz(a)) in[i].real(a[i]);
@@ -89,7 +89,7 @@ constexpr ll MOD = 1e9+7;
 vector<ll> convMod(vector<ll>& a,
                    vector<ll>& b) {
 	vector<ll> ret(sz(a) + sz(b) - 1);
-	int n = 1 << (32 - __builtin_clz(sz(ret)));
+	int n = 2 << __lg(sz(ret));
 	ll cut = ll(sqrt(MOD))+1;
 
 	vector<cmpl> c(n), d(n), g(n), f(n);

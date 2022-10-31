@@ -38,7 +38,7 @@ struct KMR {
 	// Get representative of [begin;end); O(1)
 	pii get(int begin, int end) {
 		if (begin >= end) return {0, 0};
-		int k = 31 - __builtin_clz(end-begin);
+		int k = __lg(end-begin);
 		return {ids[k][begin], ids[k][end-(1<<k)]};
 	}
 

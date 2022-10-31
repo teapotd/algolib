@@ -52,11 +52,6 @@ void DD(auto s, auto... k) {
 
 // > Utils
 
-// Return smallest k such that 2^k > n
-// Undefined for n = 0!
-int uplg(int n) { return 32-__builtin_clz(n); }
-int uplg(ll n){ return 64-__builtin_clzll(n); }
-
 // Compare with certain epsilon (branchless)
 // Returns -1 if a < b; 1 if a > b; 0 if equal
 // a and b are assumed equal if |a-b| <= eps

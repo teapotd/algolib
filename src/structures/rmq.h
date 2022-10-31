@@ -23,7 +23,7 @@ struct RMQ {
 	// Query f(s[b], ... ,s[e-1]); time: O(1)
 	T query(int b, int e) {
 		if (b >= e) return ID;
-		int k = 31 - __builtin_clz(e-b);
+		int k = __lg(e-b);
 		return f(s[k][b], s[k][e - (1<<k)]);
 	}
 };

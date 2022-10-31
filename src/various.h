@@ -31,3 +31,5 @@ double value = dist(rnd);
 
 // Floats can represent integers up to 19*10^6
 // Doubles can represent integers up to 9*10^15
+
+// __lg(x) == floor(log2(x)), undefined for x=0

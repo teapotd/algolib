@@ -38,7 +38,7 @@ struct ShiftTree {
 	          int vb, int ve, int lvl = -1,
 	          int b = 0, int e = -1,
 	          int i = 1, int j = 1) {
-		if (e < 0) lvl = 30 - __builtin_clz(e=len);
+		if (e < 0) lvl = __lg(e=len)-1;
 		if (b >= ve || vb >= e || H[i] == T.H[j])
 			return;
 		if (e-b == 1) return out.push_back(b);
