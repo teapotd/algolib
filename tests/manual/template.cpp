@@ -38,11 +38,13 @@ int main() {
 	boolVec[1] = 1;
 	deb(boolVec);
 
-	deb(mp(mp(0, 1), 2), 3, 4);
+	auto tmp = mp(mp(0, 1), 2);
+	deb(tmp, 3, 4);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-value"
 
+	// This doesn't parse properly anymore.
 	deb((0,1,2),(3,4,5));
 
 	// This exotic case doesn't work

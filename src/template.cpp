@@ -16,8 +16,8 @@ using pii = pair<int,int>;
 #define sz(x)      int((x).size())
 
 int main() {
-	cin.sync_with_stdio(0); cin.tie(0);
-	cout << fixed << setprecision(12);
+	cin.tie(0)->sync_with_stdio(0);
+	cout << fixed << setprecision(10);
 
 	// Don't call destructors:
 	cout << flush; _Exit(0);
@@ -25,28 +25,25 @@ int main() {
 
 // > Debug printer
 
-#define tem \
-	template<class t,class u,class...w> auto
-#define pri(x,y,z) \
-	tem operator<<(t&o,u a)->decltype(z,o) \
-	{ o << *#x; y; z; return o << #x+1; }
+#define pri(x,y) \
+	auto operator<<(auto& o, auto a) \
+	->decltype(y,o) \
+	{ o << '('; x; return o << ')'; }
 
-pri({},, a.print())
-pri((),, o << a.x << ", " << a.y)
+pri(a.print(), a.print());
+pri(o << a.x << ", " << a.y, a.y);
+pri(for (auto i : a) o << i << ", ", all(a));
 
-pri([], auto d=""; for (auto i : a)
-	(o << d << i, d = ", "), all(a))
-
-void DD(...) {}
-tem DD(t s, u a, w... k) {
-	for (int b=1; cerr << *s++, *s && *s - b*44;)
-		b += 2 / (*s*2 - 81);
-	cerr << ": " << a; DD(s, k...);
+void DD(auto s, auto... k) {
+	([&] {
+		while (cerr << *s++, *s && *s - 44);
+		cerr << ": " << k;
+	}(), ...);
 }
 
 #ifdef LOC
 #define deb(x...) \
-	DD("[,\b :] "#x, __LINE__, x), cerr << endl
+	DD(":, "#x, __LINE__, x), cerr << endl
 #else
 #define deb(...)
 #endif
