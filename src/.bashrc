@@ -36,10 +36,3 @@ cmp()(
 # -fno-sanitize-recover -fstack-protector
 
 # Print optimization info: -fopt-info-all
-
-# Stacktrace on STL assert:
-#   g++ -D_GLIBCXX_DEBUG -H test.cpp 2>&1
-#     >/dev/null | grep "debug/macros.h"
-#   #ifdef __SANITIZE_ADDRESS__
-#   extern "C"
-#     void __sanitizer_print_stack_trace();

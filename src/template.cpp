@@ -50,6 +50,13 @@ void DD(auto s, auto... k) {
 
 #define DBP(x...) void print() { DD(#x, x); }
 
+// > Stack trace on STL assert
+
+class SS { int x[0]; };
+extern "C" SS __sanitizer_print_stack_trace();
+#define __last_state \
+	}; SS x { __sanitizer_print_stack_trace()
+
 // > Utils
 
 // Compare with certain epsilon (branchless)
