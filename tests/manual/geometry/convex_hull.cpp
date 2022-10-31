@@ -12,7 +12,7 @@ vector<vec2> randPoints(int n) {
 int naiveMinDot(const vector<vec2>& hull, vec2 q) {
 	pair<double, int> ret = { 1e30, 0 };
 	rep(i, 0, sz(hull)) {
-		ret = min(ret, mp(q.dot(hull[i]), i));
+		ret = min(ret, make_pair(q.dot(hull[i]), i));
 	}
 	return ret.y;
 }

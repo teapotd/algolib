@@ -43,7 +43,7 @@ vector<vec2> convexHull(vector<vec2> points) {
 // as output from convexHull function.
 int minDot(const vector<vec2>& hull, vec2 q) {
 	auto C = [](vec2 a, vec2 b) {
-		return mp(a.dot(b), a.cross(b));
+		return make_pair(a.dot(b), a.cross(b));
 	};
 	auto search = [&](int b, int e, vec2 p) {
 		int f = b, g = e;

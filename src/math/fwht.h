@@ -13,11 +13,10 @@ void fwht(vector<T>& b) {
 	for (int s = 1; s < sz(b); s *= 2) {
 		for (int i = 0; i < sz(b); i += s*2) {
 			rep(j, i, i+s) {
-				auto &x = b[j], &y = b[j+s];
-				tie(x, y) =
-				   mp(x+y, x-y);                  //XOR
-				// inv ? mp(x-y, y) : mp(x+y, y); //AND
-				// inv ? mp(x, y-x) : mp(x, x+y); //OR
+				T &x = b[j], &y = b[j+s];
+				tie(x, y) = make_pair(x+y, x-y); // XOR
+				// x += inv ? -y : y;            // AND
+				// y += inv ? -x : x;            // OR
 			}
 		}
 	}

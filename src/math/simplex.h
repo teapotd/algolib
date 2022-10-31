@@ -4,6 +4,7 @@
 using dbl = double;
 using Row = vector<dbl>;
 using Matrix = vector<Row>;
+#define mp make_pair
 
 #define ltj(X) if (s == -1 || \
 	mp(X[j], N[j]) < mp(X[s], N[s])) s = j

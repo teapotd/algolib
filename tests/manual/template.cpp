@@ -38,7 +38,7 @@ int main() {
 	boolVec[1] = 1;
 	deb(boolVec);
 
-	auto tmp = mp(mp(0, 1), 2);
+	auto tmp = make_pair(make_pair(0, 1), 2);
 	deb(tmp, 3, 4);
 
 #pragma GCC diagnostic push

@@ -32,10 +32,10 @@ struct SufTree {
 	// Returns (-1, -1) if there is no edge.
 	pii next(pii s, int e) {
 		if (s.y < getR(s.x))
-			return txt[s.y] == e ? mp(s.x, s.y+1)
-			                     : mp(-1, -1);
+			return txt[s.y] == e ? pii(s.x, s.y+1)
+			                     : pii(-1, -1);
 		e = to[s.x][e];
-		return e ? mp(e, L[e]+1) : mp(-1, -1);
+		return e ? pii(e, L[e]+1) : pii(-1, -1);
 	}
 
 	// Create dedicated node for implicit node

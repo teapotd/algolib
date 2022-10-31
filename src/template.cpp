@@ -5,7 +5,6 @@ using ll  = long long;
 using vi  = vector<int>;
 using pii = pair<int,int>;
 
-#define mp make_pair
 #define pb push_back
 #define x  first
 #define y  second

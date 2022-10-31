@@ -23,10 +23,10 @@ vi dominators(const vector<vi>& G, int root) {
 		};
 
 	function<pii(int)> find = [&](int v) {
-		if (anc[v] == -1) return mp(best[v], v);
+		if (anc[v] == -1) return pii(best[v], v);
 		int b; tie(b, anc[v]) = find(anc[v]);
 		if (sdom[b] < sdom[best[v]]) best[v] = b;
-		return mp(best[v], anc[v]);
+		return pii(best[v], anc[v]);
 	};
 
 	rdom[root] = idom[root] = root;
