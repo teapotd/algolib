@@ -1,0 +1,32 @@
+name: Build and test algolib
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  pdf:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Install prerequisities
+      run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra latexmk python3-pygments
+    - name: Build PDF
+      run: ./make.sh
+    - name: Upload PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: algolib.pdf
+        path: build/algolib.pdf
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Run yosupo's tests
+      run: cd tests/yosupo && ./test-all.sh
