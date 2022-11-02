@@ -29,4 +29,4 @@ jobs:
       with:
         submodules: true
     - name: Run yosupo's tests
-      run: cd tests/yosupo && ./test-all.sh
+      run: cd tests/yosupo && ./test-all.sh b
