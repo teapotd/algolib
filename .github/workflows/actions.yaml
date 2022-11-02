@@ -1,4 +1,4 @@
-name: Build and test algolib
+name: Build algolib
 
 on:
   push:
@@ -20,15 +20,3 @@ jobs:
       with:
         name: algolib.pdf
         path: build/algolib.pdf
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Install prerequisities
-      run: pip3 install -r tests/library-checker-problems/requirements.txt
-    - name: Run yosupo's tests
-      run: cd tests/yosupo && ulimit -s unlimited && ./test-all.sh b
