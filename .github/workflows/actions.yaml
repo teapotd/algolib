@@ -28,5 +28,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         submodules: true
+    - name: Install prerequisities
+      run: pip3 install -r tests/library-checker-problems/requirements.txt
     - name: Run yosupo's tests
-      run: cd tests/yosupo && ./test-all.sh b
+      run: cd tests/yosupo && ulimit -s unlimited && ./test-all.sh b
