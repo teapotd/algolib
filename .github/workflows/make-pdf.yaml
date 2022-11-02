@@ -12,7 +12,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
     - name: Install pdflatex
-      run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
+      run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra latexmk
     - name: Install pygments
       run: sudo apt-get install python3-pygments
     - name: Build PDF
