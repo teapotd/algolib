@@ -25,4 +25,4 @@ SRC=$ROOT/$2
 EXE=$ROOT/../build/tests/$2.e
 
 mkdir -p `dirname $EXE`
-g++-12 $FLAGS -o $EXE $SRC
+g++ $FLAGS -o $EXE $SRC
