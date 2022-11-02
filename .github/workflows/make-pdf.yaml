@@ -1,0 +1,24 @@
+name: Build PDF
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Install pdflatex
+      run: sudo apt-get install texlive-latex-base texlive-latex-recommended texlive-latex-extra
+    - name: Install pygments
+      run: sudo apt-get install python3-pygments
+    - name: Build PDF
+      run: ./make.sh
+    - name: Upload PDF
+      uses: actions/upload-artifact@v3
+      with:
+        name: algolib.pdf
+        path: build/algolib.pdf
