@@ -41,6 +41,10 @@ int main() {
 	auto tmp = make_pair(make_pair(0, 1), 2);
 	deb(tmp, 3, 4);
 
+	// This doesn't compile, because of order...
+	// pair<vi, pii> nested = make_pair(vi{1,2,3}, pii(4,5));
+	// deb(nested);
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-value"
 

@@ -24,18 +24,18 @@ int main() {
 
 // > Debug printer
 
-#define pri(x,y) \
-	auto operator<<(auto& o, auto a) \
-	->decltype(y,o) \
-	{ o << '('; x; return o << ')'; }
+#define PP(x,y) \
+	auto operator<<(auto& s, auto a) \
+	->decltype(y,s) \
+	{ s << '('; x; return s << ')'; }
 
-pri(a.print(), a.print());
-pri(o << a.x << ", " << a.y, a.y);
-pri(for (auto i : a) o << i << ", ", all(a));
+PP(a.print(), a.print());
+PP(s << a.x << ", " << a.y, a.y);
+PP(for (auto i : a) s << i << ", ", all(a));
 
 void DD(auto s, auto... k) {
 	([&] {
-		while (cerr << *s++, *s && *s - 44);
+		while (cerr << *s++, 45 % ~*s);
 		cerr << ": " << k;
 	}(), ...);
 }
