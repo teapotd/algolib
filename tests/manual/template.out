@@ -1,19 +1,17 @@
-[: 21, :] graph: [{weight: 100, edges: [0, 1]}, {weight: 101, edges: [1, 2, 3]}, {weight: 102, edges: [2, 3, 4, 5]}, {weight: 103, edges: [3, 4, 5, 6, 7]}, {weight: 104, edges: [4, 5, 6, 7, 8, 9]}, {weight: 105, edges: [5, 6, 7, 8, 9, 10, 11]}, {weight: 106, edges: [6, 7, 8, 9, 10, 11, 12, 13]}, {weight: 107, edges: [7, 8, 9, 10, 11, 12, 13, 14, 15]}, {weight: 108, edges: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]}, {weight: 109, edges: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}]
-[: 22, :] i: 0, graph[i]: {weight: 100, edges: [0, 1]}
-[: 22, :] i: 1, graph[i]: {weight: 101, edges: [1, 2, 3]}
-[: 22, :] i: 2, graph[i]: {weight: 102, edges: [2, 3, 4, 5]}
-[: 22, :] i: 3, graph[i]: {weight: 103, edges: [3, 4, 5, 6, 7]}
-[: 22, :] i: 4, graph[i]: {weight: 104, edges: [4, 5, 6, 7, 8, 9]}
-[: 22, :] i: 5, graph[i]: {weight: 105, edges: [5, 6, 7, 8, 9, 10, 11]}
-[: 22, :] i: 6, graph[i]: {weight: 106, edges: [6, 7, 8, 9, 10, 11, 12, 13]}
-[: 22, :] i: 7, graph[i]: {weight: 107, edges: [7, 8, 9, 10, 11, 12, 13, 14, 15]}
-[: 22, :] i: 8, graph[i]: {weight: 108, edges: [8, 9, 10, 11, 12, 13, 14, 15, 16, 17]}
-[: 22, :] i: 9, graph[i]: {weight: 109, edges: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]}
-[: 27, :] kek: ((12, 34), abcde), vec: [1, 2, 3, 4]
-[: 35, :] test: [(a, 1), (b, 2), (c, 3), (d, 4)], string("xd"): xd
-[: 39, :] boolVec: [0, 1, 0, 0, 0]
-[: 41, :] mp(mp(0, 1), 2): ((0, 1), 2), 3: 3, 4: 4
-[: 46, :] (0,1,2): 2,(3,4,5): 5
-[: 51, :] weird: {(0: 2}
-[: 57, :] bitSet: 0000000000100000
-[: 60, :] emptyVec: []
+:: 30, graph: ((weight: (1, 2), edges: (3, 4, 5, 6, 7, )), (weight: (9, 8), edges: (7, 6, 5, 4, )), (weight: (10, 20), edges: (30, )), (weight: (-1, -2), edges: ()), )
+:: 32, i: 0, graph[i]: (weight: (1, 2), edges: (3, 4, 5, 6, 7, ))
+:: 32, i: 1, graph[i]: (weight: (9, 8), edges: (7, 6, 5, 4, ))
+:: 32, i: 2, graph[i]: (weight: (10, 20), edges: (30, ))
+:: 32, i: 3, graph[i]: (weight: (-1, -2), edges: ())
+:: 41, nestedStructs: (A: (name: AAA, value: alpha), B: (name: BBB, value: beta), n: 123)
+:: 44, nestedPairs1: ((0, 1), (2, 3)), 3: 3, 4: 4
+:: 49, nestedPairs2: ((12, 34), abcde), vecOfPairs: ((10, 20), (20, 30), (40, 50), (50, 60), )
+:: 57, charMap: ((a, 1), (b, 2), (c, 3), (d, 4), ), string("inline"): inline
+:: 61, vecOfBools: (0, 1, 0, 0, 0, )
+:: 66, bitSet: 0000000000100010, bitSet: 0000000000100010
+:: 69, emptyVec: ()
+:: 71, 1: 1, 2: 2, "inline": inline
+:: 72, 1: 1,2: 2,"inline": inline
+1 qwerty
+abcdef
+:: 85, (0: 2, 1: 5

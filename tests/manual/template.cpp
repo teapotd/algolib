@@ -2,69 +2,88 @@
 #include "../../src/template.h"
 
 struct Vert {
-	int weight;
+	pii weight;
 	vi edges;
-
 	DBP(weight, edges);
 };
 
-int main() {
-	vector<Vert> graph;
+struct Elem {
+	const char *name;
+	string value;
+	DBP(name, value);
+};
 
-	rep(i, 0, 10) {
-		Vert v;
-		v.weight = i + 100;
-		rep(j, 0, i+2) v.edges.pb(i+j);
-		graph.pb(v);
-	}
+struct Nested {
+	Elem A, B;
+	int n;
+	DBP(A, B, n);
+};
+
+int main() {
+	vector<Vert> graph = {
+		{ {1,2}, {3,4,5,6,7}, },
+		{ {9,8}, {7,6,5,4}, },
+		{ {10,20}, {30}, },
+		{ {-1,-2}, {}, },
+	};
 
 	deb(graph);
-	rep(i, 0, sz(graph)) deb(i, graph[i]);
+	rep(i, 0, sz(graph)) {
+		deb(i, graph[i]);
+	}
 
-	auto kek = make_pair(make_pair(12, 34), "abcde");
-	vector<int> vec{1,2,3,4};
+	Nested nestedStructs = {
+		{"AAA", "alpha"},
+		{"BBB", "beta"},
+		123,
+	};
 
-	deb(kek, vec);
+	deb(nestedStructs);
 
-	map<char, int> test;
-	test['d'] = 4;
-	test['b'] = 2;
-	test['a'] = 1;
-	test['c'] = 3;
+	auto nestedPairs1 = make_pair(make_pair(0, 1), make_pair(2, 3));
+	deb(nestedPairs1, 3, 4);
 
-	deb(test, string("xd"));
+	auto nestedPairs2 = make_pair(make_pair(12, 34), "abcde");
+	vector<pii> vecOfPairs = { {10,20}, {20,30}, {40,50}, {50,60} };
 
-	vector<bool> boolVec(5);
-	boolVec[1] = 1;
-	deb(boolVec);
+	deb(nestedPairs2, vecOfPairs);
 
-	auto tmp = make_pair(make_pair(0, 1), 2);
-	deb(tmp, 3, 4);
+	map<char, int> charMap;
+	charMap['d'] = 4;
+	charMap['b'] = 2;
+	charMap['a'] = 1;
+	charMap['c'] = 3;
 
-	// This doesn't compile, because of order...
-	// pair<vi, pii> nested = make_pair(vi{1,2,3}, pii(4,5));
-	// deb(nested);
+	deb(charMap, string("inline"));
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-value"
-
-	// This doesn't parse properly anymore.
-	deb((0,1,2),(3,4,5));
-
-	// This exotic case doesn't work
-	struct WeirdStruct { DBP((0,1,2)); };
-	WeirdStruct weird;
-	deb(weird);
-
-#pragma GCC diagnostic pop
+	vector<bool> vecOfBools(5);
+	vecOfBools[1] = 1;
+	deb(vecOfBools);
 
 	bitset<16> bitSet;
+	bitSet.set(1);
 	bitSet.set(5);
-	deb(bitSet);
+	deb(bitSet, bitSet);
 
 	vi emptyVec;
 	deb(emptyVec);
 
-	cout << string("abcdef") << endl;
+	deb(1, 2, "inline");
+	deb(1,2,"inline");
+
+	cerr << 1 << ' ' << "qwerty" << endl;
+	cerr << string("abcdef") << endl;
+
+	// This doesn't compile if operators are not defined in std namespace.
+	//pair<vi, pii> vecInPair = make_pair(vi{1,2,3}, pii(4,5));
+	//deb(vecInPair);
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-value"
+
+	// This doesn't parse properly anymore, but we don't care.
+	deb((0, 1, 2), (3, 4, 5));
+
+#pragma GCC diagnostic pop
 	return 0;
 }
