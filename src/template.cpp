@@ -25,13 +25,13 @@ int main() {
 // > Debug printer
 
 #define PP(x,y) \
-	auto operator<<(auto& s, auto a) \
-	->decltype(y,s) \
-	{ s << '('; x; return s << ')'; }
+	auto operator<<(auto& o, auto a) \
+	->decltype(y,o) \
+	{ o << '('; x; return o << ')'; }
 
 PP(a.print(), a.print());
-PP(s << a.x << ", " << a.y, a.y);
-PP(for (auto i : a) s << i << ", ", all(a));
+PP(o << a.x << ", " << a.y, a.y);
+PP(for (auto i : a) o << i << ", ", all(a));
 
 void DD(auto s, auto... k) {
 	([&] {
