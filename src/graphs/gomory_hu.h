@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
-#include "edmonds_karp.h"
-//#include "push_relabel.h" // if you need
+#include "flow_edmonds_karp.h"
+//#include "flow_push_relabel.h" // if you need
 
 struct Edge {
 	int a, b; // vertices

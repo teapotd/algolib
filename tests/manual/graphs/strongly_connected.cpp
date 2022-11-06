@@ -1,4 +1,4 @@
-#include "../../../src/graphs/scc.h"
+#include "../../../src/graphs/strongly_connected.h"
 #include "../testing.h"
 
 vector<vi> G, inv;

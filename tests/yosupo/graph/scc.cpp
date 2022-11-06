@@ -1,4 +1,4 @@
-#include "../../../src/graphs/scc.h"
+#include "../../../src/graphs/strongly_connected.h"
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);

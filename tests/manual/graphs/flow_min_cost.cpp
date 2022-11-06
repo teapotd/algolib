@@ -1,5 +1,5 @@
 #include <bits/extc++.h>
-#include "../../../src/graphs/min_cost_max_flow.h"
+#include "../../../src/graphs/flow_min_cost.h"
 #include "../testing.h"
 
 namespace kactl {

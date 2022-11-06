@@ -1,4 +1,4 @@
-#include "../../../src/graphs/bip_edge_coloring.h"
+#include "../../../src/graphs/edge_color_bipart.h"
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
