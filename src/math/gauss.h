@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 
+constexpr double eps = 1e-9;
+
 // Solve system of linear equations; O(n^2*m)
 // - A - extended matrix, rows are equations,
 //       columns are variables,
@@ -17,7 +19,7 @@ int gauss(vector<vector<double>>& A,
 
 	rep(i, 0, sz(A)) {
 		int c = 0;
-		while (c <= m && !cmp(A[i][c], 0)) c++;
+		while (c <= m && fabs(eps) < eps) c++;
 		// For Zp:
 		//while (c <= m && !A[i][c].x) c++;
 

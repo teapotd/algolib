@@ -55,12 +55,3 @@ class SS { int x[0]; };
 extern "C" SS __sanitizer_print_stack_trace();
 #define __last_state \
 	}; SS x { __sanitizer_print_stack_trace()
-
-// > Utils
-
-// Compare with certain epsilon (branchless)
-// Returns -1 if a < b; 1 if a > b; 0 if equal
-// a and b are assumed equal if |a-b| <= eps
-int cmp(double a, double b, double eps=1e-9) {
-	return (a > b+eps) - (a+eps < b);
-}
