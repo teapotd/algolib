@@ -3,10 +3,6 @@
 #include "../testing.h"
 using namespace rel_ops;
 
-bool floatEqual(double a, double b) {
-	return fabs(a-b) < 1e-15;
-}
-
 int main() {
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"

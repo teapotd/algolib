@@ -2,10 +2,6 @@
 #include "../testing.h"
 using namespace rel_ops;
 
-bool floatEqual(double a, double b) {
-	return fabs(a-b) < 1e-15;
-}
-
 int main() {
 	vec a, b(3, 4);
 	assert(a.x == 0 && a.y == 0);
