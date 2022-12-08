@@ -6,7 +6,7 @@
 // - exact integer comparisons.
 // Type in only the one that you need.
 // Returns -1 if a < b; 1 if a > b; 0 if equal
-#ifdef FLOATING_POINT_GEOMETRY
+#if FLOATING_POINT_GEOMETRY
 	// a and b are equal iff |a-b| <= eps
 	constexpr double eps = 1e-9;
 	int cmp(double a, double b) {
@@ -21,11 +21,11 @@
 // 2D point/vector structure; UNIT-TESTED
 struct vec {
 	using P = vec;
-#ifdef FLOATING_POINT_GEOMETRY //!HIDE
-	using T = double; // or ll for integers
-#else                          //!HIDE
-	using T = ll;                //!HIDE
-#endif                         //!HIDE
+#if FLOATING_POINT_GEOMETRY //!HIDE
+	using T = double; // FLOATING_POINT_GEOMETRY
+#else                       //!HIDE
+	using T = ll;     // !FLOATING_POINT_GEOMETRY
+#endif                      //!HIDE
 	T x, y;
 	vec(T a = 0, T b = 0) : x(a), y(b) {}
 
@@ -71,7 +71,7 @@ struct vec {
 			r.upper() - upper() ?: cmp(0, cross(r));
 	}
 
-#ifdef FLOATING_POINT_GEOMETRY
+#if FLOATING_POINT_GEOMETRY
 	// Rotate counter-clockwise by given angle.
 	P rotate(double a) const {
 		return {x*cos(a) - y*sin(a),

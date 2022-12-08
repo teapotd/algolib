@@ -1,4 +1,4 @@
-#define FLOATING_POINT_GEOMETRY
+#define FLOATING_POINT_GEOMETRY 1
 #include "../../../src/geo2d/vector.h"
 #include "../testing.h"
 using namespace rel_ops;

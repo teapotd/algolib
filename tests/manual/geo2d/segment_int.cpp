@@ -1,3 +1,4 @@
+#define FLOATING_POINT_GEOMETRY 0
 #include "../../../src/geo2d/segment.h"
 #include "../testing.h"
 using namespace rel_ops;

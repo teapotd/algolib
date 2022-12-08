@@ -23,7 +23,7 @@ struct line {
 	// Depends on vec: dot
 	int side(vec a) { return cmp(v.dot(a), c); }
 
-#ifdef FLOATING_POINT_GEOMETRY
+#if FLOATING_POINT_GEOMETRY
 	// Intersect this line with line a, returns
 	// true on success (false if parallel).
 	// Intersection point is saved to `out`.

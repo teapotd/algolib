@@ -23,7 +23,7 @@ struct seg {
 			abs((p-a).cross(b-a))) / (b-a).len();
 	}
 
-#ifndef FLOATING_POINT_GEOMETRY
+#if not FLOATING_POINT_GEOMETRY
 	// Compare distance to p with sqrt(d2).
 	// -1 if smaller, 0 if equal, 1 if greater
 	// Depends on vec: -, dot, cross, len2
