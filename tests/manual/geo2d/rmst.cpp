@@ -1,4 +1,4 @@
-#include "../../../src/geometry/rmst.h"
+#include "../../../src/geo2d/rmst.h"
 #include "../testing.h"
 
 void bench() {
