@@ -19,7 +19,7 @@ int gauss(vector<vector<double>>& A,
 
 	rep(i, 0, sz(A)) {
 		int c = 0;
-		while (c <= m && fabs(eps) < eps) c++;
+		while (c <= m && fabs(A[i][c]) < eps) c++;
 		// For Zp:
 		//while (c <= m && !A[i][c].x) c++;
 
