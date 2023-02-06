@@ -55,9 +55,9 @@ struct ShiftTree {
 
 	void update(int i, int s) {
 		auto x = H[left(i, s)] +
-			H[right(i, s)] * 0x9e3779b97f4a7c15;
-		x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
-		x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+			H[right(i, s)] * 0x9E37'79B9'7F4A'7C15;
+		x = (x ^ (x>>30)) * 0xBF58'476D'1CE4'E5B9;
+		x = (x ^ (x>>27)) * 0x94D0'49BB'1331'11EB;
 		H[i] = x ^ (x >> 31);
 	}
 
