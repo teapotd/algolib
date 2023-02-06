@@ -14,7 +14,7 @@ struct Hull {
 			ll u = b-r.b, d = r.a-a;
 			return u/d + ((u^d) >= 0 || !(u%d));
 		}
-		
+
 		bool operator<(const Line& r) const {
 			return modeQ ? end < r.end : a < r.a;
 		}
