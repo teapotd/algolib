@@ -5,14 +5,15 @@
 // Miller-Rabin primality test
 // time O(k*lg^2 n), where k = number of bases
 
-// Deterministic for p <= 10^9
+// Deterministic for p <= 1'050'535'501
 // constexpr ll BASES[] = {
-//   336781006125, 9639812373923155
+//   336'781'006'125, 9'639'812'373'923'155
 // };
 
 // Deterministic for p <= 2^64
 constexpr ll BASES[] = {
-	2,325,9375,28178,450775,9780504,1795265022
+	2, 325, 9'375, 28'178,
+	450'775, 9'780'504, 1'795'265'022
 };
 
 bool isPrime(ll p) {
