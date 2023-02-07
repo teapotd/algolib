@@ -9,9 +9,6 @@ constexpr int ALPHA = 26; // Set alphabet size
 // (and encodes all substrings);
 // space: O(n*ALPHA); time: O(n)
 // Paths from root are equivalent to substrings
-// Extensions:
-// - [OCC] - count occurences of substrings
-// - [PATHS] - count paths from node
 //! Source: https://cp-algorithms.com/string/suffix-automaton.html
 struct SufDFA {
 	// State v represents endpos-equivalence
@@ -25,9 +22,13 @@ struct SufDFA {
 	vector<array<int, ALPHA>> to{ {} };
 	int last{0}; // Current node (whole word)
 
-	vector<vi> inSufs; // [OCC] Suffix-link tree
-	vi cnt{0};         // [OCC] Occurence count
-	vector<ll> paths;  // [PATHS] Out-path count
+#if COUNT_SUBSTR_OCCURENCES
+	vector<vi> inSufs; // Suffix-link tree
+	vi cnt{0};         // Occurence count
+#endif
+#if COUNT_OUTGOING_PATHS
+	vector<ll> paths;  // Out-path count
+#endif
 
 	SufDFA() {}
 
@@ -45,7 +46,9 @@ struct SufDFA {
 		len.pb(len[v]+1);
 		link.pb(0);
 		to.pb({});
-		cnt.pb(1); // [OCC]
+	#if COUNT_SUBSTR_OCCURENCES //!HIDE
+		cnt.pb(1); // COUNT_SUBSTR_OCCURENCES
+	#endif //!HIDE
 
 		while (v != -1 && !to[v][x]) {
 			to[v][x] = last;
@@ -60,7 +63,9 @@ struct SufDFA {
 				len.pb(len[v]+1);
 				link.pb(link[q]);
 				to.pb(to[q]);
-				cnt.pb(0); // [OCC]
+			#if COUNT_SUBSTR_OCCURENCES //!HIDE
+				cnt.pb(0); // COUNT_SUBSTR_OCCURENCES
+			#endif //!HIDE
 				link[last] = link[q] = sz(len)-1;
 				while (v != -1 && to[v][x] == q) {
 					to[v][x] = link[q];
@@ -70,29 +75,35 @@ struct SufDFA {
 		}
 	}
 
-	// Compute some additional stuff (offline)
+	// Go using edge `c` from state `i`.
+	// Returns 0 if edge doesn't exist.
+	int next(int i, char c) {
+		return to[i][c-AMIN];
+	}
+
+	// Compute extended stuff (offline)
 	void finish() {
-		// [OCC]
+	#if COUNT_SUBSTR_OCCURENCES
 		inSufs.resize(sz(len));
 		rep(i, 1, sz(link)) inSufs[link[i]].pb(i);
 		dfsSufs(0);
-		// [/OCC]
-
-		// [PATHS]
+	#endif
+	#if COUNT_OUTGOING_PATHS
 		paths.assign(sz(len), 0);
 		dfs(0);
-		// [/PATHS]
+	#endif
 	}
 
-	// Only for [OCC]
+#if COUNT_SUBSTR_OCCURENCES
 	void dfsSufs(int v) {
 		each(e, inSufs[v]) {
 			dfsSufs(e);
 			cnt[v] += cnt[e];
 		}
 	}
+#endif
 
-	// Only for [PATHS]
+#if COUNT_OUTGOING_PATHS
 	void dfs(int v) {
 		if (paths[v]) return;
 		paths[v] = 1;
@@ -102,16 +113,9 @@ struct SufDFA {
 		}
 	}
 
-	// Go using edge `c` from state `i`.
-	// Returns 0 if edge doesn't exist.
-	int next(int i, char c) {
-		return to[i][c-AMIN];
-	}
-
 	// Get lexicographically k-th substring
 	// of represented string; time: O(|substr|)
 	// Empty string has index 0.
-	// Requires [PATHS] extension.
 	string lex(ll k) {
 		string s;
 		int v = 0;
@@ -128,4 +132,5 @@ struct SufDFA {
 		}
 		return s;
 	}
+#endif
 };

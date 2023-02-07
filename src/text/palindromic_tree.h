@@ -6,10 +6,6 @@ constexpr int ALPHA = 26; // Set alphabet size
 // Tree of all palindromes in string,
 // constructed online by appending letters.
 // space: O(n*ALPHA); time: O(n)
-// Code marked with [EXT] is extension for
-// calculating minimal palindrome partition
-// in O(n lg n). Can also be modified for
-// similar dynamic programmings.
 struct PalTree {
 	vi txt; // Text for which tree is built
 
@@ -21,10 +17,14 @@ struct PalTree {
 	vector<array<int, ALPHA>> to{ {}, {} };
 	int last{0}; // Current node (max suffix pal)
 
-	vi diff{0, 0};   // len[i]-len[link[i]] [EXT]
-	vi slink{0, 0};  // Serial links        [EXT]
-	vi series{0, 0}; // Series DP answer    [EXT]
-	vi ans{0};       // DP answer for prefix[EXT]
+#if MIN_PALINDROME_PARTITION
+	// An extension that computes minimal
+	// palindromic partition in O(n log n).
+	vi diff{0, 0};   // len[i]-len[link[i]]
+	vi slink{0, 0};  // Serial links
+	vi series{0, 0}; // Series DP answer
+	vi ans{0};       // DP answer for prefix
+#endif
 
 	int ext(int i) {
 		while (len[i]+2 > sz(txt) ||
@@ -34,7 +34,7 @@ struct PalTree {
 	}
 
 	// Append letter from [0;ALPHA); time: O(1)
-	// (or O(lg n) if [EXT] is enabled)
+	// (or O(lg n) for MIN_PALINDROME_PARTITION)
 	void add(int x) {
 		txt.pb(x);
 		last = ext(last);
@@ -45,16 +45,16 @@ struct PalTree {
 			to[last][x] = sz(to);
 			to.pb({});
 
-			// [EXT]
+		#if MIN_PALINDROME_PARTITION
 			diff.pb(len.back() - len[link.back()]);
 			slink.pb(diff.back() == diff[link.back()]
 				? slink[link.back()] : link.back());
 			series.pb(0);
-			// [/EXT]
+		#endif
 		}
 		last = to[last][x];
 
-		// [EXT]
+	#if MIN_PALINDROME_PARTITION
 		ans.pb(INT_MAX);
 		for (int i=last; len[i] > 0; i=slink[i]) {
 			series[i] = ans[sz(ans) - len[slink[i]]
@@ -66,6 +66,6 @@ struct PalTree {
 			// set ans only for sz(txt)%2 == 0
 			ans.back() = min(ans.back(),series[i]+1);
 		}
-		// [/EXT]
+	#endif
 	}
 };

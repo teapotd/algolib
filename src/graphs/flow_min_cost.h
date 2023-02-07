@@ -42,11 +42,10 @@ struct MCMF {
 		f = c = 0;
 		each(v, G) each(e, v) e.flow = 0;
 
-		// [If costs are nonnegative]
-		// vector<flow_t> pot(sz(G));
-		// [/end]
-
-		// [If costs can be negative] O(n*m)
+	#if FLOW_NONNEGATIVE_COSTS
+		vector<flow_t> pot(sz(G));
+	#else
+		// Bellman-Ford O(n*m)
 		vector<flow_t> pot(sz(G), INF);
 		pot[src] = 0;
 		int it = sz(G), ch = 1;
@@ -56,7 +55,7 @@ struct MCMF {
 					if ((d = pot[s]+e.cost) < pot[e.dst])
 						pot[e.dst] = d, ch = 1;
 		if (it < 0) return 0;
-		// [/end]
+	#endif
 
 	nxt:
 		vi prev(sz(G), -1);

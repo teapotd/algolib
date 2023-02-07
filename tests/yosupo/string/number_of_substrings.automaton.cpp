@@ -1,3 +1,4 @@
+#define COUNT_OUTGOING_PATHS 1
 #include "../../../src/text/suffix_automaton.h"
 
 int main() {
