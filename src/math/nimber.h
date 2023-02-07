@@ -1,44 +1,46 @@
 #pragma once
 #include "../template.h"
 
-// Nimbers are defined as sizes of Nim heaps.
+// Arithmetic over 64-bit nimber field.
 // Operations on nimbers are defined as:
 // a+b = mex({a'+b : a' < a} u {a+b' : b' < b})
 // ab  = mex({a'b+ab'+a'b' : a' < a, b' < b})
-// Nimbers smaller than M = 2^2^k form a field.
-// Addition is equivalent to xor, meanwhile
-// multiplication can be evaluated
-// in O(lg^2 M) after precomputing.
+// Nimbers smaller than 2^2^k
+// form a field of characteristic 2.
+// Addition is equivalent to bitwise xor.
+//! Source: https://judge.yosupo.jp/submission/92308
 
 using ull = uint64_t;
-ull nbuf[64][64]; // Nim-products for 2^i * 2^j
 
-// Multiply nimbers; time: O(lg^2 M)
+uint16_t npw[1<<16], nlg[1<<16];
+
+// Multiply 64-bit nimbers a and b.
+template<int half = 32, bool prec = 0>
 ull nimMul(ull a, ull b) {
-	ull ret = 0;
-	for (ull s = a; s; s &= (s-1))
-		for (ull t = b; t; t &= (t-1))
-			ret ^= nbuf[__builtin_ctzll(s)]
-			           [__builtin_ctzll(t)];
-	return ret;
+	if (a < 2 || b < 2) return a * b;
+	if (!prec && half <= 8)
+		return npw[(nlg[a] + nlg[b]) % 0xFFFF];
+
+	constexpr ull tot = 1ull << half;
+	ull c = a % tot, d = a >> half;
+	ull e = b % tot, f = b >> half;
+
+	ull p = nimMul<half/2, prec>(c, e);
+	ull r = nimMul<half/2, prec>(d, f);
+	ull s = nimMul<half/2, prec>(c^d, e^f);
+	ull t = nimMul<half/2, prec>(r, tot/2);
+	return p ^ t ^ (p ^ s) << half;
 }
 
-// Initialize nim-products lookup table
-int dummy = ([] {
-	rep(i, 0, 64)
-		nbuf[i][0] = nbuf[0][i] = 1ull << i;
-	rep(b, 1, 64) rep(a, 1, b+1) {
-		int i = 1 << __lg(a), j = 1 << __lg(b);
-		ull t = nbuf[a-i][b-j];
-		if (i < j)
-			t = nimMul(t, 1ull << i) << j;
-		else
-			t = nimMul(t, 1ull << (i-1)) ^ (t << i);
-		nbuf[a][b] = nbuf[b][a] = t;
+int dummy = ([]() {
+	rep(i, npw[0] = 1, 0xFFFF) {
+		ull v = nimMul<16, 1>(npw[i-1], -1);
+		nlg[npw[i] = uint16_t(v)] = uint16_t(i);
 	}
 }(), 0);
 
-// Compute a^e under nim arithmetic; O(lg^3 M)
+// Compute a^e under nim arithmetic;
+// O(lg M) nimber multiplications
 ull nimPow(ull a, ull e) {
 	ull t = 1;
 	while (e) {
@@ -49,27 +51,7 @@ ull nimPow(ull a, ull e) {
 }
 
 // Compute inverse of a in 2^64 nim-field;
-// time: O(lg^3 M)
+// O(lg M) nimber multiplications
 ull nimInv(ull a) {
-	return nimPow(a, ull(-2));
+	return nimPow(a, -2);
 }
-
-// If you need to multiply many nimbers by
-// the same value you can use this to speedup.
-struct NimMult {
-	ull M[64] = {0};
-
-	// Initialize lookup; time: O(lg^2 M)
-	NimMult(ull a) {
-		for (ull t=a; t; t &= (t-1)) rep(i, 0, 64)
-			M[i] ^= nbuf[__builtin_ctzll(t)][i];
-	}
-
-	// Multiply by b; time: O(lg M)
-	ull operator()(ull b) {
-		ull ret = 0;
-		for (ull t = b; t; t &= (t-1))
-			ret ^= M[__builtin_ctzll(t)];
-		return ret;
-	}
-};
