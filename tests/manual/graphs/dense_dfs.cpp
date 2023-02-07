@@ -6,7 +6,7 @@ uint64_t masks[128];
 DenseDFS G(n);
 
 void dfs(int i) {
-	G.setvisited(i);
+	G.setVisited(i);
 	G.step(i, dfs);
 }
 
@@ -21,7 +21,7 @@ int main() {
 	each(m, G.G.M) m = randMask();
 
 	auto before = now();
-	rep(i, 0, n) if (!G.isvisited(i)) dfs(i);
+	rep(i, 0, n) if (!G.isVisited(i)) dfs(i);
 	cout << since(before) << "ms" << endl;
 	return 0;
 }
