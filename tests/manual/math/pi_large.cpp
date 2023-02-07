@@ -6,9 +6,6 @@
 #undef MAX_P
 
 void bench() {
-	initPi();
-	std::cout << "initialized pi" << std::endl;
-
 	rep(i, 0, 4) {
 		ll k = rl(ll(1e11), ll(2e11));
 		ll p = pi(k);
@@ -20,17 +17,12 @@ int main() {
 	// bench();
 	// return 0;
 
-	sieve();
-
 	vi cnt(MAX_P_SEG+1);
 	rep(i, 1, MAX_P_SEG+1) {
 		cnt[i] = cnt[i-1] + isPrime(i);
 	}
 
-	std::cout << "initialized sieve" << std::endl;
-
-	initPi();
-	std::cout << "initialized pi" << std::endl;
+	std::cout << "initialized" << std::endl;
 
 	while (true) {
 		int n = r(1, 1e9);

@@ -6,7 +6,6 @@
 
 int main() {
   auto before = now();
-  sieve();
   cout << "sieve: " << since(before) << "ms\n";
 
   assert(!isPrime(0));

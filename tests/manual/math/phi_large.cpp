@@ -5,8 +5,6 @@
 #include "../testing.h"
 
 int main() {
-  sieve();
-  calcPhi();
   rep(i, 1, MAX_PHI+1) {
     deb(i, phi(i));
     assert(phi2[i] == phi(i));

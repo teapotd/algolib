@@ -13,7 +13,7 @@ void calcPhiNaive() {
 	naivePhiSum.resize(sz(naivePhi)+1);
 
 	rep(i, 0, sz(naivePhi)) {
-		naivePhiSum[i+1] = naivePhiSum[i] + naivePhi[i];
+		naivePhiSum[i+1] = (naivePhiSum[i] + naivePhi[i]) % MOD;
 	}
 }
 
@@ -26,8 +26,6 @@ void check(int n) {
 int main() {
   calcPhiNaive();
   cout << "naive computed\n";
-
-  calcPhiSum();
 
   check(123);
   check(1234567);

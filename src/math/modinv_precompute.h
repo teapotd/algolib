@@ -2,11 +2,11 @@
 #include "../template.h"
 
 constexpr ll MOD = 234567899;
-vector<ll> modInv(MOD); // You can lower size
 
-// Precompute modular inverses; time: O(MOD)
-void initModInv() {
-	modInv[1] = 1;
-	rep(i, 2, sz(modInv)) modInv[i] =
-		(MOD - (MOD/i) * modInv[MOD%i]) % MOD;
-}
+// Precompute modular inverses; time: O(n)
+auto modInv = [] {
+	vector<ll> v(MOD, 1); // You can lower size
+	rep(i, 2, sz(v))
+		v[i] = (MOD - (MOD/i) * v[MOD%i]) % MOD;
+	return v;
+}();

@@ -2,19 +2,18 @@
 #include "../template.h"
 
 constexpr int MAX_P = 1e6;
-vi factor(MAX_P+1);
 
-// Erathostenes sieve with saving smallest
+// Erathostenes sieve that saves smallest
 // factor for each number; time: O(n lg lg n)
-void sieve() {
+vi factor = [] {
+	vi f(MAX_P+1);
+	iota(all(f), 0);
 	for (int i = 2; i*i <= MAX_P; i++)
-		if (!factor[i])
+		if (f[i] == i)
 			for (int j = i*i; j <= MAX_P; j += i)
-				if (!factor[j])
-					factor[j] = i;
-
-	rep(i,0,MAX_P+1) if (!factor[i]) factor[i]=i;
-}
+				f[j] = min(f[j], i);
+	return f;
+}();
 
 // Factorize n <= MAX_P; time: O(lg n)
 // Returns pairs (prime, power), sorted

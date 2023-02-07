@@ -2,25 +2,23 @@
 #include "../template.h"
 //! Source: https://acgan.sh/posts/2016-12-23-prime-counting.html
 
-constexpr int MAX_P = 1e7;
-vector<ll> pis, prl;
-
 // Precompute prime counting function
 // for small values; time: O(n lg lg n)
-void initPi() {
-	pis.assign(MAX_P+1, 1);
-	pis[0] = pis[1] = 0;
+vector<ll> prl, pis = [] {
+	constexpr int MAX_P = 1e7;
+	vector<ll> p(MAX_P+1, 1);
+	p[0] = p[1] = 0;
 
-	for (int i = 2; i*i <= MAX_P; i++)
-		if (pis[i])
-			for (int j = i*i; j <= MAX_P; j += i)
-				pis[j] = 0;
+	for (int i = 2; i*i <= MAX_P; i++) if (p[i])
+		for (int j = i*i; j <= MAX_P; j += i)
+			p[j] = 0;
 
-	rep(i, 1, sz(pis)) {
-		if (pis[i]) prl.pb(i);
-		pis[i] += pis[i-1];
+	rep(i, 1, sz(p)) {
+		if (p[i]) prl.pb(i);
+		p[i] += p[i-1];
 	}
-}
+	return p;
+}();
 
 ll partial(ll x, ll a) {
 	static vector<unordered_map<ll, ll>> big;
@@ -34,8 +32,7 @@ ll partial(ll x, ll a) {
 
 // Count number of primes <= x;
 // time: O(n^(2/3) * log(n)^(1/3))
-// Set MAX_P to be > sqrt(x) and call initPi
-// before using!
+// Set MAX_P to be > sqrt(x) before using!
 ll pi(ll x) {
 	static unordered_map<ll, ll> big;
 	if (x < sz(pis)) return pis[x];

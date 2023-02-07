@@ -3,10 +3,9 @@
 
 constexpr int MAX_P = 1e6;
 bitset<MAX_P+1> primes;
-vi primesList;
 
 // Erathostenes sieve; time: O(n lg lg n)
-void sieve() {
+vi primesList = [] {
 	primes.set();
 	primes.reset(0);
 	primes.reset(1);
@@ -16,6 +15,7 @@ void sieve() {
 			for (int j = i*i; j <= MAX_P; j += i)
 				primes.reset(j);
 
-	rep(i, 0, MAX_P+1) if (primes[i])
-		primesList.pb(i);
-}
+	vi ret;
+	rep(i, 0, MAX_P+1) if (primes[i]) ret.pb(i);
+	return ret;
+}();

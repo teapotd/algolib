@@ -14,8 +14,6 @@ void perfTest() {
 }
 
 int main() {
-	initNimMul();
-
 	rep(i, 0, 16) {
 		rep(j, 0, 16) {
 			cout << setw(6) << nbuf[i][j] << ' ';

@@ -1,12 +1,14 @@
 #pragma once
 #include "../template.h"
 
-vi phi(1e7+1);
+constexpr int MAX_PHI = 1e7;
 
 // Precompute Euler's totients; time: O(n lg n)
-void calcPhi() {
-	iota(all(phi), 0);
-	rep(i, 2, sz(phi)) if (phi[i] == i)
-		for (int j = i; j < sz(phi); j += i)
-			phi[j] = phi[j] / i * (i-1);
-}
+vi phi = [] {
+	vi p(MAX_PHI+1);
+	iota(all(p), 0);
+	rep(i, 2, sz(p)) if (p[i] == i)
+		for (int j = i; j < sz(p); j += i)
+			p[j] = p[j] / i * (i-1);
+	return p;
+}();

@@ -17,7 +17,6 @@ void check(ll p) {
 }
 
 int main() {
-	sieve();
 	each(p, primesList) {
 		if (p >= 5000) break;
 		check(p);

@@ -26,9 +26,6 @@ int main() {
 	// findMaxG();
 	// return 0;
 
-	sieve();
-	calcPhi();
-
 	vector<bool> hasGen(MAX_P+1);
 	hasGen[2] = hasGen[4] = 1;
 

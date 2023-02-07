@@ -19,7 +19,6 @@ void check(ll n) {
 }
 
 int main() {
-	sieve();
 	assert(factor[0] == 0);
 	assert(factor[1] == 1);
 
