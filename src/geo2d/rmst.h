@@ -6,6 +6,7 @@
 // (MST in Manhattan metric); time: O(n lg n)
 // Returns MST weight. The spanning tree edges
 // are saved in `out` as triples (dist, (u,v)).
+// Depends on vec: -
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/geometry/ManhattanMST.h
 ll rmst(vector<vec>& points,
         vector<pair<ll, pii>>& edges) {
