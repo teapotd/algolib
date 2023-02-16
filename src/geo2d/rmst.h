@@ -1,81 +1,44 @@
 #include "../template.h"
+#include "vector.h"
 #include "../structures/find_union.h"
 
 // Rectilinear Minimum Spanning Tree
 // (MST in Manhattan metric); time: O(n lg n)
-// Returns MST weight. Outputs spanning tree
-// to G, vertex indices match point indices.
-// Edge in G is pair (target, weight).
-ll rmst(vector<pii>& points,
-        vector<vector<pii>>& G) {
-	int n = sz(points);
-	vector<pair<int, pii>> edges;
-	vector<pii> close;
-	vi ord(n), merged(n);
-	iota(all(ord), 0);
+// Returns MST weight. The spanning tree edges
+// are saved in `out` as triples (dist, (u,v)).
+//! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/geometry/ManhattanMST.h
+ll rmst(vector<vec>& points,
+        vector<pair<ll, pii>>& edges) {
+	vector<pair<ll, pii>> span;
+	vi id(sz(points));
+	iota(all(id), 0);
 
-	function<void(int,int)> octant =
-			[&](int begin, int end) {
-		if (begin+1 >= end) return;
-
-		int mid = (begin+end) / 2;
-		octant(begin, mid);
-		octant(mid, end);
-
-		int j = mid;
-		pii best = {INT_MAX, -1};
-		merged.clear();
-
-		rep(i, begin, mid) {
-			int v = ord[i];
-			pii p = points[v];
-
-			while (j < end) {
-				int e = ord[j];
-				pii q = points[e];
-				if (q.x-q.y > p.x-p.y) break;
-				best = min(best,make_pair(q.x+q.y, e));
-				merged.pb(e);
-				j++;
+	rep(k, 0, 4) {
+		map<ll, ll> S;
+		sort(all(id), [&](int i, int j) {
+			return (points[i]-points[j]).x <
+			       (points[j]-points[i]).y;
+		});
+		each(i, id) {
+			auto it = S.lower_bound(-points[i].y);
+			for (; it != S.end(); S.erase(it++)) {
+				vec d = points[i] - points[it->y];
+				if (d.y > d.x) break;
+				span.push_back({d.x+d.y, {i, it->y}});
 			}
-
-			if (best.y != -1) {
-				int alt = best.x-p.x-p.y;
-				if (alt < close[v].x)
-					close[v] = {alt, best.y};
-			}
-			merged.pb(v);
+			S[-points[i].y] = i;
 		}
-
-		while (j < end) merged.pb(ord[j++]);
-		copy(all(merged), ord.begin()+begin);
-	};
-
-	rep(i, 0, 4) {
-		rep(j, 0, 2) {
-			sort(all(ord), [&](int l, int r) {
-				return points[l] < points[r];
-			});
-			close.assign(n, {INT_MAX, -1});
-			octant(0, n);
-			rep(k, 0, n) {
-				pii p = close[k];
-				if (p.y != -1) edges.pb({p.x,{k,p.y}});
-				points[k].x *= -1;
-			}
+		each(p, points) {
+			if (k % 2) p.x = -p.x;
+			else swap(p.x, p.y);
 		}
-		each(p, points) p = {p.y, -p.x};
 	}
 
+	FAU fau(sz(id));
 	ll sum = 0;
-	FAU fau(n);
-	sort(all(edges));
-	G.assign(n, {});
-
-	each(e, edges) if (fau.join(e.y.x, e.y.y)) {
-		sum += e.x;
-		G[e.y.x].pb({e.y.y, e.x});
-		G[e.y.y].pb({e.y.x, e.x});
-	}
+	sort(all(span));
+	edges.clear();
+	each(e, span) if (fau.join(e.y.x, e.y.y))
+		edges.pb(e), sum += e.x;
 	return sum;
 }
