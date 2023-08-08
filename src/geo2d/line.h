@@ -21,7 +21,7 @@ struct line {
 	// 1 if on side where normal vector points,
 	// -1 if on the other side.
 	// Depends on vec: dot
-	int side(vec a) { return cmp(v.dot(a), c); }
+	int side(vec a) { return sgn(v.dot(a)-c); }
 
 #if FLOATING_POINT_GEOMETRY
 	// Intersect this line with line a, returns
@@ -30,7 +30,7 @@ struct line {
 	// Depends on vec: -, *, /, cross, perp
 	bool intersect(line a, vec& out) {
 		auto d = v.cross(a.v);
-		if (!cmp(d)) return 0;
+		if (!sgn(d)) return 0;
 		out = (v*a.c - a.v*c).perp() / d;
 		return 1;
 	}

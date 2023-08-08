@@ -1,21 +1,15 @@
 #pragma once
 #include "../template.h"
 
-// Wrapper for scalars comparison:
-// - floating point with epsilon or
-// - exact integer comparisons.
-// Type in only the one that you need.
-// Returns -1 if a < b; 1 if a > b; 0 if equal
+// Sign extraction, type in the one you need.
+// -1 if a < -ε, 1 if a > ε, 0 if |a| <= ε
 #if FLOATING_POINT_GEOMETRY
-	// a and b are equal iff |a-b| <= eps
 	constexpr double eps = 1e-9;
-	int cmp(double a, double b = 0) {
-		return (a > b+eps) - (a+eps < b);
+	int sgn(double a) {
+		return (a > eps) - (a < -eps);
 	}
 #else // (integers)
-	int cmp(ll a, ll b = 0) {
-		return (a > b) - (a < b);
-	}
+	int sgn(ll a) { return (a > 0) - (a < 0); }
 #endif
 
 // 2D point/vector structure; UNIT-TESTED
@@ -51,18 +45,18 @@ struct vec {
 
 	// Lexicographic compare by (y,x) (with eps)
 	int cmpYX(P r) const {
-		return cmp(y, r.y) ?: cmp(x, r.x);
+		return sgn(y-r.y) ?: sgn(x-r.x);
 	}
 
 	// Is above OX or on its non-negative part?
 	bool upper() const {
-		return (cmp(y) ?: cmp(x)) >= 0;
+		return (sgn(y) ?: sgn(x)) >= 0;
 	}
 
 	// Compare vectors by angles.
 	// Depends on: cross, upper
 	int cmpAngle(P r) const {
-		return r.upper()-upper() ?: -cmp(cross(r));
+		return r.upper()-upper() ?: -sgn(cross(r));
 	}
 
 #if FLOATING_POINT_GEOMETRY

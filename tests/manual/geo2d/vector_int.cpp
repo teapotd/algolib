@@ -11,9 +11,9 @@ bool vecEqual(vec a, vec b) {
 }
 
 int main() {
-	assert(cmp(123, 122) > 0);
-	assert(cmp(123, 123) == 0);
-	assert(cmp(123, 124) < 0);
+	assert(sgn(-123) == -1);
+	assert(sgn(0) == 0);
+	assert(sgn(213) == 1);
 
 	vec a, b(3, 4);
 	assert(a.x == 0 && a.y == 0);
@@ -67,8 +67,8 @@ int main() {
 
 	rep(i, 0, sz(sortedByAngle)) {
 		rep(j, i+1, sz(sortedByAngle)) {
-			assert(sortedByAngle[i].cmpAngle(sortedByAngle[j]) < 0);
-			assert(sortedByAngle[j].cmpAngle(sortedByAngle[i]) > 0);
+			assert(sortedByAngle[i].cmpAngle(sortedByAngle[j]) == -1);
+			assert(sortedByAngle[j].cmpAngle(sortedByAngle[i]) == 1);
 		}
 	}
 

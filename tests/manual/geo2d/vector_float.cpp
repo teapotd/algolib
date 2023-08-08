@@ -8,10 +8,10 @@ bool vecEqual(vec a, vec b) {
 }
 
 int main() {
-	assert(cmp(123, 123+eps*2) < 0);
-	assert(cmp(123, 123-eps*2) > 0);
-	assert(cmp(123, 123+eps/2) == 0);
-	assert(cmp(123, 123-eps/2) == 0);
+	assert(sgn(eps*2) == 1);
+	assert(sgn(-eps*2) == -1);
+	assert(sgn(eps) == 0);
+	assert(sgn(-eps) == 0);
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wfloat-equal"
@@ -68,8 +68,8 @@ int main() {
 
 	rep(i, 0, sz(sortedByAngle)) {
 		rep(j, i+1, sz(sortedByAngle)) {
-			assert(sortedByAngle[i].cmpAngle(sortedByAngle[j]) < 0);
-			assert(sortedByAngle[j].cmpAngle(sortedByAngle[i]) > 0);
+			assert(sortedByAngle[i].cmpAngle(sortedByAngle[j]) == -1);
+			assert(sortedByAngle[j].cmpAngle(sortedByAngle[i]) == 1);
 		}
 	}
 
@@ -86,7 +86,7 @@ int main() {
 		double scale = (i%2 ? 1 : 1e9);
 		a = {rf(-scale, scale), rf(-scale, scale)};
 		b = {rf(-scale, scale), rf(-scale, scale)};
-		assert(a.cmpAngle(b) == cmp(a.angle(), b.angle()));
+		assert(a.cmpAngle(b) == sgn(a.angle()-b.angle()));
 	}
 	return 0;
 }

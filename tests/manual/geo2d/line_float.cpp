@@ -13,7 +13,7 @@ line norm(line l) {
 bool lineEqual(line a, line b) {
 	a = norm(a);
 	b = norm(b);
-	return a.v.cmpYX(b.v) == 0 && cmp(a.c, b.c) == 0;
+	return a.v.cmpYX(b.v) == 0 && sgn(a.c-b.c) == 0;
 }
 
 int main() {

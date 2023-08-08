@@ -18,7 +18,7 @@ vector<vec> convexHull(vector<vec> points) {
 		each(p, points) {
 			for (; t >= s+2; t--) {
 				auto c = (p-h[t-2]).cross(p-h[t-1]);
-				if (cmp(c) > 0) break;
+				if (sgn(c) > 0) break;
 			}
 			h[t++] = p;
 		}
@@ -43,5 +43,5 @@ int maxDot(const vector<vec>& h, vec q) {
 		vec s = h[m] - h[m-1];
 		(q.perp().cmpAngle(s) > 0 ? b : e) = m;
 	}
-	return cmp(q.dot(h[b]-h[0])) > 0 ? b : 0;
+	return sgn(q.dot(h[b]-h[0])) > 0 ? b : 0;
 }
