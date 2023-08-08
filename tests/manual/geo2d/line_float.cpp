@@ -13,7 +13,7 @@ line norm(line l) {
 bool lineEqual(line a, line b) {
 	a = norm(a);
 	b = norm(b);
-	return a.v == b.v && cmp(a.c, b.c) == 0;
+	return a.v.cmpYX(b.v) == 0 && cmp(a.c, b.c) == 0;
 }
 
 int main() {
@@ -35,6 +35,6 @@ int main() {
 	assert(!(line{{1,-3},-10}.intersect({{-1,3},-11}, inter)));
 
 	assert((line{{0.5,1},7.5}.intersect({{1,-3},-10}, inter)));
-	assert(inter == vec(5,5));
+	assert(inter.cmpYX(vec(5,5)) == 0);
 	return 0;
 }

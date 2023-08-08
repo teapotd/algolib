@@ -9,11 +9,11 @@
 #if FLOATING_POINT_GEOMETRY
 	// a and b are equal iff |a-b| <= eps
 	constexpr double eps = 1e-9;
-	int cmp(double a, double b) {
+	int cmp(double a, double b = 0) {
 		return (a > b+eps) - (a+eps < b);
 	}
 #else // (integers)
-	int cmp(ll a, ll b) {
+	int cmp(ll a, ll b = 0) {
 		return (a > b) - (a < b);
 	}
 #endif
@@ -49,26 +49,20 @@ struct vec {
 		return (a < 0 ? a+2*M_PI : a);
 	}
 
-	// Lexicographic less (with epsilon)
-	bool operator<(vec r) const {
-		return (cmp(x, r.x) ?: cmp(y, r.y)) < 0;
-	}
-
-	// Equality (with epsilon)
-	bool operator==(vec r) const {
-		return !cmp(x, r.x) && !cmp(y, r.y);
+	// Lexicographic compare by (y,x) (with eps)
+	int cmpYX(P r) const {
+		return cmp(y, r.y) ?: cmp(x, r.x);
 	}
 
 	// Is above OX or on its non-negative part?
 	bool upper() const {
-		return (cmp(y, 0) ?: cmp(x, 0)) >= 0;
+		return (cmp(y) ?: cmp(x)) >= 0;
 	}
 
 	// Compare vectors by angles.
 	// Depends on: cross, upper
-	int angleCmp(P r) const {
-		return
-			r.upper() - upper() ?: cmp(0, cross(r));
+	int cmpAngle(P r) const {
+		return r.upper()-upper() ?: -cmp(cross(r));
 	}
 
 #if FLOATING_POINT_GEOMETRY

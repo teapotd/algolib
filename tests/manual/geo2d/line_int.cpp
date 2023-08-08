@@ -18,7 +18,7 @@ line normGcd(line l) {
 bool lineEqual(line a, line b) {
 	a = normGcd(a);
 	b = normGcd(b);
-	return a.v == b.v && a.c == b.c;
+	return a.v.cmpYX(b.v) == 0 && a.c == b.c;
 }
 
 int main() {

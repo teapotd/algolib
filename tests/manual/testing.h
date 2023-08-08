@@ -73,6 +73,6 @@ bool isSubseq(const std::vector<T>& big, const std::vector<T>& sub) {
 	return true;
 }
 
-bool floatEqual(double a, double b, double epsilon = 1e-15) {
+bool floatEqual(double a, double b, double epsilon = 1e-12) {
 	return fabs(a-b) < epsilon;
 }

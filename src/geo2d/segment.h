@@ -10,8 +10,8 @@ struct seg {
 	// Check if segment contains point p.
 	// Depends on vec: -, dot, cross
 	bool contains(vec p) {
-		return cmp((a-p).dot(b-p), 0) <= 0 &&
-		       cmp((a-p).cross(b-p), 0) == 0;
+		return cmp((a-p).dot(b-p)) <= 0 &&
+			!cmp((a-p).cross(b-p));
 	}
 
 	// Distance from segment to point.
@@ -19,8 +19,8 @@ struct seg {
 	double distTo(vec p) const {
 		if ((p-a).dot(b-a) < 0) return (p-a).len();
 		if ((p-b).dot(a-b) < 0) return (p-b).len();
-		return double(
-			abs((p-a).cross(b-a))) / (b-a).len();
+		return double(abs((p-a).cross(b-a))) /
+		       (b-a).len();
 	}
 
 #if not FLOATING_POINT_GEOMETRY

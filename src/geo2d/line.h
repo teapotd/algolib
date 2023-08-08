@@ -30,15 +30,15 @@ struct line {
 	// Depends on vec: -, *, /, cross, perp
 	bool intersect(line a, vec& out) {
 		auto d = v.cross(a.v);
-		if (!cmp(d, 0)) return 0;
+		if (!cmp(d)) return 0;
 		out = (v*a.c - a.v*c).perp() / d;
 		return 1;
 	}
 #endif
 };
 
-// Line through 2 points; normal vector
-// points to the right of ab vector.
+// Line through 2 points with normal vector
+// pointing to the right of ab vector.
 // Depends on vec: -, cross, perp
 line through(vec a, vec b) {
 	return { (a-b).perp(), a.cross(b) };
