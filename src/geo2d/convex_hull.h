@@ -28,3 +28,20 @@ vector<vec> convexHull(vector<vec> points) {
 	h.resize(t - (t == 2 && !h[0].cmpYX(h[1])));
 	return h;
 }
+
+// Find point p that maximizes dot product p*q.
+// Returns point index in hull; time: O(lg n)
+// If multiple points have same dot product
+// one with smallest index is returned.
+// Points are expected to be in the same order
+// as output from convexHull function.
+// Depends on vec: -,cross,perp,upper,cmpAngle
+int maxDot(const vector<vec>& h, vec q) {
+	int b = 0, e = sz(h);
+	while (b+1 < e) {
+		int m = (b+e) / 2;
+		vec s = h[m] - h[m-1];
+		(q.perp().cmpAngle(s) > 0 ? b : e) = m;
+	}
+	return cmp(q.dot(h[b]-h[0])) > 0 ? b : 0;
+}

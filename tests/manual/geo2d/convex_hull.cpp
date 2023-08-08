@@ -37,30 +37,43 @@ namespace old_algolib {
 	}
 };
 
+int naiveMaxDot(const vector<vec>& hull, vec q) {
+	pair<ll, int> ret = { INT64_MAX, 0 };
+	rep(i, 0, sz(hull)) {
+		ret = min(ret, make_pair(-q.dot(hull[i]), i));
+	}
+	return ret.y;
+}
+
 void check(const vector<vec>& points) {
-	auto got = convexHull(points);
+	auto hull = convexHull(points);
 	auto expected = old_algolib::convexHull(points);
 
-	assert(sz(got) == sz(expected));
-	rep(i, 0, sz(got)) {
-		assert(!got[i].cmpYX(expected[i]));
+	assert(sz(hull) == sz(expected));
+	rep(i, 0, sz(hull)) {
+		assert(!hull[i].cmpYX(expected[i]));
 	}
 
-	for (int i = 0; i < sz(got); i++) {
-		for (int j = i+1; j < sz(got); j++) {
-			assert(got[i].cmpYX(got[j]) != 0);
+	for (int i = 0; i < sz(hull); i++) {
+		for (int j = i+1; j < sz(hull); j++) {
+			assert(hull[i].cmpYX(hull[j]) != 0);
 		}
 	}
 
-	for (int i = 1; i < sz(got); i++) {
-		assert(got[0].cmpYX(got[i]) < 0);
+	for (int i = 1; i < sz(hull); i++) {
+		assert(hull[0].cmpYX(hull[i]) < 0);
+	}
+
+	if (!hull.empty()) rep(i, 0, 100) {
+		vec q = { r(-100, 100), r(-100, 100) };
+		assert(maxDot(hull, q) == naiveMaxDot(hull, q));
 	}
 }
 
 int main() {
 	while (true) {
-		int n = r(0, 50);
-		int mx = r(0, 20);
+		int n = r(0, 100);
+		int mx = r(0, 100);
 		vector<vec> points(n);
 		each(p, points) {
 			p.x = r(-mx, mx);
