@@ -43,6 +43,11 @@ struct vec {
 		return (a < 0 ? a+2*M_PI : a);
 	}
 
+	// Equality (with epsilon)
+	bool operator==(vec r) const {
+		return !sgn(x-r.x) && !sgn(y-r.y);
+	}
+
 	// Lexicographic compare by (y,x) (with eps)
 	int cmpYX(P r) const {
 		return sgn(y-r.y) ?: sgn(x-r.x);

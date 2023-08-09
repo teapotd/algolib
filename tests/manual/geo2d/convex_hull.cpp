@@ -26,7 +26,7 @@ namespace old_algolib {
 				if (a.cross(b) > 0) break;
 				hull.pop_back();
 			}
-			if (hull.empty() || hull.back().cmpYX(p)) {
+			if (hull.empty() || !(hull.back() == p)) {
 				hull.pb(p);
 			}
 		}
@@ -49,14 +49,11 @@ void check(const vector<vec>& points) {
 	auto hull = convexHull(points);
 	auto expected = old_algolib::convexHull(points);
 
-	assert(sz(hull) == sz(expected));
-	rep(i, 0, sz(hull)) {
-		assert(!hull[i].cmpYX(expected[i]));
-	}
+	assert(hull == expected);
 
 	for (int i = 0; i < sz(hull); i++) {
 		for (int j = i+1; j < sz(hull); j++) {
-			assert(hull[i].cmpYX(hull[j]) != 0);
+			assert(!(hull[i] == hull[j]));
 		}
 	}
 

@@ -25,7 +25,7 @@ vector<vec> convexHull(vector<vec> points) {
 		reverse(all(points));
 		s = --t;
 	}
-	h.resize(t - (t == 2 && !h[0].cmpYX(h[1])));
+	h.resize(t - (t == 2 && h[0] == h[1]));
 	return h;
 }
 

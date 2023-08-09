@@ -37,6 +37,10 @@ int main() {
 	assert(floatEqual(vec(0, -5.123).angle(), M_PI*3/2));
 	assert(floatEqual(vec(5.123, 5.123).angle(), M_PI/4));
 
+	assert(vec(0.01, 0.02) == vec(0.01, 0.02));
+	assert(!(vec(0.01, 0.02) == vec(0.02, 0.02)));
+	assert(!(vec(0.02, 0.02) == vec(0.01, 0.02)));
+
 	assert(vec(0.01, 0.02).cmpYX(vec(0.01, 0.02)) == 0);
 	assert(vec(0.01, 0.02).cmpYX(vec(0.02, 0.02)) == -1);
 	assert(vec(0.01, 0.02).cmpYX(vec(0.00, 0.03)) == -1);
