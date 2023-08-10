@@ -45,6 +45,28 @@ int naiveMaxDot(const vector<vec>& hull, vec q) {
 	return ret.y;
 }
 
+int naiveInsideHull(vector<vec>& hull, vec p) {
+	if (hull.empty()) return 0;
+	if (sz(hull) == 1) return hull[0] == p;
+	int ret = 1;
+	rep(i, 0, sz(hull)) {
+		auto v = hull[(i+1)%sz(hull)] - hull[i];
+		auto t = v.cross(p-hull[i]);
+		ret = min(ret, sgn(t));
+	}
+	return int(max(ret+1, 0));
+}
+
+double naiveHullDist(vector<vec>& hull, vec p) {
+	if (naiveInsideHull(hull, p) == 2) return -1;
+	double ret = 1e30;
+	rep(i, 0, sz(hull)) {
+		seg s{hull[(i+1)%sz(hull)], hull[i]};
+		ret = min(ret, s.distTo(p));
+	}
+	return ret;
+}
+
 void check(const vector<vec>& points) {
 	auto hull = convexHull(points);
 	auto expected = old_algolib::convexHull(points);
@@ -64,6 +86,7 @@ void check(const vector<vec>& points) {
 	if (!hull.empty()) rep(i, 0, 100) {
 		vec q = { r(-100, 100), r(-100, 100) };
 		assert(maxDot(hull, q) == naiveMaxDot(hull, q));
+		assert(floatEqual(hullDist(hull, q), naiveHullDist(hull, q)));
 	}
 }
 

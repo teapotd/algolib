@@ -45,3 +45,30 @@ int maxDot(const vector<vec>& h, vec q) {
 	}
 	return sgn(q.dot(h[b]-h[0])) > 0 ? b : 0;
 }
+
+#include "segment.h"
+
+// Get distance from point to a hull; O(lg n)
+// Returns -1 if point is strictly inside.
+// Points are expected to be in the same order
+// as output from convexHull function.
+// Depends on: maxDot
+// Depends on vec: -, dot, cross, len, perp,
+//                 upper, cmpAngle
+// Depends on seg: side, distTo
+double hullDist(const vector<vec>& h, vec q) {
+	if (sz(h) == 1) return (q-h[0]).len();
+	int b = (h[0]-q).upper() ? maxDot(h,{0,1}):0;
+	int n = sz(h), e = b+n;
+	vec p = h[b];
+	while (b+1 < e) {
+		int m = (b+e) / 2;
+		vec s = h[m%n], t = h[++m%n];
+		auto x = (sgn((s-t).cross(q-s)) < 0 ?
+			(q-p).cross(s-p) : (s-t).dot(q-s));
+		(sgn(x) < !(m%n) ? b : e) = m-1;
+	}
+	seg s{h[b%n], h[e%n]}, t{h[e%n], h[++e%n]};
+	return s.side(q) + t.side(q) < 2 ?
+		s.distTo(q) : -1;
+}
