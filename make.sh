@@ -2,5 +2,5 @@
 set -e
 
 mkdir -p build
-python3 make.py > build/algolib.tex
+python3 generate-latex.py > build/algolib.tex
 cd build && latexmk -pdf -shell-escape algolib.tex

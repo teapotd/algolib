@@ -5,6 +5,7 @@ import sys
 
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
+SOURCE_DIR = 'src'
 TEMPLATE_FILE = 'doc/template.tex'
 HASHES_CACHE_FILE = 'build/hashes-cache.pickle'
 EXCLUDED_FILES = ['.DS_Store']
@@ -21,12 +22,12 @@ def main():
 	else:
 		hashes_cache = {}
 
-	process_dir('src')
+	process_dir(SOURCE_DIR)
 
 	with open(TEMPLATE_FILE, 'r') as file:
-		template_str = file.read()
-	template_str = template_str.replace('{CONTENT}', content)
-	print(template_str)
+		template = file.read()
+	final_latex = template.replace('{CONTENT}', content)
+	print(final_latex)
 
 	with open(HASHES_CACHE_FILE, 'wb') as file:
 		pickle.dump(hashes_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
@@ -44,10 +45,10 @@ def process_dir(dir_name):
 			process_dir(entry)
 
 def process_file(path):
-	base_path = os.path.basename(path)
-	if FILE_WHITELIST is not None and base_path not in FILE_WHITELIST:
+	base_name = os.path.basename(path)
+	if FILE_WHITELIST is not None and base_name not in FILE_WHITELIST:
 		return
-	if base_path in EXCLUDED_FILES:
+	if base_name in EXCLUDED_FILES:
 		return
 
 	with open(path, 'r') as file:
@@ -56,8 +57,7 @@ def process_file(path):
 	if '!!EXCLUDE-FILE' in data:
 		return
 
-	global content
-	title = path[path.index('/')+1:]
+	title = os.path.relpath(path, SOURCE_DIR)
 	sys.stderr.write("Processing %s\n" % title)
 
 	if len(title) > MAX_TITLE_LENGTH:
@@ -68,12 +68,12 @@ def process_file(path):
 	for nr, line in enumerate(data.split('\n')):
 		if line == '#pragma once':
 			continue
-		if line.startswith('#include ') and 'template.h' in line:
+		if line.startswith('#include') and 'template.h' in line:
 			continue
 		if line.startswith('//!') or '//!HIDE' in line:
 			continue
 		lines.append(line)
-		if not line.startswith('#include '):
+		if not line.startswith('#include'):
 			lines_without_includes.append(line)
 		if len(line) > MAX_CHARS_PER_LINE:
 			sys.stderr.write("WARNING: too long line #%d in %s\n" % (nr+1, title))
@@ -92,39 +92,36 @@ def process_file(path):
 		lang = 'python'
 	elif path.endswith('.java'):
 		lang = 'java'
-		data, _ = generate_hashes(data, 0, False)
+		data = add_block_hashes(data)
 	else:
 		lang = 'cpp'
-		data, _ = generate_hashes(data, 0, False)
+		data = add_block_hashes(data)
 
-	full_hash = get_code_hash(data_without_includes) if compute_hash else ''
+	full_hash = get_hash(data_without_includes) if compute_hash else ''
 
-	content += r'\begin{code}{%s}{%s}{%s}' % (title, lang, full_hash) + '\n'
+	global content
+	content += '\n\\begin{code}{%s}{%s}{%s}\n' % (title, lang, full_hash)
 	content += data + '\n'
-	content += r'\end{code}' + '\n\n'
+	content += '\\end{code}\n'
 
-def generate_hashes(data, pos, is_open):
+def add_block_hashes(data, pos=0, is_open=False):
 	ret = ''
 	while pos < len(data):
 		if data[pos] == '{':
 			ret += '{'
-			tmp, pos = generate_hashes(data, pos+1, True)
+			tmp, pos = add_block_hashes(data, pos+1, True)
 			ret += tmp
 		elif is_open and data[pos] == '}':
-			code_hash = get_code_hash(ret)
+			block_hash = get_hash(ret)
 			ret += '}'
 			pos += 1
 
-			if pos < len(data) and data[pos] == ')':
-				ret += ')'
-				pos += 1
-
-			if pos < len(data) and data[pos] == ';':
-				ret += ';'
+			while pos < len(data) and data[pos] in ');':
+				ret += data[pos]
 				pos += 1
 
 			if pos == len(data) or data[pos] == '\n':
-				alt = ret + ' // ' + code_hash
+				alt = ret + ' // ' + block_hash
 				endl = alt.rfind('\n')
 				if endl != -1 and len(alt)-endl-1 <= MAX_CHARS_PER_LINE:
 					ret = alt
@@ -132,9 +129,9 @@ def generate_hashes(data, pos, is_open):
 		else:
 			ret += data[pos]
 			pos += 1
-	return ret, pos
+	return (ret, pos) if is_open else ret
 
-def get_code_hash(data):
+def get_hash(data):
 	if data in hashes_cache:
 		return hashes_cache[data]
 	process = subprocess.Popen(['./hash.sh'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
