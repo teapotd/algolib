@@ -2,7 +2,7 @@
 #include "../template.h"
 
 // Sign extraction, type in the one you need.
-// -1 if a < -ε, 1 if a > ε, 0 if |a| <= ε
+// -1 if a < -eps, 1 if a > eps, 0 otherwise
 #if FLOATING_POINT_GEOMETRY
 	constexpr double eps = 1e-9;
 	int sgn(double a) {
