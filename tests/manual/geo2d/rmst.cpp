@@ -1,10 +1,10 @@
-#include "../../../src/geometry/rmst.h"
+#include "../../../src/geo2d/rmst.h"
 #include "../testing.h"
 
 void bench() {
 	int n = 100000;
-	vector<pii> points(n);
-	vector<vector<pii>> G;
+	vector<vec> points(n);
+	vector<pair<ll, pii>> G;
 
 	each(p, points) {
 		p.x = r(-1e8, 1e8);
@@ -18,10 +18,10 @@ void bench() {
 
 int main() {
 	int n; cin >> n;
-	vector<pii> points(n);
+	vector<vec> points(n);
 	each(p, points) cin >> p.x >> p.y;
 
-	vector<vector<pii>> G;
+	vector<pair<ll, pii>> G;
 	cout << rmst(points, G) << endl;
 	return 0;
 }

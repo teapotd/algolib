@@ -3,6 +3,7 @@
 
 using Row = vector<double>;
 using Matrix = vector<Row>;
+constexpr double eps = 1e-9;
 
 // Given a system of n linear equations A
 // over m variables, find dimensionality D
@@ -26,8 +27,8 @@ int orthoGauss(Matrix& A, Matrix& M,
 		auto& w = A[i];
 		double s = 0;
 		rep(j, 0, d) s += w[j]*w[j];
-		if (!cmp(s, 0)) {
-			if (cmp(w[m], 0)) return -1;
+		if (fabs(s) < eps) {
+			if (fabs(w[m]) > eps) return -1;
 			continue;
 		}
 
