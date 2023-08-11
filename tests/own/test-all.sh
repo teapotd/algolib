@@ -6,7 +6,8 @@ if [ $# -lt 1 ]; then
     exit 1
 fi
 
-for CPP_FILE in */*.cpp; do
+find . -type f -name "*.cpp" -print0 | while read -d $'\0' CPP_FILE
+do
 	echo
 	echo ================================
 	echo $CPP_FILE

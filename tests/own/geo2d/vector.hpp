@@ -1,6 +1,6 @@
 #pragma once
-#include "../testing.hpp"
 #include "../../../src/geo2d/vector.h"
+#include "../testing.hpp"
 
 #if FLOATING_POINT_GEOMETRY
 #define U 0.1
