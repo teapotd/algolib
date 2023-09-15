@@ -4,7 +4,7 @@
 using Edge = pair<int, ll>;
 
 // SPFA with subtree erasure heuristic;
-// time: pessimistic O(nm), O(m) on random graphs
+// time: pessimistic O(nm), on random O(m)
 // Returns array of distances or empty array
 // if negative cycle is reachable from source.
 // par[v] = parent in shortest path tree
