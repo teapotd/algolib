@@ -100,3 +100,7 @@ void convLong(vector<ll>& a, vector<ll> b) {
 		if ((a[i] %= MX) < 0) a[i] += MX;
 	}
 }
+
+// Big-integer multiplication note:
+// - use convLong with base 10^6 for n < 10^6
+// - use convLong with base 10^5 for n < 10^8
