@@ -87,8 +87,7 @@ struct HLD {
 
 	// Call func(chBegin, chEnd) on each path
 	// segment; time: O(lg n * time of func)
-	template<class T>
-	void iterPath(int a, int b, T func) {
+	void iterPath(int a, int b, auto func) {
 		while (chBegin[a] != chBegin[b]) {
 			int ha = chRoot(a), hb = chRoot(b);
 			if (depth[ha] > depth[hb]) {

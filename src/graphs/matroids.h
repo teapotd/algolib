@@ -11,9 +11,8 @@
 // where r is max independent set,
 // `init` is max time of oracles init
 // and `add` is max time of oracles canAdd.
-template<class T, class U>
-vector<bool> intersectMatroids(T& A, U& B,
-	                             int n) {
+vector<bool> intersectMatroids(
+			auto& A, auto& B, int n) {
 	vector<bool> ans(n);
 	bool ok = 1;
 

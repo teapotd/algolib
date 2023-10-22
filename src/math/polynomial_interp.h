@@ -2,7 +2,7 @@
 #include "../template.h"
 
 // Interpolate set of points (i, vec[i])
-// and return it evaluated at x; time: O(n)
+// and return it evaluated at x; O(n lg MOD)
 template<class T>
 T polyExtend(vector<T>& vec, T x) {
 	int n = sz(vec);
@@ -22,7 +22,7 @@ T polyExtend(vector<T>& vec, T x) {
 
 // Given n points (x, f(x)) compute n-1-degree
 // polynomial f that passes through them;
-// time: O(n^2)
+// time: O(n^2 lg MOD)
 // For O(n lg^2 n) version see polynomial.h
 template<class T>
 vector<T> polyInterp(vector<pair<T, T>> P) {

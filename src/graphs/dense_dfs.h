@@ -28,8 +28,7 @@ struct DenseDFS {
 	// setVisited(child) to mark it visited
 	// or this function will call the callback
 	// with the same vertex again.
-	template<class T>
-	void step(int i, T func) {
+	void step(int i, auto func) {
 		ull* E = G.row(i);
 		for (int w = 0; w < G.stride;) {
 			ull x = E[w] & V.row(0)[w];

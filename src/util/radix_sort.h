@@ -3,8 +3,7 @@
 
 // Stable countingsort; time: O(k+sz(vec))
 // See example usage in radixSort for pairs.
-template<class F>
-void countSort(vi& vec, F key, int k) {
+void countSort(vi& vec, auto key, int k) {
 	static vi buf, cnt;
 	vec.swap(buf);
 	vec.resize(sz(buf));

@@ -3,7 +3,7 @@
 
 // Computes prefsuf array; time: O(n)
 // ps[i] = max prefsuf of [0;i); ps[0] := -1
-template<class T> vi kmp(const T& str) {
+vi kmp(auto& str) {
 	vi ps; ps.pb(-1);
 	each(x, str) {
 		int k = ps.back();
@@ -15,8 +15,7 @@ template<class T> vi kmp(const T& str) {
 
 // Finds occurences of pat in vec; time: O(n)
 // Returns starting indices of matches.
-template<class T>
-vi match(const T& str, T pat) {
+vi match(auto& str, T pat) {
 	int n = sz(pat);
 	pat.pb(-1); // SET TO SOME UNUSED CHARACTER
 	pat.insert(pat.end(), all(str));

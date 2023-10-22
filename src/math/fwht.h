@@ -8,12 +8,12 @@
 // (Zeta transform, inverse is Moebius).
 // AND version is same as sum-over-supersets.
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/numerical/FastSubsetTransform.h
-template<bool inv, class T>
-void fwht(vector<T>& b) {
+template<bool inv>
+void fwht(auto& b) {
 	for (int s = 1; s < sz(b); s *= 2) {
 		for (int i = 0; i < sz(b); i += s*2) {
 			rep(j, i, i+s) {
-				T &x = b[j], &y = b[j+s];
+				auto &x = b[j], &y = b[j+s];
 				tie(x, y) = make_pair(x+y, x-y); // XOR
 				// x += inv ? -y : y;            // AND
 				// y += inv ? -x : x;            // OR
@@ -30,8 +30,7 @@ void fwht(vector<T>& b) {
 // or XOR, depending on FWHT version.
 // Stores result in a; time: O(n lg n)
 // Both arrays must be of same size = 2^n!
-template<class T>
-void bitConv(vector<T>& a, vector<T> b) {
+void bitConv(auto& a, auto b) {
 	fwht<0>(a);
 	fwht<0>(b);
 	rep(i, 0, sz(a)) a[i] *= b[i];

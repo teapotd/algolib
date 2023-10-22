@@ -12,8 +12,7 @@
 //    for i-th query is >= queried value
 // Returns vector of found values;
 // time: O((n+c) lg range), where c is cmp time
-template<class T>
-vi multiBS(int b, int e, int n, T cmp) {
+vi multiBS(int b, int e, int n, auto cmp) {
 	if (b >= e) return vi(n, b);
 	vector<pii> que(n), rng(n, {b, e});
 	vector<bool> ans(n);

@@ -6,8 +6,7 @@
 // p[0][i] for center between i-1 and i
 // p[1][i] for center at i (single letter = 0)
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/strings/Manacher.h
-template<class T>
-array<vi, 2> manacher(const T& s) {
+array<vi, 2> manacher(auto& s) {
 	int n = sz(s), l = 0, r = 0;
 	array<vi, 2> p = {vi(n+1), vi(n)};
 	rep(i, 0, n) rep(z, 0, 2) {

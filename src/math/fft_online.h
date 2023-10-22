@@ -6,9 +6,8 @@
 // Online convolution helper. Ensures that:
 // out[m] = sum { f(i)*g(m-i) : 1 <= i <= m-1 }
 // See usage example below.
-template<class F, class G>
 void onlineConv(vector<Zp>& out, int m,
-                F f, G g) {
+                auto f, auto g) {
 	int len = m & ~(m-1), b = m-len;
 	int e = min(m+len, sz(out));
 	auto apply = [&](auto r, auto s) {

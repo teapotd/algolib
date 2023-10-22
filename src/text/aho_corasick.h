@@ -55,7 +55,7 @@ struct Aho {
 	// when in state `i` with its ID as argument.
 	// Return true from `f` to terminate early.
 	// Calls are in descreasing length order.
-	template<class F> void accepted(int i, F f) {
+	void accepted(int i, auto f) {
 		while (i != -1) {
 			each(a, accept[i]) if (f(a)) return;
 			i = accLink[i];

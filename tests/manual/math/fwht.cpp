@@ -39,8 +39,9 @@ void test(F fast, G naive) {
 }
 
 int main() {
-	test(bitConv<ll>, naiveXorConv);
-	// test(bitConv<ll>, naiveAndConv);
-	// test(bitConv<ll>, naiveOrConv);
+	auto fastConv = [](auto& x, auto& y) { bitConv(x, y); };
+	test(fastConv, naiveXorConv);
+	// test(fastConv, naiveAndConv);
+	// test(fastConv, naiveOrConv);
 	return 0;
 }

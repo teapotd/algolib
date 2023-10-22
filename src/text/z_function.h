@@ -3,7 +3,7 @@
 
 // Computes Z function array; time: O(n)
 // zf[i] = max common prefix of str and str[i:]
-template<class T> vi prefPref(const T& str) {
+vi prefPref(auto& str) {
 	int n = sz(str), b = 0, e = 1;
 	vi zf(n);
 	rep(i, 1, n) {

@@ -5,8 +5,7 @@
 // given string and it's suffix array; O(n)
 // In order to compute suffix array use kmr.h
 // or suffix_array_linear.h
-template<class T>
-vi lcpArray(const T& str, const vi& sufs) {
+vi lcpArray(auto& str, vi& sufs) {
 	int n = sz(str), k = 0;
 	vi pos(n), lcp(n-1);
 	rep(i, 0, n) pos[sufs[i]] = i;

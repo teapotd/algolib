@@ -38,7 +38,7 @@ struct MCMF {
 	// is reachable from from source.
 	bool maxFlow(int src, int dst,
 	             flow_t& f, flow_t& c) {
-		flow_t i, m, d;
+		flow_t m;
 		f = c = 0;
 		each(v, G) each(e, v) e.flow = 0;
 
@@ -52,8 +52,8 @@ struct MCMF {
 		while (ch-- && it--)
 			rep(s, 0, sz(G)) if (pot[s] != INF)
 				each(e, G[s]) if (e.cap)
-					if ((d = pot[s]+e.cost) < pot[e.dst])
-						pot[e.dst] = d, ch = 1;
+					if ((m = pot[s]+e.cost) < pot[e.dst])
+						pot[e.dst] = m, ch = 1;
 		if (it < 0) return 0;
 	#endif
 
@@ -67,7 +67,7 @@ struct MCMF {
 		dist[src] = 0;
 
 		while (!Q.empty()) {
-			tie(d, i) = Q.top();
+			auto [d, i] = Q.top();
 			Q.pop();
 			if (d != -dist[i]) continue;
 			m = add[i];

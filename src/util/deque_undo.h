@@ -13,15 +13,13 @@
 // - rollback(t) - undo all operations after t
 // Assumes time() == 0 for empty DS.
 struct DequeUndo {
-	// Argument for insert(...) method of DS.
-	using T = tuple<int, int>;
 	DataStructure ds; // Configure DS type here.
-	vector<T> elems[2];
+	vector<tuple<int, int>> elems[2];
 	vector<pii> his = {{0,0}};
 
 	// Push object to front or back of deque,
 	// depending on side parameter.
-	void push(T val, bool side) {
+	void push(auto val, bool side) {
 		elems[side].pb(val);
 		doPush(0, side);
 	}
