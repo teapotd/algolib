@@ -3,4 +3,4 @@
 
 #include <ext/rope>
 using namespace __gnu_cxx;
-// rope<T> = implicit cartesian tree
+// rope<T> = persistent implicit cartesian tree
