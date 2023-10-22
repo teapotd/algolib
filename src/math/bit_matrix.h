@@ -4,7 +4,7 @@
 using ull = uint64_t;
 
 // Matrix over Z_2 (bits and xor)
-// TODO: arithmetic operations
+// TODO: arithmetic operations //!HIDE
 struct BitMatrix {
 	vector<ull> M;
 	int rows, cols, stride;
