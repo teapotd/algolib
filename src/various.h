@@ -6,6 +6,9 @@
 #pragma GCC optimize("Ofast,unroll-loops")
 #pragma GCC target("popcnt,avx,tune=native")
 
+// Exiting without calling destructors
+cout << flush; _Exit(0);
+
 // Clock
 while (clock() < duration*CLOCKS_PER_SEC)
 

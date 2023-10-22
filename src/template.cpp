@@ -9,20 +9,10 @@ using pii = pair<int,int>;
 #define x  first
 #define y  second
 
-#define rep(i,b,e) for(int i=(b); i<(e); i++)
-#define each(a,x)  for(auto& a : (x))
-#define all(x)     (x).begin(),(x).end()
-#define sz(x)      int((x).size())
-
-int main() {
-	cin.tie(0)->sync_with_stdio(0);
-	cout << fixed << setprecision(10);
-
-	// Don't call destructors:
-	cout << flush; _Exit(0);
-}
-
-// > Debug printer
+#define rep(i,b,e) for (int i=(b); i<(e); i++)
+#define each(a,x)  for (auto& a : (x))
+#define all(x)     (x).begin(), (x).end()
+#define sz(x)      (int)(x).size()
 
 #define PP(x,y) \
 	auto operator<<(auto& o, auto a) \
@@ -49,9 +39,13 @@ void DD(auto s, auto... k) {
 
 #define DBP(x...) void print() { DD(#x, x); }
 
-// > Stack trace on STL assert
+extern "C"
+	void __sanitizer_print_stack_trace(int);
 
-class SS { int x[0]; };
-extern "C" SS __sanitizer_print_stack_trace();
-#define __last_state \
-	}; SS x { __sanitizer_print_stack_trace()
+int main() {
+	#if __SANITIZE_ADDRESS__
+	signal(6, __sanitizer_print_stack_trace);
+	#endif
+	cin.tie(0)->sync_with_stdio(0);
+	cout << fixed << setprecision(10);
+}
