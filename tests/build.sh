@@ -7,7 +7,7 @@ if [ $# -ne 2 ]; then
 	exit 1
 fi
 
-FLAGS="-std=c++17 -fconcepts -DLOC"
+FLAGS="-std=c++20 -DLOC"
 FLAGS+=" -Wall -W -Wfatal-errors -Wshadow -Wlogical-op -Wconversion -Wfloat-equal"
 FLAGS+=" -Wformat=2 -Wcast-qual -Wcast-align -Wduplicated-cond"
 FLAGS+=" -Wno-misleading-indentation"

@@ -1,4 +1,4 @@
-b()( g++ -DLOC -O2 -std=c++17 -fconcepts      \
+b()( g++ -DLOC -O2 -std=c++20                 \
          -Wall -W -Wfatal-errors -Wconversion \
          -Wshadow -Wlogical-op -Wfloat-equal  \
          -o $1.e $@ )
