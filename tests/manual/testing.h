@@ -14,11 +14,11 @@ std::mt19937 rnd(1337);
 std::mt19937_64 rnd64(1337);
 
 int r(int l, int r) {
-	return (l + (rnd() % (r-l+1)));
+	return int(l + (rnd() % (r-l+1)));
 }
 
 int64_t rl(int64_t l, int64_t r) {
-	return (l + (rnd64() % (r-l+1)));
+	return int64_t(l + (rnd64() % (r-l+1)));
 }
 
 double rf(double l, double r) {
