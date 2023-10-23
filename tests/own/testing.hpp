@@ -126,6 +126,14 @@ namespace random_utils {
 		return values;
 	}
 
+	// Returns random string with characters from range [mn, mx].
+	string randString(char mn, char mx, int k) {
+		assert(k >= 0);
+		string str(k, '.');
+		randWithRepetitions(str.begin(), str.end(), mn, mx);
+		return str;
+	}
+
 	// Fills with K random values (without repetitions) from a range [mn, mx].
 	template<typename It, typename T>
 	std::enable_if_t<std::is_integral_v<T>> randDistinct(It begin, It end, T mn, T mx) {
