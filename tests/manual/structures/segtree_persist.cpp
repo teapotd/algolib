@@ -30,6 +30,18 @@ struct NaivePlus {
 		}
 		return ret;
 	}
+
+	int lowerBound(auto f) {
+		Agg x;
+		rep(i, 0, sz(elems)) {
+			if (f(x)) return i;
+			x.sum += elems[i];
+			if (x.vMax < elems[i]) x.nMax = 1;
+			else if (x.vMax == elems[i]) x.nMax++;
+			x.vMax = max(x.vMax, elems[i]);
+		}
+		return f(x) ? sz(elems) : -1;
+	}
 };
 
 template<class Fast, class Naive>
@@ -43,38 +55,48 @@ void test(int n, int times) {
 
 	rep(t, 0, times) {
 		int ver = versions[r(0, sz(versions)-1)];
+		{
+			int b = r(0, n-1), e = r(0, n-1);
+			if (b >= e) swap(b, e);
+			e++;
 
-		int b = r(0, n-1), e = r(0, n-1);
-		if (b >= e) swap(b, e);
-		e++;
+			auto expected = naive[ver].query(b, e);
+			auto got = tree.query(ver, b, e);
 
-		auto expected = naive[ver].query(b, e);
-		auto got = tree.query(ver, b, e);
+			// deb(ver, b, e);
+			// deb(got.sum, got.vMax, got.nMax);
+			// deb(expected.sum, expected.vMax, expected.nMax);
 
-		// deb(ver, b, e);
-		// deb(got.sum, got.vMax, got.nMax);
-		// deb(expected.sum, expected.vMax, expected.nMax);
-
-		assert(got.sum == expected.sum);
-		assert(got.vMax == expected.vMax);
-		assert(got.nMax == expected.nMax);
-
-		if (r(0, 1)) {
-			int newVer = tree.fork(ver);
-			assert(naive.count(newVer) == 0);
-			naive[newVer] = naive[ver];
-			versions.pb(newVer);
-			ver = newVer;
+			assert(got.sum == expected.sum);
+			assert(got.vMax == expected.vMax);
+			assert(got.nMax == expected.nMax);
 		}
+		{
+			int lbQuery = naive[ver].query(0, r(0, n)).vMax + r(-5, 5);
+			auto lambda = [&](auto x) { return x.vMax >= lbQuery; };
+			auto expected = naive[ver].lowerBound(lambda);
+			auto got = tree.lowerBound(ver, lambda);
+			// deb(naive[ver].elems, lbQuery, expected, got);
+			assert(expected == got);
+		}
+		{
+			if (r(0, 1)) {
+				int newVer = tree.fork(ver);
+				assert(naive.count(newVer) == 0);
+				naive[newVer] = naive[ver];
+				versions.pb(newVer);
+				ver = newVer;
+			}
 
-		b = r(0, n-1), e = r(0, n-1);
-		if (b >= e) swap(b, e);
-		e++;
+			int b = r(0, n-1), e = r(0, n-1);
+			if (b >= e) swap(b, e);
+			e++;
 
-		int val = r(-5, 5);
-		// deb(ver, b, e, val);
-		naive[ver].update(b, e, val);
-		tree.update(ver, b, e, val);
+			int val = r(-5, 5);
+			// deb(ver, b, e, val);
+			naive[ver].update(b, e, val);
+			tree.update(ver, b, e, val);
+		}
 	}
 }
 

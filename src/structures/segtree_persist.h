@@ -17,20 +17,28 @@ struct SegTree {
 
 	// Initialize tree for n elements; O(lg n)
 	SegTree(int n = 0) {
-		int k = 1;
-		while (len < n) len *= 2, k++;
+		int k = 3;
+		while (len < n) len *= 2, k += 3;
 
 		agg.resize(k);
 		lazy.resize(k, ID);
 		cow.resize(k, 1);
 		L.resize(k);
 		R.resize(k);
-		agg[--k].leaf();
+		if (!n--) return;
 
-		while (k--) {
-			(agg[k] = agg[k+1]).merge(agg[k+1]);
-			L[k] = R[k] = k+1;
+		k -= 3;
+		agg[k].leaf();
+		agg[k+1].leaf();
+		rep(i, 0, k) L[i] = R[i] = i+3;
+
+		for (int i = k-3; i >= 0; i -= 3, n /= 2) {
+			if (n % 2) L[i] = i+4;
+			else R[i] = i+5;
 		}
+
+		while (k--)
+			(agg[k] = agg[L[k]]).merge(agg[R[k]]);
 	}
 
 	// New version from version `i`; time: O(1)
@@ -86,5 +94,22 @@ struct SegTree {
 		Agg t = query(L[i], vb, ve, b, m);
 		t.merge(query(R[i], vb, ve, m, e));
 		return t;
+	}
+
+	// Find smallest `j` such that
+	// f(aggregate of [0,j)) is true
+	// in tree version `i`; time: O(lg n)
+	// The function `f` must be monotonic.
+	int lowerBound(int i, auto f) {
+		if (!f(agg[i])) return -1;
+		Agg x, s;
+		int p = 0, k = len;
+		while (L[i]) {
+			push(i, k, 0);
+			(s = x).merge(agg[L[i]]);
+			k /= 2;
+			i = f(s) ? L[i] : (p += k, R[i]);
+		}
+		return p + !f(x);
 	}
 };
