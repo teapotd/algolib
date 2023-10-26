@@ -35,7 +35,7 @@
 		// - update lazy tag `lazy`
 		// - `size` is amount of elements
 		// - return 0 if update should branch
-		//   (to be used in "segement tree beats")
+		//   (can be used in "segment tree beats")
 		// - if you change value of `x` changed
 		//   value will be passed to next node
 		//   to the right during updates
@@ -101,7 +101,7 @@
 	// Lazy tag is pair (add, min).
 	// To add x: run update with {x, INT_MAX},
 	// to min x: run update with {0, x}.
-	// When both parts are provided addition
+	// If both parts are provided, addition
 	// is applied first, then minimum.
 	using T = pii;
 	static constexpr T ID = {0, INT_MAX};
@@ -130,12 +130,10 @@
 		bool apply(T& lazy, T& x, int size) {
 			if (max2 != INT_MIN && max2+x.x >= x.y)
 				return 0;
-
 			lazy.x += x.x;
 			sum += x.x*size;
 			vMax += x.x;
 			if (max2 != INT_MIN) max2 += x.x;
-
 			if (x.y < vMax) {
 				sum -= (vMax-x.y) * nMax;
 				vMax = x.y;

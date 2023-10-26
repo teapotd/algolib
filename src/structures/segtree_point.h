@@ -11,11 +11,11 @@ struct SegTree {
 	T f(T a, T b) { return max(a, b); }
 
 	vector<T> V;
-	int len;
+	int len{1};
 
 	// Initialize tree for n elements; time: O(n)
 	SegTree(int n = 0, T def = 0) {
-		for (len = 1; len < n; len *= 2);
+		while (len < n) len *= 2;
 		V.resize(len*2, ID);
 		rep(i, 0, n) V[len+i] = def;
 		for (int i = len; --i;)
@@ -40,5 +40,19 @@ struct SegTree {
 			b /= 2; e /= 2;
 		}
 		return f(x, y);
+	}
+
+	// Find smallest i such that
+	// f(A[0],...,A[i-1]) >= val; time: O(lg n)
+	// Prefixes must have non-descreasing values.
+	int lowerBound(T val) {
+		if (V[1] < val) return -1;
+		T x = ID;
+		int i = 1;
+		while (i < len) {
+			T s = f(x, V[i *= 2]);
+			if (s < val) x = s, i++;
+		}
+		return i - len + (x < val);
 	}
 };

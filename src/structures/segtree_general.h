@@ -24,11 +24,10 @@ struct SegTree {
 	}
 
 	void push(int i, int s) {
-		if (lazy[i] != ID) {
-			agg[i*2].apply(lazy[i*2], lazy[i], s/2);
-			agg[i*2+1].apply(lazy[i*2+1],
-			                 lazy[i], s/2);
-			lazy[i] = ID;
+		if (T& x = lazy[i]; x != ID) {
+			rep(c, 0, 2)
+				agg[i*2+c].apply(lazy[i*2+c], x, s/2);
+			x = ID;
 		}
 	}
 
@@ -62,5 +61,22 @@ struct SegTree {
 		Agg t = query(vb, ve, i*2, b, m);
 		t.merge(query(vb, ve, i*2+1, m, e));
 		return t;
+	}
+
+	// Find smallest `j` such that
+	// f(aggregate of [0,j)) is true; O(lg n)
+	// The function `f` must be monotonic.
+	// Returns -1 if no such prefix exists.
+	int lowerBound(auto f) {
+		if (!f(agg[1])) return -1;
+		Agg x, s;
+		int i = 1, k = len;
+		while (i < len) {
+			push(i, k);
+			(s = x).merge(agg[i *= 2]);
+			if (!f(s)) x = s, i++;
+			k /= 2;
+		}
+		return i - len + !f(x);
 	}
 };

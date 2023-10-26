@@ -24,6 +24,22 @@ bool checkQuery(int begin, int end) {
 	return true;
 }
 
+bool checkLowerBound(int val) {
+	int expected = -1, cur = INT_MIN;
+	rep(i, 0, LEN+1) {
+		if (cur >= val) {
+			expected = i;
+			break;
+		}
+		if (i < LEN) {
+			cur = max(cur, elems[i]);
+		}
+	}
+
+	int got = tree.lowerBound(val);
+	return expected == got;
+}
+
 int main() {
 	tree = {LEN, 0};
 
@@ -35,7 +51,10 @@ int main() {
 		tree.set(pos, val);
 
 		rep(b, 0, LEN) rep(e, 0, LEN+1) {
-			if (!checkQuery(b, e)) return 1;
+			assert(checkQuery(b, e));
+		}
+		rep(v, -1, tree.V[1]+5) {
+			assert(checkLowerBound(v));
 		}
 	}
 	

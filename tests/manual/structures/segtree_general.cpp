@@ -30,6 +30,18 @@ struct NaivePlus {
 		}
 		return ret;
 	}
+
+	int lowerBound(auto f) {
+		Agg x;
+		rep(i, 0, sz(elems)) {
+			if (f(x)) return i;
+			x.sum += elems[i];
+			if (x.vMax < elems[i]) x.nMax = 1;
+			else if (x.vMax == elems[i]) x.nMax++;
+			x.vMax = max(x.vMax, elems[i]);
+		}
+		return f(x) ? sz(elems) : -1;
+	}
 };
 
 template<class Fast, class Naive>
@@ -38,29 +50,40 @@ void test(int n, int times) {
 	Naive naive(n);
 
 	rep(t, 0, times) {
-		int b = r(0, n-1), e = r(0, n-1);
-		if (b >= e) swap(b, e);
-		e++;
+		{
+			int b = r(0, n-1), e = r(0, n-1);
+			if (b >= e) swap(b, e);
+			e++;
 
-		auto expected = naive.query(b, e);
-		auto got = tree.query(b, e);
+			auto expected = naive.query(b, e);
+			auto got = tree.query(b, e);
 
-		// deb(b, e);
-		// deb(got.sum, got.vMax, got.nMax);
-		// deb(expected.sum, expected.vMax, expected.nMax);
+			// deb(b, e);
+			// deb(got.sum, got.vMax, got.nMax);
+			// deb(expected.sum, expected.vMax, expected.nMax);
 
-		assert(got.sum == expected.sum);
-		assert(got.vMax == expected.vMax);
-		assert(got.nMax == expected.nMax);
+			assert(got.sum == expected.sum);
+			assert(got.vMax == expected.vMax);
+			assert(got.nMax == expected.nMax);
+		}
+		{
+			int lbQuery = naive.query(0, r(0, n)).vMax + r(-5, 5);
+			auto lambda = [&](auto x) { return x.vMax >= lbQuery; };
+			auto expected = naive.lowerBound(lambda);
+			auto got = tree.lowerBound(lambda);
+			// deb(naive.elems, lbQuery, expected, got);
+			assert(expected == got);
+		}
+		{
+			int b = r(0, n-1), e = r(0, n-1);
+			if (b >= e) swap(b, e);
+			e++;
 
-		b = r(0, n-1), e = r(0, n-1);
-		if (b >= e) swap(b, e);
-		e++;
-
-		int val = r(-5, 5);
-		// deb(b, e, val);
-		naive.update(b, e, val);
-		tree.update(b, e, val);
+			int val = r(-5, 5);
+			// deb(b, e, val);
+			naive.update(b, e, val);
+			tree.update(b, e, val);
+		}
 	}
 }
 
