@@ -1,15 +1,14 @@
 #pragma once
 #include "../template.h"
 
-// Segment tree (point, interval)
-// Configure by modifying:
+// Segment tree (point update, interval query)
 // - T - stored data type
 // - ID - neutral element for query operation
-// - f(a, b) - combine results
+// - f(a, b) - associative aggregate function
 struct SegTree {
 	using T = int;
 	static constexpr T ID = INT_MIN;
-	T f(T a, T b) { return max(a,b); }
+	T f(T a, T b) { return max(a, b); }
 
 	vector<T> V;
 	int len;
@@ -26,8 +25,7 @@ struct SegTree {
 	// Set element `i` to `val`; time: O(lg n)
 	void set(int i, T val) {
 		V[i += len] = val;
-		while (i /= 2)
-			V[i] = f(V[i*2], V[i*2+1]);
+		while (i /= 2) V[i] = f(V[i*2], V[i*2+1]);
 	}
 
 	// Query interval [b;e); time: O(lg n)
@@ -35,13 +33,12 @@ struct SegTree {
 		b += len; e += len-1;
 		if (b > e)  return ID;
 		if (b == e) return V[b];
-		T x = f(V[b], V[e]);
-
+		T x = V[b], y = V[e];
 		while (b/2 < e/2) {
 			if (~b&1) x = f(x, V[b^1]);
-			if (e&1)  x = f(x, V[e^1]);
+			if (e&1)  y = f(V[e^1], y);
 			b /= 2; e /= 2;
 		}
-		return x;
+		return f(x, y);
 	}
 };
