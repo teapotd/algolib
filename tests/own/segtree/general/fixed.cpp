@@ -1,6 +1,6 @@
-#include "general_config_mock.hpp"
-#include "../../../src/segtree/general_fixed.h"
-#include "../testing.hpp"
+#include "config_mock.hpp"
+#include "../../../../src/segtree/general_fixed.h"
+#include "../../testing.hpp"
 
 struct VerifiedSegTree {
 	int n;

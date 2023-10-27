@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cassert>
-#include "../testing_hashing.h"
+#include "../../testing_hashing.h"
 
 // Mock implementation of segment tree config.
 // Each element of the tree is a hash of sequence of applied updates.

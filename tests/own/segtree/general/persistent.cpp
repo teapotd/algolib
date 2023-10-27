@@ -1,6 +1,6 @@
-#include "point_config_mock.hpp"
-#include "../../../src/segtree/point_persistent.h"
-#include "../testing.hpp"
+#include "config_mock.hpp"
+#include "../../../../src/segtree/general_persistent.h"
+#include "../../testing.hpp"
 
 struct VerifiedSegTree {
 	int n;
@@ -29,16 +29,16 @@ struct VerifiedSegTree {
 		return j;
 	}
 
-	void set(int i, int j) {
+	void update(int i, int b, int e) {
 		assert(naive.count(i));
 		T val = randInt(0, 1e9);
-		tree.set(i, j, val);
-		naive[i].set(j, val);
+		tree.update(i, b, e, val);
+		naive[i].update(b, e, val);
 	}
 
 	void checkQuery(int i, int b, int e) {
 		assert(naive.count(i));
-		auto got = tree.query(i, b, e);
+		auto got = tree.query(i, b, e).seq;
 		auto exp = naive[i].query(b, e);
 		if (got != exp) {
 			deb(n, i, b, e);
@@ -58,7 +58,7 @@ struct VerifiedSegTree {
 
 	void checkLowerBound(int i, int k) {
 		int got = tree.lowerBound(i, [&](auto agg) {
-			return agg.size >= k;
+			return int(agg.seq.size()) >= k;
 		});
 		int exp = (k <= n ? max(k, 0) : -1);
 		if (got != exp) {
@@ -77,16 +77,24 @@ struct VerifiedSegTree {
 void deterministic() {
 	VerifiedSegTree tree;
 	tree.checkQueries(0, 0, 5, -5, 0);
+	int j = tree.fork(0);
+	tree.update(j, 0, 0);
+	tree.checkQueries(0, 0, 5, -5, 0);
+	tree.checkQueries(j, 0, 5, -5, 0);
 	tree.checkLowerBounds(0);
 
 	tree = {0};
 	tree.checkQueries(0, 0, 5, -5, 0);
+	j = tree.fork(0);
+	tree.update(j, 0, 0);
+	tree.checkQueries(0, 0, 5, -5, 0);
+	tree.checkQueries(j, 0, 5, -5, 0);
 	tree.checkLowerBounds(0);
 
 	tree = {1};
 	tree.checkQueries(0, 0, 5, -5, 1);
-	int j = tree.fork(0);
-	tree.set(j, 0);
+	j = tree.fork(0);
+	tree.update(j, 0, 1);
 	tree.checkQueries(0, 0, 5, -5, 1);
 	tree.checkQueries(j, 0, 5, -5, 1);
 	tree.checkLowerBounds(0);
@@ -98,15 +106,16 @@ void deterministic() {
 }
 
 void fuzz() {
-	int n = randInt(1, 2000);
+	int n = randInt(1, 500);
 	VerifiedSegTree tree(n);
 	tree.checkLowerBounds(0);
 
-	for (int op = 0; op < 200000; op++) {
+	for (int op = 0; op < 50000; op++) {
 		int ver = tree.randVersion();
 		if (randBool()) {
-			int j = randInt(0, n-1);
-			tree.set(ver, j);
+			int b = randInt(0, n);
+			int e = randInt(0, n);
+			tree.update(ver, b, e);
 		} else if (randBool()) {
 			int b = randInt(0, n);
 			int e = randInt(0, n);
