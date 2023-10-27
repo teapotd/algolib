@@ -300,7 +300,12 @@ void runInfiniteFuzzing() {
 	}
 }
 
+extern "C" void __sanitizer_print_stack_trace(int);
+
 int main(int argc, char *argv[]) {
+	#if __SANITIZE_ADDRESS__
+	signal(6, __sanitizer_print_stack_trace);
+	#endif
 	std::string mode = (argc < 2 ? "deterministic" : argv[1]);
 	if (mode == "deterministic") {
 		deterministic();
