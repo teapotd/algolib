@@ -23,7 +23,8 @@ struct Naive {
 	}
 
 	T query(int b, int e) {
-		// Query should work with out-of-range intervals.
+		// Empty interval or within valid range.
+		assert(b >= e || (b >= 0 && e <= int(seq.size())));
 		b = std::max(b, 0);
 		e = std::min(e, int(seq.size()));
 		T ret;

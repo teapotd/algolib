@@ -52,9 +52,8 @@ struct Naive {
 	}
 
 	std::vector<T> query(int vb, int ve) {
-		// Query should work with out-of-range intervals.
-		vb = std::max(vb, 0);
-		ve = std::min(ve, int(seq.size()));
+		// Empty interval or within valid range.
+		assert(vb >= ve || (vb >= 0 && ve <= int(seq.size())));
 		if (vb >= ve) return {};
 		return {seq.begin()+vb, seq.begin()+ve};
 	}

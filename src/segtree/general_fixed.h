@@ -30,7 +30,6 @@ struct SegTree {
 	}
 
 	// Modify interval [vb;ve) with val; O(lg n)
-	// [vb;ve) is assumed to be within [0;n).
 	T update(int vb, int ve, T val, int i = 1,
 	         int b = 0, int e = 0) {
 		if (!e) e = len;

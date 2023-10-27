@@ -55,21 +55,21 @@ struct VerifiedSegTree {
 
 void deterministic() {
 	VerifiedSegTree tree;
-	tree.checkQueries(-5, 5, -5, 5);
+	tree.checkQueries(0, 5, -5, 0);
 	tree.update(0, 0);
-	tree.checkQueries(-5, 5, -5, 5);
+	tree.checkQueries(0, 5, -5, 0);
 	tree.checkLowerBounds();
 
 	tree = {0};
-	tree.checkQueries(-5, 5, -5, 5);
+	tree.checkQueries(0, 5, -5, 0);
 	tree.update(0, 0);
-	tree.checkQueries(-5, 5, -5, 5);
+	tree.checkQueries(0, 5, -5, 0);
 	tree.checkLowerBounds();
 
 	tree = {1};
-	tree.checkQueries(-5, 5, -5, 5);
+	tree.checkQueries(0, 5, -5, 1);
 	tree.update(0, 1);
-	tree.checkQueries(-5, 5, -5, 5);
+	tree.checkQueries(0, 5, -5, 1);
 	tree.checkLowerBounds();
 
 	rep(n, 2, 100) {
@@ -89,8 +89,8 @@ void fuzz() {
 			int e = randInt(0, n);
 			tree.update(b, e);
 		} else if (randBool()) {
-			int b = randInt(-10, n+10);
-			int e = randInt(-10, n+10);
+			int b = randInt(0, n);
+			int e = randInt(0, n);
 			tree.checkQuery(b, e);
 		} else {
 			int k = randInt(0, n+1);

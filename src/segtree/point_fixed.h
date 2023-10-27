@@ -33,9 +33,8 @@ struct SegTree {
 	// Query interval [b;e); time: O(lg n)
 	T query(int b, int e) {
 		T x = ID, y = ID;
-		b = max(b, 0) + len;
-		e = min(e, len) + len;
-		for (; b < e; b /= 2, e /= 2) {
+		b += len;
+		for (e += len; b < e; b /= 2, e /= 2) {
 			if (b % 2) x = f(x, V[b++]);
 			if (e % 2) y = f(V[--e], y);
 		}
