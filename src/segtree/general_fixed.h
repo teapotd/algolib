@@ -2,11 +2,10 @@
 #include "../template.h"
 
 // Highly configurable statically allocated
-// (interval; interval) segment tree;
-// space: O(n)
+// interval-interval segment tree; space: O(n)
 struct SegTree {
 	// Choose/write configuration
-	#include "segtree_config.h"
+	#include "general_config.h"
 
 	// Root node is 1, left is i*2, right i*2+1
 	vector<Agg> agg; // Aggregated data for nodes

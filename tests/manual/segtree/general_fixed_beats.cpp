@@ -1,5 +1,5 @@
 #define TREE_BEATS 1
-#include "../../../src/structures/segtree_general.h"
+#include "../../../src/segtree/general_fixed.h"
 #include "../testing.h"
 
 struct Checker {

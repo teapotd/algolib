@@ -1,5 +1,5 @@
 #define TREE_PLUS 1
-#include "../../../src/structures/segtree_general.h"
+#include "../../../src/segtree/general_persistent.h"
 #include "../testing.h"
 
 struct NaivePlus {
@@ -47,18 +47,23 @@ struct NaivePlus {
 template<class Fast, class Naive>
 void test(int n, int times) {
 	Fast tree(n);
-	Naive naive(n);
+	map<int, Naive> naive;
+	vi versions;
+
+	naive[0] = Naive(n);
+	versions.pb(0);
 
 	rep(t, 0, times) {
+		int ver = versions[r(0, sz(versions)-1)];
 		{
 			int b = r(0, n-1), e = r(0, n-1);
 			if (b >= e) swap(b, e);
 			e++;
 
-			auto expected = naive.query(b, e);
-			auto got = tree.query(b, e);
+			auto expected = naive[ver].query(b, e);
+			auto got = tree.query(ver, b, e);
 
-			// deb(b, e);
+			// deb(ver, b, e);
 			// deb(got.sum, got.vMax, got.nMax);
 			// deb(expected.sum, expected.vMax, expected.nMax);
 
@@ -67,22 +72,30 @@ void test(int n, int times) {
 			assert(got.nMax == expected.nMax);
 		}
 		{
-			int lbQuery = naive.query(0, r(0, n)).vMax + r(-5, 5);
+			int lbQuery = naive[ver].query(0, r(0, n)).vMax + r(-5, 5);
 			auto lambda = [&](auto x) { return x.vMax >= lbQuery; };
-			auto expected = naive.lowerBound(lambda);
-			auto got = tree.lowerBound(lambda);
-			// deb(naive.elems, lbQuery, expected, got);
+			auto expected = naive[ver].lowerBound(lambda);
+			auto got = tree.lowerBound(ver, lambda);
+			// deb(naive[ver].elems, lbQuery, expected, got);
 			assert(expected == got);
 		}
 		{
+			if (r(0, 1)) {
+				int newVer = tree.fork(ver);
+				assert(naive.count(newVer) == 0);
+				naive[newVer] = naive[ver];
+				versions.pb(newVer);
+				ver = newVer;
+			}
+
 			int b = r(0, n-1), e = r(0, n-1);
 			if (b >= e) swap(b, e);
 			e++;
 
 			int val = r(-5, 5);
-			// deb(b, e, val);
-			naive.update(b, e, val);
-			tree.update(b, e, val);
+			// deb(ver, b, e, val);
+			naive[ver].update(b, e, val);
+			tree.update(ver, b, e, val);
 		}
 	}
 }
@@ -90,7 +103,7 @@ void test(int n, int times) {
 template<class Fast, class Naive>
 void test() {
 	for (int n = 1; n < 1000; n += 10) {
-		test<Fast, Naive>(n, 8000);
+		test<Fast, Naive>(n, 2000);
 	}
 }
 

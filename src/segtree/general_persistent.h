@@ -1,13 +1,12 @@
 #pragma once
 #include "../template.h"
 
-// Highly configurable (interval; interval)
-// persistent segment tree;
-// space: O(queries lg n)
+// Highly configurable interval-interval
+// persistent segment tree; space: O(q lg n)
 // First tree version number is 0.
 struct SegTree {
 	// Choose/write configuration
-	#include "segtree_config.h"
+	#include "general_config.h"
 
 	vector<Agg> agg; // Aggregated data for nodes
 	vector<T> lazy;  // Lazy tags for nodes

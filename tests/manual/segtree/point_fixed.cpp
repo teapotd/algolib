@@ -1,4 +1,4 @@
-#include "../../../src/structures/segtree_point.h"
+#include "../../../src/segtree/point_fixed.h"
 #include "../testing.h"
 
 constexpr int LEN = 100;

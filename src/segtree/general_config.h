@@ -1,5 +1,5 @@
 // Segment tree configurations to be used
-// in segtree_general and segtree_persistent.
+// in general_fixed and general_persistent.
 // See comments in TREE_PLUS version
 // to understand how to create custom ones.
 // Capabilities notation: (update; query)
