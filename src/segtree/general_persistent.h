@@ -8,11 +8,11 @@ struct SegTree {
 	// Choose/write configuration
 	#include "general_config.h"
 
-	vector<Agg> agg; // Aggregated data for nodes
-	vector<T> lazy;  // Lazy tags for nodes
+	vector<Agg> agg;  // Aggregated data
+	vector<T> lazy;   // Lazy tags
 	vector<bool> cow; // Copy children on push?
-	vi L, R;         // Children links
-	int len{1};      // Number of leaves
+	vi L, R;          // Children links
+	int len{1};       // Number of leaves
 
 	// Initialize tree for n elements; O(lg n)
 	SegTree(int n = 0) {
@@ -26,8 +26,7 @@ struct SegTree {
 		R.resize(k);
 		if (!n--) return;
 
-		k -= 3;
-		agg[k].leaf();
+		agg[k -= 3].leaf();
 		agg[k+1].leaf();
 		rep(i, 0, k) L[i] = R[i] = i+3;
 
@@ -41,7 +40,6 @@ struct SegTree {
 	}
 
 	// New version from version `i`; time: O(1)
-	// First version number is 0.
 	int fork(int i) {
 		L.pb(L[i]); R.pb(R[i]); cow.pb(cow[i] = 1);
 		agg.pb(agg[i]); lazy.pb(lazy[i]);
@@ -51,8 +49,8 @@ struct SegTree {
 	void push(int i, int s, bool w) {
 		bool has = (lazy[i] != ID);
 		if ((has || w) && cow[i]) {
-			int a = fork(L[i]), b = fork(R[i]);
-			L[i] = a; R[i] = b; cow[i] = 0;
+			int x = fork(L[i]), y = fork(R[i]);
+			L[i] = x; R[i] = y; cow[i] = 0;
 		}
 		if (has) {
 			agg[L[i]].apply(lazy[L[i]],lazy[i],s/2);

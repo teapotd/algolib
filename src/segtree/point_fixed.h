@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-// Segment tree (point update, interval query)
+// Point-interval segment tree
 // - T - stored data type
 // - ID - neutral element for query operation
 // - f(a, b) - associative aggregate function
@@ -42,17 +42,18 @@ struct SegTree {
 		return f(x, y);
 	}
 
-	// Find smallest i such that
-	// f(A[0],...,A[i-1]) >= val; time: O(lg n)
+	// Find smallest j such that
+	// f(A[0],...,A[j-1]) >= val; time: O(lg n)
 	// Prefixes must have non-descreasing values.
+	// Returns -1 if no such prefix exists.
 	int lowerBound(T val) {
 		if (V[1] < val) return -1;
 		T x = ID;
-		int i = 1;
-		while (i < len) {
-			T s = f(x, V[i *= 2]);
-			if (s < val) x = s, i++;
+		int j = 1;
+		while (j < len) {
+			T s = f(x, V[j *= 2]);
+			if (s < val) x = s, j++;
 		}
-		return i - len + (x < val);
+		return j - len + (x < val);
 	}
 };
