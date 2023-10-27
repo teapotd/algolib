@@ -18,8 +18,8 @@ struct SegTree {
 	// Initialize tree for n elements; time: O(n)
 	SegTree(int n = 0, T def = 0) {
 		while (len < n) len *= 2;
+		V.resize(len+n, def);
 		V.resize(len*2, ID);
-		rep(i, 0, n) V[len+i] = def;
 		for (int i = len; --i;)
 			V[i] = f(V[i*2], V[i*2+1]);
 	}
@@ -32,15 +32,12 @@ struct SegTree {
 
 	// Query interval [b;e); time: O(lg n)
 	T query(int b, int e) {
+		T x = ID, y = ID;
 		b = max(b, 0) + len;
-		e = min(e, len) + len - 1;
-		if (b > e)  return ID;
-		if (b == e) return V[b];
-		T x = V[b], y = V[e];
-		while (b/2 < e/2) {
-			if (~b&1) x = f(x, V[b^1]);
-			if (e&1)  y = f(V[e^1], y);
-			b /= 2; e /= 2;
+		e = min(e, len) + len;
+		for (; b < e; b /= 2, e /= 2) {
+			if (b % 2) x = f(x, V[b++]);
+			if (e % 2) y = f(V[--e], y);
 		}
 		return f(x, y);
 	}
@@ -51,12 +48,10 @@ struct SegTree {
 	// Returns -1 if no such prefix exists.
 	int lowerBound(auto g) {
 		if (!g(V[1])) return -1;
-		T x = ID;
+		T s, x = ID;
 		int j = 1;
-		while (j < len) {
-			T s = f(x, V[j *= 2]);
-			if (!g(s)) x = s, j++;
-		}
+		while (j < len)
+			if (!g(s = f(x, V[j *= 2]))) x = s, j++;
 		return j - len + !g(x);
 	}
 };

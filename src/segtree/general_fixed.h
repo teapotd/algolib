@@ -23,18 +23,17 @@ struct SegTree {
 	}
 
 	void push(int i, int s) {
-		if (T& x = lazy[i]; x != ID) {
-			rep(c, 0, 2)
-				agg[i*2+c].apply(lazy[i*2+c], x, s/2);
-			x = ID;
-		}
+		rep(c, 0, 2)
+			agg[i*2+c].apply(lazy[i*2+c],
+			                 lazy[i], s/2);
+		lazy[i] = ID;
 	}
 
 	// Modify interval [vb;ve) with val; O(lg n)
 	// [vb;ve) is assumed to be within [0;n).
 	T update(int vb, int ve, T val, int i = 1,
-	         int b = 0, int e = -1) {
-		if (e < 0) e = len;
+	         int b = 0, int e = 0) {
+		if (!e) e = len;
 		if (vb >= e || b >= ve) return val;
 
 		if (b >= vb && e <= ve &&
@@ -51,8 +50,8 @@ struct SegTree {
 
 	// Query interval [vb;ve); time: O(lg n)
 	Agg query(int vb, int ve, int i = 1,
-	          int b = 0, int e = -1) {
-		if (e < 0) e = len;
+	          int b = 0, int e = 0) {
+		if (!e) e = len;
 		if (vb >= e || b >= ve) return {};
 		if (b >= vb && e <= ve) return agg[i];
 
@@ -71,11 +70,10 @@ struct SegTree {
 		if (!g(agg[1])) return -1;
 		Agg x, s;
 		int i = 1, k = len;
-		while (i < len) {
+		for (; i < len; k /= 2) {
 			push(i, k);
 			(s = x).merge(agg[i *= 2]);
 			if (!g(s)) x = s, i++;
-			k /= 2;
 		}
 		return i - len + !g(x);
 	}

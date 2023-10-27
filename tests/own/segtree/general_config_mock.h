@@ -23,13 +23,15 @@ struct Agg {
 	}
 
 	bool apply(T& lazy, T& x, int size) {
-		// The following assertion doesn't hold for out-of-range nodes,
-		// but we don't allow applying updates to them.
-		assert(size == int(seq.size()));
-		lazy = x.cat(lazy);
-		for (T& elem : seq) {
-			elem = x.cat(elem);
-			x = x.offset(1);
+		if (x != ID) {
+			// The following assertion doesn't hold for out-of-range nodes,
+			// but we don't allow applying updates to them.
+			assert(size == int(seq.size()));
+			lazy = x.cat(lazy);
+			for (T& elem : seq) {
+				elem = x.cat(elem);
+				x = x.offset(1);
+			}
 		}
 		return 1;
 	}

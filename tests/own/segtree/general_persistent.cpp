@@ -106,11 +106,11 @@ void deterministic() {
 }
 
 void fuzz() {
-	int n = randInt(1, 100);
+	int n = randInt(1, 500);
 	VerifiedSegTree tree(n);
 	tree.checkLowerBounds(0);
 
-	for (int op = 0; op < 10000; op++) {
+	for (int op = 0; op < 50000; op++) {
 		int ver = tree.randVersion();
 		if (randBool()) {
 			int b = randInt(0, n);

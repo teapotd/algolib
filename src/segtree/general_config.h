@@ -88,10 +88,12 @@
 		}
 
 		bool apply(T& lazy, T& x, int size) {
-			lazy = x;
-			sum = x*size;
-			vMax = x;
-			nMax = size;
+			if (x != ID) {
+				lazy = x;
+				sum = x*size;
+				vMax = x;
+				nMax = size;
+			}
 			return 1;
 		}
 	};
