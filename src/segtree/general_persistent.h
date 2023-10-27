@@ -106,7 +106,7 @@ struct SegTree {
 			push(i, k, 0);
 			(s = x).merge(agg[L[i]]);
 			k /= 2;
-			i = f(s) ? L[i] : (p += k, R[i]);
+			i = f(s) ? L[i] : (x = s, p += k, R[i]);
 		}
 		return p + !f(x);
 	}

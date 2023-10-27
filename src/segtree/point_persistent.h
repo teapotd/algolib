@@ -90,7 +90,7 @@ struct SegTree {
 		while (L[i]) {
 			T s = f(x, agg[L[i]]);
 			k /= 2;
-			i = s < val ? (p += k, R[i]) : L[i];
+			i = s < val ? (x=s, p += k, R[i]) : L[i];
 		}
 		return p + (x < val);
 	}

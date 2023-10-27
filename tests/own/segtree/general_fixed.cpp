@@ -20,7 +20,7 @@ struct VerifiedSegTree {
 		auto got = tree.query(b, e).seq;
 		auto exp = naive.query(b, e);
 		if (got != exp) {
-			deb(b, e);
+			deb(n, b, e);
 			deb(got);
 			deb(exp);
 			assert(0);
@@ -41,7 +41,7 @@ struct VerifiedSegTree {
 		});
 		int exp = (k <= n ? max(k, 0) : -1);
 		if (got != exp) {
-			deb(k, got, exp);
+			deb(n, k, got, exp);
 			assert(0);
 		}
 	}
