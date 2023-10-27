@@ -1,4 +1,4 @@
-#include "point_config_mock.h"
+#include "point_config_mock.hpp"
 #include "../../../src/segtree/point_persistent.h"
 #include "../testing.hpp"
 

@@ -1,4 +1,4 @@
-#include "general_config_mock.h"
+#include "general_config_mock.hpp"
 #include "../../../src/segtree/general_persistent.h"
 #include "../testing.hpp"
 
