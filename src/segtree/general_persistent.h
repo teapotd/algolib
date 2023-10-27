@@ -95,19 +95,20 @@ struct SegTree {
 	}
 
 	// Find smallest `j` such that
-	// f(aggregate of [0,j)) is true
+	// g(aggregate of [0,j)) is true
 	// in tree version `i`; time: O(lg n)
-	// The function `f` must be monotonic.
-	int lowerBound(int i, auto f) {
-		if (!f(agg[i])) return -1;
+	// The function `g` must be monotonic.
+	// Returns -1 if no such prefix exists.
+	int lowerBound(int i, auto g) {
+		if (!g(agg[i])) return -1;
 		Agg x, s;
 		int p = 0, k = len;
 		while (L[i]) {
 			push(i, k, 0);
 			(s = x).merge(agg[L[i]]);
 			k /= 2;
-			i = f(s) ? L[i] : (x = s, p += k, R[i]);
+			i = g(s) ? L[i] : (x = s, p += k, R[i]);
 		}
-		return p + !f(x);
+		return p + !g(x);
 	}
 };

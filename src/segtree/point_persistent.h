@@ -7,9 +7,11 @@
 // - f(a, b) - associative aggregate function
 // First tree version number is 0.
 struct SegTree {
+	#ifndef SEGTREE_CONFIG_OVERRIDE //!HIDE
 	using T = int;
 	static constexpr T ID = INT_MIN;
 	T f(T a, T b) { return max(a, b); }
+	#endif //!HIDE
 
 	vector<T> agg;    // Aggregated data
 	vector<bool> cow; // Copy children on write?
@@ -78,20 +80,20 @@ struct SegTree {
 		         query(R[i], vb, ve, m, e));
 	}
 
-	// Find smallest j such that
-	// f(A[0],...,A[j-1]) >= val in version `i`;
-	// time: O(lg n)
-	// Prefixes must have non-descreasing values.
+	// Find smallest `j` such that
+	// g(aggregate of [0,j)) is true
+	// in tree version `i`; time: O(lg n)
+	// The function `g` must be monotonic.
 	// Returns -1 if no such prefix exists.
-	int lowerBound(int i, T val) {
-		if (agg[i] < val) return -1;
+	int lowerBound(int i, auto g) {
+		if (!g(agg[i])) return -1;
 		T x = ID;
 		int p = 0, k = len;
 		while (L[i]) {
 			T s = f(x, agg[L[i]]);
 			k /= 2;
-			i = s < val ? (x=s, p += k, R[i]) : L[i];
+			i = g(s) ? L[i] : (x = s, p += k, R[i]);
 		}
-		return p + (x < val);
+		return p + !g(x);
 	}
 };

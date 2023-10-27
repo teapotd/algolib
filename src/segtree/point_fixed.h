@@ -6,9 +6,11 @@
 // - ID - neutral element for query operation
 // - f(a, b) - associative aggregate function
 struct SegTree {
+	#ifndef SEGTREE_CONFIG_OVERRIDE //!HIDE
 	using T = int;
 	static constexpr T ID = INT_MIN;
 	T f(T a, T b) { return max(a, b); }
+	#endif //!HIDE
 
 	vector<T> V;
 	int len{1};
@@ -30,7 +32,8 @@ struct SegTree {
 
 	// Query interval [b;e); time: O(lg n)
 	T query(int b, int e) {
-		b += len; e += len-1;
+		b = max(b, 0) + len;
+		e = min(e, len) + len - 1;
 		if (b > e)  return ID;
 		if (b == e) return V[b];
 		T x = V[b], y = V[e];
@@ -42,18 +45,18 @@ struct SegTree {
 		return f(x, y);
 	}
 
-	// Find smallest j such that
-	// f(A[0],...,A[j-1]) >= val; time: O(lg n)
-	// Prefixes must have non-descreasing values.
+	// Find smallest `j` such that
+	// g(aggregate of [0,j)) is true; O(lg n)
+	// The function `g` must be monotonic.
 	// Returns -1 if no such prefix exists.
-	int lowerBound(T val) {
-		if (V[1] < val) return -1;
+	int lowerBound(auto g) {
+		if (!g(V[1])) return -1;
 		T x = ID;
 		int j = 1;
 		while (j < len) {
 			T s = f(x, V[j *= 2]);
-			if (s < val) x = s, j++;
+			if (!g(s)) x = s, j++;
 		}
-		return j - len + (x < val);
+		return j - len + !g(x);
 	}
 };
