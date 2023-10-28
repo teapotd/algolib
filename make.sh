@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+python3 generate-latex.py > doc/content.tex
 mkdir -p build
-python3 generate-latex.py > build/algolib.tex
+cp doc/* build/
 cd build && latexmk -pdf -shell-escape algolib.tex

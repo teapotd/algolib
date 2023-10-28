@@ -10,6 +10,7 @@
 \usepackage{ulem}
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
 
 \geometry{
 	a4paper,
@@ -66,18 +67,20 @@
 	\begin{minted}{#2}}
 	{\end{minted}}
 
+% Environment for appendix contents. Arguments: title.
+\newenvironment{misc}[1]{\uline{\textbf{#1}\hfill}\linebreak}{\vspace*{4pt}}
+
 \makeatother
 
 \begin{document}
 
 \begin{multicols*}{4}
 	\tableofcontents
-	\vspace{\fill}\pagebreak
-	{CONTENT}
 \end{multicols*}
 
-\begin{center}
-	\includegraphics[scale=1.185]{../doc/appendix.png}
-\end{center}
+\begin{multicols*}{4}
+	\input{content.tex}
+	\input{appendix.tex}
+\end{multicols*}
 
 \end{document}

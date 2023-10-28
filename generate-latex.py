@@ -6,15 +6,13 @@ import sys
 MAX_TITLE_LENGTH = 28
 MAX_CHARS_PER_LINE = 47
 SOURCE_DIR = 'src'
-TEMPLATE_FILE = 'doc/template.tex'
 HASHES_CACHE_FILE = 'build/hashes-cache.pickle'
 EXCLUDED_FILES = ['.DS_Store']
 
 FILE_WHITELIST = None
 
 def main():
-	global content, hashes_cache
-	content = ''
+	global hashes_cache
 
 	if os.path.isfile(HASHES_CACHE_FILE):
 		with open(HASHES_CACHE_FILE, 'rb') as file:
@@ -22,12 +20,8 @@ def main():
 	else:
 		hashes_cache = {}
 
+	print(f'% Generated from {SOURCE_DIR} directory.')
 	process_dir(SOURCE_DIR)
-
-	with open(TEMPLATE_FILE, 'r') as file:
-		template = file.read()
-	final_latex = template.replace('{CONTENT}', content)
-	print(final_latex)
 
 	with open(HASHES_CACHE_FILE, 'wb') as file:
 		pickle.dump(hashes_cache, file, protocol=pickle.HIGHEST_PROTOCOL)
@@ -58,10 +52,10 @@ def process_file(path):
 		return
 
 	title = os.path.relpath(path, SOURCE_DIR)
-	sys.stderr.write("Processing %s\n" % title)
+	sys.stderr.write(f'Processing {title}\n')
 
 	if len(title) > MAX_TITLE_LENGTH:
-		sys.stderr.write("WARNING: too long title for %s\n" % title)
+		sys.stderr.write(f'WARNING: too long title for {title}\n')
 
 	lines, lines_without_includes = [], []
 
@@ -76,7 +70,7 @@ def process_file(path):
 		if not line.startswith('#include'):
 			lines_without_includes.append(line)
 		if len(line) > MAX_CHARS_PER_LINE:
-			sys.stderr.write("WARNING: too long line #%d in %s\n" % (nr+1, title))
+			sys.stderr.write(f'WARNING: too long line #{nr+1} in {title}\n')
 
 	data = '\n'.join(lines).strip()
 	data_without_includes = '\n'.join(lines_without_includes).strip()
@@ -99,10 +93,9 @@ def process_file(path):
 
 	full_hash = get_hash(data_without_includes) if compute_hash else ''
 
-	global content
-	content += '\n\\begin{code}{%s}{%s}{%s}\n' % (title, lang, full_hash)
-	content += data + '\n'
-	content += '\\end{code}\n'
+	print('\n\\begin{code}{%s}{%s}{%s}' % (title, lang, full_hash))
+	print(data)
+	print('\\end{code}')
 
 def add_block_hashes(data, pos=0, is_open=False):
 	ret = ''

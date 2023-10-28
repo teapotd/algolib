@@ -1,0 +1,78 @@
+% Source: https://github.com/koosaga/DeobureoMinkyuParty/blob/master/teamnote.tex
+
+\begin{misc}{Tutte matrix (perfect matching test)}
+	\begin{equation*}
+		M_{ij} =
+			\begin{cases}
+				X & \text{if } ij \in E(G), i < j \\
+				-X & \text{if } ij \in E(G), i > j \\
+				0 & \text{otherwise}
+			\end{cases}
+	\end{equation*}
+	$\det(M) \neq 0 \implies $ perfect matching exists \\
+	$\det(M) = 0 \implies $ no perfect matching w.h.p. \\
+\end{misc}
+
+\begin{misc}{Kirchhoff's theorem (\# of spanning)}
+	\begin{equation*}
+		M_{ij} =
+			\begin{cases}
+				\text{deg}(i) & \text{if } i = j \\
+				-1 & \text{if } ij \in E(G) \\
+				0 & \text{otherwise}
+			\end{cases}
+	\end{equation*}
+	$M' = M$ with any row and column removed \\
+	$\det(M') = $ number of spanning trees
+\end{misc}
+
+\begin{misc}{Cayley's Formula (\# of labelled trees)}
+	For degree sequence $d_1, ..., d_n$:
+	\begin{equation*}
+		\frac{(n-2)!}{(d_1 - 1)!(d_2 - 1)! \cdots (d_n - 1)!}
+	\end{equation*}
+	$n_1n_2...n_kn^{k-2} =$ for $k$ existing trees of size $n_i$
+	$n^{n-2} = $ number of labelled trees on $n$ vertices \\
+	$kn^{n-k-1} = $ number of labelled forests on $n$ vertices with $k$ connected components such that $1, ..., k$ belong to different components
+\end{misc}
+
+\begin{misc}{Pick's theorem}
+	For a simple polygon with integer vertices, area $A$, $i$ grid points in the interior, and $b$ grid points on the boundary:
+	\begin{equation*}
+		A=i+\frac{b}{2}-1
+	\end{equation*}
+\end{misc}
+
+\begin{misc}{Partition function}
+	Number of partitions into positive integers:
+	\begin{align*}
+		p(0) &= 1 \\
+		p(n) &= \sum_{k \mathbb{Z} \setminus \{0\}} (-1)^{k+1} p(n - k(3k-1)/2)
+	\end{align*}
+\end{misc}
+
+% \begin{misc}{Burnside's lemma}
+% 	Let $G$ and $H$ be groups of permutations of finite sets $X$ and $Y$. Let $c_m(g)$ denote the number of cycles of length $m$ in $g \in G$ when permuting $X$. The number of colorings of $X$ into $\left|Y\right|=n$ colors with exactly $r_i$ occurrences of the $i$-th color is the coefficient of $w_1^{r_1}\ldots w_n^{r_n}$ in the following polynomial: \\
+% 	\begin{equation*}
+% 		P(w_1,\ldots ,w_n)=\frac{1}{\left|H\right|}\sum_{h\in H}\frac{1}{\left|G\right|}\sum_{g\in G}\prod_{m\ge 1}\left(\sum_{h^m(b)=b}(w_b^m)\right)^{c_m(g)}
+% 	\end{equation*}
+
+% 	When $H=\{I\}$ (No color permutation):
+% 	\begin{equation*}
+% 		P(w_1,\ldots ,w_n)=\frac{1}{\left|G\right|}\sum_{g\in G}\prod_{m\ge 1}(w_1^m+\ldots +w_n^m)^{c_m(g)}
+% 	\end{equation*}
+
+% 	Without the occurrence restriction:
+% 	\begin{equation*}
+% 		P(1,\ldots,1)=\frac{1}{\left|G\right|}\sum_{g\in G}n^{c(g)}
+% 	\end{equation*}
+% 	where $c(g)$ could also be interpreted as the number of elements in $X$ that are fixed up to $g$.
+% \end{misc}
+
+% \begin{misc}{Xudyh Sieve}
+% $F(n)=\sum_{d\vert n}f(d)$ \\
+% $S(n)=\sum_{i\leq n}f(i)=\sum_{i\leq n}F(i)-\sum_{d=2}^n S\left(\left\lfloor \frac{n}{d}\right\rfloor\right)$ \\
+% Preprocess $S(1)$ to $S(M)$\hspace{0.5cm}(Set $M=n^{\frac{2}{3}}$ for complexity) \\
+% $S(n)=\sum f(i) = \sum_{i\leq n}\left[F(i)-\sum_{j|i,j\neq i}f(j)\right]=\sum F(i) - \sum_{i/j=d=2}^n\sum_{dj\leq n}f(j)$ \\
+% $S(n)=\sum if(i) = \sum_{i\leq n}i\left[F(i)-\sum_{j|i,j\neq i}f(j)\right]=\sum iF(i) - \sum_{i/j=d=2}^n\sum_{dj\leq n}djf(j)$ \\
+% $\sum_{d\vert n}\varphi (d)=n\hspace{0.5cm}\sum_{d\vert n}\mu (d)=\text{if } (n > 1) \text{ then } 0 \text{ else } 1\hspace{0.5cm}\sum_{d\vert n}(\mu (\frac{n}{d})\sum_{e\vert d}f(e))=f(n)$ \\
