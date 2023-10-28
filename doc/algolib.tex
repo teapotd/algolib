@@ -68,7 +68,10 @@
 	{\end{minted}}
 
 % Environment for appendix contents. Arguments: title.
-\newenvironment{misc}[1]{\uline{\textbf{#1}\hfill}\linebreak}{\vspace*{4pt}}
+\newenvironment{misc}[1]{%
+	\vspace*{5pt}\uline{\small\textbf{#1}\hfill}\vspace*{3pt}\linebreak%
+	\begingroup\footnotesize}
+	{\endgroup}
 
 \makeatother
 
