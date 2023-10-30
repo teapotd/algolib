@@ -26,8 +26,7 @@ struct SegTree {
 			agg[k+1].leaf();
 			for (int i = k-3; i >= 0; i -= 3, n /= 2)
 				(n%2 ? L[i] : ++R[i])++;
-			while (k--)
-				(agg[k] = agg[L[k]]).merge(agg[R[k]]);
+			while (k--) pull(k);
 		}
 	}
 
@@ -38,49 +37,49 @@ struct SegTree {
 		return sz(L)-1;
 	}
 
-	void push(int i, int s, bool w) {
+	void pull(int i) {
+		(agg[i] = agg[L[i]]).merge(agg[R[i]]);
+	}
+
+	void push(int i, bool w) {
 		if (w || lazy[i] != ID) {
 			if (cow[i]) {
 				int x = fork(L[i]), y = fork(R[i]);
 				L[i] = x; R[i] = y; cow[i] = 0;
 			}
-			agg[L[i]].apply(lazy[L[i]],lazy[i],s/2);
-			agg[R[i]].apply(lazy[R[i]],lazy[i],s/2);
+			agg[L[i]].apply(lazy[L[i]], lazy[i]);
+			agg[R[i]].apply(lazy[R[i]], lazy[i]);
 			lazy[i] = ID;
 		}
 	}
 
-	// Modify interval [vb;ve) with val
-	// in tree version `i`; time: O(lg n)
-	T update(int i, int vb, int ve, T val,
-	         int b = 0, int e = 0) {
-		if (!e) e = len;
-		if (vb >= e || b >= ve) return val;
-
-		if (b >= vb && e <= ve &&
-		    agg[i].apply(lazy[i], val, e-b))
-			return val;
-
-		int m = (b+e) / 2;
-		push(i, e-b, 1);
-		val = update(L[i], vb, ve, val, b, m);
-		val = update(R[i], vb, ve, val, m, e);
-		(agg[i] = agg[L[i]]).merge(agg[R[i]]);
-		return val;
+	template<bool U>
+	void go(int vb, int ve, int i, int b, int e,
+	        auto fn) {
+		if (vb < e && b < ve)
+			if (b < vb || ve < e || !fn(i)) {
+				int m = (b+e) / 2;
+				push(i, U);
+				go<U>(vb, ve, L[i], b, m, fn);
+				go<U>(vb, ve, R[i], m, e, fn);
+				if (U) pull(i);
+			}
 	}
 
-	// Query interval [vb;ve)
-	// in tree version `i`; time: O(lg n)
-	Agg query(int i, int vb, int ve,
-	          int b = 0, int e = 0) {
-		if (!e) e = len;
-		if (vb >= e || b >= ve) return {};
-		if (b >= vb && e <= ve) return agg[i];
+	// Modify interval [b;e) with val
+	// in tree version `j`; time: O(lg n)
+	void update(int j, int b, int e, T val) {
+		go<1>(b, e, j, 0, len, [&](int i) {
+			return agg[i].apply(lazy[i], val);
+		});
+	}
 
-		int m = (b+e) / 2;
-		push(i, e-b, 0);
-		Agg t = query(L[i], vb, ve, b, m);
-		t.merge(query(R[i], vb, ve, m, e));
+	// Query interval [b;e) in tree version `j`;
+	Agg query(int j, int b, int e) { // O(lg n)
+		Agg t;
+		go<0>(b, e, j, 0, len, [&](int i) {
+			return t.merge(agg[i]), 1;
+		});
 		return t;
 	}
 
@@ -94,7 +93,7 @@ struct SegTree {
 		Agg x, s;
 		int p = 0, k = len;
 		while (L[i]) {
-			push(i, k, 0);
+			push(i, 0);
 			(s = x).merge(agg[L[i]]);
 			k /= 2;
 			i = g(s) ? L[i] : (x = s, p += k, R[i]);

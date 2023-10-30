@@ -17,9 +17,10 @@
 		// Default values should be neutral
 		// values, i.e. "aggregate over empty set"
 		T sum{0}, vMax{INT_MIN}, nMax{0};
+		int cnt{0}; // And node count.
 
 		// Initialize as leaf (single value)
-		void leaf() { sum = vMax = 0; nMax = 1; }
+		void leaf() { sum=vMax=0; nMax=cnt=1; }
 
 		// Combine data with aggregated data
 		// from node to the right
@@ -28,20 +29,19 @@
 			else if (vMax == r.vMax) nMax += r.nMax;
 			vMax = max(vMax, r.vMax);
 			sum += r.sum;
+			cnt += r.cnt;
 		}
 
 		// Apply update provided in `x`:
-		// - update aggregated data
-		// - update lazy tag `lazy`
-		// - `size` is amount of elements
+		// - update aggregated data and `lazy` tag
 		// - return 0 if update should branch
 		//   (can be used in "segment tree beats")
-		// - if you change value of `x` changed
-		//   value will be passed to next node
-		//   to the right during updates
-		bool apply(T& lazy, T& x, int size) {
+		// - if you change value of `x` it will be
+		//   passed to next node to the right
+		//   during updates
+		bool apply(T& lazy, T& x) {
 			lazy += x;
-			sum += x*size;
+			sum += x*cnt;
 			vMax += x;
 			return 1;
 		}
@@ -53,17 +53,18 @@
 
 	struct Agg {
 		// Aggregated data: max value, max count
-		T vMax{INT_MIN}, nMax{0};
-		void leaf() { vMax = 0; nMax = 1; }
+		T vMax{INT_MIN}, nMax{0}, cnt{0};
+		void leaf() { vMax = 0; nMax = cnt = 1; }
 
 		void merge(const Agg& r) {
 			if (vMax < r.vMax) nMax = r.nMax;
 			else if (vMax == r.vMax) nMax += r.nMax;
 			vMax = max(vMax, r.vMax);
+			cnt += r.cnt;
 		}
 
-		bool apply(T& lazy, T& x, int size) {
-			if (vMax <= x) nMax = size;
+		bool apply(T& lazy, T& x) {
+			if (vMax <= x) nMax = cnt;
 			lazy = max(lazy, x);
 			vMax = max(vMax, x);
 			return 1;
@@ -77,22 +78,23 @@
 
 	struct Agg {
 		// Aggregated data: sum, max, max count
-		T sum{0}, vMax{INT_MIN}, nMax{0};
-		void leaf() { sum = vMax = 0; nMax = 1; }
+		T sum{0}, vMax{INT_MIN}, nMax{0}, cnt{0};
+		void leaf() { sum=vMax=0; nMax=cnt=1; }
 
 		void merge(const Agg& r) {
 			if (vMax < r.vMax) nMax = r.nMax;
 			else if (vMax == r.vMax) nMax += r.nMax;
 			vMax = max(vMax, r.vMax);
 			sum += r.sum;
+			cnt += r.cnt;
 		}
 
-		bool apply(T& lazy, T& x, int size) {
+		bool apply(T& lazy, T& x) {
 			if (x != ID) {
 				lazy = x;
-				sum = x*size;
+				sum = x*cnt;
 				vMax = x;
-				nMax = size;
+				nMax = cnt;
 			}
 			return 1;
 		}
@@ -112,8 +114,8 @@
 		// Aggregated data: max value, max count,
 		//                  second max value, sum
 		int vMax{INT_MIN}, nMax{0}, max2{INT_MIN};
-		int sum{0};
-		void leaf() { sum = vMax = 0; nMax = 1; }
+		int sum{0}, cnt{0};
+		void leaf() { sum=vMax=0; nMax=cnt=1; }
 
 		void merge(const Agg& r) {
 			if (r.vMax > vMax) {
@@ -127,13 +129,14 @@
 			}
 			max2 = max(max2, r.max2);
 			sum += r.sum;
+			cnt += r.cnt;
 		}
 
-		bool apply(T& lazy, T& x, int size) {
+		bool apply(T& lazy, T& x) {
 			if (max2 != INT_MIN && max2+x.x >= x.y)
 				return 0;
 			lazy.x += x.x;
-			sum += x.x*size;
+			sum += x.x*cnt;
 			vMax += x.x;
 			if (max2 != INT_MIN) max2 += x.x;
 			if (x.y < vMax) {

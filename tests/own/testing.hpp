@@ -318,6 +318,7 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Valid test modes: deterministic, fuzz, bench" << std::endl;
 		return 1;
 	}
+	cout << "OK!" << endl;
 	return 0;
 }
 

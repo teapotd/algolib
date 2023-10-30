@@ -22,11 +22,8 @@ struct Agg {
 		seq.insert(seq.end(), r.seq.begin(), r.seq.end());
 	}
 
-	bool apply(T& lazy, T& x, int size) {
+	bool apply(T& lazy, T& x) {
 		if (x != ID) {
-			// The following assertion doesn't hold for out-of-range nodes,
-			// but we don't allow applying updates to them.
-			assert(size == int(seq.size()));
 			lazy = x.cat(lazy);
 			for (T& elem : seq) {
 				elem = x.cat(elem);
