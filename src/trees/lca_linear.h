@@ -5,7 +5,7 @@
 // with linear memory; space: O(n)
 struct LCA {
 	vi par, jmp, depth, pre, post;
-	int cnt{0};
+	int cnt = 0;
 
 	LCA() {}
 

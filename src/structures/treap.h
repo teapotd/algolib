@@ -13,9 +13,9 @@ struct Treap {
 		// E[0] = left child, E[1] = right child
 		// weight = node random weight (for treap)
 		// size = subtree size, par = parent node
-		int E[2] = {-1, -1}, weight{rand()};
-		int size{1}, par{-1};
-		bool flip{0}; // Is interval reversed?
+		int E[2] = {-1, -1}, weight = rand();
+		int size = 1, par = -1;
+		bool flip = 0; // Is interval reversed?
 	};
 
 	vector<Node> G; // Array of all nodes

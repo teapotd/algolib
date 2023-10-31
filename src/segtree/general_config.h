@@ -16,8 +16,8 @@
 		// Aggregated data: sum, max, max count
 		// Default values should be neutral
 		// values, i.e. "aggregate over empty set"
-		T sum{0}, vMax{INT_MIN}, nMax{0};
-		int cnt{0}; // And node count.
+		T sum = 0, vMax = INT_MIN, nMax = 0;
+		int cnt = 0; // And node count.
 
 		// Initialize as leaf (single value)
 		void leaf() { sum=vMax=0; nMax=cnt=1; }
@@ -53,7 +53,7 @@
 
 	struct Agg {
 		// Aggregated data: max value, max count
-		T vMax{INT_MIN}, nMax{0}, cnt{0};
+		T vMax = INT_MIN, nMax = 0, cnt = 0;
 		void leaf() { vMax = 0; nMax = cnt = 1; }
 
 		void merge(const Agg& r) {
@@ -78,7 +78,7 @@
 
 	struct Agg {
 		// Aggregated data: sum, max, max count
-		T sum{0}, vMax{INT_MIN}, nMax{0}, cnt{0};
+		T sum = 0, vMax = INT_MIN, nMax = 0, cnt=0;
 		void leaf() { sum=vMax=0; nMax=cnt=1; }
 
 		void merge(const Agg& r) {
@@ -113,8 +113,8 @@
 	struct Agg {
 		// Aggregated data: max value, max count,
 		//                  second max value, sum
-		int vMax{INT_MIN}, nMax{0}, max2{INT_MIN};
-		int sum{0}, cnt{0};
+		int vMax = INT_MIN, nMax = 0;
+		int max2 = INT_MIN, sum = 0, cnt = 0;
 		void leaf() { sum=vMax=0; nMax=cnt=1; }
 
 		void merge(const Agg& r) {

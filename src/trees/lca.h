@@ -7,7 +7,7 @@
 struct LCA {
 	vector<vi> jumps;
 	vi level, pre, post;
-	int cnt{0}, depth;
+	int cnt = 0, depth;
 
 	LCA() {}
 

@@ -15,7 +15,7 @@
 struct DequeUndo {
 	DataStructure ds; // Configure DS type here.
 	vector<tuple<int, int>> elems[2];
-	vector<pii> his = {{0,0}};
+	vector<pii> his{{0,0}};
 
 	// Push object to front or back of deque,
 	// depending on side parameter.

@@ -9,7 +9,7 @@
 struct Bridges {
 	vector<vi> G; // Spanning forest
 	vi cc, size, par, bp, seen;
-	int cnt{0};
+	int cnt = 0;
 
 	// Initialize structure for n vertices; O(n)
 	Bridges(int n = 0) : G(n), cc(n), size(n, 1),

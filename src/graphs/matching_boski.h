@@ -14,7 +14,7 @@
 struct Matching : vi {
 	vector<vi> adj;
 	vi rank, low, pos, vis, seen;
-	int k{0};
+	int k = 0;
 
 	// Initialize structure for n white vertices
 	Matching(int n = 0) : vi(n, -1), rank(n) {}

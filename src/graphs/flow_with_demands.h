@@ -7,7 +7,7 @@
 struct FlowDemands {
 	MaxFlow net;
 	vector<vector<flow_t>> demands;
-	flow_t total{0};
+	flow_t total = 0;
 
 	// Initialize for k vertices
 	FlowDemands(int k = 0) : net(2) {

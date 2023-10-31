@@ -10,7 +10,7 @@ struct Eppstein {
 	using Edge = pair<int, T>;
 
 	struct Node {
-		int E[2] = {}, s{0};
+		int E[2] = {}, s = 0;
 		Edge x;
 	};
 
