@@ -2,7 +2,7 @@
 
 C++ competitive programming algorithms library.
 
-Due to 4-column PDF layout, limit of characters per line is 47 with tabs set to 2 spaces. Tests might be incomplete or not working.
+Due to 4-column PDF layout, limit of characters per line is 47 with tabs set to 2 spaces. Tests are largely incomplete.
 
 ## Building PDF
 
