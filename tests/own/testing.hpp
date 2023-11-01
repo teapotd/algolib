@@ -307,12 +307,12 @@ int main(int argc, char *argv[]) {
 	signal(6, __sanitizer_print_stack_trace);
 	#endif
 	std::string mode = (argc < 2 ? "deterministic" : argv[1]);
-	if (mode == "deterministic") {
+	if (mode == "deterministic" || mode == "d") {
 		deterministic();
 		fuzz();
-	} else if (mode == "fuzz") {
+	} else if (mode == "fuzz" || mode == "f") {
 		runInfiniteFuzzing();
-	} else if (mode == "bench") {
+	} else if (mode == "bench" || mode == "b") {
 		benchmark();
 	} else {
 		std::cerr << "Valid test modes: deterministic, fuzz, bench" << std::endl;
