@@ -69,7 +69,7 @@ def process_file(path):
 		lines.append(line)
 		if not line.startswith('#include'):
 			lines_without_includes.append(line)
-		if len(line) > MAX_CHARS_PER_LINE:
+		if len(line.replace('\t', '  ')) > MAX_CHARS_PER_LINE:
 			sys.stderr.write(f'WARNING: too long line #{nr+1} in {title}\n')
 
 	data = '\n'.join(lines).strip()

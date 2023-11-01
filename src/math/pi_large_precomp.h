@@ -50,7 +50,7 @@ ll sieveRange(ll b, ll e) {
 // ..., -162, -162, 563, -286, -949
 void localPrecompute() {
 	ll last = 0;
-	for (ll i = 0; i <= MAX_N; i += BUCKET_SIZE) {
+	for (ll i = 0; i <= MAX_N; i += BUCKET_SIZE){
 		ll to = min(i+BUCKET_SIZE, MAX_N+1);
 		ll cur = sieveRange(i, to);
 		cout << cur-last << ',' << flush;
