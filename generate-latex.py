@@ -55,7 +55,8 @@ def process_file(path):
 	sys.stderr.write(f'Processing {title}\n')
 
 	if len(title) > MAX_TITLE_LENGTH:
-		sys.stderr.write(f'WARNING: too long title for {title}\n')
+		sys.stderr.write(f'ERROR: too long title for {title}\n')
+		sys.exit(1)
 
 	lines, lines_without_includes = [], []
 
@@ -70,7 +71,8 @@ def process_file(path):
 		if not line.startswith('#include'):
 			lines_without_includes.append(line)
 		if len(line.replace('\t', '  ')) > MAX_CHARS_PER_LINE:
-			sys.stderr.write(f'WARNING: too long line #{nr+1} in {title}\n')
+			sys.stderr.write(f'ERROR: too long line #{nr+1} in {title}\n')
+			sys.exit(1)
 
 	data = '\n'.join(lines).strip()
 	data_without_includes = '\n'.join(lines_without_includes).strip()
@@ -130,7 +132,8 @@ def get_hash(data):
 	process = subprocess.Popen(['./hash.sh'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	stdout, _ = process.communicate(input=data.encode('utf-8'))
 	if process.returncode != 0:
-		raise ValueError('Hashing failed')
+		sys.stderr.write(f'ERROR: hashing failed for input:\n' + data + '\n')
+		sys.exit(1)
 	hashed = stdout.decode('utf-8').strip()
 	hashes_cache[data] = hashed
 	return hashed
