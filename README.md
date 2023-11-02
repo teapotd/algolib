@@ -10,7 +10,7 @@ You can grab the latest compiled PDF from [workflows](https://github.com/teapotd
 
 ## Features
 
-#### Template and configurations
+### Template and configurations
 
 Typically, at the start of a contest, one person configures the programming environment.
 
@@ -18,7 +18,7 @@ Typically, at the start of a contest, one person configures the programming envi
 2. [`.bashrc`](src/.bashrc): Aliases for building and testing. Initially, you may only need `b`, `d` and `run`.
 3. [`template.cpp`](src/template.cpp): C++ solution template. It contains macros for code shortening, a debug printer and a stack-trace-on-abort function. Only shortening macros are required by other snippets.
 
-#### Debug printer
+### Debug printer
 
 The template features a `deb` macro for printing debug information. The macro is enabled only if `LOC` is defined, which is the case if the code is compiled using `b` or `d`. Otherwise, everything wrapped in `deb` is **not executed**.
 
@@ -57,11 +57,11 @@ To keep it relatively short, there are a few unsupported edge cases:
 1. Commas inside braces within `deb` are not parsed properly.
 2. `std::pair` containing `std::vector` cannot be printed. To resolve this, it is enough to wrap the debug printer with `namespace std`.
 
-#### Stack-trace on abort
+### Stack-trace on abort
 
 The `template.cpp` setups `__sanitizer_print_stack_trace` as the handler for `SIGABRT` signal. This way stack-traces are printed on assertion fails, including those defined by `_GLIBCXX_DEBUG`.
 
-#### Hashes for typing correctness
+### Hashes for typing correctness
 
 The notebook includes hashes for each snippet and *most* code blocks enclosed by braces `{` and `}`. These hashes are insensitive to white-spaces and C++ comments. The `.vimrc` config binds `_` to hash computation of selected **lines**. To verify if a block enclosed by `{}` has been typed correctly, you can simply place the cursor inside it and use the `vi{_` combination to select the contents and compute the hash.
 
