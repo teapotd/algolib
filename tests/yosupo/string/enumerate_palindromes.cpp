@@ -3,9 +3,9 @@
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
 	string s; cin >> s;
-	vi radius = manacher(s);
-	rep(i, 0, sz(s)*2-1) {
-		int len = radius[i]*2 - (i%2 ? 0 : 1);
+	auto radius = manacher(s);
+	rep(i, 1, sz(s)*2) {
+		int len = radius[i%2][i/2]*2 + i%2;
 		cout << len << ' ';
 	}
 	cout << '\n';

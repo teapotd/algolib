@@ -22,6 +22,7 @@ constexpr ll precomputed[] = {/* ... */};
 #endif //!HIDE
 
 // Unpack precomputed data.
+// Warning: comment out during precomputing.
 vector<ll> buckets = [] {
 	vector<ll> ret(N_BUCKETS+1);
 	ll d = 0;

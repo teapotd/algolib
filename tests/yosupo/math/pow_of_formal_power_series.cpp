@@ -2,7 +2,9 @@
 
 int main() {
 	cin.sync_with_stdio(0); cin.tie(0);
-	int n, m; cin >> n >> m;
+	int n;
+	ll m;
+	cin >> n >> m;
 	vector<Zp> f(n);
 	each(e, f) cin >> e.x;
 
