@@ -3,13 +3,13 @@
 #include "../testing.hpp"
 
 #if FLOATING_POINT_GEOMETRY
-#define U 0.1
+constexpr double U = 0.1;
 #else
-#define U 1
+constexpr int U = 1;
 #endif
 
 void checkDist(seg s, vec p, vec::T distSqr) {
-	assert(isEqual(s.distTo(p), sqrt(distSqr)));
+	assert(equalWithEps(s.distTo(p), sqrt(distSqr)));
 #if not FLOATING_POINT_GEOMETRY
 	assert(s.cmpDistTo(p, distSqr) == 0);
 	assert(s.cmpDistTo(p, distSqr-1) == 1);

@@ -3,9 +3,9 @@
 #include "../testing.hpp"
 
 #if FLOATING_POINT_GEOMETRY
-#define U 0.1
+constexpr double U = 0.1;
 #else
-#define U 1
+constexpr int U = 1;
 #endif
 
 vec::T randCoord(double b, double e) {
@@ -16,8 +16,8 @@ vec randVec(double b, double e) {
 	return {randCoord(b, e), randCoord(b, e)};
 }
 
-bool isEqual(vec a, vec b) {
-	return isEqual(a.x, b.x) && isEqual(a.y, b.y);
+bool equalWithEps(vec a, vec b) {
+	return equalWithEps(a.x, b.x) && equalWithEps(a.y, b.y);
 }
 
 void deterministic() {
@@ -38,22 +38,22 @@ void deterministic() {
 	assert(b.x == 3*U && b.y == 4*U);
 #pragma GCC diagnostic pop
 
-	assert(isEqual(vec(1*U, 2*U) + vec(5*U, 10*U), vec(6*U, 12*U)));
-	assert(isEqual(vec(1*U, 2*U) - vec(5*U, 10*U), vec(-4*U, -8*U)));
-	assert(isEqual(vec(5*U, 6*U) * (3*U), vec(15*U*U, 18*U*U)));
-	assert(isEqual(vec(6*U, 12*U) / -(3*U), vec(-2, -4)));
+	assert(equalWithEps(vec(1*U, 2*U) + vec(5*U, 10*U), vec(6*U, 12*U)));
+	assert(equalWithEps(vec(1*U, 2*U) - vec(5*U, 10*U), vec(-4*U, -8*U)));
+	assert(equalWithEps(vec(5*U, 6*U) * (3*U), vec(15*U*U, 18*U*U)));
+	assert(equalWithEps(vec(6*U, 12*U) / -(3*U), vec(-2, -4)));
 
-	assert(isEqual(vec(2*U, 5*U).dot(vec(10*U, 9*U)), 65*U*U));
-	assert(isEqual(vec(2*U, 5*U).cross(vec(10*U, 9*U)), -32*U*U));
-	assert(isEqual(vec(3*U, 4*U).len2(), 25*U*U));
-	assert(isEqual(vec(3*U, 4*U).len(), 5.0*U));
-	assert(isEqual(vec(1*U, 2*U).perp(), vec(-2*U, 1*U)));
+	assert(equalWithEps(vec(2*U, 5*U).dot(vec(10*U, 9*U)), 65*U*U));
+	assert(equalWithEps(vec(2*U, 5*U).cross(vec(10*U, 9*U)), -32*U*U));
+	assert(equalWithEps(vec(3*U, 4*U).len2(), 25*U*U));
+	assert(equalWithEps(vec(3*U, 4*U).len(), 5.0*U));
+	assert(equalWithEps(vec(1*U, 2*U).perp(), vec(-2*U, 1*U)));
 
-	assert(isEqual(vec(5*U, 0*U).angle(), 0.0));
-	assert(isEqual(vec(0*U, 5*U).angle(), M_PI/2));
-	assert(isEqual(vec(-5*U, 0*U).angle(), M_PI));
-	assert(isEqual(vec(0*U, -5*U).angle(), M_PI*3/2));
-	assert(isEqual(vec(5*U, 5*U).angle(), M_PI/4));
+	assert(equalWithEps(vec(5*U, 0*U).angle(), 0.0));
+	assert(equalWithEps(vec(0*U, 5*U).angle(), M_PI/2));
+	assert(equalWithEps(vec(-5*U, 0*U).angle(), M_PI));
+	assert(equalWithEps(vec(0*U, -5*U).angle(), M_PI*3/2));
+	assert(equalWithEps(vec(5*U, 5*U).angle(), M_PI/4));
 
 	assert(vec(1*U, 2*U) == vec(1*U, 2*U));
 	assert(!(vec(1*U, 2*U) == vec(2*U, 2*U)));
@@ -91,21 +91,21 @@ void deterministic() {
 
 	rep(i, 0, sz(sortedByAngle)) {
 		rep(j, i+1, sz(sortedByAngle)) {
-			assert(isLess(sortedByAngle[i].angle(), sortedByAngle[j].angle()));
+			assert(lessWithEps(sortedByAngle[i].angle(), sortedByAngle[j].angle()));
 			assert(sortedByAngle[i].cmpAngle(sortedByAngle[j]) == -1);
 			assert(sortedByAngle[j].cmpAngle(sortedByAngle[i]) == 1);
 		}
 	}
 
 #if FLOATING_POINT_GEOMETRY
-	assert(isEqual(vec(0.5, 0.1).rotate(0), vec(0.5, 0.1)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI/2), vec(-0.1, 0.5)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI), vec(-0.5, -0.1)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI*3/2), vec(0.1, -0.5)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI*2), vec(0.5, 0.1)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI*20), vec(0.5, 0.1)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI*20.5), vec(-0.1, 0.5)));
-	assert(isEqual(vec(0.5, 0.1).rotate(M_PI/4), vec(sqrt(2)*0.2, sqrt(2)*0.3)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(0), vec(0.5, 0.1)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI/2), vec(-0.1, 0.5)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI), vec(-0.5, -0.1)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI*3/2), vec(0.1, -0.5)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI*2), vec(0.5, 0.1)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI*20), vec(0.5, 0.1)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI*20.5), vec(-0.1, 0.5)));
+	assert(equalWithEps(vec(0.5, 0.1).rotate(M_PI/4), vec(sqrt(2)*0.2, sqrt(2)*0.3)));
 #endif
 }
 
@@ -120,8 +120,8 @@ void fuzz() {
 			} else {
 				b = randVec(-1e9, 1e9);
 			}
-		} while (isEqual(a, vec(0, 0)) || isEqual(b, vec(0, 0)));
-		assert(a.cmpAngle(b) == compare(a.angle(), b.angle()));
+		} while (equalWithEps(a, vec(0, 0)) || equalWithEps(b, vec(0, 0)));
+		assert(a.cmpAngle(b) == compareWithEps(a.angle(), b.angle()));
 	}
 }
 

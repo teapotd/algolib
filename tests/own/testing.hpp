@@ -203,7 +203,7 @@ namespace utils {
 	// Format seconds as s, ms, us or ns.
 	std::string formatTime(double time) {
 		std::stringstream ss;
-		ss << std::fixed << std::setprecision(3);
+		ss << std::fixed << std::setprecision(2);
 		for (std::string suffix : {"s", "ms", "us"}) {
 			if (time >= 0.1) {
 				ss << time << suffix;
@@ -215,6 +215,23 @@ namespace utils {
 		return ss.str();
 	}
 
+	// Format number of operations.
+	std::string formatOps(double ops) {
+		std::stringstream ss;
+		ss << std::fixed << std::setprecision(2);
+		if (ops >= 10000) {
+			int e = 0;
+			while (ops >= 10) {
+				ops /= 10;
+				e++;
+			}
+			ss << ops << "*10^" << e;
+		} else {
+			ss << ops;
+		}
+		return ss.str();
+	}
+
 	// Benchmark given lambda.
 	template<class F>
 	void measure(std::string name, int rounds, F func) {
@@ -223,8 +240,10 @@ namespace utils {
 			func();
 		}
 		double after = cpuTime();
-		double perRound = (after-before) / double(rounds);
-		std::cerr << name << " : " << formatTime(perRound) << std::endl;
+		double timePerRound = (after-before) / double(rounds);
+		double opsPerSecond = 1.0 / timePerRound;
+		std::cerr << name << " : " << formatTime(timePerRound);
+		std::cerr << " (" << formatOps(opsPerSecond) << " ops per second)" << std::endl;
 	}
 
 	template<class F>
@@ -240,45 +259,46 @@ namespace utils {
 
 	// Compare two integers.
 	template<typename T>
-	std::enable_if_t<std::is_integral_v<T>, int> compare(T l, T r) {
+	std::enable_if_t<std::is_integral_v<T>, int> compareWithEps(T l, T r) {
 		return (l > r) - (l < r);
 	}
 
 	// Compare two floating point numbers with epsilon.
 	template<typename T>
-	std::enable_if_t<std::is_floating_point_v<T>, int> compare(T l, T r) {
+	std::enable_if_t<std::is_floating_point_v<T>, int> compareWithEps(T l, T r) {
 		constexpr T eps = 1e-12;
 		return (l-r > eps) - (l-r < -eps);
 	}
 
 	template<class T>
-	bool isEqual(T l, T r) { return compare(l, r) == 0; }
+	bool equalWithEps(T l, T r) { return compareWithEps(l, r) == 0; }
 
 	template<class T>
-	bool isLess(T l, T r) { return compare(l, r) < 0; }
+	bool lessWithEps(T l, T r) { return compareWithEps(l, r) < 0; }
 
 	template<class T>
-	bool isGreater(T l, T r) { return compare(l, r) > 0; }
+	bool greaterWithEps(T l, T r) { return compareWithEps(l, r) > 0; }
 
 	template<class T>
-	bool isLeq(T l, T r) { return compare(l, r) <= 0; }
+	bool leqWithEps(T l, T r) { return compareWithEps(l, r) <= 0; }
 
 	template<class T>
-	bool isGeq(T l, T r) { return compare(l, r) >= 0; }
+	bool geqWithEps(T l, T r) { return compareWithEps(l, r) >= 0; }
 
-	template<class CollectionT>
-	bool areElementsUnique(const CollectionT& elems) {
-		sort(elems.begin(), elems.end());
-		return unique(elems.begin(), elems.end()) == elems.end();
+	template<class CollectionT, class Cmp = std::less<typename CollectionT::value_type>>
+	bool areElementsUnique(const CollectionT& elems, Cmp cmp = Cmp()) {
+		sort(elems.begin(), elems.end(), cmp);
+		auto eq = [cmp](auto l, auto r) { return !cmp(l, r) && !cmp(r, l); };
+		return unique(elems.begin(), elems.end(), eq) == elems.end();
 	}
 
-	template<class CollectionT>
-	bool isSubsequence(const CollectionT& big, const CollectionT& sub) {
+	template<class CollectionT, class Eq = std::equal_to<typename CollectionT::value_type>>
+	bool isSubsequence(const CollectionT& big, const CollectionT& sub, Eq eq = Eq()) {
 		auto it = big.begin();
 		size_t i = 0;
 		for (auto x : sub) {
 			do {
-				if (it == big.end()) {
+				if (eq(it, big.end())) {
 					return false;
 				}
 			} while (*it++ != x);
@@ -309,6 +329,7 @@ int main(int argc, char *argv[]) {
 	std::string mode = (argc < 2 ? "deterministic" : argv[1]);
 	if (mode == "deterministic" || mode == "d") {
 		deterministic();
+		random_utils::twister.seed(1);
 		fuzz();
 	} else if (mode == "fuzz" || mode == "f") {
 		runInfiniteFuzzing();
