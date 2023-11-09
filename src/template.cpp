@@ -16,8 +16,7 @@ using pii = pair<int,int>;
 
 #define PP(x,y) \
 	auto operator<<(auto& o, auto a) \
-	->decltype(y,o) \
-	{ o << '('; x; return o << ')'; }
+	->decltype(y,o) { o<<"("; x; return o<<")"; }
 
 PP(a.print(), a.print());
 PP(o << a.x << ", " << a.y, a.y);
@@ -31,21 +30,15 @@ void DD(auto s, auto... k) {
 }
 
 #ifdef LOC
+auto SS = signal(6, [](int) { *(int*)0=0; });
 #define deb(x...) \
 	DD(":, "#x, __LINE__, x), cerr << endl
 #else
 #define deb(...)
 #endif
-
 #define DBP(x...) void print() { DD(#x, x); }
 
-extern "C"
-	void __sanitizer_print_stack_trace(int);
-
 int main() {
-	#if __SANITIZE_ADDRESS__
-	signal(6, __sanitizer_print_stack_trace);
-	#endif
 	cin.tie(0)->sync_with_stdio(0);
 	cout << fixed << setprecision(10);
 	return 0; //!HIDE

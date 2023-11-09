@@ -59,7 +59,7 @@ To keep it relatively short, there are a few unsupported edge cases:
 
 ### Stack-trace on abort
 
-The `template.cpp` setups `__sanitizer_print_stack_trace` as the handler for `SIGABRT` signal. This way stack-traces are printed on assertion fails, including those defined by `_GLIBCXX_DEBUG`.
+The `template.cpp` triggers segmentation fault in the handler of `SIGABRT` signal. This causes stack-traces to be printed on assertion fails, including those defined by `_GLIBCXX_DEBUG`, when compiled with `d`.
 
 ### Hashes for typing correctness
 
