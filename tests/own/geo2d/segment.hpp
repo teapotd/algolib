@@ -12,8 +12,8 @@ void checkDist(seg s, vec p, vec::T distSqr) {
 	assert(equalWithEps(s.distTo(p), sqrt(distSqr)));
 #if not FLOATING_POINT_GEOMETRY
 	assert(s.cmpDistTo(p, distSqr) == 0);
-	assert(s.cmpDistTo(p, distSqr-1) == 1);
-	assert(s.cmpDistTo(p, distSqr+1) == -1);
+	assert(s.cmpDistTo(p, distSqr-1*U) == 1);
+	assert(s.cmpDistTo(p, distSqr+1*U) == -1);
 #endif
 }
 
