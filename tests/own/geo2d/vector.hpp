@@ -126,9 +126,4 @@ void fuzz() {
 }
 
 void benchmark() {
-	vec a = {1,2}, b = {7,5};
-	measure("cmpAngle", 1e8, [&] {
-		swap(a, b);
-		consume(a.cmpAngle(b));
-	});
 }
