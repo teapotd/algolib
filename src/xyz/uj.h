@@ -1,3 +1,7 @@
+//!!EXCLUDE-FILE
+//! Unchecked code taken from old UJ notebook, probably doesn't even compile.
+//! It was added to fill space before ICPC Moscow.
+
 // P = punkt 2D lub 3D, K = double
 // --- GEOMETRIA OKREGOW W 2D ~Bartosz Walczak
 struct circle { // okrag w 2D

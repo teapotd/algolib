@@ -1,5 +1,8 @@
 #pragma once
 #include "../template.h"
+//!!EXCLUDE-FILE
+//! Unchecked code taken from KACTL, probably doesn't even compile.
+//! It was added to fill space before ICPC Moscow.
 
 // --- POINT 3D
 template<class T> struct Point3D {
