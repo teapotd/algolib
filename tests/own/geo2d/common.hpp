@@ -1,5 +1,5 @@
 #pragma once
-#include "../testing.hpp"
+#include "../base_test.hpp"
 
 #if FLOATING_POINT_GEOMETRY
 constexpr double U = 0.1;
@@ -7,7 +7,7 @@ constexpr double U = 0.1;
 constexpr int U = 1;
 #endif
 
-namespace utils {
+namespace random_utils {
 	vec::T randCoord(vec::T b, vec::T e) {
 		return randRange(b, e);
 	}
@@ -34,7 +34,9 @@ namespace utils {
 		each(v, elems) v = randVecFromDisk(minR, maxR);
 		return elems;
 	}
+};
 
+namespace utils {
 	bool equalWithEps(vec a, vec b) {
 		return equalWithEps(a.x, b.x) && equalWithEps(a.y, b.y);
 	}

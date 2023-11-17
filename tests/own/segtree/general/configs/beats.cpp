@@ -1,6 +1,6 @@
 #define TREE_BEATS 1
 #include "../../../../../src/segtree/general_fixed.h"
-#include "../../../testing.hpp"
+#include "../../../base_test.hpp"
 
 auto asTuple(const SegTree::Agg& a) {
 	return make_tuple(a.vMax, a.nMax, a.max2, a.sum);

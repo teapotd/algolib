@@ -1,5 +1,5 @@
 #include "../../../src/graphs/spfa.h"
-#include "../testing.hpp"
+#include "../base_test.hpp"
 
 vector<ll> bellmanFord(const vector<tuple<int, int, ll>>& edges, int n, int src) {
 	vector<ll> dist(n, INT64_MAX);

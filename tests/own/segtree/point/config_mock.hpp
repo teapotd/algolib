@@ -1,7 +1,9 @@
 #pragma once
 
 #include <cassert>
-#include "../../testing_hashing.h"
+#include "../../utils.hpp"
+
+using namespace hashing_utils;
 
 // Mock implementation of segment tree config.
 // The aggregate is hash of sequence of underlying elements.

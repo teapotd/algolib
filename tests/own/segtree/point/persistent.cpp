@@ -1,6 +1,6 @@
 #include "config_mock.hpp"
 #include "../../../../src/segtree/point_persistent.h"
-#include "../../testing.hpp"
+#include "../../base_test.hpp"
 
 struct VerifiedSegTree {
 	int n;

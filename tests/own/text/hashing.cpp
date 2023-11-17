@@ -1,5 +1,5 @@
 #include "../../../src/text/hashing.h"
-#include "../testing.hpp"
+#include "../base_test.hpp"
 
 bool isNice(Hash x) {
 	if (gcd(x.get(), UINT64_MAX) != 1) return false;

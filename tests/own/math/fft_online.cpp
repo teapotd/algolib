@@ -1,5 +1,5 @@
 #include "../../../src/math/fft_online.h"
-#include "../testing.hpp"
+#include "../base_test.hpp"
 
 void deterministic() {
 	constexpr int N = 2000;

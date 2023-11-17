@@ -1,5 +1,5 @@
 #include "../../../src/structures/intset.h"
-#include "../testing.hpp"
+#include "../base_test.hpp"
 
 void deterministic() {
 }
