@@ -4,7 +4,7 @@
 // Fenwick tree (BIT tree); space: O(n)
 // Default version: prefix sums
 struct Fenwick {
-	using T = int;
+	using T = ll;
 	static constexpr T ID = 0;
 	T f(T a, T b) { return a+b; }
 
