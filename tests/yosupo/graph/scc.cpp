@@ -19,5 +19,17 @@ int main() {
 		each(v, vec) cout << v << ' ';
 		cout << '\n';
 	}
+
+	// Additional validation.
+	vector<bool> seen(n);
+	rep(c, 0, sz(scc.comps)) {
+		each(v, scc.comps[c]) {
+			assert(scc[v] == c);
+			assert(!seen[v]);
+			seen[v] = true;
+		}
+	}
+	assert(count(all(seen), false) == 0);
+
 	return 0;
 }
