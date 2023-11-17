@@ -1,5 +1,5 @@
 #include "../../../src/graphs/2sat.h"
-#include "../testing.h"
+#include "../base_test.hpp"
 
 struct OldSAT2 {
 	vector<vi> G;
@@ -63,34 +63,34 @@ struct OldSAT2 {
 	}
 };
 
-void runTest() {
-	int n = r(1, 100);
-	int m = r(1, 100);
+void deterministic() {
+}
 
-	SAT2 neu(n);
-	OldSAT2 old(n);
+void fuzz() {
+	rep(t, 0, 40'000) {
+		int n = randInt(1, 100);
+		int m = randInt(1, 100);
 
-	rep(i, 0, m) {
-		int a = r(1, n), b = r(1, n);
-		if (r(0, 1)) a *= -1;
-		if (r(0, 1)) b *= -1;
+		SAT2 neu(n);
+		OldSAT2 old(n);
 
-		neu.either(a, b);
-		old.or_(a, b);
-	}
+		rep(i, 0, m) {
+			int a = randInt(1, n), b = randInt(1, n);
+			if (randInt(0, 1)) a *= -1;
+			if (randInt(0, 1)) b *= -1;
+			neu.either(a, b);
+			old.or_(a, b);
+		}
 
-	bool bNeu = neu.solve();
-	bool bOld = old.solve();
-	assert(bNeu == bOld);
+		bool bNeu = neu.solve();
+		bool bOld = old.solve();
+		assert(bNeu == bOld);
 
-	if (bNeu) {
-		assert(neu== old.values);
+		if (bNeu) {
+			assert(neu == old.values);
+		}
 	}
 }
 
-int main() {
-	rep(t, 0, 100000) {
-		runTest();
-	}
-	return 0;
+void benchmark() {
 }

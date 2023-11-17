@@ -1,5 +1,5 @@
 #include "../../../src/graphs/bridges_online.h"
-#include "../testing.h"
+#include "../base_test.hpp"
 
 struct BridgesNaive {
 	vector<vector<pii>> G;
@@ -38,86 +38,64 @@ struct BridgesNaive {
 	}
 };
 
-void runTest() {
-	//int n = 6;
-	int n = r(1, 40);
+void fuzzSingle() {
+	int n = randInt(1, 40);
 	Bridges fast(n);
 	BridgesNaive naive(n);
 
-	//deb(n);
-	//cerr << '\n';
-
 	vector<pii> avail;
 	rep(i, 0, n) rep(j, i+1, n) avail.pb({i, j});
-	random_shuffle(all(avail));
+	randShuffle(avail);
 
 	while (true) {
-		switch (r(0, 3)) {
+		switch (randInt(0, 3)) {
 			case 0: {
 				if (avail.empty()) return;
-				pii e = avail.back();
+				auto [u, v] = avail.back();
 				avail.pop_back();
-				fast.addEdge(e.x, e.y);
-				naive.addEdge(e.x, e.y);
-				//deb(0, e.x, e.y);
+				fast.addEdge(u, v);
+				naive.addEdge(u, v);
 				break;
 			}
 			case 1: {
-				int a = r(0, n-1), b = r(0, n-1);
+				int a = randInt(0, n-1), b = randInt(0, n-1);
 				bool naiveAns = (naive.flow(a, b) >= 1);
 				bool fastAns = (fast.cc[a] == fast.cc[b]);
-				//deb(1, a, b, naiveAns, fastAns);
 				assert(naiveAns == fastAns);
 				break;
 			}
 			case 2: {
-				int a = r(0, n-1), b = r(0, n-1);
+				int a = randInt(0, n-1), b = randInt(0, n-1);
 				bool naiveAns = (naive.flow(a, b) >= 2);
 				bool fastAns = (fast.bi(a) == fast.bi(b));
-				//deb(2, a, b, naiveAns, fastAns);
 				assert(naiveAns == fastAns);
 				break;
 			}
 		}
-		deb(0);
 	}
 }
 
-void perfTest(int n, int m) {
-	Bridges fast(n);
-	for (int i = 0; i < m; i++) {
-		int a = r(0, n-1), b = r(0, n-1);
-		fast.addEdge(a, b);
+void deterministic() {
+}
+
+void fuzz() {
+	rep(i, 0, 2000) {
+		fuzzSingle();
 	}
 }
 
-void bad() {
-	Bridges fast(6);
-	BridgesNaive naive(6);
+void benchmark() {
+	constexpr int N = 2e5;
+	vector<pii> edges(1e6);
 
-	for (pii e : vector<pii>{ {2,3}, {1,5}, {0,2}, {4,5}, {1,4}, {0,3}, {0,5}, {0,4} }) {
-		fast.addEdge(e.x, e.y);
-		naive.addEdge(e.x, e.y);
-
-		vi comp, par;
-		rep(i, 0, 6) par.pb(fast.par[i]);
-		rep(i, 0, 6) comp.pb(fast.bi(i));
-		deb(e, comp, par);
+	for (auto& [u, v] : edges) {
+		u = randInt(0, N-1);
+		v = randInt(0, N-1);
 	}
 
-	bool naiveAns = (naive.flow(3, 1) >= 2);
-	bool fastAns = (fast.bi(3) == fast.bi(1));
-	deb(naiveAns, fastAns);
-}
-
-int main() {
-	/*rep(i, 0, 10) {
-		perfTest(100000, 1000000);
-	}
-	return 0;*/
-
-	rep(i, 0, 200000) {
-		runTest();
-	}
-	return 0;
+	measure("addEdge N=2e5 M=1e6", 5, [&] {
+		Bridges ds(N);
+		each(e, edges) ds.addEdge(e.x, e.y);
+		consume(&ds);
+	});
 }

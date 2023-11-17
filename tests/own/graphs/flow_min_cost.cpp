@@ -1,6 +1,6 @@
-#include <bits/extc++.h>
 #include "../../../src/graphs/flow_min_cost.h"
-#include "../testing.h"
+#include "../base_test.hpp"
+#include <bits/extc++.h>
 
 namespace kactl {
 	const ll INF = numeric_limits<ll>::max() / 4;
@@ -14,13 +14,13 @@ namespace kactl {
 		VL dist, pi;
 		vector<pii> par;
 
-		MCMF(int N) :
-			N(N), ed(N), red(N), cap(N, VL(N)), flow(cap), cost(cap),
-			seen(N), dist(N), pi(N), par(N) {}
+		MCMF(int N_) :
+			N(N_), ed(N_), red(N_), cap(N_, VL(N_)), flow(cap), cost(cap),
+			seen(N_), dist(N_), pi(N_), par(N_) {}
 
-		void addEdge(int from, int to, ll cap, ll cost) {
-			this->cap[from][to] = cap;
-			this->cost[from][to] = cost;
+		void addEdge(int from, int to, ll cap_, ll cost_) {
+			this->cap[from][to] = cap_;
+			this->cost[from][to] = cost_;
 			ed[from].push_back(to);
 			red[to].push_back(from);
 		}
@@ -34,9 +34,9 @@ namespace kactl {
 			vector<decltype(q)::point_iterator> its(N);
 			q.push({0, s});
 
-			auto relax = [&](int i, ll cap, ll cost, int dir) {
-				ll val = di - pi[i] + cost;
-				if (cap && val < dist[i]) {
+			auto relax = [&](int i, ll cap_, ll cost_, int dir) {
+				ll val = di - pi[i] + cost_;
+				if (cap_ && val < dist[i]) {
 					dist[i] = val;
 					par[i] = {s, dir};
 					if (its[i] == q.end()) its[i] = q.push({-dist[i], i});
@@ -84,50 +84,48 @@ namespace kactl {
 	};
 };
 
-void runTest() {
-	int n = r(2, 30);
-	int m = r(1, n*(n-1)/2);
-	int s = r(0, n-1);
-	int t;
+void fuzzSingle() {
+	int n = randInt(2, 50);
+	int m = randInt(1, min(n*(n-1)/2, 100));
+	auto [s, t] = randDistinct<2>(0, n-1);
 
-	do {
-		t = r(0, n-1);
-	} while (t == s);
-
-	MCMF mine(n);
+	MCMF ours(n);
 	kactl::MCMF other(n);
 
 	vector<pii> edges;
 	rep(i, 0, n) rep(j, i+1, n) edges.pb({i, j});
-	shuffle(all(edges), rnd);
+	randShuffle(edges);
 	edges.resize(m);
 
 	each(e, edges) {
-		int cap = r(0, 1e9);
-		int cost = r(-1e5, 1e5);
-		mine.addEdge(e.x, e.y, cap, cost);
+		int cap = randInt(0, 1e9);
+		int cost = randInt(-1e5, 1e5);
+		ours.addEdge(e.x, e.y, cap, cost);
 		other.addEdge(e.x, e.y, cap, cost);
 	}
 
-	flow_t myFlow, myCost, otherFlow, otherCost;
-	bool ok = mine.maxFlow(s, t, myFlow, myCost);
+	flow_t myFlow, myCost;
+	bool ok = ours.maxFlow(s, t, myFlow, myCost);
 
 	if (!other.setpi(s)) {
-		deb("cycle");
-		assert(!ok);
+		assert(!ok); // Cycle
 		return;
 	}
 
 	assert(ok);
-	tie(otherFlow, otherCost) = other.maxflow(s, t);
+	auto [otherFlow, otherCost] = other.maxflow(s, t);
 	assert(myFlow == otherFlow);
 	assert(myCost == otherCost);
-	deb(myFlow, myCost);
 }
 
-int main() {
-	rep(i, 0, 1000) {
-		runTest();
+void deterministic() {
+}
+
+void fuzz() {
+	rep(i, 0, 30'000) {
+		fuzzSingle();
 	}
-	return 0;
+}
+
+void benchmark() {
 }

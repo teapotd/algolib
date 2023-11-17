@@ -2,9 +2,9 @@
 
 #include "utils.hpp"
 
-void deterministic();
-void fuzz();
-void benchmark();
+void deterministic(); // Deterministic/unit tests entry point.
+void fuzz();          // Single fuzzing cycle entry point.
+void benchmark();     // Benchmarks entry point.
 
 void runInfiniteFuzzing() {
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	if (mode == "deterministic" || mode == "d") {
 		deterministic();
 		random_utils::twister.seed(1);
-		fuzz();
+		fuzz(); // Run single fuzzing cycle with fixed seed.
 	} else if (mode == "fuzz" || mode == "f") {
 		runInfiniteFuzzing();
 	} else if (mode == "bench" || mode == "b") {
@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Valid test modes: deterministic, fuzz, bench" << std::endl;
 		return 1;
 	}
-	cout << "OK!" << endl;
+	std::cerr << "OK!" << std::endl;
 	return 0;
 }
 

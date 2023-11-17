@@ -1,5 +1,5 @@
 #include "../../../src/graphs/strongly_connected.h"
-#include "../testing.h"
+#include "../base_test.hpp"
 
 vector<vi> G, inv;
 vi seen, order;
@@ -19,9 +19,9 @@ void dfs(int v) {
 	each(e, inv[v]) dfs(e);
 }
 
-void runTest() {
-	int n = r(2, 500);
-	int m = r(1, n*(n-1));
+void fuzzSingle() {
+	int n = randInt(2, 100);
+	int m = randInt(1, min(n*(n-1), 1000));
 
 	G.assign(n, {});
 	inv.assign(n, {});
@@ -30,7 +30,7 @@ void runTest() {
 	comps.clear();
 
 	rep(i, 0, m) {
-		int a = r(0, n-1), b = r(0, n-1);
+		int a = randInt(0, n-1), b = randInt(0, n-1);
 		G[a].pb(b);
 		inv[b].pb(a);
 	}
@@ -53,15 +53,17 @@ void runTest() {
 	sort(all(scc.comps));
 	sort(all(comps));
 
-	// deb(G);
-	// deb(comps);
-	// deb(scc.comps);
 	assert(comps == scc.comps);
 }
 
-int main() {
-	rep(i, 0, 1000) {
-		runTest();
+void deterministic() {
+}
+
+void fuzz() {
+	rep(i, 0, 30'000) {
+		fuzzSingle();
 	}
-	return 0;
+}
+
+void benchmark() {
 }
