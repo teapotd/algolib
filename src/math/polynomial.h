@@ -212,12 +212,19 @@ Poly shift(Poly P, Zp c) {
 // time: O(n lg n)
 //! Source: https://codeforces.com/blog/entry/83532
 Poly chirpz(Poly P, Zp x, int n) {
+	if (P.empty()) return Poly(n);
+	if (!x.x) {
+		Poly Q(n, P[0]);
+		rep(i, 1, sz(P)) Q[0] += P[i];
+		return Q;
+	}
 	int k = sz(P);
 	Poly Q(n+k);
-	rep(i, 0, n+k) Q[i] = x.pow(i*(i-1)/2);
+	rep(i, 0, n+k) Q[i] = x.pow(i*ll(i-1)/2);
 	rep(i, 0, k) P[i] /= Q[i];
 	reverse(all(P));
 	P *= Q;
+	P.resize(n+k);
 	rep(i, 0, n) P[i] = P[k+i-1] / Q[i];
 	P.resize(n);
 	return P;
