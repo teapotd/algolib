@@ -1,7 +1,7 @@
 #define FLOATING_POINT_GEOMETRY 1
 #include "../../../src/geo2d/halfplanes.h"
 #include "../../../src/geo2d/convex_hull.h"
-#include "../testing.hpp"
+#include "common.hpp"
 
 vector<vec> naiveHalfplaneIntersection(vector<line> in) {
 	vector<vec> points;
@@ -36,7 +36,7 @@ void check(const vector<line>& lines) {
 	assert(fast == naive);
 }
 
-vector<line> randomLines(int n, int minA, int maxA, int minC, int maxC) {
+vector<line> randLines(int n, int minA, int maxA, int minC, int maxC) {
 	vector<line> lines(n);
 	for (auto& l : lines) {
 		do {
@@ -58,13 +58,13 @@ void fuzz() {
 	rep(i, 0, 50000) {
 		int n = randInt(1, 50);
 		int mx = randInt(1, 100);
-		auto lines = randomLines(n, -mx, mx, i%10 ? 1 : -mx, mx);
+		auto lines = randLines(n, -mx, mx, i%10 ? 1 : -mx, mx);
 		check(lines);
 	}
 }
 
 void benchmark() {
-	auto lines = randomLines(1e6, -1e5, 1e5, 1e4, 1e4);
+	auto lines = randLines(1e6, -1e5, 1e5, 1e4, 1e4);
 
 	measure("intersectHalfs N=1e6", 5, [&] {
 		auto hull = intersectHalfs(lines);

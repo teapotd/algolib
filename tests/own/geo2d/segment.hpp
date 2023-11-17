@@ -1,12 +1,6 @@
 #pragma once
 #include "../../../src/geo2d/segment.h"
-#include "../testing.hpp"
-
-#if FLOATING_POINT_GEOMETRY
-constexpr double U = 0.1;
-#else
-constexpr int U = 1;
-#endif
+#include "common.hpp"
 
 void checkDist(seg s, vec p, vec::T distSqr) {
 	assert(equalWithEps(s.distTo(p), sqrt(distSqr)));

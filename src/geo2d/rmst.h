@@ -8,7 +8,7 @@
 // are saved in `out` as triples (dist, (u,v)).
 // Depends on vec: -
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/geometry/ManhattanMST.h
-ll rmst(vector<vec>& points,
+ll rmst(vector<vec> points,
         vector<pair<ll, pii>>& edges) {
 	vector<pair<ll, pii>> span;
 	vi id(sz(points));

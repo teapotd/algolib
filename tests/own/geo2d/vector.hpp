@@ -1,24 +1,6 @@
 #pragma once
 #include "../../../src/geo2d/vector.h"
-#include "../testing.hpp"
-
-#if FLOATING_POINT_GEOMETRY
-constexpr double U = 0.1;
-#else
-constexpr int U = 1;
-#endif
-
-vec::T randCoord(double b, double e) {
-	return vec::T(randDouble(b, e));
-}
-
-vec randVec(double b, double e) {
-	return {randCoord(b, e), randCoord(b, e)};
-}
-
-bool equalWithEps(vec a, vec b) {
-	return equalWithEps(a.x, b.x) && equalWithEps(a.y, b.y);
-}
+#include "common.hpp"
 
 void deterministic() {
 	assert(sgn(-3*U) == -1);
@@ -113,12 +95,12 @@ void fuzz() {
 	rep(i, 0, 1e6) {
 		vec a, b;
 		do {
-			a = randVec(-1e9, 1e9);
+			a = randVecFromDisk(1, 1e9);
 			if (randBool()) {
 				b.x = randInt(-1, 1) * (randBool() ? a.x : a.y);
 				b.y = randInt(-1, 1) * (randBool() ? a.x : a.y);
 			} else {
-				b = randVec(-1e9, 1e9);
+				b = randVecFromDisk(1, 1e9);
 			}
 		} while (equalWithEps(a, vec(0, 0)) || equalWithEps(b, vec(0, 0)));
 		assert(a.cmpAngle(b) == compareWithEps(a.angle(), b.angle()));

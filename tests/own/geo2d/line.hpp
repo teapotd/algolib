@@ -1,10 +1,8 @@
 #pragma once
 #include "../../../src/geo2d/line.h"
-#include "../testing.hpp"
+#include "common.hpp"
 
 #if FLOATING_POINT_GEOMETRY
-
-constexpr double U = 0.1;
 
 line canonical(line& l) {
 	auto g = l.v.len();
@@ -12,8 +10,6 @@ line canonical(line& l) {
 }
 
 #else
-
-constexpr int U = 1;
 
 line canonical(line l) {
 	auto g = gcd(gcd(l.v.x, l.v.y), l.c);
@@ -25,7 +21,7 @@ line canonical(line l) {
 bool lineEqual(line a, line b) {
 	a = canonical(a);
 	b = canonical(b);
-	return a.v == b.v && equalWithEps(a.c, b.c);
+	return equalWithEps(a.v, b.v) && equalWithEps(a.c, b.c);
 }
 
 void deterministic() {

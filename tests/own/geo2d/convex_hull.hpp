@@ -1,19 +1,6 @@
 #pragma once
 #include "../../../src/geo2d/convex_hull.h"
-#include "../testing.hpp"
-
-#if FLOATING_POINT_GEOMETRY
-constexpr double U = 0.1;
-#else
-constexpr int U = 1;
-#endif
-
-vec randFromDisk(double R) {
-	double r = sqrt(randDouble()) * R;
-	double a = randDouble(0, M_PI*2);
-	double x = r * cos(a), y = r * sin(a);
-	return {vec::T(x), vec::T(y)};
-}
+#include "common.hpp"
 
 int naiveInsideHull(const vector<vec>& hull, vec p) {
 	if (hull.empty()) return 0;
@@ -82,7 +69,7 @@ int naiveMaxDot(const vector<vec>& hull, vec q) {
 	return ret.y;
 }
 
-double naiveHullDist(vector<vec>& hull, vec p) {
+double naiveHullDist(const vector<vec>& hull, vec p) {
 	if (naiveInsideHull(hull, p) == 2) return -1;
 	double ret = 1e30;
 	rep(i, 0, sz(hull)) {
@@ -115,7 +102,7 @@ void check(const vector<vec>& points) {
 	}
 
 	if (!hull.empty()) rep(i, 0, 800) {
-		vec q = { randRange(-100*U, 100*U), randRange(-100*U, 100*U) };
+		vec q = randVecFromSquare(-100*U, 100*U);
 		assert(maxDot(hull, q) == naiveMaxDot(hull, q));
 		assert(equalWithEps(hullDist(hull, q), naiveHullDist(hull, q)));
 	}
@@ -127,23 +114,18 @@ void deterministic() {
 void fuzz() {
 	rep(i, 0, 1000) {
 		int n = randInt(0, 30);
-		auto mx = randRange(0*U, 100*U);
-		vector<vec> points(n);
-		each(p, points) {
-			p.x = randRange(-mx, mx);
-			p.y = randRange(-mx, mx);
+		auto mx = randCoord(1*U, 100*U);
+		auto points = (i%2 ? randVecsFromSquare(n, -mx, mx) : randVecsFromDisk(n, 0, double(mx)));
+		vec offset = randVecFromSquare(-mx*2, mx*2);
+		for (auto& p : points) {
+			p = p+offset;
 		}
 		check(points);
 	}
 }
 
 void benchmark() {
-	constexpr int N = 1e6;
-	vector<vec> points(N);
-
-	for (auto& p : points) {
-		p = randFromDisk(1e9);
-	}
+	auto points = randVecsFromDisk(1e6, 9e8, 1e9);
 
 	measure("convexHull N=1e6", 5, [&] {
 		auto hull = convexHull(points);
