@@ -12,9 +12,9 @@ FILES=$(find ${@:2} -name '*.cpp' | sort)
 cd ..
 ROOT=`pwd`
 
-# if [ $BUILD_MODE = "c" ]; then
-# 	./clear-coverage.sh
-# fi
+if [ $BUILD_MODE = "c" ]; then
+	./clear-coverage.sh
+fi
 
 for CPP_FILE in $FILES; do
 	echo
