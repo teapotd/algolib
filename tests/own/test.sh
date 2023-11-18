@@ -2,7 +2,7 @@
 set -e -o pipefail
 
 if [ $# -lt 3 ]; then
-    echo "usage: ./test.sh [b|d] [deterministic|fuzz|bench] [files...]"
+    echo "usage: ./test.sh [b|d|c] [deterministic|fuzz|bench] [files...]"
     exit 1
 fi
 
@@ -11,7 +11,10 @@ TEST_MODE=$2
 FILES=$(find ${@:3} -name '*.cpp' | sort)
 
 cd ..
-ROOT=`pwd`
+
+if [ $BUILD_MODE = "c" ]; then
+	./clear-coverage.sh
+fi
 
 for CPP_FILE in $FILES; do
     echo
@@ -20,5 +23,9 @@ for CPP_FILE in $FILES; do
     echo ================================================================
     ./build.sh $BUILD_MODE own/$CPP_FILE
     echo start
-    time $ROOT/../build/tests/own/$CPP_FILE.e $TEST_MODE
+    time ../build/tests/own/$CPP_FILE.e $TEST_MODE
 done
+
+if [ $BUILD_MODE = "c" ]; then
+	./report-coverage.sh
+fi

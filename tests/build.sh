@@ -3,7 +3,7 @@ set -e
 ROOT=`pwd`
 
 if [ $# -ne 2 ]; then
-	echo "usage: ./build.sh [b|d] [path to cpp file]"
+	echo "usage: ./build.sh [b|d|c] [path to cpp file]"
 	exit 1
 fi
 
@@ -20,6 +20,8 @@ if [ $1 = "b" ]; then
 	FLAGS+=" -O2"
 elif [ $1 = "d" ]; then
 	FLAGS+=" -O0 -g -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2 -fsanitize=address,undefined"
+elif [ $1 = "c" ]; then
+	FLAGS+=" -O0 --coverage"
 else
 	echo "usage: ./build.sh [b|d] [path to cpp file]"
 	exit 1

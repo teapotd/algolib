@@ -2,7 +2,7 @@
 set -e -o pipefail
 
 if [ $# -lt 2 ]; then
-    echo "usage: ./test.sh [b|d] [files...]"
+    echo "usage: ./test.sh [b|d|c] [files...]"
     exit 1
 fi
 
@@ -11,6 +11,10 @@ FILES=$(find ${@:2} -name '*.cpp' | sort)
 
 cd ..
 ROOT=`pwd`
+
+# if [ $BUILD_MODE = "c" ]; then
+# 	./clear-coverage.sh
+# fi
 
 for CPP_FILE in $FILES; do
 	echo
@@ -44,3 +48,7 @@ for CPP_FILE in $FILES; do
 		fi
 	done
 done
+
+if [ $BUILD_MODE = "c" ]; then
+	./report-coverage.sh
+fi
