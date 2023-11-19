@@ -2,6 +2,130 @@
 
 #include <bits/stdc++.h>
 
+namespace utils {
+	// Consumed CPU time in seconds.
+	double cpuTime() {
+		return double(clock()) / double(CLOCKS_PER_SEC);
+	}
+
+	// Format seconds as s, ms, us or ns.
+	std::string formatTime(double time) {
+		std::stringstream ss;
+		ss << std::fixed << std::setprecision(2);
+		for (std::string suffix : {"s", "ms", "us"}) {
+			if (time >= 0.1) {
+				ss << time << suffix;
+				return ss.str();
+			}
+			time *= 1000;
+		}
+		ss << time << "ns";
+		return ss.str();
+	}
+
+	// Format number of operations.
+	std::string formatOps(double ops) {
+		std::stringstream ss;
+		ss << std::fixed << std::setprecision(2);
+		if (ops >= 10000) {
+			int e = 0;
+			while (ops >= 10) {
+				ops /= 10;
+				e++;
+			}
+			ss << ops << "*10^" << e;
+		} else {
+			ss << ops;
+		}
+		return ss.str();
+	}
+
+	// Benchmark given lambda.
+	template<class F>
+	void measure(std::string name, int rounds, F func) {
+		double before = cpuTime();
+		for (int i = 0; i < rounds; i++) {
+			func();
+		}
+		double after = cpuTime();
+		double timePerRound = (after-before) / double(rounds);
+		double opsPerSecond = 1.0 / timePerRound;
+		std::cerr << name << " : " << formatTime(timePerRound);
+		std::cerr << " (" << formatOps(opsPerSecond) << " ops per second)" << std::endl;
+	}
+
+	template<class F>
+	void measure(std::string name, F func) {
+		measure(name, 1, func);
+	}
+
+	// Prevent value from being optimized away.
+	template<class T>
+	inline void consume(T&& value) {
+		asm volatile("" : "+r" (value));
+	}
+
+	// Compare two integers.
+	template<typename T>
+	std::enable_if_t<std::is_integral_v<T>, int> compareWithEps(T l, T r) {
+		return (l > r) - (l < r);
+	}
+
+	// Compare two floating point numbers with epsilon.
+	template<typename T>
+	std::enable_if_t<std::is_floating_point_v<T>, int> compareWithEps(T l, T r) {
+		constexpr T eps = 1e-12;
+		return (l-r > eps) - (l-r < -eps);
+	}
+
+	template<class T>
+	bool equalWithEps(T l, T r) { return compareWithEps(l, r) == 0; }
+
+	template<class T>
+	bool lessWithEps(T l, T r) { return compareWithEps(l, r) < 0; }
+
+	template<class T>
+	bool greaterWithEps(T l, T r) { return compareWithEps(l, r) > 0; }
+
+	template<class T>
+	bool leqWithEps(T l, T r) { return compareWithEps(l, r) <= 0; }
+
+	template<class T>
+	bool geqWithEps(T l, T r) { return compareWithEps(l, r) >= 0; }
+
+	template<class CollectionT, class Cmp = std::less<typename CollectionT::value_type>>
+	bool areElementsUnique(const CollectionT& elems, Cmp cmp = Cmp()) {
+		sort(elems.begin(), elems.end(), cmp);
+		auto eq = [cmp](auto l, auto r) { return !cmp(l, r) && !cmp(r, l); };
+		return unique(elems.begin(), elems.end(), eq) == elems.end();
+	}
+
+	template<class CollectionT, class Eq = std::equal_to<typename CollectionT::value_type>>
+	bool isSubsequence(const CollectionT& big, const CollectionT& sub, Eq eq = Eq()) {
+		auto it = big.begin();
+		size_t i = 0;
+		for (auto x : sub) {
+			do {
+				if (eq(it, big.end())) {
+					return false;
+				}
+			} while (*it++ != x);
+		}
+		return true;
+	}
+
+	pair<int, int> edgeFromIndex(int n, int64_t index) {
+		int64_t begin = 0, end = n;
+		while (begin+1 < end) {
+			auto mid = (begin+end) / 2;
+			(index >= mid*(mid-1)/2 ? begin : end) = mid;
+		}
+		auto v = index - begin*(begin-1)/2;
+		assert(v < begin);
+		return {v, begin};
+	}
+};
+
 namespace random_utils {
 	static std::mt19937_64 twister(1337);
 
@@ -190,7 +314,16 @@ namespace random_utils {
 		for (int i : randDistinct(0, int(values.size())-1, k)) {
 			samples.push_back(values[i]);
 		}
-		return values;
+		return samples;
+	}
+
+	// Returns K random undirected edges on N vertices.
+	vector<pair<int, int>> randEdges(int n, int k) {
+		vector<pair<int, int>> samples;
+		for (auto i : randDistinct(int64_t(0), n*int64_t(n-1)/2-1, k)) {
+			samples.push_back(utils::edgeFromIndex(n, i));
+		}
+		return samples;
 	}
 };
 
@@ -282,9 +415,8 @@ namespace hashing_utils {
 		using Ring = MultiZp<Mods...>;
 
 		constexpr RollingHash() : size(0) {}
-		constexpr RollingHash(int v) : value(v), size(1) {}
-		constexpr RollingHash(Ring v) : value(v), size(1) {}
-		constexpr RollingHash(Ring v, int s) : value(v), size(s) {}
+		constexpr RollingHash(int v, int s = 1) : value(v), size(s) {}
+		constexpr RollingHash(Ring v, int s = 1) : value(v), size(s) {}
 
 		constexpr bool operator==(const RollingHash& r) const {
 			return value == r.value && size == r.size;
@@ -329,117 +461,4 @@ namespace hashing_utils {
 		Ring value;
 		int size;
 	};
-};
-
-namespace utils {
-	// Consumed CPU time in seconds.
-	double cpuTime() {
-		return double(clock()) / double(CLOCKS_PER_SEC);
-	}
-
-	// Format seconds as s, ms, us or ns.
-	std::string formatTime(double time) {
-		std::stringstream ss;
-		ss << std::fixed << std::setprecision(2);
-		for (std::string suffix : {"s", "ms", "us"}) {
-			if (time >= 0.1) {
-				ss << time << suffix;
-				return ss.str();
-			}
-			time *= 1000;
-		}
-		ss << time << "ns";
-		return ss.str();
-	}
-
-	// Format number of operations.
-	std::string formatOps(double ops) {
-		std::stringstream ss;
-		ss << std::fixed << std::setprecision(2);
-		if (ops >= 10000) {
-			int e = 0;
-			while (ops >= 10) {
-				ops /= 10;
-				e++;
-			}
-			ss << ops << "*10^" << e;
-		} else {
-			ss << ops;
-		}
-		return ss.str();
-	}
-
-	// Benchmark given lambda.
-	template<class F>
-	void measure(std::string name, int rounds, F func) {
-		double before = cpuTime();
-		for (int i = 0; i < rounds; i++) {
-			func();
-		}
-		double after = cpuTime();
-		double timePerRound = (after-before) / double(rounds);
-		double opsPerSecond = 1.0 / timePerRound;
-		std::cerr << name << " : " << formatTime(timePerRound);
-		std::cerr << " (" << formatOps(opsPerSecond) << " ops per second)" << std::endl;
-	}
-
-	template<class F>
-	void measure(std::string name, F func) {
-		measure(name, 1, func);
-	}
-
-	// Prevent value from being optimized away.
-	template<class T>
-	inline void consume(T&& value) {
-		asm volatile("" : "+r" (value));
-	}
-
-	// Compare two integers.
-	template<typename T>
-	std::enable_if_t<std::is_integral_v<T>, int> compareWithEps(T l, T r) {
-		return (l > r) - (l < r);
-	}
-
-	// Compare two floating point numbers with epsilon.
-	template<typename T>
-	std::enable_if_t<std::is_floating_point_v<T>, int> compareWithEps(T l, T r) {
-		constexpr T eps = 1e-12;
-		return (l-r > eps) - (l-r < -eps);
-	}
-
-	template<class T>
-	bool equalWithEps(T l, T r) { return compareWithEps(l, r) == 0; }
-
-	template<class T>
-	bool lessWithEps(T l, T r) { return compareWithEps(l, r) < 0; }
-
-	template<class T>
-	bool greaterWithEps(T l, T r) { return compareWithEps(l, r) > 0; }
-
-	template<class T>
-	bool leqWithEps(T l, T r) { return compareWithEps(l, r) <= 0; }
-
-	template<class T>
-	bool geqWithEps(T l, T r) { return compareWithEps(l, r) >= 0; }
-
-	template<class CollectionT, class Cmp = std::less<typename CollectionT::value_type>>
-	bool areElementsUnique(const CollectionT& elems, Cmp cmp = Cmp()) {
-		sort(elems.begin(), elems.end(), cmp);
-		auto eq = [cmp](auto l, auto r) { return !cmp(l, r) && !cmp(r, l); };
-		return unique(elems.begin(), elems.end(), eq) == elems.end();
-	}
-
-	template<class CollectionT, class Eq = std::equal_to<typename CollectionT::value_type>>
-	bool isSubsequence(const CollectionT& big, const CollectionT& sub, Eq eq = Eq()) {
-		auto it = big.begin();
-		size_t i = 0;
-		for (auto x : sub) {
-			do {
-				if (eq(it, big.end())) {
-					return false;
-				}
-			} while (*it++ != x);
-		}
-		return true;
-	}
 };
