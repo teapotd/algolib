@@ -86,12 +86,7 @@ void fuzz() {
 
 void benchmark() {
 	constexpr int N = 2e5;
-	vector<pii> edges(1e6);
-
-	for (auto& [u, v] : edges) {
-		u = randInt(0, N-1);
-		v = randInt(0, N-1);
-	}
+	auto edges = randEdges(N, 1e6);
 
 	measure("addEdge N=2e5 M=1e6", 5, [&] {
 		Bridges ds(N);

@@ -92,16 +92,11 @@ void fuzzSingle() {
 	MCMF ours(n);
 	kactl::MCMF other(n);
 
-	vector<pii> edges;
-	rep(i, 0, n) rep(j, i+1, n) edges.pb({i, j});
-	randShuffle(edges);
-	edges.resize(m);
-
-	each(e, edges) {
+	for (auto [u, v] : randEdges(n, m)) {
 		int cap = randInt(0, 1e9);
 		int cost = randInt(-1e5, 1e5);
-		ours.addEdge(e.x, e.y, cap, cost);
-		other.addEdge(e.x, e.y, cap, cost);
+		ours.addEdge(u, v, cap, cost);
+		other.addEdge(u, v, cap, cost);
 	}
 
 	flow_t myFlow, myCost;

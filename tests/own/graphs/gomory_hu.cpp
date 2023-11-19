@@ -42,9 +42,7 @@ void fuzzSingle() {
 	rep(i, 0, n) rep(j, 0, n) if (i != j) {
 		int expected = flow.maxFlow(i, j);
 		int got = dfs(tree, i, j, -1);
-		if (expected != got) {
-			deb(i, j, expected, got);
-		}
+		assert(expected == got);
 	}
 }
 
