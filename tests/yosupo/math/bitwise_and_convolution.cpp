@@ -1,4 +1,4 @@
-#define FWHT_XOR 1
+#define FWHT_AND 1
 #include "../../../src/math/modular.h"
 #include "../../../src/math/fwht.h"
 
