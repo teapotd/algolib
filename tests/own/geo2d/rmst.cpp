@@ -1,3 +1,4 @@
+#define FLOATING_POINT_GEOMETRY 0
 #include "../../../src/geo2d/rmst.h"
 #include "common.hpp"
 
@@ -48,12 +49,15 @@ void check(const vector<vec>& points) {
 }
 
 void deterministic() {
+	constexpr vec::T big = 1e9;
 	check({});
 	check({{5,6}});
+	check({{-big,-big}, {big,big}});
+	check({{-big,-big}, {-big,big}, {big,-big}, {big,big}});
 }
 
 void fuzz() {
-	rep(i, 0, 50000) {
+	rep(i, 0, 50'000) {
 		int n = randInt(2, 30);
 		auto mx = randCoord(1*U, 100*U);
 		auto points = randVecsFromSquare(n, -mx, mx);

@@ -3,12 +3,19 @@
 #include "common.hpp"
 
 int naiveInsideHull(const vector<vec>& hull, vec p) {
-	if (hull.empty()) return 0;
-	if (sz(hull) == 1) return hull[0] == p;
+	if (hull.empty()) {
+		return 0;
+	}
+
+	if (sz(hull) == 1) {
+		return hull[0] == p;
+	}
+
 	if (sz(hull) == 2) {
 		auto a = hull[0], b = hull[1];
 		return sgn((a-p).dot(b-p)) <= 0 && !sgn((a-p).cross(b-p));
 	}
+
 	int ret = 1;
 	rep(i, 0, sz(hull)) {
 		auto v = hull[(i+1)%sz(hull)] - hull[i];
@@ -18,51 +25,8 @@ int naiveInsideHull(const vector<vec>& hull, vec p) {
 	return int(max(ret+1, 0));
 }
 
-vector<vec> naiveConvexHull(vector<vec> points) {
-	sort(all(points), [](vec l, vec r) {
-		return make_pair(l.y, l.x) < make_pair(r.y, r.x);
-	});
-
-	points.erase(unique(all(points)), points.end());
-
-	erase_if(points, [&](vec p) {
-		rep(a, 0, sz(points)) if (points[a] != p) {
-			rep(b, a+1, sz(points)) if (points[b] != p) {
-				if (naiveInsideHull({points[a], points[b]}, p)) {
-					return true;
-				}
-			}
-		}
-		return false;
-	});
-
-	erase_if(points, [&](vec p) {
-		rep(a, 0, sz(points)) if (points[a] != p) {
-			rep(b, a+1, sz(points)) if (points[b] != p) {
-				rep(c, b+1, sz(points)) if (points[c] != p) {
-					if (naiveInsideHull({points[a], points[b], points[c]}, p)) {
-						return true;
-					}
-					if (naiveInsideHull({points[c], points[b], points[a]}, p)) {
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	});
-
-	if (!points.empty()) {
-		sort(1+all(points), [&](vec l, vec r) {
-			return (l-points[0]).cmpAngle(r-points[0]) < 0;
-		});
-	}
-
-	return points;
-}
-
 int naiveMaxDot(const vector<vec>& hull, vec q) {
-	pair<vec::T, int> ret = { INT64_MAX, 0 };
+	pair<vec::T, int> ret = { numeric_limits<vec::T>::max(), 0 };
 	rep(i, 0, sz(hull)) {
 		ret = min(ret, make_pair(-q.dot(hull[i]), i));
 	}
@@ -79,48 +43,81 @@ double naiveHullDist(const vector<vec>& hull, vec p) {
 	return ret;
 }
 
-void check(const vector<vec>& points) {
+vector<vec> verifiedConvexHull(const vector<vec>& points) {
 	auto hull = convexHull(points);
-	auto expected = naiveConvexHull(points);
 
-	assert(hull == expected);
-
+	// Vertices are pairwise different.
 	for (int i = 0; i < sz(hull); i++) {
 		for (int j = i+1; j < sz(hull); j++) {
 			assert(!(hull[i] == hull[j]));
 		}
 	}
 
+	// First vertex is the lowest-leftmost.
 	for (int i = 1; i < sz(hull); i++) {
 		assert(hull[0].cmpYX(hull[i]) < 0);
 	}
 
+	// CCW ordering of vertices around the lowest-leftmost.
+	for (int i = 2; i < sz(hull); i++) {
+		vec a = hull[i-1] - hull[0];
+		vec b = hull[i] - hull[0];
+		assert(a.cmpAngle(b) < 0);
+	}
+
+	// CCW ordering of consecutive edges.
 	for (int i = 2; i < sz(hull); i++) {
 		vec a = hull[i-1] - hull[i-2];
 		vec b = hull[i] - hull[i-1];
 		assert(a.cmpAngle(b) < 0);
 	}
 
-	if (!hull.empty()) rep(i, 0, 800) {
-		vec q = randVecFromSquare(-100*U, 100*U);
-		assert(maxDot(hull, q) == naiveMaxDot(hull, q));
-		assert(equalWithEps(hullDist(hull, q), naiveHullDist(hull, q)));
+	// Hull vertices are contained in the input set.
+	for (vec p : hull) {
+		assert(count(all(points), p) > 0);
 	}
+
+	// Input points are inside hull.
+	for (vec p : points) {
+		assert(naiveInsideHull(hull, p));
+	}
+
+	return hull;
 }
 
 void deterministic() {
+	for (int n = 0; n <= 8; n++) {
+		for (int mask = 0; mask < (1<<(n*2)); mask++) {
+			vector<vec> points;
+			for (int i = 0; i < n; i++) {
+				int x = (mask >> (i*2)) & 1;
+				int y = (mask >> (i*2+1)) & 1;
+				points.pb({x*U, y*U});
+			}
+			verifiedConvexHull(points);
+		}
+	}
 }
 
 void fuzz() {
-	rep(i, 0, 1000) {
-		int n = randInt(0, 30);
+	rep(i, 0, 30'000) {
+		int n = randInt(1, 200);
 		auto mx = randCoord(1*U, 100*U);
 		auto points = (i%2 ? randVecsFromSquare(n, -mx, mx) : randVecsFromDisk(n, 0, double(mx)));
+
 		vec offset = randVecFromSquare(-mx*2, mx*2);
 		for (auto& p : points) {
 			p = p+offset;
 		}
-		check(points);
+
+		auto hull = verifiedConvexHull(points);
+		assert(!hull.empty());
+
+		rep(j, 0, 10) {
+			vec q = randVecFromSquare(-100*U, 100*U);
+			assert(maxDot(hull, q) == naiveMaxDot(hull, q));
+			assert(equalWithEps(hullDist(hull, q), naiveHullDist(hull, q)));
+		}
 	}
 }
 

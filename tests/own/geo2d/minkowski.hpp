@@ -13,7 +13,7 @@ void deterministic() {
 }
 
 void fuzz() {
-	rep(i, 0, 50000) {
+	rep(i, 0, 50'000) {
 		double minR = randDouble(1, 50), maxR = randDouble(1, 50);
 		if (minR > maxR) swap(minR, maxR);
 		auto A = convexHull(randVecsFromDisk(randInt(0, 50), minR, maxR));

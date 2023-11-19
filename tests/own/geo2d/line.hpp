@@ -2,21 +2,14 @@
 #include "../../../src/geo2d/line.h"
 #include "common.hpp"
 
-#if FLOATING_POINT_GEOMETRY
-
-line canonical(line& l) {
-	auto g = l.v.len();
-	return {l.v/g, l.c/g};
-}
-
-#else
-
 line canonical(line l) {
+#if FLOATING_POINT_GEOMETRY
+	auto g = l.v.len();
+#else
 	auto g = gcd(gcd(l.v.x, l.v.y), l.c);
+#endif
 	return {l.v/g, l.c/g};
 }
-
-#endif
 
 bool lineEqual(line a, line b) {
 	a = canonical(a);

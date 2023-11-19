@@ -55,7 +55,7 @@ void deterministic() {
 }
 
 void fuzz() {
-	rep(i, 0, 50000) {
+	rep(i, 0, 50'000) {
 		int n = randInt(1, 50);
 		int mx = randInt(1, 100);
 		auto lines = randLines(n, -mx, mx, i%10 ? 1 : -mx, mx);
