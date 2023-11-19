@@ -93,7 +93,7 @@ There are currently three categories of tests in the repository:
 3. [manual](tests/manual): old and dirty "tests", to be removed in the future.
 
 The tests are largely incomplete, especially for older code.
-However, a significant portion of the code has been tested in practice on various tasks.
+However, all such snippets should be tested in practice unless otherwise specified.
 
 ## Licensing
 

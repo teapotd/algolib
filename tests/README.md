@@ -28,19 +28,19 @@
 | graphs/matching_blossom            |               |                 |           | &check;              |
 | graphs/matching_blossom_w          |               |                 |           | &check;              |
 | graphs/matching_boski              |               |                 |           | offline              |
-| graphs/matching_turbo              |               |                 |           | &check;              |
+| graphs/matching_turbo              |               |                 |           |                      |
 | graphs/matching_weighted           |               | &check;         |           | &check;              |
 | graphs/matroids                    |               |                 |           |                      |
-| graphs/spfa                        |               | &check;         |           | &check;              |
+| graphs/spfa                        |               | &check;         |           |                      |
 | graphs/strongly_connected          |               | &check;         |           | &check;              |
-| math/berlekamp_massey              |               |                 |           | &check;              |
+| math/berlekamp_massey              |               | &check;         |           | &check;              |
 | math/bit_gauss                     |               |                 |           |                      |
 | math/bit_matrix                    |               |                 |           |                      |
-| math/crt                           |               |                 |           |                      |
+| math/crt                           |               | &check;         |           |                      |
 | math/fft_complex                   |               |                 |           |                      |
 | math/fft_mod                       |               |                 |           | &check;              |
 | math/fft_online                    | &check;       |                 | &check;   |                      |
-| math/fwht                          |               |                 |           | XOR                  |
+| math/fwht                          |               | &check;         |           | XOR, AND             |
 | math/gauss                         |               |                 |           |                      |
 | math/gauss_ortho                   |               |                 |           |                      |
 | math/linear_rec                    |               |                 |           | &check;              |
@@ -48,7 +48,7 @@
 | math/matrix                        |               |                 |           | \*, det, invert      |
 | math/miller_rabin                  |               |                 |           | &check;              |
 | math/modinv_precompute             |               |                 |           |                      |
-| math/modular                       |               |                 |           |                      |
+| math/modular                       | &check;       | egcd            |           |                      |
 | math/modular64                     |               |                 |           |                      |
 | math/modular_generator             |               |                 |           |                      |
 | math/modular_log                   |               |                 |           |                      |
