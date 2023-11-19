@@ -1,7 +1,7 @@
 #pragma once
 #include "../template.h"
 
-using Pll = pair<ll, ll>;
+using pll = pair<ll, ll>;
 
 ll egcd(ll a, ll b, ll& x, ll& y) {
 	if (!a) return x=0, y=1, b;
@@ -17,7 +17,7 @@ ll egcd(ll a, ll b, ll& x, ll& y) {
 // WARNING: a.x and b.x are assumed to be
 // in [0;a.y) and [0;b.y) respectively.
 // Works properly if lcm(a.y, b.y) < 2^63.
-Pll crt(Pll a, Pll b) {
+pll crt(pll a, pll b) {
 	if (a.y < b.y) swap(a, b);
 	ll x, y, g = egcd(a.y, b.y, x, y);
 	ll c = b.x-a.x, d = b.y/g, p = a.y*d;

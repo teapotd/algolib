@@ -14,15 +14,19 @@ void fwht(auto& b) {
 		for (int i = 0; i < sz(b); i += s*2) {
 			rep(j, i, i+s) {
 				auto &x = b[j], &y = b[j+s];
+				#if FWHT_XOR                     //!HIDE
 				tie(x, y) = make_pair(x+y, x-y); // XOR
-				// x += inv ? -y : y;            // AND
-				// y += inv ? -x : x;            // OR
+				#elif FWHT_AND                   //!HIDE
+				x += inv ? -y : y;               // AND
+				#elif FWHT_OR                    //!HIDE
+				y += inv ? -x : x;               // OR
+				#endif                           //!HIDE
 			}
 		}
 	}
-
-	// ONLY FOR XOR:
-	if (inv) each(e, b) e /= sz(b);
+	#if FWHT_XOR //!HIDE
+	if (inv) each(e, b) e /= sz(b); // ONLY XOR
+	#endif //!HIDE
 }
 
 // Compute convolution of a and b such that
