@@ -114,7 +114,7 @@ namespace utils {
 		return true;
 	}
 
-	pair<int, int> edgeFromIndex(int n, int64_t index) {
+	std::pair<int, int> edgeFromIndex(int n, int64_t index) {
 		int64_t begin = 0, end = n;
 		while (begin+1 < end) {
 			auto mid = (begin+end) / 2;
@@ -318,8 +318,8 @@ namespace random_utils {
 	}
 
 	// Returns K random undirected edges on N vertices.
-	vector<pair<int, int>> randEdges(int n, int k) {
-		vector<pair<int, int>> samples;
+	std::vector<std::pair<int, int>> randEdges(int n, int k) {
+		std::vector<std::pair<int, int>> samples;
 		for (auto i : randDistinct(int64_t(0), n*int64_t(n-1)/2-1, k)) {
 			samples.push_back(utils::edgeFromIndex(n, i));
 		}
