@@ -16,7 +16,7 @@
 | graphs/dense_dfs                   |               |                 |           |                      |
 | graphs/directed_mst                |               |                 |           | &check;              |
 | graphs/dominators                  |               |                 |           | &check;              |
-| graphs/edge_color_bipart           |               |                 |           | &check;              |
+| graphs/edge_color_bipart           |               |                 |           | example only...      |
 | graphs/edge_color_vizing           |               |                 |           |                      |
 | graphs/flow_edmonds_karp           |               |                 |           |                      |
 | graphs/flow_min_cost               |               | &check;         |           |                      |
@@ -78,11 +78,6 @@
 | segtree/point_fixed                | &check;       | &check;         |           |                      |
 | segtree/point_persistent           | &check;       | &check;         |           |                      |
 | structures/bitset_plus             |               |                 |           |                      |
-| structures/ext/rope                |               |                 |           |                      |
-| structures/ext/tree                |               |                 |           |                      |
-| structures/ext/hash_table          |               |                 |           |                      |
-| structures/ext/heap                |               |                 |           |                      |
-| structures/ext/trie                |               |                 |           |                      |
 | structures/fenwick_tree            |               |                 |           | modify, query        |
 | structures/fenwick_tree_2d         |               |                 |           |                      |
 | structures/find_union              |               |                 |           | &check;              |
