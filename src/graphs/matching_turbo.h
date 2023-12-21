@@ -10,11 +10,11 @@ int matching(vector<vi>& G, vi& match) {
 	int n = 0, k = 1;
 	match.assign(sz(G), -1);
 
-	function<int(int)> dfs = [&](int i) {
+	auto dfs = [&](auto f, int i)->int {
 		if (seen[i]) return 0;
 		seen[i] = 1;
 		each(e, G[i]) {
-			if (match[e] < 0 || dfs(match[e])) {
+			if (match[e] < 0 || f(f, match[e])) {
 				match[i] = e; match[e] = i;
 				return 1;
 			}
@@ -26,7 +26,7 @@ int matching(vector<vi>& G, vi& match) {
 		seen.assign(sz(G), 0);
 		k = 0;
 		rep(i, 0, sz(G)) if (match[i] < 0)
-			k += dfs(i);
+			k += dfs(dfs, i);
 		n += k;
 	}
 	return n;
@@ -37,21 +37,20 @@ int matching(vector<vi>& G, vi& match) {
 vi vertexCover(vector<vi>& G, vi& match) {
 	vi ret, col(sz(G)), seen(sz(G));
 
-	function<void(int, int)> dfs =
-			[&](int i, int c) {
+	auto dfs = [&](auto f, int i, int c)->void {
 		if (col[i]) return;
 		col[i] = c+1;
-		each(e, G[i]) dfs(e, !c);
+		each(e, G[i]) f(f, e, !c);
 	};
 
-	function<void(int)> aug = [&](int i) {
+	auto aug = [&](auto f, int i)->void {
 		if (seen[i] || col[i] != 1) return;
 		seen[i] = 1;
-		each(e, G[i]) seen[e] = 1, aug(match[e]);
+		each(e, G[i]) seen[e] = 1, f(f, match[e]);
 	};
 
-	rep(i, 0, sz(G)) dfs(i, 0);
-	rep(i, 0, sz(G)) if (match[i] < 0) aug(i);
+	rep(i, 0, sz(G)) dfs(dfs, i, 0);
+	rep(i, 0, sz(G)) if (match[i]<0) aug(aug, i);
 	rep(i, 0, sz(G))
 		if (seen[i] == col[i]-1) ret.pb(i);
 	return ret;

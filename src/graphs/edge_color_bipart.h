@@ -19,15 +19,14 @@ int colorEdges(vector<pii>& edges,
 		has[i].resize(n+1, vector<pii>(n+1));
 	}
 
-	function<void(int,int)> dfs =
-		[&](int x, int p) {
-			pii i = has[p][x][c[!p]];
-			if (has[!p][i.x][c[p]].y) dfs(i.x, !p);
-			else has[!p][i.x][c[!p]] = {};
-			has[p][x][c[p]] = i;
-			has[!p][i.x][c[p]] = {x, i.y};
-			if (i.y) col[i.y-1] = c[p]-1;
-		};
+	auto dfs = [&](auto f, int x, int p)->void {
+		pii i = has[p][x][c[!p]];
+		if (has[!p][i.x][c[p]].y) f(f, i.x, !p);
+		else has[!p][i.x][c[!p]] = {};
+		has[p][x][c[p]] = i;
+		has[!p][i.x][c[p]] = {x, i.y};
+		if (i.y) col[i.y-1] = c[p]-1;
+	};
 
 	rep(i, 0, m) {
 		int x[2] = {edges[i].x+1, edges[i].y+1};
@@ -37,7 +36,7 @@ int colorEdges(vector<pii>& edges,
 			for (c[d] = 1; has[d][x[d]][c[d]].y;)
 				c[d]++;
 		}
-		if (c[0]-c[1]) dfs(x[1], 1);
+		if (c[0]-c[1]) dfs(dfs, x[1], 1);
 		rep(d, 0, 2)
 			has[d][x[d]][c[0]] = {x[!d], i+1};
 		col[i] = c[0]-1;
