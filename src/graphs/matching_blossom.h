@@ -5,7 +5,7 @@
 // matching in general graphs; time: O(nm)
 // Returns matching size (edge count).
 // match[v] = vert matched to v or -1
-//! Source: https://codeforces.com/blog/entry/92339?#comment-810264
+//! Source: https://codeforces.com/blog/entry/92339?#comment-810242
 int blossom(vector<vi>& G, vi& match) {
 	int n = sz(G), cnt = -1, ans = 0;
 	match.assign(n, -1);
