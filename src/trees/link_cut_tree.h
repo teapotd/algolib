@@ -67,7 +67,7 @@ struct LinkCutTree {
 	// After this operation x becomes the end
 	// of preferred path starting in root;
 	void access(int x) { // amortized O(lg n)
-		while (true) {
+		while (1) {
 			splay(x);
 			int p = prev[x];
 			if (p < 0) break;

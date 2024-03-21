@@ -28,7 +28,7 @@ struct Hull {
 	// Insert f(x) = ax+b; time: amortized O(1)
 	void push(T a, T b) {
 		Line l{a, b, INF};
-		while (true) {
+		while (1) {
 			T e = S.back().end=S.back().intersect(l);
 			if (sz(S) < 2 || S[sz(S)-2].end < e)
 				break;

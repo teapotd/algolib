@@ -49,4 +49,4 @@ struct Hull {
 	}
 };
 
-bool Hull::modeQ = false;
+bool Hull::modeQ = 0;
