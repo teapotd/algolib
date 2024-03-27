@@ -76,8 +76,7 @@ struct SegTree {
 
 	// Query interval [b;e) in tree version `j`;
 	Agg query(int j, int b, int e) { // O(lg n)
-		Agg t;
-		go<0>(b, e, j, 0, len, [&](int i) {
+		Agg t; go<0>(b, e, j, 0, len, [&](int i) {
 			return t.merge(agg[i]), 1;
 		});
 		return t;
@@ -86,7 +85,7 @@ struct SegTree {
 	// Find smallest `j` such that
 	// g(aggregate of [0,j)) is true
 	// in tree version `i`; time: O(lg n)
-	// The function `g` must be monotonic.
+	// The predicate `g` must be monotonic.
 	// Returns -1 if no such prefix exists.
 	int lowerBound(int i, auto g) {
 		if (!g(agg[i])) return -1;

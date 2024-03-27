@@ -16,19 +16,15 @@
 // Configure by modifying:
 // - T - type of sequence elements
 // - Func - represents function from family F
-// - ID_ADD - function f that is neutral
-//            element for function addition
-// - ID_MAX - function f that is neutral
-//            element for function max
+// - ID_ADD - neutral element for function add
+// - ID_MAX - neutral element for function max
 // TESTED ON RANDS
 struct LiChao {
-	using T = ll;
-
 	struct Func {
-		T a, b; // a*x + b
+		ll a, b; // a*x + b
 
 		// Evaluate function in point x
-		T operator()(int x) const { return a*x+b; }
+		ll operator()(ll x) const { return a*x+b; }
 
 		// Sum of two functions
 		Func operator+(Func r) const {
@@ -37,7 +33,7 @@ struct LiChao {
 	};
 
 	static constexpr Func ID_ADD{0, 0};
-	static constexpr Func ID_MAX{0, T(-1e9)};
+	static constexpr Func ID_MAX{0, ll(-1e9)};
 
 	vector<Func> val, lazy;
 	int len;
@@ -73,7 +69,7 @@ struct LiChao {
 		if (b >= vb && e <= ve) {
 			auto& g = val[i];
 			if (g(m) < f(m)) swap(g, f);
-			if ((g(b) < f(b)) != (g(m) < f(m)))
+			if (g(b) < f(b))
 				max(vb, ve, f, i*2, b, m);
 			else
 				max(vb, ve, f, i*2+1, m, e);
@@ -107,9 +103,9 @@ struct LiChao {
 	}
 
 	// Get value of c[x]; time: O(log n)
-	T query(int x) {
+	auto query(int x) {
 		int i = x+len;
-		T ret = val[i](x);
+		auto ret = val[i](x);
 		while (i /= 2)
 			ret = ::max(ret+lazy[i](x), val[i](x));
 		return ret;

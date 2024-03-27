@@ -10,7 +10,7 @@ ll egcd(ll a, ll b, ll& x, ll& y) {
 	return d;
 }
 
-// Chinese Remainder Theoerem; time: O(lg lcm)
+// Chinese Remainder Theorem; time: O(lg lcm)
 // Solves x = a.x (mod a.y), x = b.x (mod b.y)
 // Returns pair (x mod lcm, lcm(a.y, b.y))
 // or (-1, -1) if there's no solution.

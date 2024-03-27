@@ -76,7 +76,7 @@ struct SegTree {
 	// Find smallest `j` such that
 	// g(aggregate of [0,j)) is true
 	// in tree version `i`; time: O(lg n)
-	// The function `g` must be monotonic.
+	// The predicate `g` must be monotonic.
 	// Returns -1 if no such prefix exists.
 	int lowerBound(int i, auto g) {
 		if (!g(agg[i])) return -1;
