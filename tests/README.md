@@ -117,6 +117,7 @@
 | util/bump_alloc                    |               |                 |           |                      |
 | util/compress_vec                  |               |                 |           |                      |
 | util/deque_undo                    |               |                 |           |                      |
+| util/int128_io                     | &check;       | &check;         |           |                      |
 | util/inversion_vector              |               |                 |           |                      |
 | util/longest_inc_subseq            |               |                 |           | &check;              |
 | util/max_rects                     |               |                 |           |                      |
