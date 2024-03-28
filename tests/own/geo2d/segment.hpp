@@ -12,6 +12,12 @@ void checkDist(seg s, vec p, vec::T distSqr) {
 }
 
 void deterministic() {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+	seg def;
+	assert(def.a.x == 0 && def.a.y == 0 && def.b.x == 0 && def.b.y == 0);
+#pragma GCC diagnostic pop
+
 	assert((seg{{1*U,5*U}, {7*U,7*U}}.contains({1*U,5*U})));
 	assert((seg{{1*U,5*U}, {7*U,7*U}}.contains({4*U,6*U})));
 	assert((seg{{1*U,5*U}, {7*U,7*U}}.contains({7*U,7*U})));

@@ -36,8 +36,9 @@ vector<vec> intersectHalfs(vector<line> in) {
 	}
 
 	out[0] = out[--b];
-	rep(i, a, b) out[i] == out[0] ||
-		out[i] == out[k] ? 1 : out[++k] = out[i];
+	rep(i, a, b)
+		if (out[i] != out[0] && out[i] != out[k])
+			out[++k] = out[i];
 	out.resize(k+1);
 	each(t, in) if (t.side(out[0]) > 0) return{};
 	return out;

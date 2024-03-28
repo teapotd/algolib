@@ -4,7 +4,7 @@
 #if FLOATING_POINT_GEOMETRY
 constexpr double U = 0.1;
 #else
-constexpr int U = 1;
+constexpr ll U = 1;
 #endif
 
 namespace random_utils {

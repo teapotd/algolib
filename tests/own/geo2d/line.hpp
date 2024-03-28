@@ -18,6 +18,12 @@ bool lineEqual(line a, line b) {
 }
 
 void deterministic() {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+	line def;
+	assert(def.v.x == 0 && def.v.y == 0 && def.c == 0);
+#pragma GCC diagnostic pop
+
 	assert(lineEqual(through({2*U,4*U}, {14*U,8*U}), {{1,-3},-10*U}));
 	assert(lineEqual(through({14*U,8*U}, {2*U,4*U}), {{-1,3},10*U}));
 	assert(lineEqual(parallel({8*U,6*U}, {{-1*U,3*U},-123*U}), {{-1,3},10*U}));

@@ -7,8 +7,8 @@ struct line {
 	// For lines: v * point == c
 	// For halfplanes: v * point <= c
 	// (i.e. normal vector points outside)
-	vec v;    // Normal vector [A; B]
-	vec::T c; // Offset (C parameter of equation)
+	vec v;    // Normal vector
+	vec::T c = 0; // Offset
 	DBP(v, c);
 
 	// Distance from point to line.

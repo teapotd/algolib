@@ -20,8 +20,7 @@ struct vec {
 #else                       //!HIDE
 	using T = ll;     // !FLOATING_POINT_GEOMETRY
 #endif                      //!HIDE
-	T x, y;
-	vec(T a = 0, T b = 0) : x(a), y(b) {}
+	T x = 0, y = 0;
 
 	// The following methods are optional
 	// and dependencies on them are noted
