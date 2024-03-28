@@ -13,7 +13,7 @@ struct SegTree {
 	#endif //!HIDE
 
 	vector<T> V;
-	int len{1};
+	int len = 1;
 
 	// Initialize tree for n elements; time: O(n)
 	SegTree(int n = 0, T def = 0) {
