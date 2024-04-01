@@ -48,6 +48,14 @@ void deterministic() {
 }
 
 void fuzz() {
+#if FLOATING_POINT_GEOMETRY
+	rep(i, 0, 3e6) {
+		line l(randVecFromDisk(0.5, 1), randCoord(-1, 1));
+		vec inter, p = randVecFromSquare(-5, 5);
+		assert(perp(p, l).intersect(l, inter));
+		assert(inter == l.proj(p));
+	}
+#endif
 }
 
 void benchmark() {

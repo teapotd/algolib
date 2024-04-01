@@ -24,6 +24,12 @@ struct line {
 	int side(vec a) { return sgn(v.dot(a)-c); }
 
 #if FLOATING_POINT_GEOMETRY
+	// Orthogonal projection of point on line.
+	// Depends on vec: -, *, dot, len2
+	vec proj(vec a) {
+		return a - v * ((v.dot(a)-c) / v.len2());
+	}
+
 	// Intersect this line with line a, returns
 	// true on success (false if parallel).
 	// Intersection point is saved to `out`.
