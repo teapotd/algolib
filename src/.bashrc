@@ -31,5 +31,4 @@ cmp()(
 # -Wcast-align -Wduplicated-cond
 # -D_GLIBCXX_DEBUG_PEDANTIC -D_FORTIFY_SOURCE=2
 # -fno-sanitize-recover -fstack-protector
-
-# Print optimization info: -fopt-info-all
+# -fopt-info-all -fopt-info-missed
