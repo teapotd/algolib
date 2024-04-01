@@ -2,6 +2,7 @@
 
 |                                    | deterministic | fuzz            | benchmark | yosupo               |
 |------------------------------------|:-------------:|:---------------:|:---------:|:--------------------:|
+| geo2d/circle                       | partial       | partial         |           |                      |
 | geo2d/convex_hull                  |               | &check;         | &check;   |                      |
 | geo2d/halfplanes                   | &check;       | &check;         | &check;   |                      |
 | geo2d/line                         | &check;       |                 |           |                      |
