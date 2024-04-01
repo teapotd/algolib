@@ -31,7 +31,7 @@ ll generator(ll n) {
 	each(p, fac) phi = phi / p * (p-1);
 	fac = factorize(phi);
 
-	for (ll g = 1;; g++) if (__gcd(g, n) == 1) {
+	for (ll g = 1;; g++) if (gcd(g, n) == 1) {
 		each(f, fac) if (modPow(g, phi/f, n) == 1)
 			goto nxt;
 		return g;

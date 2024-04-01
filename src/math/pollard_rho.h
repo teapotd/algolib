@@ -15,7 +15,7 @@ void rho(vector<ll>& out, ll n) {
 			x = modAdd(modMul(x, x, n), a, n);
 			y = modAdd(modMul(y, y, n), a, n);
 			y = modAdd(modMul(y, y, n), a, n);
-			d = __gcd(abs(x-y), n);
+			d = gcd(abs(x-y), n);
 		}
 		if (d != n) return rho(out,d),rho(out,n/d);
 	}
