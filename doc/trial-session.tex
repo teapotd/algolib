@@ -1,0 +1,100 @@
+\begin{code}{CPUID}{text}{}
+Vendors:
+1: intel; 2: amd
+
+Types:
+1: bonnell, atom; 2: core2; 3: corei7
+4: amdfam10h; 5: amdfam15h, shanghai;
+6: silvermont, slm, istanbul
+7: knl, bdver1; 8: bdver2; 9: btver2
+10: amdfam17h; 11: knm; 12: goldmont
+13: goldmont-plus; 14: tremont
+15: amdfam19h; 18: grandridge
+19: clearwaterforest
+
+Subtypes:
+1: nehalem; 2: westmere; 3: sandybridge;
+4: barcelona; 7: btver1; 9: bdver3;
+10: bdver4; 11: znver1; 12: ivybridge;
+13: haswell; 14: broadwell; 15: skylake;
+16: skylake-avx512;
+17: cannonlake, sierraforest;
+18: icelake-client; 19: icelake-server;
+20: znver2; 21: cascadelake;
+22: tigerlake; 23: cooperlake;
+24: sapphirerapids, emeraldrapids;
+25: alderlake, raptorlake, meteorlake, ...;
+26: znver3; 27: rocketlake; 28: lujiazui;
+29: znver4; 30: graniterapids;
+31: graniterapids-d; 32: arrowlake;
+33: arrowlake-s, lunarlake; 34: pantherlake;
+35: yongfeng; 36: znver5;
+
+Check CPU features using `man g++`.
+Verify: __builtin_cpu_is __builtin_cpu_supports
+\end{code}
+
+\begin{code}{CPUID submit}{cpp}{}
+#include "cpuid.h"
+
+extern "C" struct {
+	int vendor, type, subtype, features;
+} __cpu_model;
+
+int main() {
+	char brand[50] = {};
+	auto b = (unsigned*)brand;
+	rep(i, 2, 5) {
+		__get_cpuid(INT_MIN+i, b, b+1, b+2, b+3);
+		b += 4;
+	}
+
+	auto m = __cpu_model;
+	cout << brand << endl << m.vendor << ' ';
+	cout << m.type << ' ' << m.subtype << endl;
+
+	// Extract CPU subtype using 4 submissions.
+	int submitID = 0; // Set to 0, 1, 2, 3.
+
+	int t = m.subtype;
+	while (submitID--) t /= 3;
+	if (t%3 == 2) for (volatile int c=0;;) c=c;
+	return t%3;
+}
+\end{code}
+
+\begin{code}{CPUID recovery}{cpp}{}
+int main() {
+	// 0 = ANS, 1 = RTE, 2 = TLE
+	int id = 0, status[4] = {0, 2, 1, 0};
+	rep(i, 0, 4) id = id*3 + status[3-i];
+	cout << id << endl;
+}
+\end{code}
+\columnbreak
+
+\uline{\textbf{\Verb{Checklist}}\hfill}
+\begin{itemize}
+	\item \verb|.vimrc|
+	\item \verb|.bashrc|
+	\item \verb|template.cpp|
+	\item Hash verification
+	\item Java
+	\item Python
+	\item Printing
+	\item Clarifications
+	\item Documentation
+	\item Submit script
+	\item Whitespace/case insensitivity
+	\item Source code limit
+	\item CPU on local machine
+	\item CPU on checker
+	\item Test Dijkstra speed
+	\item \verb|clock()|
+	\item Judge errors
+\end{itemize}
+
+\begin{code}{List binaries}{bash}{}
+echo $PATH | tr ':' ' ' | xargs ls |          \
+	grep -v / | sort | uniq
+\end{code}
