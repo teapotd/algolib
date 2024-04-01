@@ -1,12 +1,12 @@
-// If math constants like M_PI are not found
-// add this at the beginning of file
+// If math constants like M_PI are undefined:
 #define _USE_MATH_DEFINES
 
 // Pragmas
 #pragma GCC optimize("Ofast,unroll-loops")
-#pragma GCC target("popcnt,avx,tune=native")
+#pragma GCC target("arch=???,tune=???")
+#define _GLIBCXX_GTHREAD_USE_WEAK 0
 
-// Exiting without calling destructors
+// Exit without calling destructors
 cout << flush; _Exit(0);
 
 // Clock
