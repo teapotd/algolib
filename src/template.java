@@ -1,51 +1,34 @@
-import java.io.OutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-import java.io.BufferedReader;
-import java.io.InputStream;
+import java.io.*;
+import java.util.*;
 
-public class Main {
-	public static void main(String[] args) {
-		try (PrintWriter out =
-		     new PrintWriter(System.out)) {
-			new Task().solve(
-				new InputReader(System.in), out);
-		}
+public class Task extends PrintWriter {
+	BufferedReader reader = new BufferedReader(
+			new InputStreamReader(System.in), 32768);
+	StringTokenizer tok;
+
+	public static void main(String[] a) {
+		try (Task t = new Task()) { t.solve(); }
 	}
 
-	static class InputReader {
-		BufferedReader r;
-		StringTokenizer t = null;
+	Task() { super(System.out); }
 
-		public InputReader(InputStream s) {
-			r = new BufferedReader(
-				new InputStreamReader(s), 32768);
-		}
-
-		public String next() {
-			while (t == null || !t.hasMoreTokens())
-				try {
-					t = new StringTokenizer(
-						r.readLine());
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-				}
-			return t.nextToken();
-		}
-
-		public int nextInt() {
-			return Integer.parseInt(next());
-		}
+	String scan() {
+		while (tok == null || !tok.hasMoreTokens())
+			try {
+				tok = new StringTokenizer(
+					reader.readLine());
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		return tok.nextToken();
 	}
 
-	static class Task {
-		public void solve(InputReader in,
-		                  PrintWriter out) {
-			int n = in.nextInt();
-			out.printf("hello %d", n);
-		}
+	int scanInt() {
+		return Integer.parseInt(scan());
+	}
+
+	void solve() {
+		int n = scanInt();
+		printf("hello %d", n);
 	}
 }
