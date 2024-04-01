@@ -16,6 +16,7 @@ void runInfiniteFuzzing() {
 }
 
 int main(int argc, char *argv[]) {
+	feenableexcept(FE_DIVBYZERO | FE_INVALID | FE_OVERFLOW);
 	std::string mode = (argc < 2 ? "deterministic" : argv[1]);
 	if (mode == "deterministic" || mode == "d") {
 		deterministic();
