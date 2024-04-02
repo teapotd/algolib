@@ -7,7 +7,7 @@ struct line {
 	// For lines: v * point == c
 	// For halfplanes: v * point <= c
 	// (i.e. normal vector points outside)
-	vec v;    // Normal vector
+	vec v;        // Normal vector
 	vec::T c = 0; // Offset
 	DBP(v, c);
 
