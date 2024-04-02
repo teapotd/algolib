@@ -38,7 +38,7 @@ double naiveHullDist(const vector<vec>& hull, vec p) {
 	double ret = 1e30;
 	rep(i, 0, sz(hull)) {
 		seg s{hull[(i+1)%sz(hull)], hull[i]};
-		ret = min(ret, s.distTo(p));
+		ret = min(ret, s.dist(p));
 	}
 	return ret;
 }

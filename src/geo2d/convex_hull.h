@@ -55,7 +55,7 @@ int maxDot(const vector<vec>& h, vec q) {
 // Depends on: maxDot
 // Depends on vec: -, dot, cross, len, perp,
 //                 upper, cmpAngle
-// Depends on seg: side, distTo
+// Depends on seg: side, dist
 double hullDist(const vector<vec>& h, vec q) {
 	if (sz(h) == 1) return (q-h[0]).len();
 	int b = (h[0]-q).upper() ? maxDot(h,{0,1}):0;
@@ -70,5 +70,5 @@ double hullDist(const vector<vec>& h, vec q) {
 	}
 	seg s{h[b%n], h[e%n]}, t{h[e%n], h[++e%n]};
 	return s.side(q) + t.side(q) < 2 ?
-		s.distTo(q) : -1;
+		s.dist(q) : -1;
 }

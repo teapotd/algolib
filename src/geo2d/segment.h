@@ -24,7 +24,7 @@ struct seg {
 
 	// Distance from segment to point.
 	// Depends on vec: -, dot, cross, len
-	double distTo(vec p) const {
+	double dist(vec p) const {
 		if (sgn((p-a).dot(b-a)) <= 0)
 			return (p-a).len();
 		if (sgn((p-b).dot(a-b)) <= 0)
@@ -37,7 +37,7 @@ struct seg {
 	// Compare distance to p with sqrt(d2).
 	// -1 if smaller, 0 if equal, 1 if greater
 	// Depends on vec: -, dot, cross, len2
-	int cmpDistTo(vec p, ll d2) const {
+	int cmpDist(vec p, ll d2) const {
 		if ((p-a).dot(b-a) <= 0)
 			return sgn((p-a).len2()-d2);
 		if ((p-b).dot(a-b) <= 0)

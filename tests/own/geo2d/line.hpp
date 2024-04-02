@@ -29,9 +29,9 @@ void deterministic() {
 	assert(lineEqual(parallel({8*U,6*U}, {{-1*U,3*U},-123*U}), {{-1,3},10*U}));
 	assert(lineEqual(perp({8*U,6*U}, {{3*U,1*U},-123*U}), {{-1,3},10*U}));
 
-	assert(equalWithEps(line{{U,-3*U},-10*U*U}.distTo({8*U,6*U}), 0.0));
-	assert(equalWithEps(line{{U,-3*U},-10*U*U}.distTo({-5*U,5*U}), sqrt(10)*U));
-	assert(equalWithEps(line{{U,-3*U},-10*U*U}.distTo({3*U,1*U}), sqrt(10)*U));
+	assert(equalWithEps(line{{U,-3*U},-10*U*U}.dist({8*U,6*U}), 0.0));
+	assert(equalWithEps(line{{U,-3*U},-10*U*U}.dist({-5*U,5*U}), sqrt(10)*U));
+	assert(equalWithEps(line{{U,-3*U},-10*U*U}.dist({3*U,1*U}), sqrt(10)*U));
 
 	assert((line{{U,-3*U},-10*U*U}.side({8*U,6*U}) == 0));
 	assert((line{{U,-3*U},-10*U*U}.side({-5*U,5*U}) == -1));

@@ -13,7 +13,7 @@ struct line {
 
 	// Distance from point to line.
 	// Depends on vec: dot, len
-	double distTo(vec a) {
+	double dist(vec a) {
 		return fabs(v.dot(a) - c) / v.len();
 	}
 

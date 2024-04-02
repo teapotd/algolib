@@ -3,11 +3,11 @@
 #include "common.hpp"
 
 void checkDist(seg s, vec p, vec::T distSqr) {
-	assert(equalWithEps(s.distTo(p), sqrt(distSqr)));
+	assert(equalWithEps(s.dist(p), sqrt(distSqr)));
 #if not FLOATING_POINT_GEOMETRY
-	assert(s.cmpDistTo(p, distSqr) == 0);
-	assert(s.cmpDistTo(p, distSqr-1*U) == 1);
-	assert(s.cmpDistTo(p, distSqr+1*U) == -1);
+	assert(s.cmpDist(p, distSqr) == 0);
+	assert(s.cmpDist(p, distSqr-1*U) == 1);
+	assert(s.cmpDist(p, distSqr+1*U) == -1);
 #endif
 }
 

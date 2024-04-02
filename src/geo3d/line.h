@@ -9,16 +9,16 @@ struct line { // p + d*k == point
 
 	// Distance from point to line.
 	// Depends on vec: dot, len
-	double distTo(vec a) {
+	double dist(vec a) {
 		return d.cross(a-p).len() / d.len();
 	}
 
 	// Distance between two lines.
 	// Depends on vec: -, dot, cross, len
-	double distTo(line a) {
+	double dist(line a) {
 		vec n = d.cross(a.d);
 		auto t = n.len();
-		if (!sgn(t)) return distTo(a.p);
+		if (!sgn(t)) return dist(a.p);
 		return abs(n.dot(a.p-p)) / t;
 	}
 

@@ -40,7 +40,7 @@ struct circle {
 	// Returns number of intersection points.
 	// Points are in order given by a.v.perp().
 	int intersect(line a, pair<vec, vec>& out) {
-		auto d = a.distTo(p), h2 = r2 - d*d;
+		auto d = a.dist(p), h2 = r2 - d*d;
 		vec h, t = a.proj(p);
 		int s = sgn(h2)+1;
 		if (s > 1)
