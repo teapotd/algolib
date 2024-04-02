@@ -1,2 +1,2 @@
 #define FLOATING_POINT_GEOMETRY 0
-#include "../minkowski.hpp"
+#include "../convex_hull_sum.hpp"

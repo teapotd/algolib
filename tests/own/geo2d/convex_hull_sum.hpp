@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../src/geo2d/minkowski.h"
+#include "../../../src/geo2d/convex_hull_sum.h"
 #include "../../../src/geo2d/convex_hull.h"
 #include "common.hpp"
 
