@@ -3,58 +3,6 @@
 //! It was added to fill space before ICPC Moscow.
 
 // P = punkt 2D lub 3D, K = double
-// --- GEOMETRIA OKREGOW W 2D ~Bartosz Walczak
-struct circle { // okrag w 2D
-	P c; K r; // srodek, promien
-	circle(const P &ci, K ri=0) : c(ci),r(ri){}
-	circle() {}
-	K length() const { return 2*M_PI*r; }
-	K area() const { return M_PI*r*r; }
-};
-// Czy punkt lezy na okregu?
-bool on_circle(const P &a, const circle &c)
-  { return fabs((a-c.c).norm()-c.r*c.r) < EPS;}
-// Czy kolo/punkt lezy wewnatrz lub na brzegu?
-bool operator<(const circle &a,const circle &b)
-  { return b.r+EPS > a.r && (a.c-b.c).norm() <
-	(b.r-a.r)*(b.r-a.r)+EPS; }
-// Srodek okragu opisanego na trojkacie
-circle circumcircle(P a, P b, P c) {
-	if ((a-b).norm() > (c-b).norm()) swap(a,c);
-	if ((b-c).norm() > (a-c).norm()) swap(a,b);
-	if (fabs(det(b-a, c-b)) < EPS)
-		throw "zdegenerowany";
-	P v=intersection(median(a, b), median(b,c));
-	return circle(v, sqrt((a-v).norm()));
-}
-// Przeciecie okregu i prostej.
-// Zwraca liczbe punktow
-int intersection(const circle &c,
-			const line &p, P I[]/*OUT*/) {
-	K d = p.n.norm(), a = (p.n*c.c-p.c)/d;
-	P u = c.c-p.n*a; a *= a; K r = c.r*c.r/d;
-	if (a >= r+EPS) return 0;
-	if (a > r-EPS) { I[0]=u; return 1; }
-	K h = sqrt(r-a);
-	I[0] = u+cross(p.n)*h; I[1] = u-cross(p.n)*h;
-	return 2;
-}
-// Przeciecie dwoch okregow.
-// Zwraca liczbe punktow. Zalozenie: c1.c!=c2.c
-int intersection(const circle &c1,
-		const circle &c2, P I[]/*OUT*/) {
-	K d = (c2.c-c1.c).norm(), r1 =
-		c1.r*c1.r/d, r2 = c2.r*c2.r/d;
-	P u = c1.c*((r2-r1+1)*0.5) +
-		c2.c*((r1-r2+1)*0.5);
-	if (r1 > r2) swap(r1, r2);
-	K a = (r1-r2+1)*0.5; a *= a;
-	if (a >= r1+EPS) return 0;
-	if (a > r1-EPS) { I[0] = u; return 1; }
-	P v = cross(c2.c - c1.c); K h = sqrt(r1-a);
-	I[0] = u+v*h; I[1] = u-v*h; return 2;
-}
-
 // --- GEOMETRIA 3D ~Bartosz Walczak
 // Kat pomiedzy dwoma wektorami. Zawsze >=0.
 // Zalozenie: a,b!=0

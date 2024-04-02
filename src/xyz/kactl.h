@@ -236,44 +236,6 @@ vector<P> triangulate(vector<P> pts) {
 	return pts;
 }
 
-// --- CIRCUMCIRCLE (requires our vec2)
-#include "../geometry/vec2.h"
-#define P P____ //!HIDE
-typedef vec2d P;
-double ccRadius(const P& A, const P& B,
-		const P& C) {
-	return (B-A).len()*(C-B).len()*
-		(A-C).len()/abs((B-A).cross(C-A))/2;
-}
-P ccCenter(const P& A, const P& B, const P& C){
-	P b = C-A, c = B-A;
-	return A + (b*c.len2()-c*b.len2()).perp()
-		/ b.cross(c)/2;
-}
-
-// --- MINIMUM ENCLOSING CIRCLE
-// requires CIRCUMCIRCLE; expected O(n)
-pair<P, double> mec(vector<P> ps) {
-	shuffle(all(ps), mt19937(uint32_t(time(0))));
-	P o = ps[0];
-	double r = 0, EPS = 1 + 1e-8;
-	rep(i,0,sz(ps)) if ((o - ps[i]).len() >
-			r * EPS) {
-		o = ps[i], r = 0;
-		rep(j,0,i) if ((o - ps[j]).len() >
-				r * EPS) {
-			o = (ps[i] + ps[j]) / 2;
-			r = (o - ps[i]).len();
-			rep(k,0,j) if ((o - ps[k]).len() >
-					r * EPS) {
-				o = ccCenter(ps[i], ps[j], ps[k]);
-				r = (o - ps[i]).len();
-			}
-		}
-	}
-	return {o, r};
-}
-
 // --- POLYGON CENTER OF MASS
 #undef P //!HIDE
 #define P P______ //!HIDE
