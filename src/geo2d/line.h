@@ -7,8 +7,8 @@ struct line {
 	// For lines: v * point == c
 	// For halfplanes: v * point <= c
 	// (i.e. normal vector points outside)
-	vec v;        // Normal vector
-	vec::T c = 0; // Offset
+	vec v;    // Normal vector
+	sc c = 0; // Offset
 	DBP(v, c);
 
 	// Distance from point to line.
@@ -35,7 +35,7 @@ struct line {
 	// Intersection point is saved to `out`.
 	// Depends on vec: -, *, /, cross, perp
 	bool intersect(line a, vec& out) {
-		auto d = v.cross(a.v);
+		sc d = v.cross(a.v);
 		if (!sgn(d)) return 0;
 		out = (v*a.c - a.v*c).perp() / d;
 		return 1;

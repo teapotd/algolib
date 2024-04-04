@@ -2,8 +2,8 @@
 #include "../../../src/geo2d/rmst.h"
 #include "common.hpp"
 
-vec::T naiveRMST(const vector<vec>& points) {
-	vector<pair<vec::T, pii>> edges;
+sc naiveRMST(const vector<vec>& points) {
+	vector<pair<sc, pii>> edges;
 	rep(i, 0, sz(points)) {
 		rep(j, i+1, sz(points)) {
 			auto p = points[i] - points[j];
@@ -12,7 +12,7 @@ vec::T naiveRMST(const vector<vec>& points) {
 	}
 
 	FAU dsu(sz(points));
-	vec::T ret = 0;
+	sc ret = 0;
 	sort(all(edges));
 
 	for (auto [w, e] : edges) {
@@ -49,7 +49,7 @@ void check(const vector<vec>& points) {
 }
 
 void deterministic() {
-	constexpr vec::T big = 1e9;
+	constexpr sc big = 1e9;
 	check({});
 	check({{5,6}});
 	check({{-big,-big}, {big,big}});

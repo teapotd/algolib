@@ -1,26 +1,22 @@
 #pragma once
 #include "../template.h"
 
-// Sign extraction, type in the one you need.
-// -1 if a < -eps, 1 if a > eps, 0 otherwise
+// Scalar type: float or integer.
 #if FLOATING_POINT_GEOMETRY
-	constexpr double eps = 1e-9;
-	int sgn(double a) {
-		return (a > eps) - (a < -eps);
-	}
-#else // (integers)
-	int sgn(ll a) { return (a > 0) - (a < 0); }
+	using sc = double;
+	constexpr sc eps = 1e-9;
+#else
+	using sc = ll;
+	constexpr sc eps = 0;
 #endif
+
+// -1 if a < -eps, 1 if a > eps, 0 otherwise
+int sgn(sc a) { return (a>eps) - (a < -eps); }
 
 // 2D point/vector structure; UNIT-TESTED
 struct vec {
 	using P = vec;
-#if FLOATING_POINT_GEOMETRY //!HIDE
-	using T = double; // FLOATING_POINT_GEOMETRY
-#else                       //!HIDE
-	using T = ll;     // !FLOATING_POINT_GEOMETRY
-#endif                      //!HIDE
-	T x = 0, y = 0;
+	sc x = 0, y = 0;
 
 	// The following methods are optional
 	// and dependencies on them are noted
@@ -28,14 +24,14 @@ struct vec {
 
 	P operator+(P r) const {return{x+r.x,y+r.y};}
 	P operator-(P r) const {return{x-r.x,y-r.y};}
-	P operator*(T r) const { return {x*r, y*r}; }
-	P operator/(T r) const { return {x/r, y/r}; }
+	P operator*(sc r) const { return {x*r,y*r}; }
+	P operator/(sc r) const { return {x/r,y/r}; }
 
-	T dot(P r)   const { return x*r.x + y*r.y; }
-	T cross(P r) const { return x*r.y - y*r.x; }
-	T len2()     const { return x*x + y*y; }
-	double len() const { return hypot(x, y); }
-	P perp()     const { return {-y,x}; } // CCW
+	sc dot(P r)   const { return x*r.x + y*r.y; }
+	sc cross(P r) const { return x*r.y - y*r.x; }
+	sc len2()     const { return x*x + y*y; }
+	double len()  const { return hypot(x, y); }
+	P perp()      const { return {-y,x}; } // CCW
 
 	double angle() const { //[0;2*PI] CCW from OX
 		double a = atan2(y, x);

@@ -10,7 +10,7 @@ struct seg {
 	// Check if segment contains point p.
 	// Depends on vec: -, dot, cross
 	bool contains(vec p) {
-		return sgn((a-p).dot(b-p)) <= 0 &&
+		return (a-p).dot(b-p) <= eps &&
 		       !sgn((a-p).cross(b-p));
 	}
 
@@ -25,9 +25,9 @@ struct seg {
 	// Distance from segment to point.
 	// Depends on vec: -, dot, cross, len
 	double dist(vec p) const {
-		if (sgn((p-a).dot(b-a)) <= 0)
+		if ((p-a).dot(b-a) <= eps)
 			return (p-a).len();
-		if (sgn((p-b).dot(a-b)) <= 0)
+		if ((p-b).dot(a-b) <= eps)
 			return (p-b).len();
 		return double(abs((p-a).cross(b-a))) /
 			(b-a).len();

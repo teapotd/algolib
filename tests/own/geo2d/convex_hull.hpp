@@ -26,7 +26,7 @@ int naiveInsideHull(const vector<vec>& hull, vec p) {
 }
 
 int naiveMaxDot(const vector<vec>& hull, vec q) {
-	pair<vec::T, int> ret = { numeric_limits<vec::T>::max(), 0 };
+	pair<sc, int> ret = { numeric_limits<sc>::max(), 0 };
 	rep(i, 0, sz(hull)) {
 		ret = min(ret, make_pair(-q.dot(hull[i]), i));
 	}

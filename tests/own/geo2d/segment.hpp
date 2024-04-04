@@ -2,7 +2,7 @@
 #include "../../../src/geo2d/segment.h"
 #include "common.hpp"
 
-void checkDist(seg s, vec p, vec::T distSqr) {
+void checkDist(seg s, vec p, sc distSqr) {
 	assert(equalWithEps(s.dist(p), sqrt(distSqr)));
 #if not FLOATING_POINT_GEOMETRY
 	assert(s.cmpDist(p, distSqr) == 0);

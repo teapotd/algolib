@@ -6,8 +6,8 @@
 // 2D circle structure; UNIT-TESTED
 //! Source: https://victorlecomte.com/cp-geo.pdf
 struct circle {
-	vec p;         // Center
-	vec::T r2 = 0; // Squared radius
+	vec p;     // Center
+	sc r2 = 0; // Squared radius
 	DBP(p, r2);
 
 	// Returns -1 if point q lies outside circle,
@@ -25,10 +25,9 @@ struct circle {
 	// Depends on vec: +, -, *, len2, perp
 	int intersect(circle a, pair<vec,vec>& out) {
 		vec d = a.p - p;
-		auto d2 = d.len2();
-		if (!sgn(d2)) return sgn(r2-a.r2) ? 0 : 3;
-		auto pd = (d2 + r2 - a.r2) / 2;
-		auto h2 = r2 - pd*pd / d2;
+		sc d2 = d.len2();
+		if (!sgn(d2)) return !sgn(r2-a.r2) * 3;
+		sc pd = (d2+r2-a.r2)/2, h2 = r2-pd*pd/d2;
 		vec h, t = p + d*(pd/d2);
 		int s = sgn(h2)+1;
 		if (s > 1) h = d.perp() * sqrt(h2/d2);
@@ -40,7 +39,7 @@ struct circle {
 	// Returns number of intersection points.
 	// Points are in order given by a.v.perp().
 	int intersect(line a, pair<vec, vec>& out) {
-		auto d = a.dist(p), h2 = r2 - d*d;
+		sc d = a.dist(p), h2 = r2 - d*d;
 		vec h, t = a.proj(p);
 		int s = sgn(h2)+1;
 		if (s > 1)
@@ -55,8 +54,8 @@ struct circle {
 	// Covered arc is CCW between vectors.
 	int tangents(vec a, pair<vec, vec>& out) {
 		vec d = a - p;
-		auto d2 = d.len2(), h2 = d2 - r2;
-		if (!sgn(d2)) return sgn(h2) ? 0 : 3;
+		sc d2 = d.len2(), h2 = d2 - r2;
+		if (!sgn(d2)) return !sgn(h2) * 3;
 		vec h, t = d * sqrt(r2);
 		int s = sgn(h2)+1;
 		if (s > 1) h = d.perp() * sqrt(h2);
@@ -72,10 +71,10 @@ struct circle {
 	int tangents(circle a, bool inner,
 	             pair<vec, vec>& out) {
 		vec d = a.p - p;
-		auto d2 = d.len2();
-		auto dr = sqrt(r2)+sqrt(a.r2)*(inner*2-1);
-		auto h2 = d2 - dr*dr;
-		if (!sgn(d2)) return sgn(h2) ? 0 : 3;
+		sc d2 = d.len2();
+		sc dr = sqrt(r2)+sqrt(a.r2)*(inner*2-1);
+		sc h2 = d2 - dr*dr;
+		if (!sgn(d2)) return !sgn(h2) * 3;
 		vec h, t = d * dr;
 		int s = sgn(h2)+1;
 		if (s > 1) h = d.perp() * sqrt(h2);
@@ -90,7 +89,7 @@ struct circle {
 // Depends on vec: +,-,*,/, cross, len2, perp
 circle circum(vec a, vec b, vec c) {
 	b = b-a; c = c-a;
-	auto s = b.cross(c);
+	sc s = b.cross(c);
 	assert(sgn(s));
 	vec p = a+(b*c.len2()-c*b.len2()).perp()/s/2;
 	return { p, (p-a).len2() };
