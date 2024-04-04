@@ -1,6 +1,8 @@
 #pragma once
 #include "../template.h"
 
+#ifndef GEO_COMMON_DEFINED //!HIDE
+#define GEO_COMMON_DEFINED //!HIDE
 // Scalar type: float or integer.
 #if FLOATING_POINT_GEOMETRY
 	using sc = double;
@@ -12,6 +14,7 @@
 
 // -1 if a < -eps, 1 if a > eps, 0 otherwise
 int sgn(sc a) { return (a>eps) - (a < -eps); }
+#endif //!HIDE
 
 // 2D point/vector structure; UNIT-TESTED
 struct vec {
