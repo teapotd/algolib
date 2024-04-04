@@ -1,0 +1,86 @@
+#pragma once
+#include "../template.h"
+#include "vector.h"
+
+mt19937 rnd(123);
+
+// 3D convex hull; time and memory: O(n log n)
+// Returns list of hull faces with vertices
+// in CCW order when "looking from outside".
+// Doesn't preserve the point order!
+// Doesn't work if all points are coplanar!
+// Depends on vec3: -, dot, cross, len2
+//! Source: https://codeforces.com/blog/entry/81768
+vector<array<int, 3>> hull(vector<vec3>& p) {
+	shuffle(all(p), rnd);
+	int g = 1;
+	vec3 a = p[0], b, c;
+	rep(i, 1, sz(p)) if (g < 4) {
+		swap(p[g], p[i]);
+		if (g == 1)
+			g += sgn((b = p[1]-a).len2());
+		else if (g == 2)
+			g += sgn((c = b.cross(p[2]-a)).len2());
+		else
+			g += !!sgn(c.dot(p[3]-a));
+	}
+	assert(g == 4); // Not everything coplanar
+
+	vector<array<int, 3>> ret, fv, fe;
+	vector<vi> fb, bad(sz(p));
+	vector<vec3> fq;
+	vi dead, link(sz(p), -1);
+
+	auto add = [&](int i, int j, int k) {
+		fv.pb({i, j, k});
+		fe.pb({-1, -1, -1});
+		fq.pb((p[j]-p[i]).cross(p[k]-p[i]));
+		fb.pb({});
+		dead.pb(1e9);
+		return sz(fv)-1;
+	};
+
+	rep(i, 0, 2) {
+		fe[add(0, i+1, 2-i)] = {!i, !i, !i};
+		rep(j, 3, sz(p)) {
+			sc t = fq[i].dot(p[j]-p[0]);
+			if (t >= -eps) {
+				fb[i].pb(j);
+				if (t > eps) bad[j].pb(i);
+			}
+		}
+	}
+
+	rep(i, 3, sz(p)) {
+		int v = -1;
+		each(f, bad[i]) dead[f] = min(dead[f], i);
+		each(f, bad[i]) if (dead[f] == i) {
+			rep(j, 0, 3) if (dead[fe[f][j]] > i) {
+				int u = fv[f][(j+1)%3], e = fe[f][j];
+				v = fv[f][j];
+				fe[g = link[v] = add(v, u, i)][0] = e;
+				set_union(all(fb[f]), all(fb[e]),
+					back_inserter(fb[g]));
+				erase_if(fb[g], [&](int k) {
+					return k <= i ||
+						fq[g].dot(p[k]-p[fv[g][0]]) <= eps;
+				});
+				each(k, fb[g]) bad[k].pb(g);
+				rep(k, 0, 3) if (fv[e][k] == u) {
+					fe[e][k] = g;
+					break;
+				}
+			}
+		}
+		while (v != -1 && fe[link[v]][1] == -1) {
+			int u = fv[link[v]][1];
+			fe[link[v]][1] = link[u];
+			fe[link[u]][2] = link[v];
+			v = u;
+		}
+	}
+
+	rep(i, 0, sz(fv))
+		if (dead[i] >= sz(p)) ret.pb(fv[i]);
+	return ret;
+}
