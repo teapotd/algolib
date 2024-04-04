@@ -21,7 +21,7 @@ vector<Triple> delaunay(vector<vec>& p) {
 	erase_if(hull, [&](auto& t) {
 		vec a = p[t[0]], b = p[t[1]], c = p[t[2]];
 		swap(t[1], t[2]);
-		return (b-a).cross(c-a) > 0;
+		return (b-a).cross(c-a) > -eps;
 	});
 	return hull;
 }
