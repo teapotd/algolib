@@ -2,6 +2,7 @@
 #include "../template.h"
 #include "vector.h"
 
+using Triple = array<int, 3>;
 mt19937 rnd(123);
 
 // 3D convex hull; time and memory: O(n log n)
@@ -11,7 +12,7 @@ mt19937 rnd(123);
 // Doesn't work if all points are coplanar!
 // Depends on vec3: -, dot, cross, len2
 //! Source: https://codeforces.com/blog/entry/81768
-vector<array<int, 3>> hull(vector<vec3>& p) {
+vector<Triple> convexHull(vector<vec3>& p) {
 	shuffle(all(p), rnd);
 	int g = 1;
 	vec3 a = p[0], b, c;
@@ -26,7 +27,7 @@ vector<array<int, 3>> hull(vector<vec3>& p) {
 	}
 	assert(g == 4); // Not everything coplanar
 
-	vector<array<int, 3>> ret, fv, fe;
+	vector<Triple> ret, fv, fe;
 	vector<vi> fb, bad(sz(p));
 	vector<vec3> fq;
 	vi dead, link(sz(p), -1);
@@ -71,6 +72,7 @@ vector<array<int, 3>> hull(vector<vec3>& p) {
 					break;
 				}
 			}
+			vi().swap(fb[f]);
 		}
 		while (v != -1 && fe[link[v]][1] == -1) {
 			int u = fv[link[v]][1];
