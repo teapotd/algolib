@@ -54,15 +54,10 @@ struct plane {
 #endif
 };
 
-// Plane given by a point and normal vector.
-// Depends on vec3: dot
-plane through(vec3 v, vec3 p) {
-	return { v, v.dot(p) };
-}
-
 // Plane through 3 points with normal vector
 // pointing upward when viewed CCW.
 // Depends on vec3: -, dot, cross
-plane through(vec3 a, vec3 b, vec3 c) {
-	return through((b-a).cross(c-a), a);
+plane span(vec3 a, vec3 b, vec3 c) {
+	vec3 v = (b-a).cross(c-a);
+	return {v, v.dot(a)};
 }

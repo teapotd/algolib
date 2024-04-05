@@ -38,3 +38,9 @@ struct line3 { // p + d*k == point
 	}
 #endif
 };
+
+// Line through 2 given points.
+// Depends on vec: -
+line3 through(vec3 a, vec3 b) {
+	return {a, b-a};
+}

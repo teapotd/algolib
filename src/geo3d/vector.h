@@ -54,6 +54,11 @@ struct vec3 {
 		       !sgn(z-r.z);
 	}
 
+	// Angle between vectors in [0,2*PI]
+	double angle(vec3 r) const {
+		return atan2(cross(r).len(), dot(r));
+	}
+
 #if FLOATING_POINT_GEOMETRY
 	// Rotate counter-clockwise around axis.
 	P rotate(double angle, vec3 axis) const {
