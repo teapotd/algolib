@@ -36,3 +36,15 @@ int nextSubset(int v) {
 	return (t + 1) | (((~t & -~t) - 1) >>
 			(__builtin_ctz(v) + 1));  
 }
+
+// Permutation -> integer conversion.
+//! Source: https://github.com/jacynkaa/kactl/blob/main/content/combinatorial/IntPerm.h
+int permToInt(vi& v) { // Not order preserving!
+	int use = 0, i = 0, r = 0;
+	each(x, v) {
+		r = r * ++i +
+			__builtin_popcount(use & -(1<<x));
+		use |= 1 << x;
+	}
+	return r;
+}
