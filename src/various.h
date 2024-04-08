@@ -1,3 +1,4 @@
+//!!DONT-HASH
 // If math constants like M_PI are undefined:
 #define _USE_MATH_DEFINES
 

@@ -1,3 +1,4 @@
+#!!DONT-HASH
 input().split(' ') # Read and split into words
 print('abc', end='') # Print without newline
 

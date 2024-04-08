@@ -59,6 +59,7 @@ def process_file(path):
 		sys.stderr.write(f'ERROR: too long title for {title}\n')
 		sys.exit(1)
 
+	compute_hash = ('!!DONT-HASH' not in data)
 	convert_breaks = ('!!CONVERT-BREAKS' in data)
 	if convert_breaks:
 		data = data.replace(' ', '\xA0')
@@ -71,7 +72,9 @@ def process_file(path):
 			continue
 		if line.startswith('#include') and 'template.h' in line:
 			continue
-		if line.startswith('//!') or '//!HIDE' in line or '!!CONVERT-BREAKS' in line:
+		if line.startswith('//!') or '//!HIDE' in line:
+			continue
+		if '!!DONT-HASH' in line or '!!CONVERT-BREAKS' in line:
 			continue
 		lines.append(line)
 		if not line.startswith('#include'):
@@ -82,21 +85,19 @@ def process_file(path):
 
 	data = '\n'.join(lines).strip()
 	data_without_includes = '\n'.join(lines_without_includes).strip()
-	compute_hash = True
 
-	if path.endswith('.bashrc'):
+	if path.endswith('.bashrc') or path.endswith('.bash'):
 		lang = 'bash'
-		compute_hash = False
 	elif path.endswith('.vimrc'):
 		lang = 'vim'
-		compute_hash = False
 	elif path.endswith('.py'):
 		lang = 'python'
 	elif path.endswith('.java'):
 		lang = 'java'
-		data = add_block_hashes(data)
 	else:
 		lang = 'cpp'
+
+	if compute_hash and lang in ['java', 'cpp']:
 		data = add_block_hashes(data)
 
 	full_hash = get_hash(data_without_includes) if compute_hash else ''
@@ -118,7 +119,7 @@ def add_block_hashes(data, pos=0, is_open=False):
 			ret += '}'
 			pos += 1
 
-			while pos < len(data) and data[pos] in ');':
+			while pos < len(data) and data[pos] in '();':
 				ret += data[pos]
 				pos += 1
 
