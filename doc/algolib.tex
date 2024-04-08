@@ -57,14 +57,14 @@
   \fi}
 
 % Environment for code listing. Arguments: title, language, hash.
-\newenvironment{code}[3]{%
-	\uline{\textbf{\Verb{#1}}\hfill\Verb{#3}}%
+\newenvironment{code}[4][]{%
+	\uline{\textbf{\Verb{#2}}\hfill\Verb{#4}}%
 	\phantomsection%
-	\addcontentsline{toc}{section}{\protect\Verb{#1}}%
+	\addcontentsline{toc}{section}{\protect\Verb{#2}}%
 	\VerbatimEnvironment%
 	\let\FV@ListVSpace\relax%
 	\vspace*{4pt}%
-	\begin{minted}{#2}}
+	\begin{minted}[#1]{#3}}
 	{\end{minted}}
 
 % Environment for appendix contents. Arguments: title.

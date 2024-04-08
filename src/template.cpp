@@ -1,3 +1,4 @@
+//!!CONVERT-BREAKS
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -14,9 +15,8 @@ using pii = pair<int,int>;
 #define all(x)     (x).begin(), (x).end()
 #define sz(x)      (int)(x).size()
 
-#define PP(x,y) \
-	auto operator<<(auto& o, auto a) \
-	->decltype(y,o) { o<<"("; x; return o<<")"; }
+#define PP(x,y) auto operator<<(auto&o, auto a) \
+		->decltype(y,o) {o<<"("; x; return o<<")";}
 
 PP(a.print(), a.print());
 PP(o << a.x << ", " << a.y, a.y);
@@ -32,7 +32,7 @@ void DD(auto s, auto... k) {
 #ifdef LOC
 auto SS = signal(6, [](int) { *(int*)0=0; });
 #define deb(x...) \
-	DD(":, "#x, __LINE__, x), cerr << endl
+		DD(":, "#x, __LINE__, x), cerr << endl
 #else
 #define deb(...)
 #endif

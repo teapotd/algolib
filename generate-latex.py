@@ -1,5 +1,6 @@
 import os
 import pickle
+import re
 import subprocess
 import sys
 
@@ -58,6 +59,11 @@ def process_file(path):
 		sys.stderr.write(f'ERROR: too long title for {title}\n')
 		sys.exit(1)
 
+	convert_breaks = ('!!CONVERT-BREAKS' in data)
+	if convert_breaks:
+		data = data.replace(' ', '\xA0')
+		data = re.sub(r'\s*\\\n\s*', ' ', data)
+
 	lines, lines_without_includes = [], []
 
 	for nr, line in enumerate(data.split('\n')):
@@ -65,12 +71,12 @@ def process_file(path):
 			continue
 		if line.startswith('#include') and 'template.h' in line:
 			continue
-		if line.startswith('//!') or '//!HIDE' in line:
+		if line.startswith('//!') or '//!HIDE' in line or '!!CONVERT-BREAKS' in line:
 			continue
 		lines.append(line)
 		if not line.startswith('#include'):
 			lines_without_includes.append(line)
-		if len(line.replace('\t', '  ')) > MAX_CHARS_PER_LINE:
+		if not convert_breaks and len(line.replace('\t', '  ')) > MAX_CHARS_PER_LINE:
 			sys.stderr.write(f'ERROR: too long line #{nr+1} in {title}\n')
 			sys.exit(1)
 
@@ -94,8 +100,9 @@ def process_file(path):
 		data = add_block_hashes(data)
 
 	full_hash = get_hash(data_without_includes) if compute_hash else ''
+	minted_args = '[breaklines]' if convert_breaks else ''
 
-	print('\n\\begin{code}{%s}{%s}{%s}' % (title, lang, full_hash))
+	print('\n\\begin{code}%s{%s}{%s}{%s}' % (minted_args, title, lang, full_hash))
 	print(data)
 	print('\\end{code}')
 
@@ -127,6 +134,7 @@ def add_block_hashes(data, pos=0, is_open=False):
 	return (ret, pos) if is_open else ret
 
 def get_hash(data):
+	data = data.replace('\xA0', ' ')
 	if data in hashes_cache:
 		return hashes_cache[data]
 	process = subprocess.Popen(['./hash.sh'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
