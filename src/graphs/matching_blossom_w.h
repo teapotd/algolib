@@ -1,5 +1,6 @@
 #pragma once
 #include "../template.h"
+//!!EXCLUDE-FILE
 
 // Edmond's Blossom algorithm for weighted
 // maximum matching in general graphs; O(n^3)?

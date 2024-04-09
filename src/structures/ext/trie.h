@@ -1,5 +1,6 @@
 #pragma once
 #include "../../template.h"
+//!!EXCLUDE-FILE
 
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/trie_policy.hpp>

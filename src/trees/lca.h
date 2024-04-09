@@ -1,5 +1,6 @@
 #pragma once
 #include "../template.h"
+//!!EXCLUDE-FILE
 
 // LAQ and LCA using jump pointers
 // space: O(n lg n)

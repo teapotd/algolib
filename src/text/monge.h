@@ -1,5 +1,6 @@
 #pragma once
 #include "../template.h"
+//!!EXCLUDE-FILE
 
 // NxN matrix A is simple (sub-)unit-Monge
 // iff there exists a (sub-)permutation
