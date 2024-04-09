@@ -11,6 +11,8 @@
 \usepackage{graphicx}
 \usepackage[hidelinks]{hyperref}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{enumitem}
+\usepackage{etoolbox}
 
 \geometry{
 	a4paper,
@@ -33,6 +35,16 @@
 \rhead{\thepage}
 
 \makeatletter
+
+% Adjust spacing for math
+\newcommand{\adjustdisplayskips}{%
+	\setlength{\abovedisplayskip}{5pt}%
+	\setlength{\belowdisplayskip}{5pt}%
+	\setlength{\abovedisplayshortskip}{0pt}%
+	\setlength{\belowdisplayshortskip}{0pt}}
+\appto{\normalsize}{\adjustdisplayskips}
+\appto{\small}{\adjustdisplayskips}
+\appto{\footnotesize}{\adjustdisplayskips}
 
 % Minted style settings
 \setminted{tabsize=2}
