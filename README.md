@@ -6,7 +6,7 @@ The library is optimized for ICPC-style competitions, where the code is manually
 In particular, macros are used to shorten the code, sacrificing readability.
 The required standard is **C++20**.
 
-You can grab the latest compiled PDF from [workflows](https://github.com/teapotd/algolib/actions).
+You can grab the latest compiled PDF from [workflows](https://github.com/teapotd/algolib/actions) (you need to be logged in to download assets).
 
 ## Features
 
@@ -15,12 +15,14 @@ You can grab the latest compiled PDF from [workflows](https://github.com/teapotd
 Typically, at the start of a contest, one person configures the programming environment.
 
 1. [`.vimrc`](src/.vimrc): Vim configuration, including a bind for hash verification.
-2. [`.bashrc`](src/.bashrc): Aliases for building and testing. Initially, you may only need `b`, `d` and `run`.
+2. [`.bashrc`](src/.bashrc): Aliases for building and testing.
 3. [`template.cpp`](src/template.cpp): C++ solution template. It contains macros for code shortening, a debug printer and a stack-trace-on-abort function. Only shortening macros are required by other snippets.
 
 ### Debug printer
 
-The template features a `deb` macro for printing debug information. The macro is enabled only if `LOC` is defined, which is the case if the code is compiled using `b` or `d`. Otherwise, everything wrapped in `deb` is **not executed**.
+The C++ template features a `deb` macro for printing debug information.
+The macro is enabled only if `LOC` is defined, which is the case if the code is compiled using `b` or `d` from `.bashrc`.
+Otherwise, everything wrapped in `deb` is **not executed**.
 
 <details>
   <summary>Example usage</summary>
@@ -59,25 +61,34 @@ To keep it relatively short, there are a few unsupported edge cases:
 
 ### Stack-trace on abort
 
-The `template.cpp` triggers segmentation fault in the handler of `SIGABRT` signal. This causes stack-traces to be printed on assertion fails, including those defined by `_GLIBCXX_DEBUG`, when compiled with `d`.
+The C++ template triggers a segmentation fault in the handler of the `SIGABRT` signal.
+This causes stack-traces to be printed on assertion fails, including those defined by `_GLIBCXX_DEBUG`, when compiled with `d`.
 
 ### Hashes for typing correctness
 
-The notebook includes hashes for each snippet and *most* code blocks enclosed by braces `{` and `}`. These hashes are insensitive to white-spaces and C++ comments. The `.vimrc` config binds `_` to hash computation of selected **lines**. To verify if a block enclosed by `{}` has been typed correctly, you can simply place the cursor inside it and use the `vi{_` combination to select the contents and compute the hash.
+The notebook includes hashes for each snippet and code block enclosed by braces `{}`.
+These hashes are insensitive to white-spaces and C++ comments.
+The `.vimrc` config binds `_` to hash computation of selected **lines**.
+To verify if a block enclosed by `{}` has been typed correctly, you can simply place the cursor inside it and use the `vi{_` combination to select the contents and compute the hash.
 
 ## Building PDF
 
-1. Install `pdflatex` and `pygments` if not already installed
-2. Run `./make.sh`
-3. PDF is located in `build` subfolder
+1. Install `pdflatex` and `pygments` if not already installed.
+2. Run `./make.sh`.
+3. The PDF is located in the `build` subfolder.
 
 ## Layout
 
-Due to the 4-column PDF layout, there's a 47-character limit per line with tabs set at 2 spaces, and a 28-character limit for titles. The make script will produce errors if these requirements are violated. Tabs are used for main indentation, while spaces are used for fine alignment. This allows copy-pasting users to set the indentation level to their liking.
+Due to the 4-column PDF layout, there's a 47-character limit per line with tabs set at 2 spaces, and a 28-character limit for titles.
+The make script will produce errors if these requirements are violated.
+Tabs are used for main indentation, while spaces are used for fine alignment.
+This allows copy-pasting users to set the indentation level to their liking.
 
 ## Latex generation
 
-The `generate-latex.py` script creates a single LaTeX file from the source directory `src`. It also generates code hashes. Few directives are supported:
+The `generate-latex.py` script creates a single LaTeX file from the source directory `src`.
+It also generates code hashes.
+Few directives are supported:
 
 1. Source files containing `!!EXCLUDE-FILE` are excluded.
 2. Lines containing `//!HIDE` are skipped.
@@ -88,14 +99,16 @@ The `generate-latex.py` script creates a single LaTeX file from the source direc
 
 There are currently three categories of tests in the repository:
 
-1. [own](tests/own): new deterministic tests, fuzz-tests and benchmarks.
+1. [own](tests/own): new deterministic tests, fuzz-tests, and benchmarks.
 2. [yosupo](tests/yosupo): frontends for yosupo's [library-checker](https://github.com/yosupo06/library-checker-problems).
-3. [manual](tests/manual): old and dirty "tests", to be removed in the future.
+3. [manual](tests/manual): old "tests", to be removed in the future.
 
 The tests are largely incomplete, especially for older code.
-However, all such snippets should be tested in practice unless otherwise specified.
+However, all such snippets should be tested in practice unless specified otherwise.
 
 ## Licensing
 
-Similar to KACTL, the licensing situation remains unclear.
-The notebook is a mix of code authored by the maintainer, and code adapted from various sources to match our style conventions. The source of much of the borrowed code is noted in the comments (hidden in the PDF to save space).
+The licensing situation is unclear.
+The notebook is a mix of code authored by the maintainer, and code adapted from various sources (mostly [KACTL](https://github.com/kth-competitive-programming/kactl)).
+The source of much of the borrowed code is noted in the comments (hidden in generated PDF to save space).
+If you believe that any attribution is missing, please file an issue.
