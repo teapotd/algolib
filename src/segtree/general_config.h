@@ -46,6 +46,59 @@
 			return 1;
 		}
 	};
+#elif TREE_MAX // (max; max, max count)
+	// time: O(lg n)
+	using T = int;
+	static constexpr T ID = INT_MIN;
+
+	struct Agg {
+		// Aggregated data: max value, max count
+		T vMax = INT_MIN, nMax = 0, cnt = 0;
+		void leaf() { vMax = 0; nMax = cnt = 1; }
+
+		void merge(const Agg& r) {
+			if (vMax < r.vMax) nMax = r.nMax;
+			else if (vMax == r.vMax) nMax += r.nMax;
+			vMax = max(vMax, r.vMax);
+			cnt += r.cnt;
+		}
+
+		bool apply(T& lazy, T& x) {
+			if (vMax <= x) nMax = cnt;
+			lazy = max(lazy, x);
+			vMax = max(vMax, x);
+			return 1;
+		}
+	};
+#elif TREE_SET // (=; sum, max, max count)
+	// time: O(lg n)
+	// Set ID to some unused value.
+	using T = int;
+	static constexpr T ID = INT_MIN;
+
+	struct Agg {
+		// Aggregated data: sum, max, max count
+		T sum = 0, vMax = INT_MIN, nMax = 0, cnt=0;
+		void leaf() { sum=vMax=0; nMax=cnt=1; }
+
+		void merge(const Agg& r) {
+			if (vMax < r.vMax) nMax = r.nMax;
+			else if (vMax == r.vMax) nMax += r.nMax;
+			vMax = max(vMax, r.vMax);
+			sum += r.sum;
+			cnt += r.cnt;
+		}
+
+		bool apply(T& lazy, T& x) {
+			if (x != ID) {
+				lazy = x;
+				sum = x*cnt;
+				vMax = x;
+				nMax = cnt;
+			}
+			return 1;
+		}
+	};
 #elif TREE_BEATS // (+, min; sum, max)
 	// time: amortized O(lg n) if not using +
 	//       amortized O(lg^2 n) if using +

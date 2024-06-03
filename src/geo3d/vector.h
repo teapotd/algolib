@@ -1,7 +1,20 @@
 #pragma once
 #include "../template.h"
 
-// NOTE: sc, eps, sgn as for vector 2D
+#ifndef GEO_COMMON_DEFINED //!HIDE
+#define GEO_COMMON_DEFINED //!HIDE
+// Scalar type: float or integer.
+#if FLOATING_POINT_GEOMETRY
+	using sc = double;
+	constexpr sc eps = 1e-9;
+#else
+	using sc = ll;
+	constexpr sc eps = 0;
+#endif
+
+// -1 if a < -eps, 1 if a > eps, 0 otherwise
+int sgn(sc a) { return (a>eps) - (a < -eps); }
+#endif //!HIDE
 
 // 3D point/vector structure; UNTESTED
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/main/content/geometry/Point3D.h

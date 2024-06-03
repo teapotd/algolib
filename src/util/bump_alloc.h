@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-//!!EXCLUDE-FILE
 
 // Allocator, which doesn't free memory.
 //! Source: https://github.com/kth-competitive-programming/kactl/blob/master/content/various/BumpAllocator.h

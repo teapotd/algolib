@@ -1,7 +1,14 @@
 #pragma once
 #include "../template.h"
 
-// Bitwise operations for vector<bool> UNTESTED
+// Undocumented std::bitset features:
+// - _Find_first() - returns first bit = 1 or N
+// - _Find_next(i) - returns first bit = 1
+//                   after i-th bit
+//                   or N if not found
+
+// Bitwise operations for vector<bool>
+// UNTESTED
 
 #define OP(x) vector<bool>& operator x##=(    \
 		vector<bool>& l, const vector<bool>& r) { \

@@ -27,7 +27,7 @@
 \setlength{\columnsep}{8pt}
 \setlength{\parindent}{0pt}
 \setlength{\columnseprule}{0.5pt}
-% \renewcommand{\footrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -63,7 +63,7 @@
 \let\FV@ListProcessLineOriginal\FV@ListProcessLine
 \def\FV@ListProcessLine#1{%
   \ifx\FV@Line\empty%
-    \hbox{}\vspace{-6pt}%
+    \hbox{}\vspace{-4pt}%
   \else%
     \FV@ListProcessLineOriginal{#1}%
   \fi}
@@ -91,17 +91,17 @@
 
 \input{title-page.tex}
 
-% \begin{multicols*}{4}
-% 	\tableofcontents
-% \end{multicols*}
+\begin{multicols*}{4}
+	\tableofcontents
+\end{multicols*}
 
 \begin{multicols*}{4}
 	\input{content.tex}
 	\input{appendix.tex}
 \end{multicols*}
 
-% \begin{multicols*}{4}
-% 	\input{trial-session.tex}
-% \end{multicols*}
+\begin{multicols*}{4}
+	\input{trial-session.tex}
+\end{multicols*}
 
 \end{document}

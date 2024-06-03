@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-//!!EXCLUDE-FILE
 
 struct Ineq {
 	ll a, b, c; // a - b >= c

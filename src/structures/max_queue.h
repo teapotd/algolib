@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-//!!EXCLUDE-FILE
 
 // Queue with max query on contained elements
 struct MaxQueue {

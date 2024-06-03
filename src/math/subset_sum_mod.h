@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-//!!EXCLUDE-FILE
 //! Source: https://doi.org/10.4230/LIPIcs.ESA.2021.76
 
 // Shift-tree with splitmix64 hashing.

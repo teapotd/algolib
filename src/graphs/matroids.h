@@ -73,6 +73,52 @@ vector<bool> intersectMatroids(
 	return ans;
 }
 
+// Matroid where each element has color
+// and set is independent iff for each color c
+// #{elements of color c} <= maxAllowed[c].
+struct LimOracle {
+	vi color; // color[i] = color of i-th element
+	vi maxAllowed; // Limits for colors
+	vi tmp;
+
+	// Init oracle for independent set S; O(n)
+	void init(vector<bool>& S) {
+		tmp = maxAllowed;
+		rep(i, 0, sz(S)) tmp[color[i]] -= S[i];
+	}
+
+	// Check if S+{k} is independent; time: O(1)
+	bool canAdd(int k) {
+		return tmp[color[k]] > 0;
+	}
+};
+
+// Graphic matroid - each element is edge,
+// set is independent iff subgraph is acyclic.
+struct GraphOracle {
+	vector<pii> elems; // Ground set: graph edges
+	int n; // Number of vertices, indexed [0;n-1]
+	vi par;
+
+	int find(int i) {
+		return par[i] == -1 ? i
+			: par[i] = find(par[i]);
+	}
+
+	// Init oracle for independent set S; ~O(n)
+	void init(vector<bool>& S) {
+		par.assign(n, -1);
+		rep(i, 0, sz(S)) if (S[i])
+			par[find(elems[i].x)] = find(elems[i].y);
+	}
+
+	// Check if S+{k} is independent; time: ~O(1)
+	bool canAdd(int k) {
+		return
+			find(elems[k].x) != find(elems[k].y);
+	}
+};
+
 // Co-graphic matroid - each element is edge,
 // set is independent iff after removing edges
 // from graph number of connected components
@@ -110,5 +156,36 @@ struct CographOracle {
 		pii e = elems[k];
 		return max(pre[e.x], pre[e.y])
 			!= max(low[e.x], low[e.y]);
+	}
+};
+
+// Matroid equivalent to linear space with XOR
+struct XorOracle {
+	vector<ll> elems; // Ground set: numbers
+	vector<ll> base;
+
+	// Init for independent set S; O(n+r^2)
+	void init(vector<bool>& S) {
+		base.assign(63, 0);
+		rep(i, 0, sz(S)) if (S[i]) {
+			ll e = elems[i];
+			rep(j, 0, sz(base)) if ((e >> j) & 1) {
+				if (!base[j]) {
+					base[j] = e;
+					break;
+				}
+				e ^= base[j];
+			}
+		}
+	}
+
+	// Check if S+{k} is independent; time: O(r)
+	bool canAdd(int k) {
+		ll e = elems[k];
+		rep(i, 0, sz(base)) if ((e >> i) & 1) {
+			if (!base[i]) return 1;
+			e ^= base[i];
+		}
+		return 0;
 	}
 };

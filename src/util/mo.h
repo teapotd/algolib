@@ -1,6 +1,5 @@
 #pragma once
 #include "../template.h"
-//!!EXCLUDE-FILE
 
 // Modified MO's queries sorting algorithm,
 // slightly better results than standard.
