@@ -15,7 +15,7 @@ int arcCover(vector<pair<dbl, dbl>>& inters,
 		e.x = fmod(e.x, wrap);
 		e.y = fmod(e.y, wrap);
 		if (e.x < 0) e.x += wrap, e.y += wrap;
-		if (e.x > e.y) e.x += wrap;
+		if (e.x > e.y) e.y += wrap;
 		inters.pb({e.x+wrap, e.y+wrap});
 	}
 
